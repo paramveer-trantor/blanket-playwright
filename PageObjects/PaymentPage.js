@@ -2,7 +2,7 @@ class PaymentPage {
 
     constructor(page) {
         this.creditCard = page.locator("[name='creditcard']");
-        this.nameOnCard = page.locator("[name='cardName']");
+        this.cardName = page.locator("[name='cardName']");
         this.cardNumber = page.locator("[name='cardNumber']");
         this.expiryDate = page.getByLabel('Expiration Date (MM/YYYY)', { exact: true });
         this.cvv = page.getByLabel('CVV', { exact: true });
@@ -19,33 +19,33 @@ class PaymentPage {
     }
 
     async purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv) {
-        this.nameOnCard.click();
-        this.nameOnCard.fill(cardname);
-        this.cardNumber.click();
-        this.cardNumber.fill(cardnumber);
-        this.expiryDate.click();
-        this.expiryDate.fill(expirydate);
-        this.cvv.click();
-        this.cvv.fill(cvv);
-        this.payNowBtn.isVisible();
-        this.payNowBtn.click();
+        await this.cardName.click();
+        await this.cardName.fill(cardname);
+        await this.cardNumber.click();
+        await this.cardNumber.fill(cardnumber);
+        await this.expiryDate.click();
+        await this.expiryDate.fill(expirydate);
+        await this.cvv.click();
+        await this.cvv.fill(cvv);
+        await this.payNowBtn.isVisible();
+        await this.payNowBtn.click();
     }
 
     async purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname) {
-        this.ach.click();
-        this.accountHoldername.click();
-        this.accountHoldername.fill(accountholdername);
-        this.accountType.click();
-        this.selectAccountType.click();
-        this.transitNumber.click();
-        this.transitNumber.fill(transitnumber);
-        this.institutionNumber.click();
-        this.institutionNumber.fill(institutionnumber);
-        this.accountNumber.click();
-        this.accountNumber.fill(accountnumber);
-        this.bankName.click();
-        this.bankName.fill(bankname);
-        this.confirmAndPayBtn.click();
+        await this.ach.click();
+        await this.accountHoldername.click();
+        await this.accountHoldername.fill(accountholdername);
+        await this.accountType.click();
+        await this.selectAccountType.click();
+        await this.transitNumber.click();
+        await this.transitNumber.fill(transitnumber);
+        await this.institutionNumber.click();
+        await this.institutionNumber.fill(institutionnumber);
+        await this.accountNumber.click();
+        await this.accountNumber.fill(accountnumber);
+        await this.bankName.click();
+        await this.bankName.fill(bankname);
+        await this.confirmAndPayBtn.click();
     }
 
 }

@@ -36,7 +36,7 @@ class LifestyleQuestionnairePage {
             await this.heightInches.click();
             await this.heightInches.fill(inches);
             await this.weight.click();
-            await this.weight.fill(weight);
+            await this.weight.fill(parseInt(weight));
             await this.questionCompanyDeclineOptionYes.click();
             await this.questionRiskOccupationOptionYes.click();
             await this.questionCriminalOptionYes.click();
@@ -57,6 +57,7 @@ class LifestyleQuestionnairePage {
             await this.heightInches.click();
             await this.heightInches.fill(inches);
             await this.weight.click();
+            console.log('weight,' , weight);
             await this.weight.fill(weight);
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();

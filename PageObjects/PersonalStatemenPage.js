@@ -39,10 +39,13 @@ class PersonalStatementPage {
         //     const response = await this.page.request.fetch(route.request());  
         //     expect(response.status()).toBe(200);
         // });
-
         await this.agreeBtn.click();
-        //await this.page.waitForLoadState('domcontentloaded');
-        await this.page.waitForLoadState('networkidle');
+        const response = await this.page.request.post('https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision',
+        {
+            
+        }
+    );
+        const resp = await response.json();
     }
 
 }

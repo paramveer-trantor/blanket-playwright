@@ -1,6 +1,6 @@
 import { test, expect,request } from '@playwright/test';
 import { POManager } from '../PageObjects/POManager';
-import { username,password,tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } from '../Utils/TestData';
+const { username,password,tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } =require('../Utils/TestData');
 
 test.describe('Tests as per page', async () => {
 
@@ -384,6 +384,7 @@ test.describe('Tests as per page', async () => {
         await confirmidentitypage.clickAcceptandPayBtn();
         const paymentpage = pomanager.getPaymentPage();
         await paymentpage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
+
 
     });
 
