@@ -3,8 +3,7 @@ const{ expect, request } = require("@playwright/test");
 class MedicalQuestionnaire1Page {
 
     constructor(page) {
-        //this.optionNo = page.getByRole('radio').filter().getByLabel('No', { exact: true });
-        //this.optionNo = page.locator('.p-style > div > span > .v-input > .v-input__control > .v-input__slot > .v-input--radio-group__input > div:nth-child(2)');
+        this.header = page.locator("(//div[text()=' Medical Questionnaire '])[2]");
         this.questionCancerOptionYes = page.locator("//input[@name='cancer0']/following-sibling::div[1]");
         this.questionCancerOptionNo = page.locator("//input[@name='cancer1']/following-sibling::div[1]");
         this.questionHeartAttackOptionYes = page.locator("//input[@name='heart0']/following-sibling::div[1]");
@@ -30,6 +29,10 @@ class MedicalQuestionnaire1Page {
         this.questionAnxietyOptionYes = page.locator("//input[@name='anxiety0']/following-sibling::div[1]");
         this.questionAnxietyOptionNo = page.locator("//input[@name='anxiety1']/following-sibling::div[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+    }
+    
+    async verifyMedicalQuestionsPageHeader() {
+        expect(await this.header.textContent()).toContain('Medical');
     }
 
     async medicalQuestionsPage1(option) {
