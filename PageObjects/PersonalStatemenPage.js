@@ -34,18 +34,25 @@ class PersonalStatementPage {
 
     async clickAgreeBtn(){
 
+        await this.agreeBtn.click();
+        await this.page.waitForNavigation();
+
+        const apiRequest = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision', { timeout: 10000 });
+        await expect(apiRequest.method()).toBe('POST');
+
         // await this.page.route("*getCATermDecision", async route => {
         //     expect(route.request().method()).toBe('POST');
         //     const response = await this.page.request.fetch(route.request());  
         //     expect(response.status()).toBe(200);
         // });
-        await this.agreeBtn.click();
-        const response = await this.page.request.post('https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision',
-        {
+
+        //     const DecisionAPI = await this.page.request.post('https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision',
+        //     {
             
-        }
-    );
-        const resp = await response.json();
+        //     }
+        // );
+        //     await DecisionAPI.json();
+        
     }
 
 }

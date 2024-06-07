@@ -384,8 +384,6 @@ test.describe('Tests as per page', async () => {
         await confirmidentitypage.clickAcceptandPayBtn();
         const paymentpage = pomanager.getPaymentPage();
         await paymentpage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
-
-
     });
 
 

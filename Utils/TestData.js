@@ -15,7 +15,7 @@ module.exports = {
     quotevalue : "50.58",
     feet : "5",
     inches : "9",
-    weight : "180",
+    weight : 180,
     marijuana : "1",
     drinks : "2",
     OptionYes : "Yes",
