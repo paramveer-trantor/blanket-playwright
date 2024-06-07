@@ -1,5 +1,6 @@
 const{ expect, request } = require("@playwright/test");
-
+const { callAPI } = require('../api');
+import { needAssessmentApiData, getCaPremiumData } from '../Utils/TestData';
 class NeedsAssessmentPage {
 
     constructor(page) {
@@ -27,6 +28,9 @@ class NeedsAssessmentPage {
         await this.mortgageBalance.fill(mortgageBal);
         await this.loansAndDebts.click();
         await this.loansAndDebts.fill(debt);
+        const response1 = await callAPI('/CATermNeedsAssessment', needAssessmentApiData);
+        const response2 = await callAPI('/getCATermPremium', getCaPremiumData);
+        expect(response2.status).toBe(200);
     }
 
     async clickContinueBtn() {
