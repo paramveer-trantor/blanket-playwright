@@ -1,4 +1,4 @@
-exports.ConfirmPremiumPage = class ConfirmPremiumPage {
+class ConfirmPremiumPage {
 
     constructor(page) {
         this.page = page;
@@ -14,10 +14,30 @@ exports.ConfirmPremiumPage = class ConfirmPremiumPage {
     }
 
     async clickContinueBtn() {
+
+//         await page.route("*getCATermPremium", async route =>  
+// {
+// 	const response = await page.request.fetch(route.request()); 
+	
+// });
+
+    const response = await this.page.request.post('https://us-central1-blanket-development.cloudfunctions.net/getCATermPremium',
+        {
+            "gender": "",
+            "smoker": false,
+            "age": 30,
+            "product": 10,
+            "amount": 500000
+        }
+    );
+        const resp = await response.json();
+        console.log(resp);
         await this.continueBtn.click();        
         await this.page.waitForLoadState('domcontentloaded');
     }
     
 }
+
+module.exports = { ConfirmPremiumPage };
 
 

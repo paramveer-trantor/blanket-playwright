@@ -1,4 +1,4 @@
-exports.ReviewYourAnswersPage = class ReviewYourAnswersPage {
+class ReviewYourAnswersPage {
 
     constructor(page) {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
@@ -9,4 +9,6 @@ exports.ReviewYourAnswersPage = class ReviewYourAnswersPage {
     }
 
 }
+
+module.exports = { ReviewYourAnswersPage };
 

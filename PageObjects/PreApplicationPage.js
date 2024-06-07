@@ -1,8 +1,9 @@
-exports.PreApplicationPage = class PreApplicationPage {
+class PreApplicationPage {
 
     constructor(page) {
         this.addressList = page.locator(".address-list");
-        this.dialog = page.getByRole('dialog').getByRole('button', { name: 'Continue' });
+        this.dialogBox = page.getByRole('dialog');
+        this.dialogContinueBtn = page.getByRole('dialog').getByRole('button', { name: 'Continue' });
         this.firstName = page.getByLabel('First name', { exact: true });
         this.lastName = page.getByLabel('Last name', { exact: true });
         this.address = page.getByLabel('Address', { exact: true });
@@ -13,15 +14,16 @@ exports.PreApplicationPage = class PreApplicationPage {
     }
 
     async acceptPopWindow() {
-        await this?.dialog?.click();
+        if (await this.dialogBox.isVisible()) {
+            //await this.dialogContinueBtn.IsEnabled();
+            await this.dialogContinueBtn.click();
+        }
     }
 
-    async enterFirstName(firstname) {
+    async enterUserName(firstname, lastname) {
+        await this.firstName.click();
         await this.firstName.fill(firstname);
-    }
-
-
-    async enterLastName(lastname) {
+        await this.lastName.click();
         await this.lastName.fill(lastname);
     }
 
@@ -51,3 +53,5 @@ exports.PreApplicationPage = class PreApplicationPage {
         await this.continueBtn.click();
     }
 }
+
+module.exports = { PreApplicationPage };

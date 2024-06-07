@@ -356,6 +356,7 @@ test.describe('Tests as per page', async () => {
         const confirmpremiumpage = pomanager.getConfirmPremiumPage();
         await page.waitForTimeout(500); 
         await confirmpremiumpage.clickContinueBtn();
+        await page.waitForTimeout(500); 
         const lifestylequestionnairepage = pomanager.getLifestyleQuestionnairePage();
         await page.waitForTimeout(500); 
         await lifestylequestionnairepage.lifestyleQuestions(OptionNo, feet, inches, weight, drinks);
@@ -373,12 +374,22 @@ test.describe('Tests as per page', async () => {
         const personalstatementpage = pomanager.getPersonalStatementPage();
         await personalstatementpage.clickCheckboxes();
         await personalstatementpage.clickAgreeBtn();
+        const beneficiarypage = pomanager.getBeneficiaryPage();
+        await beneficiarypage.clickAddBeneficiryBtn();
+        await beneficiarypage.enterBeneficiary(benfirstname, benlastname, bendob, benshare);
+        await beneficiarypage.clickConitnueBtn();
+        const confirmidentitypage = pomanager.getConfirmIdentityPage();
+        await confirmidentitypage.enterIdentificationDetails(passportno);
+        await confirmidentitypage.clickCheckBox();
+        await confirmidentitypage.clickAcceptandPayBtn();
+        const paymentpage = pomanager.getPaymentPage();
+        await paymentpage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
 
     });
 
 
     
 
-});
+}); 
 
 

@@ -1,5 +1,4 @@
 module.exports = {   
-    
     username : "gagandeep.singla+autouser@trantorinc.com",
     password : "Test@1",
     tagline : "We’ve got what matters most covered.",
@@ -21,5 +20,18 @@ module.exports = {
     drinks : "2",
     OptionYes : "Yes",
     OptionNo : "No",
-
+    benfirstname : "Test", 
+    benlastname : "Beneficiary", 
+    bendob : "01/01/2010", 
+    benshare : "100",
+    passportno : "AB123456",
+    cardname : "Teser User", 
+    cardnumber : "4111111111111", 
+    expirydate : "01/2027",
+    cvv : "213",
+    accountholdername : "Test User", 
+    transitnumber : "001", 
+    institutionnumber : "030800", 
+    accountnumber : "1234567", 
+    bankname : "CNB",
 }

@@ -1,6 +1,6 @@
 const { expect } = require("@playwright/test");
 
-exports.TermLifeProductLandingPage = class TermLifeProductLandingPage {
+class TermLifeProductLandingPage {
 
     constructor(page){
         this.page = page;
@@ -21,4 +21,6 @@ exports.TermLifeProductLandingPage = class TermLifeProductLandingPage {
     }
 
 }
+
+module.exports = { TermLifeProductLandingPage };
 

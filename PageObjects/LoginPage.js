@@ -1,6 +1,6 @@
-const { expect } = require("@playwright/test");
+const{ expect, request } = require("@playwright/test");
 
-exports.LoginPage = class LoginPage {
+class LoginPage {
 
     constructor(page) {
         this.page = page;
@@ -16,20 +16,17 @@ exports.LoginPage = class LoginPage {
     async login(username, password) {
         await this.email.fill(username);
         await this.password.fill(password);
-        /* // Intercept the API request
-        await this.page.route('**', (route) => {
-            const request = route.request();
-            //const response = route.fulfill();
-            //const result =  response.json();
-            expect(request.method()).toBe('POST');
-            expect(request.postDataJSON()).toEqual({ key: 'value' });
-            //expect(response.status().toContain('200'));
-            route.continue();
-      }); */
+        
+        // await this.page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=*", async route => {
+        //     expect(await route.request().method()).toBe('POST');
+        //     const response = await this.page.request.fetch(route.request());  
+        //     expect(await response.status()).toBe(200);
+        // });
 
         await this.loginBtn.click();
-        await this.page.waitForLoadState('domcontentloaded');
-        //assertion as in message
+        //await this.page.waitForLoadState('domcontentloaded');
     }
 
 }
+
+module.exports = { LoginPage };

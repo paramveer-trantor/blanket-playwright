@@ -1,15 +1,18 @@
-import { LoginPage } from '../PageObjects/LoginPage';
-import { DashboardPage } from '../PageObjects/DashboardPage';
-import { TermLifeProductLandingPage } from '../PageObjects/TermLifeProductLandingPage';
-import { PremiumQuotePage } from '../PageObjects/PremiumQuotePage';
-import { PreApplicationPage } from '../PageObjects/PreApplicationPage';
-import { NeedsAssessmentPage } from '../PageObjects/NeedsAssessmentPage';
-import { ConfirmPremiumPage } from '../PageObjects/ConfirmPremiumPage';
-import { LifestyleQuestionnairePage } from '../PageObjects/LifestyleQuestionnairePage';
-import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Page';
-import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page';
-import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage';
-import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage';
+const { LoginPage } = require('../PageObjects/LoginPage');
+const { DashboardPage } = require('../PageObjects/DashboardPage');
+const { TermLifeProductLandingPage } = require('../PageObjects/TermLifeProductLandingPage');
+const { PremiumQuotePage } = require('../PageObjects/PremiumQuotePage');
+const { PreApplicationPage } = require('../PageObjects/PreApplicationPage');
+const { NeedsAssessmentPage } = require('../PageObjects/NeedsAssessmentPage');
+const { ConfirmPremiumPage } = require('../PageObjects/ConfirmPremiumPage');
+const { LifestyleQuestionnairePage } = require('../PageObjects/LifestyleQuestionnairePage');
+const { MedicalQuestionnaire1Page } = require('../PageObjects/MedialQuestionnaire1Page');
+const { MedicalQuestionnaire2Page } = require('../PageObjects/MedialQuestionnaire2Page');
+const { ReviewYourAnswersPage } = require('../PageObjects/ReviewYourAnswersPage');
+const { PersonalStatementPage } = require('../PageObjects/PersonalStatemenPage');
+const { BeneficiaryPage } = require('../PageObjects/BeneficiaryPage');
+const { ConfirmIdentityPage } = require('../PageObjects/ConfirmIdentityPage');
+const { PaymentPage } = require('../PageObjects/PaymentPage');
 
 class POManager {
 
@@ -27,6 +30,9 @@ class POManager {
         this.medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(this.page);
         this.reviewYourAnswersPage = new ReviewYourAnswersPage(this.page);
         this.personalStatementPage = new PersonalStatementPage(this.page);
+        this.beneficiaryPage = new BeneficiaryPage(this.page);
+        this.confirmIdentityPage = new ConfirmIdentityPage(this.page);
+        this.paymentPage = new PaymentPage(this.page);
     }
 
     getLoginPage() {
@@ -75,6 +81,18 @@ class POManager {
 
     getPersonalStatementPage() {
         return this.personalStatementPage;
+    }
+
+    getBeneficiaryPage() {
+        return this.beneficiaryPage;
+    }
+
+    getConfirmIdentityPage() {
+        return this.confirmIdentityPage;
+    }
+
+    getPaymentPage() {
+        return this.paymentPage;
     }
 
 }
