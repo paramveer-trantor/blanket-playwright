@@ -375,6 +375,7 @@ test.describe('Tests as per page', async () => {
         await personalstatementpage.clickCheckboxes();
         await personalstatementpage.clickAgreeBtn();
         const beneficiarypage = pomanager.getBeneficiaryPage();
+        await beneficiarypage.verifyBenecificaryPageHeader();
         await beneficiarypage.clickAddBeneficiryBtn();
         await beneficiarypage.enterBeneficiary(benfirstname, benlastname, bendob, benshare);
         await beneficiarypage.clickConitnueBtn();

@@ -2,6 +2,7 @@ class BeneficiaryPage {
 
     constructor(page) {
         this.page = page;
+        this.beneficiaryPageHeader = page.locator("//div[text()=' Beneficiaries ']");
         this.addBeneficiryBtn = page.locator("[name='addBeneficiary']"); 
         this.dialogBox =  page.getByRole('dialog');
         this.openMyBeneficiaries = page.getByRole('dialog').getByLabel('My Beneficiaries', { exact: true });
@@ -16,6 +17,11 @@ class BeneficiaryPage {
         this.percentage = this.dialogBox.locator("[name='percentage']");
         this.saveBtn = this.dialogBox.getByRole('button', { name: ' Save ' });
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+    }
+
+    async verifyBenecificaryPageHeader() {
+        const header = await this.beneficiaryPageHeader.textContent();
+        await expect(header).toContain('Beneficiaries');
     }
 
     async clickAddBeneficiryBtn() {
