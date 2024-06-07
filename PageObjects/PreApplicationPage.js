@@ -1,4 +1,4 @@
-const{ expect, request } = require("@playwright/test");
+const { expect, request } = require("@playwright/test");
 
 class PreApplicationPage {
 
@@ -12,6 +12,7 @@ class PreApplicationPage {
         this.address = page.getByLabel('Address', { exact: true });
         this.selectAddress = page.locator(".address-item");
         this.phoneNumber = page.getByLabel('Phone number', { exact: true });
+        this.optionYes = page.getByText('Yes', { exact: true });
         this.optionNo = page.getByText('No', { exact: true });
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
@@ -22,7 +23,6 @@ class PreApplicationPage {
 
     async acceptPopWindow() {
         if (await this.dialogBox.isVisible()) {
-            //await this.dialogContinueBtn.IsEnabled();
             await this.dialogContinueBtn.click();
         }
     }
@@ -44,16 +44,18 @@ class PreApplicationPage {
         await this.phoneNumber.fill(phonenumber);
     }
 
-    async selectAnswerForQuestion3() {
-        await this.optionNo.nth(2).click();
-    }
-
-    async selectAnswerForQuestion4() {
-        await this.optionNo.nth(3).click();
-    }
-
-    async selectAnswerForQuestion5() {
-        await this.optionNo.nth(4).click();
+    async last3Questions(option) {
+        if (option == 'Yes') {
+            await this.optionYes.nth(2).click();
+            await this.optionYes.nth(3).click();
+            await this.optionYes.nth(4).click();
+            await this.optionYes.nth(5).click();
+        }
+        else {
+            await this.optionNo.nth(2).click();
+            await this.optionNo.nth(3).click();
+            await this.optionNo.nth(4).click();
+        }
     }
 
     async clickConitnueBtn() {

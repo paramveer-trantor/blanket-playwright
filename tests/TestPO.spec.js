@@ -348,9 +348,7 @@ test.describe('Tests as per page', async () => {
         await preapplicationpage.enterUserName(firstname, lastname);
         await preapplicationpage.enterAddress(houseaddress);
         await preapplicationpage.enterPhoneNumber(phonenumber);
-        await preapplicationpage.selectAnswerForQuestion3();
-        await preapplicationpage.selectAnswerForQuestion4();
-        await preapplicationpage.selectAnswerForQuestion5();
+        await preapplicationpage.last3Questions(OptionNo);
         await preapplicationpage.clickConitnueBtn();
         const needsassessmentpage = pomanager.getNeedsAssessmentPage();
         await needsassessmentpage.verifyNeedsAssessmentPageHeader();
@@ -395,7 +393,7 @@ test.describe('Tests as per page', async () => {
         await confirmidentitypage.clickAcceptandPayBtn();
         const paymentpage = pomanager.getPaymentPage();
         await paymentpage.verifyPaymentPageHeader();
-        await paymentpage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
+        await paymentpage.purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
     });
 
 

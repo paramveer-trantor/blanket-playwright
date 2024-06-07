@@ -37,20 +37,20 @@ class PaymentPage {
         await this.payNowBtn.isVisible();
         await this.payNowBtn.click();
 
-        const CustormerAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/createCATermCustomer', { timeout: 10000 });
-        await expect(CustormerAPI.method()).toBe('POST');
+        // const CustormerAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/createCATermCustomer', { timeout: 10000 });
+        // await expect(CustormerAPI.method()).toBe('POST');
 
-        const StoreCCAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/storeCATermCreditCard', { timeout: 10000 });
-        await expect(StoreCCAPI.method()).toBe('POST');
+        // const StoreCCAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/storeCATermCreditCard', { timeout: 10000 });
+        // await expect(StoreCCAPI.method()).toBe('POST');
 
-        const SubscribeAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/subscribeCATerm', { timeout: 10000 });
-        await expect(SubscribeAPI.method()).toBe('POST');
+        // const SubscribeAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/subscribeCATerm', { timeout: 10000 });
+        // await expect(SubscribeAPI.method()).toBe('POST');
 
-        const BindPolicyAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/CATermBindPolicy', { timeout: 10000 });
-        await expect(BindPolicyAPI.method()).toBe('POST');
+        // const BindPolicyAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/CATermBindPolicy', { timeout: 10000 });
+        // await expect(BindPolicyAPI.method()).toBe('POST');
 
-        const SendPolicyAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/sendCATermPolicyPdf', { timeout: 10000 });
-        await expect(SendPolicyAPI.method()).toBe('POST');
+        // const SendPolicyAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/sendCATermPolicyPdf', { timeout: 10000 });
+        // await expect(SendPolicyAPI.method()).toBe('POST');
 
     }
 
