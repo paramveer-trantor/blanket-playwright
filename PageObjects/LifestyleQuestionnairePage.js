@@ -30,7 +30,8 @@ class LifestyleQuestionnairePage {
 
     async lifestyleQuestions(option, feet, inches, weight, drinksvalue, marijuanavalue=0) {
         if (option == "Yes") {
-            //await this.heightFeet.click();
+            await this.page.waitForLoadState('domcontentloaded');
+            await this.heightFeet.click();
             await this.heightFeet.fill(feet);
             await this.heightInches.click();
             await this.heightInches.fill(inches);
@@ -50,6 +51,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionYes.click();
         }
         else {
+            await this.page.waitForLoadState('domcontentloaded');
             await this.heightFeet.click();
             await this.heightFeet.fill(feet);
             await this.heightInches.click();

@@ -3,20 +3,20 @@ class MedicalQuestionnaire2Page {
     constructor(page) {
         //this.optionNo = page.getByRole('radio').filter().getByLabel('No', { exact: true });
         //this.optionNo = page.locator('.p-style > span > .v-input > .v-input__control > .v-input__slot > .v-input--radio-group__input > div:nth-child(2) > .v-label');
-        this.questionHepatitisOptionYes = page.locator("[name='generalHealth0'] + div.v-input--selection-controls__ripple");
-        this.questionHepatitisOptionNo = page.locator("[name='generalHealth1'] + div.v-input--selection-controls__ripple");
-        this.questionMedicalCondition4WOptionYes = page.locator("[name='fourWeekTreatment0'] + div.v-input--selection-controls__ripple");
-        this.questionMedicalCondition4WOptionNo = page.locator("[name='fourWeekTreatment1'] + div.v-input--selection-controls__ripple");
-        this.questionMamogramOptionYes = page.locator("[name='mamograms0'] + div.v-input--selection-controls__ripple");
-        this.questionMamogramOptionNo = page.locator("[name='mamograms1'] + div.v-input--selection-controls__ripple");
-        this.questionMedicalFollowupsOptionYes = page.locator("[name='followups0'] + div.v-input--selection-controls__ripple");
-        this.questionMedicalFollowupsOptionNo = page.locator("[name='followups1'] + div.v-input--selection-controls__ripple");
-        this.questionLast3MonthSymptomsOptionYes = page.locator("[name='threeMonthSymptoms0'] + div.v-input--selection-controls__ripple");
-        this.questionLast3MonthSymptomsOptionNo = page.locator("[name='threeMonthSymptoms1'] + div.v-input--selection-controls__ripple");
-        this.questionLast2ParentsDiagnosedOptionYes = page.locator("[name='twoDiagnosed0'] + div.v-input--selection-controls__ripple");
-        this.questionLast2ParentsDiagnosedOptionNo = page.locator("[name='twoDiagnosed1'] + div.v-input--selection-controls__ripple");
-        this.questionLast1ParentsDiagnosedOptionYes = page.locator("[name='oneDiagnosed0'] + div.v-input--selection-controls__ripple");
-        this.questionLast1ParentsDiagnosedOptionNo = page.locator("[name='oneDiagnosed1'] + div.v-input--selection-controls__ripple");
+        this.questionHepatitisOptionYes = page.locator("//input[@name='generalHealth0']/following-sibling::div[1]");
+        this.questionHepatitisOptionNo = page.locator("//input[@name='generalHealth1']/following-sibling::div[1]");
+        this.questionMedicalCondition4WOptionYes = page.locator("//input[@name='fourWeekTreatment0']/following-sibling::div[1]");
+        this.questionMedicalCondition4WOptionNo = page.locator("//input[@name='fourWeekTreatment1']/following-sibling::div[1]");
+        this.questionMamogramOptionYes = page.locator("//input[@name='mamograms0']/following-sibling::div[1]");
+        this.questionMamogramOptionNo = page.locator("//input[@name='mamograms1']/following-sibling::div[1]");
+        this.questionMedicalFollowupsOptionYes = page.locator("//input[@name='followups0']/following-sibling::div[1]");
+        this.questionMedicalFollowupsOptionNo = page.locator("//input[@name='followups1']/following-sibling::div[1]");
+        this.questionLast3MonthSymptomsOptionYes = page.locator("//input[@name='threeMonthSymptoms0']/following-sibling::div[1]");
+        this.questionLast3MonthSymptomsOptionNo = page.locator("//input[@name='threeMonthSymptoms1']/following-sibling::div[1]");
+        this.questionLast2ParentsDiagnosedOptionYes = page.locator("//input[@name='twoDiagnosed0']/following-sibling::div[1]");
+        this.questionLast2ParentsDiagnosedOptionNo = page.locator("//input[@name='twoDiagnosed1']/following-sibling::div[1]");
+        this.questionLast1ParentsDiagnosedOptionYes = page.locator("//input[@name='oneDiagnosed0']/following-sibling::div[1]");
+        this.questionLast1ParentsDiagnosedOptionNo = page.locator("//input[@name='oneDiagnosed1']/following-sibling::div[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 
