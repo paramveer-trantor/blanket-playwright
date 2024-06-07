@@ -1,8 +1,9 @@
+const{ expect, request } = require("@playwright/test");
+
 class MedicalQuestionnaire2Page {
 
     constructor(page) {
-        //this.optionNo = page.getByRole('radio').filter().getByLabel('No', { exact: true });
-        //this.optionNo = page.locator('.p-style > span > .v-input > .v-input__control > .v-input__slot > .v-input--radio-group__input > div:nth-child(2) > .v-label');
+        this.header = page.locator("(//div[text()=' Medical Questionnaire '])[2]");
         this.questionHepatitisOptionYes = page.locator("//input[@name='generalHealth0']/following-sibling::div[1]");
         this.questionHepatitisOptionNo = page.locator("//input[@name='generalHealth1']/following-sibling::div[1]");
         this.questionMedicalCondition4WOptionYes = page.locator("//input[@name='fourWeekTreatment0']/following-sibling::div[1]");
@@ -18,6 +19,10 @@ class MedicalQuestionnaire2Page {
         this.questionLast1ParentsDiagnosedOptionYes = page.locator("//input[@name='oneDiagnosed0']/following-sibling::div[1]");
         this.questionLast1ParentsDiagnosedOptionNo = page.locator("//input[@name='oneDiagnosed1']/following-sibling::div[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+    }
+    
+    async verifyMedicalQuestionsPageHeader() {
+        expect(await this.header.textContent()).toContain('Medical');
     }
 
     async medcialQuestionsPage2(option) {

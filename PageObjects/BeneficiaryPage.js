@@ -1,8 +1,10 @@
+const{ expect, request } = require("@playwright/test");
+
 class BeneficiaryPage {
 
     constructor(page) {
         this.page = page;
-        this.beneficiaryPageHeader = page.locator("//div[text()=' Beneficiaries ']");
+        this.header = page.locator("//div[text()=' Beneficiaries ']");
         this.addBeneficiryBtn = page.locator("[name='addBeneficiary']"); 
         this.dialogBox =  page.getByRole('dialog');
         this.openMyBeneficiaries = page.getByRole('dialog').getByLabel('My Beneficiaries', { exact: true });
@@ -20,8 +22,7 @@ class BeneficiaryPage {
     }
 
     async verifyBenecificaryPageHeader() {
-        const header = await this.beneficiaryPageHeader.textContent();
-        await expect(header).toContain('Beneficiaries');
+        expect(await this.header.textContent()).toContain('Beneficiaries');
     }
 
     async clickAddBeneficiryBtn() {

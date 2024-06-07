@@ -1,6 +1,9 @@
+const{ expect, request } = require("@playwright/test");
+
 class PaymentPage {
 
     constructor(page) {
+        this.header = page.locator("(//div[text()=' Payment '])[2]");
         this.creditCard = page.locator("[name='creditcard']");
         this.cardName = page.locator("[name='cardName']");
         this.cardNumber = page.locator("[name='cardNumber']");
@@ -16,6 +19,10 @@ class PaymentPage {
         this.accountNumber = page.locator("[name='accountNumber']");
         this.bankName = page.locator("[name='bankName']");
         this.confirmAndPayBtn = page.getByRole('button', { name: ' Confirm and submit payment ' });
+    }
+
+    async verifyPaymentPageHeader() {
+        expect(await this.header.textContent()).toContain('Payment');
     }
 
     async purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv) {

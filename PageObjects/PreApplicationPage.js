@@ -1,6 +1,9 @@
+const{ expect, request } = require("@playwright/test");
+
 class PreApplicationPage {
 
     constructor(page) {
+        this.header = page.locator("//div[text()=' Pre Application ']");
         this.addressList = page.locator(".address-list");
         this.dialogBox = page.getByRole('dialog');
         this.dialogContinueBtn = page.getByRole('dialog').getByRole('button', { name: 'Continue' });
@@ -11,6 +14,10 @@ class PreApplicationPage {
         this.phoneNumber = page.getByLabel('Phone number', { exact: true });
         this.optionNo = page.getByText('No', { exact: true });
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+    }
+
+    async verifyPreApplicationPageHeader() {
+        expect(await this.header.textContent()).toContain('Application');
     }
 
     async acceptPopWindow() {

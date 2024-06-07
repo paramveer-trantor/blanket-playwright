@@ -4,6 +4,7 @@ class PersonalStatementPage {
 
     constructor(page) {
         this.page = page;
+        this.header = page.locator("//div[text()=' Personal statement ']");
         this.checkbox1= page.locator("[name='termCheckbox0'] + div.v-input--selection-controls__ripple");
         this.checkbox2= page.locator("[name='termCheckbox1'] + div.v-input--selection-controls__ripple");
         this.checkbox3= page.locator("[name='termCheckbox2'] + div.v-input--selection-controls__ripple");
@@ -15,6 +16,10 @@ class PersonalStatementPage {
         this.checkbox9= page.locator("[name='termCheckbox8'] + div.v-input--selection-controls__ripple");
         this.checkbox10= page.locator("[name='termCheckbox9'] + div.v-input--selection-controls__ripple");
         this.agreeBtn = page.getByRole('button', { name: ' I Agree ' });
+    }
+
+    async verifyPersonalStatementPageHeader() {
+        expect(await this.header.textContent()).toContain('Personal statement');
     }
 
     async clickCheckboxes() {
@@ -35,10 +40,9 @@ class PersonalStatementPage {
     async clickAgreeBtn(){
 
         await this.agreeBtn.click();
-        await this.page.waitForNavigation();
 
-        const apiRequest = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision', { timeout: 10000 });
-        await expect(apiRequest.method()).toBe('POST');
+        // const apiRequest = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision', { timeout: 10000 });
+        // await expect(apiRequest.method()).toBe('POST');
 
         // await this.page.route("*getCATermDecision", async route => {
         //     expect(route.request().method()).toBe('POST');

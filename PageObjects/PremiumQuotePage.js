@@ -3,7 +3,7 @@ const{ expect, request } = require("@playwright/test");
 class PremiumQuotePage {
 
     constructor(page) {
-
+        this.header = page.locator("//div[text()=' Premium Quote ']");
         this.genderMale = page.getByText('Male', { exact: true });
         this.genderFemale = page.getByText('Female', { exact: true });
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
@@ -11,6 +11,10 @@ class PremiumQuotePage {
         this.nonSmoker = page.getByText('No');
         this.getQuoteBtn = page.getByRole('button', { name: ' GET QUOTE ' });
         this.continueBtn = page.getByRole('button', { name: 'Continue' });
+    }
+
+    async verifyPremiumPageHeader() {
+        expect(await this.header.textContent()).toContain('Premium');
     }
 
     async getQuoteValue(gender, date) {

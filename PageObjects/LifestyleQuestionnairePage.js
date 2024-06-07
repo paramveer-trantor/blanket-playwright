@@ -1,3 +1,5 @@
+const{ expect, request } = require("@playwright/test");
+
 class LifestyleQuestionnairePage {
 
     constructor(page) {
@@ -5,8 +7,7 @@ class LifestyleQuestionnairePage {
         this.heightFeet = page.locator("[name = 'feet']");
         this.heightInches = page.locator("[name = 'inches']");
         this.weight = page.locator("[name = 'lbs']");
-        //this.question =  page.locator('.p-style > span > .v-input > .v-input__control > .v-input__slot > .v-input--radio-group__input > div:nth-child(2) > .v-label');
-        //this.questionCompanyDeclineOptionNo = page.getByRole('radio', { name: 'declinedOrRescinded1' });
+        this.header = page.locator("(//div[text()=' Lifestyle Questionnaire '])[2]");
         this.questionCompanyDeclineOptionYes = page.locator("[name = 'declinedOrRescinded0'] + div.v-input--selection-controls__ripple");
         this.questionCompanyDeclineOptionNo = page.locator("[name = 'declinedOrRescinded1'] + div.v-input--selection-controls__ripple");
         this.questionRiskOccupationOptionYes = page.locator("[name = 'riskyOccupation0'] + div.v-input--selection-controls__ripple");
@@ -26,6 +27,10 @@ class LifestyleQuestionnairePage {
         this.questionOutsideCAOptionYes = page.locator("[name = 'outsideCa0'] + div.v-input--selection-controls__ripple");
         this.questionOutsideCAOptionNo = page.locator("[name = 'outsideCa1'] + div.v-input--selection-controls__ripple");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+    }
+
+    async verifyLifestylePageHeader() {
+        expect(await this.header.textContent()).toContain('Lifestyle');
     }
 
     async lifestyleQuestions(option, feet, inches, weight, drinksvalue, marijuanavalue=0) {

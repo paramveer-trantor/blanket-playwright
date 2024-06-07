@@ -5,11 +5,16 @@ class NeedsAssessmentPage {
 
     constructor(page) {
         this.page = page;
+        this.header = page.locator("//div[text()=' How Much Term Insurance Do I Need? ']");
         this.annualIncome = page.locator("[name = 'annualIncome']");
         this.saving = page.locator("[name = 'savings']");
         this.mortgageBalance = page.locator("[name = 'mortgageBalance']");
         this.loansAndDebts = page.locator("[name = 'loansAndDebts']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+    }
+
+    async verifyNeedsAssessmentPageHeader() {
+        expect(await this.header.textContent()).toContain('How Much Term Insurance');
     }
 
     async enterGrossIncome(income, saving, mortgageBal, debt) {

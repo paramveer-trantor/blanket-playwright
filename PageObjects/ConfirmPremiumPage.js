@@ -1,9 +1,16 @@
+const{ expect, request } = require("@playwright/test");
+
 class ConfirmPremiumPage {
 
     constructor(page) {
         this.page = page;
+        this.header = page.locator("//div[text()=' Premium Quote ']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.quoteValue = page.locator('.estimate-subtitle .font-weight-bold');
+    }
+
+    async verifyConfirmPremiumPageHeader() {
+        expect(await this.header.textContent()).toContain('Premium');
     }
 
     async comfirmQuoteValue() {
