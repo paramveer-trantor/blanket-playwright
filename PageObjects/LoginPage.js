@@ -17,14 +17,17 @@ class LoginPage {
         await this.email.fill(username);
         await this.password.fill(password);
         
-        // await this.page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=*", async route => {
-        //     expect(await route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());  
-        //     expect(await response.status()).toBe(200);
-        // });
+         const promise =  this.page.waitForResponse("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=*", async route => {
+             expect(await route.request().method()).toBe('POST');
+             const response = await this.page.request.fetch(route.request());
+             expect(await response.status()).toBe(200);
+         });
 
         await this.loginBtn.click();
-        //await this.page.waitForLoadState('domcontentloaded');
+        const response = await promise;
+        await expect(response.status()).toBe(200)
+        console.log({response:response.status()});
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
 }
