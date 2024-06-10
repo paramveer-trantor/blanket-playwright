@@ -47,8 +47,6 @@ class MedicalQuestionnaire1Page {
             await this.questionMemoryDisorderOptionYes.click();
             await this.questionRheumatoidArthritisOptionYes.click();
             await this.questionSchizophreniaOptionYes.click();
-            await this.questionDepressionOptionYes.click();
-            await this.questionAnxietyOptionYes.click();
         }
         else {
             await this.questionCancerOptionNo.click();

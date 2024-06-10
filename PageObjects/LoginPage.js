@@ -16,15 +16,13 @@ class LoginPage {
     async login(username, password) {
         await this.email.fill(username);
         await this.password.fill(password);
-        
-        // await this.page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=*", async route => {
-        //     expect(await route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());  
-        //     expect(await response.status()).toBe(200);
-        // });
+        const promise =  this.page.waitForResponse("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=*", async route => {
+            expect(await route.request().method()).toBe('POST');
+        });
 
-        await this.loginBtn.click();
-        //await this.page.waitForLoadState('domcontentloaded');
+       await this.loginBtn.click();
+       const response = await promise;
+       expect(response.status()).toBe(200);
     }
 
 }

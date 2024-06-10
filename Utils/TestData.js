@@ -16,8 +16,9 @@ module.exports = {
     feet : "5",
     inches : "9",
     weight : "180",
-    marijuana : "1",
+    marijuana : "7",
     drinks : "2",
+    drinksKnock : "15",
     OptionYes : "Yes",
     OptionNo : "No",
     benfirstname : "Test", 
@@ -25,7 +26,7 @@ module.exports = {
     bendob : "01/01/2010", 
     benshare : "100",
     passportno : "AB123456",
-    cardname : "Test User", 
+    cardname : "Teser User", 
     cardnumber : "4111 1111 1111 1111", 
     expirydate : "01/2027",
     cvv : "213",
@@ -34,4 +35,27 @@ module.exports = {
     institutionnumber : "030800", 
     accountnumber : "1234567", 
     bankname : "CNB",
+    needAssessmentApiData : {
+        "data": {
+            "userKey": "cUikvtqcHENWpy26Jlp7Qg5WBLi2",
+            "grossIncome": 50004,
+            "grossHouseholdIncome": 0,
+            "savings": 0,
+            "mortgageBalance": 0,
+            "loanDebts": 0,
+            "dob": "2001-01-01",
+            "locale": "en"
+        }
+    },
+    getCaPremiumData : {
+        "data": {
+        "gender": "M",
+        "smoker": false,
+        "age": 23,
+        "product": 10,
+        "amount": 1000000,
+        "locale": "en"
+        }
+    }
+
 }

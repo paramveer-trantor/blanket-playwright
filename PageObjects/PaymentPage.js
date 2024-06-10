@@ -10,7 +10,7 @@ class PaymentPage {
         this.expiryDate = page.getByLabel('Expiration Date (MM/YYYY)', { exact: true });
         this.cvv = page.getByLabel('CVV', { exact: true });
         this.payNowBtn = page.getByRole('button', { name: ' Pay now ' });
-        this.ach = page.locator("[name='ach']");
+        this.ach = page.locator("[name='ach']"); 
         this.accountHoldername = page.locator("[name='accountHolder']");
         this.accountType = page.getByLabel('Account Type', { exact: true });
         this.selectAccountType = page.getByText('Savings', { exact: true });
@@ -37,21 +37,50 @@ class PaymentPage {
         await this.payNowBtn.isVisible();
         await this.payNowBtn.click();
 
-        // const CustormerAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/createCATermCustomer', { timeout: 10000 });
-        // await expect(CustormerAPI.method()).toBe('POST');
+        // const promise_CustormerAPI =  this.page.waitForResponse("**createCATermCustomer", async route => {
+        //      expect(await route.request().method()).toBe('POST');
+        //      const response = await this.page.request.fetch(route.request());
+        //      expect(await response.status()).toBe(200);
+        //  });
+        
+        // const response_CustormerAPI = await promise_CustormerAPI;
+        // expect(response_CustormerAPI.status()).toBe(200);
 
-        // const StoreCCAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/storeCATermCreditCard', { timeout: 10000 });
-        // await expect(StoreCCAPI.method()).toBe('POST');
+        // const promise_StoreCCAPI =  this.page.waitForResponse("**storeCATermCreditCard", async route => {
+        //      expect(await route.request().method()).toBe('POST');
+        //      const response = await this.page.request.fetch(route.request());
+        //      expect(await response.status()).toBe(200);
+        //  });
+        
+        // const response_StoreCCAPI = await promise_StoreCCAPI;
+        // expect(response_StoreCCAPI.status()).toBe(200);
 
-        // const SubscribeAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/subscribeCATerm', { timeout: 10000 });
-        // await expect(SubscribeAPI.method()).toBe('POST');
+        // const promise_SubscribeAPI =  this.page.waitForResponse("**subscribeCATerm", async route => {
+        //      expect(await route.request().method()).toBe('POST');
+        //      const response = await this.page.request.fetch(route.request());
+        //      expect(await response.status()).toBe(200);
+        //  });
+        
+        const response_SubscribeAPI = await promise_SubscribeAPI;
+        expect(response_SubscribeAPI.status()).toBe(200);
 
-        // const BindPolicyAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/CATermBindPolicy', { timeout: 10000 });
-        // await expect(BindPolicyAPI.method()).toBe('POST');
+        const promise_BindPolicyAPI =  this.page.waitForResponse("**CATermBindPolicy", async route => {
+             expect(await route.request().method()).toBe('POST');
+             const response = await this.page.request.fetch(route.request());
+             expect(await response.status()).toBe(200);
+         });
+        
+        const response_BindPolicyAPI = await promise_BindPolicyAPI;
+        expect(response_BindPolicyAPI.status()).toBe(200);
 
-        // const SendPolicyAPI = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/sendCATermPolicyPdf', { timeout: 10000 });
-        // await expect(SendPolicyAPI.method()).toBe('POST');
-
+        const promise_SendPolicyAPI =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/sendCATermPolicyPdf", async route => {
+             expect(await route.request().method()).toBe('POST');
+             const response = await this.page.request.fetch(route.request());
+             expect(await response.status()).toBe(200);
+         });
+        
+        const response_SendPolicyAPI = await promise_SendPolicyAPI;
+        expect(response_SendPolicyAPI.status()).toBe(200);
     }
 
     async purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname) {

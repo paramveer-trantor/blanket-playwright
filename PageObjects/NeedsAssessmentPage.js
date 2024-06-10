@@ -1,5 +1,6 @@
 const{ expect, request } = require("@playwright/test");
-
+//const { callAPI } = require('../api');
+//import { needAssessmentApiData, getCaPremiumData } from '../Utils/TestData';
 class NeedsAssessmentPage {
 
     constructor(page) {
@@ -19,14 +20,16 @@ class NeedsAssessmentPage {
     async enterGrossIncome(income, saving, mortgageBal, debt) {
         await this.annualIncome.click();
         await this.annualIncome.fill(income);
-
-        // await this.page.route("*CATermNeedsAssessment", async route => {
-        //     expect(route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());
-        //     expect(response.status()).toBe(200);
-        // });
-
         await this.saving.click();
+        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/CATermNeedsAssessment", async route => {
+             expect(await route.request().method()).toBe('POST');
+             const response = await this.page.request.fetch(route.request());
+             expect(await response.status()).toBe(200);
+         });
+         
+        const response = await promise;
+        expect(response.status()).toBe(200);
+        
         await this.saving.fill(saving);
         await this.mortgageBalance.click();
         await this.mortgageBalance.fill(mortgageBal);
@@ -35,15 +38,18 @@ class NeedsAssessmentPage {
     }
 
     async clickContinueBtn() {
-
-        // await this.page.route("*getCATermPremium", async route => {
-        //     expect(route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());
-        //     expect(response.status()).toBe(200);
-        // });
-
         await this.continueBtn.isEnabled();
-        await this.continueBtn.click();
+
+        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermPremium", async route => {
+             expect(await route.request().method()).toBe('POST');
+             const response = await this.page.request.fetch(route.request());
+             expect(await response.status()).toBe(200);
+         });
+         await this.continueBtn.click();
+        const response = await promise;
+        expect(response.status()).toBe(200);
+
+        
     }
 
 }

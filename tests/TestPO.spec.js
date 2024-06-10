@@ -1,6 +1,6 @@
 import { test, expect,request } from '@playwright/test';
 import { POManager } from '../PageObjects/POManager';
-const { username,password,tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } =require('../Utils/TestData');
+const { username,password,tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } =require('../Utils/TestData');
 
 test.describe('Tests as per page', async () => {
 
@@ -336,13 +336,12 @@ test.describe('Tests as per page', async () => {
     //     reviewyouranswerspage.clickConitnueBtn();
     // });
 
-    test('Test Case', async ({ page }) => {
+    test.only('E2E Happy Flow', async ({ page }) => {
         const pomanager = new POManager(page); 
         const premiunquotepage = pomanager.getPremiumQuotePage();
         await premiunquotepage.verifyPremiumPageHeader();
         await premiunquotepage.getQuoteValue(gender, date);
         await premiunquotepage.clickContinueBtn();
-        /*
         const preapplicationpage = pomanager.getPreApplicationPage();
         await preapplicationpage.verifyPreApplicationPageHeader();
         await preapplicationpage.acceptPopWindow();
@@ -357,22 +356,17 @@ test.describe('Tests as per page', async () => {
         await needsassessmentpage.clickContinueBtn();
         const confirmpremiumpage = pomanager.getConfirmPremiumPage();
         await confirmpremiumpage.verifyConfirmPremiumPageHeader();
-        await page.waitForTimeout(500); 
         await confirmpremiumpage.clickContinueBtn();
-        await page.waitForTimeout(500); 
         const lifestylequestionnairepage = pomanager.getLifestyleQuestionnairePage();
         await lifestylequestionnairepage.verifyLifestylePageHeader();
-        await page.waitForTimeout(500); 
         await lifestylequestionnairepage.lifestyleQuestions(OptionNo, feet, inches, weight, drinks);
         await lifestylequestionnairepage.clickContinueBtn();
         const medicalquestionnaire1page = pomanager.getMedicalQuestionnaire1Page();
         await medicalquestionnaire1page.verifyMedicalQuestionsPageHeader();
-        await page.waitForTimeout(500);
         await medicalquestionnaire1page.medicalQuestionsPage1(OptionNo);
         await medicalquestionnaire1page.clickConitnueBtn();
         const medicalquestionnaire2page = pomanager.getMedicalQuestionnaire2Page();
         await medicalquestionnaire1page.verifyMedicalQuestionsPageHeader();
-        await page.waitForTimeout(500);
         await medicalquestionnaire2page.medcialQuestionsPage2(OptionNo);
         await medicalquestionnaire2page.clickConitnueBtn(); 
         const reviewyouranswerspage = pomanager.getReviewYourAnswersPage();
@@ -394,15 +388,54 @@ test.describe('Tests as per page', async () => {
         await confirmidentitypage.clickAcceptandPayBtn();
         const paymentpage = pomanager.getPaymentPage();
         await paymentpage.verifyPaymentPageHeader();
-        await paymentpage.purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
-        */
-
+        //await paymentpage.purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
+        await paymentpage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
         
     });
 
-
-    
-
+    test('Customer Knockout Flow', async ({ page }) => {
+        const pomanager = new POManager(page); 
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        await premiunquotepage.verifyPremiumPageHeader();
+        await premiunquotepage.getQuoteValue(gender, date);
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.verifyPreApplicationPageHeader();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        await preapplicationpage.enterAddress(houseaddress);
+        await preapplicationpage.enterPhoneNumber(phonenumber);
+        await preapplicationpage.last3Questions(OptionYes);
+        await preapplicationpage.clickConitnueBtn();
+        const needsassessmentpage = pomanager.getNeedsAssessmentPage();
+        await needsassessmentpage.verifyNeedsAssessmentPageHeader();
+        await needsassessmentpage.enterGrossIncome(income,saving,mortgageBal,debt);
+        await needsassessmentpage.clickContinueBtn();
+        const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+        await confirmpremiumpage.verifyConfirmPremiumPageHeader();
+        await confirmpremiumpage.clickContinueBtn();
+        const lifestylequestionnairepage = pomanager.getLifestyleQuestionnairePage();
+        await lifestylequestionnairepage.verifyLifestylePageHeader();
+        await lifestylequestionnairepage.lifestyleQuestions(OptionYes, "4", "2", "83", "15", "7");
+        await lifestylequestionnairepage.clickContinueBtn();
+        const medicalquestionnaire1page = pomanager.getMedicalQuestionnaire1Page();
+        await medicalquestionnaire1page.verifyMedicalQuestionsPageHeader();
+        await medicalquestionnaire1page.medicalQuestionsPage1(OptionYes);
+        await medicalquestionnaire1page.clickConitnueBtn();
+        const medicalquestionnaire2page = pomanager.getMedicalQuestionnaire2Page();
+        await medicalquestionnaire1page.verifyMedicalQuestionsPageHeader();
+        await medicalquestionnaire2page.medcialQuestionsPage2(OptionYes);
+        await medicalquestionnaire2page.clickConitnueBtn(); 
+        const reviewyouranswerspage = pomanager.getReviewYourAnswersPage();
+        await reviewyouranswerspage.verifyReviewPageHeader();
+        await reviewyouranswerspage.clickConitnueBtn();
+        const personalstatementpage = pomanager.getPersonalStatementPage();
+        await personalstatementpage.verifyPersonalStatementPageHeader();
+        await personalstatementpage.clickCheckboxes();
+        await personalstatementpage.clickAgreeBtn();
+        await personalstatementpage.verifyKnockoutMsg();
 }); 
+
+});
 
 

@@ -14,6 +14,7 @@ class PreApplicationPage {
         this.phoneNumber = page.getByLabel('Phone number', { exact: true });
         this.optionYes = page.getByText('Yes', { exact: true });
         this.optionNo = page.getByText('No', { exact: true });
+        this.questionSurvey = page.locator("//input[@name='survey 0']/following-sibling::div[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 
@@ -49,7 +50,7 @@ class PreApplicationPage {
             await this.optionYes.nth(2).click();
             await this.optionYes.nth(3).click();
             await this.optionYes.nth(4).click();
-            await this.optionYes.nth(5).click();
+            await this.questionSurvey.click();
         }
         else {
             await this.optionNo.nth(2).click();

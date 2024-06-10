@@ -30,14 +30,23 @@ class PremiumQuotePage {
         await this.dateOfBirth.fill(date);
         await this.canadianCitizen.first().click();
         await this.nonSmoker.nth(1).click();
+
+        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermPremium", async route => {
+             expect(await route.request().method()).toBe('POST');
+             const response = await this.page.request.fetch(route.request());
+             expect(await response.status()).toBe(200);
+         });
         await this.getQuoteBtn.click();
+        const response = await promise;
+        expect(response.status()).toBe(200);
+       // const body = await response.text();
+        //console.log(body);
+        //expect(body).toContain({"annualfee": "30", "monthlyfee": "2.700"});
         
     }
 
     async clickContinueBtn() {
-
         await this.continueBtn.click();        
-
     }
 }
 

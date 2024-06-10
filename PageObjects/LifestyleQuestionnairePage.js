@@ -10,6 +10,7 @@ class LifestyleQuestionnairePage {
         this.header = page.locator("(//div[text()=' Lifestyle Questionnaire '])[2]");
         this.questionCompanyDeclineOptionYes = page.locator("[name = 'declinedOrRescinded0'] + div.v-input--selection-controls__ripple");
         this.questionCompanyDeclineOptionNo = page.locator("[name = 'declinedOrRescinded1'] + div.v-input--selection-controls__ripple");
+        this.questionCompanyDeclineAddition = page.locator("//input[@name='conditionalQuestion0']/following-sibling::div[1]");
         this.questionRiskOccupationOptionYes = page.locator("[name = 'riskyOccupation0'] + div.v-input--selection-controls__ripple");
         this.questionRiskOccupationOptionNo = page.locator("[name = 'riskyOccupation1'] + div.v-input--selection-controls__ripple");
         this.questionCriminalOptionYes = page.locator("[name = 'criminalOffences0'] + div.v-input--selection-controls__ripple");
@@ -18,7 +19,7 @@ class LifestyleQuestionnairePage {
         this.questionExtremeSportsOptionNo = page.locator("[name = 'extremeSports1'] + div.v-input--selection-controls__ripple");
         this.questionMarijuanaUseOptionYes = page.locator("[name = 'marijuanaUse0'] + div.v-input--selection-controls__ripple");
         this.questionMarijuanaUseOptionNo = page.locator("[name = 'marijuanaUse1'] + div.v-input--selection-controls__ripple");
-        this.questionMarijuanaUseValue = page.locator("[name = 'frequency'] + div.v-input--selection-controls__ripple");
+        this.questionMarijuanaUseValue = page.locator("[name = 'frequency']");
         this.drinksValue = page.locator("[name = 'amount']");
         this.questionDrugsUse5YOptionYes = page.locator("[name = 'recreationalDrugsPast5Y0'] + div.v-input--selection-controls__ripple");
         this.questionDrugsUse5YOptionNo = page.locator("[name = 'recreationalDrugsPast5Y1'] + div.v-input--selection-controls__ripple");
@@ -41,8 +42,9 @@ class LifestyleQuestionnairePage {
             await this.heightInches.click();
             await this.heightInches.fill(inches);
             await this.weight.click();
-            await this.weight.type(weight);
+            await this.weight.type(weight.toString());
             await this.questionCompanyDeclineOptionYes.click();
+            await this.questionCompanyDeclineAddition.click();
             await this.questionRiskOccupationOptionYes.click();
             await this.questionCriminalOptionYes.click();
             await this.questionExtremeSportsOptionYes.click();
@@ -62,8 +64,8 @@ class LifestyleQuestionnairePage {
             await this.heightInches.click();
             await this.heightInches.fill(inches);
             await this.weight.click();
-            //const weight1 = Number(weight).toString();
-            await this.weight.type(weight);
+            //await this.weight.type(weight);
+            await this.weight.type(weight.toString());
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionNo.click();

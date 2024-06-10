@@ -16,6 +16,7 @@ class PersonalStatementPage {
         this.checkbox9= page.locator("[name='termCheckbox8'] + div.v-input--selection-controls__ripple");
         this.checkbox10= page.locator("[name='termCheckbox9'] + div.v-input--selection-controls__ripple");
         this.agreeBtn = page.getByRole('button', { name: ' I Agree ' });
+        this.knockOutMsg = page.locator("//p[@class='font-weight-bold text-center']//span[1]");
     }
 
     async verifyPersonalStatementPageHeader() {
@@ -39,24 +40,19 @@ class PersonalStatementPage {
 
     async clickAgreeBtn(){
 
+        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision", async route => {
+             expect(await route.request().method()).toBe('POST');
+             const response = await this.page.request.fetch(route.request());
+             expect(await response.status()).toBe(200);
+         });
         await this.agreeBtn.click();
+        const response = await promise;
+        expect(response.status()).toBe(200);
+    }
 
-        // const apiRequest = await this.page.waitForRequest('https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision', { timeout: 10000 });
-        // await expect(apiRequest.method()).toBe('POST');
-
-        // await this.page.route("*getCATermDecision", async route => {
-        //     expect(route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());  
-        //     expect(response.status()).toBe(200);
-        // });
-
-        //     const DecisionAPI = await this.page.request.post('https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision',
-        //     {
-            
-        //     }
-        // );
-        //     await DecisionAPI.json();
-        
+    async verifyKnockoutMsg() {
+       const msg = await this.knockOutMsg.textContent();
+       expect(msg).toContain("A licensed insurance agent will contact you shortly.");
     }
 
 }
