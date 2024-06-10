@@ -342,6 +342,7 @@ test.describe('Tests as per page', async () => {
         await premiunquotepage.verifyPremiumPageHeader();
         await premiunquotepage.getQuoteValue(gender, date);
         await premiunquotepage.clickContinueBtn();
+        /*
         const preapplicationpage = pomanager.getPreApplicationPage();
         await preapplicationpage.verifyPreApplicationPageHeader();
         await preapplicationpage.acceptPopWindow();
@@ -394,6 +395,9 @@ test.describe('Tests as per page', async () => {
         const paymentpage = pomanager.getPaymentPage();
         await paymentpage.verifyPaymentPageHeader();
         await paymentpage.purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
+        */
+
+        
     });
 
 

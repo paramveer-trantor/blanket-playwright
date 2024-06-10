@@ -1,8 +1,10 @@
-const{ expect, request } = require("@playwright/test");
+// const{ expect } = require("@playwright/test");
+import { expect } from "@playwright/test";
 
 class PremiumQuotePage {
 
     constructor(page) {
+        this.page = page;
         this.header = page.locator("//div[text()=' Premium Quote ']");
         this.genderMale = page.getByText('Male', { exact: true });
         this.genderFemale = page.getByText('Female', { exact: true });
@@ -29,17 +31,13 @@ class PremiumQuotePage {
         await this.canadianCitizen.first().click();
         await this.nonSmoker.nth(1).click();
         await this.getQuoteBtn.click();
+        
     }
 
     async clickContinueBtn() {
 
-        // await this.page.route("*getCATermPremium", async route => {
-        //     expect(route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());  
-        //     expect(response.status()).toBe(200);
-        // });
-        
-        await this.continueBtn.click();
+        await this.continueBtn.click();        
+
     }
 }
 
