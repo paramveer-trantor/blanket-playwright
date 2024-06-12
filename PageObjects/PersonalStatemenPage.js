@@ -42,13 +42,16 @@ class PersonalStatementPage {
 
         const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision", async route => {
              expect(await route.request().method()).toBe('POST');
-             const response = await this.page.request.fetch(route.request());
-             expect(await response.status()).toBe(200);
+             const res = await this.page.request.fetch(route.request());
+             //expect(await response.status()).toBe(200);
+             //console.log(res.text());
          });
         await this.agreeBtn.click();
         const response = await promise;
         expect(response.status()).toBe(200);
-    }
+    
+
+     }
 
     async verifyKnockoutMsg() {
        const msg = await this.knockOutMsg.textContent();

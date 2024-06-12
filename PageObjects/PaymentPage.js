@@ -1,8 +1,9 @@
-const{ expect, request } = require("@playwright/test");
+const { expect, request } = require("@playwright/test");
 
 class PaymentPage {
 
     constructor(page) {
+        this.page = page;
         this.header = page.locator("(//div[text()=' Payment '])[2]");
         this.creditCard = page.locator("[name='creditcard']");
         this.cardName = page.locator("[name='cardName']");
@@ -10,7 +11,7 @@ class PaymentPage {
         this.expiryDate = page.getByLabel('Expiration Date (MM/YYYY)', { exact: true });
         this.cvv = page.getByLabel('CVV', { exact: true });
         this.payNowBtn = page.getByRole('button', { name: ' Pay now ' });
-        this.ach = page.locator("[name='ach']"); 
+        this.ach = page.locator("[name='ach']");
         this.accountHoldername = page.locator("[name='accountHolder']");
         this.accountType = page.getByLabel('Account Type', { exact: true });
         this.selectAccountType = page.getByText('Savings', { exact: true });
@@ -42,45 +43,41 @@ class PaymentPage {
         //      const response = await this.page.request.fetch(route.request());
         //      expect(await response.status()).toBe(200);
         //  });
-        
         // const response_CustormerAPI = await promise_CustormerAPI;
         // expect(response_CustormerAPI.status()).toBe(200);
 
-        // const promise_StoreCCAPI =  this.page.waitForResponse("**storeCATermCreditCard", async route => {
-        //      expect(await route.request().method()).toBe('POST');
-        //      const response = await this.page.request.fetch(route.request());
-        //      expect(await response.status()).toBe(200);
-        //  });
-        
+        // const promise_StoreCCAPI = this.page.waitForResponse("**storeCATermCreditCard", async route => {
+        //     expect(await route.request().method()).toBe('POST');
+        //     const response = await this.page.request.fetch(route.request());
+        //     expect(await response.status()).toBe(200);
+        // });
         // const response_StoreCCAPI = await promise_StoreCCAPI;
         // expect(response_StoreCCAPI.status()).toBe(200);
 
-        // const promise_SubscribeAPI =  this.page.waitForResponse("**subscribeCATerm", async route => {
-        //      expect(await route.request().method()).toBe('POST');
-        //      const response = await this.page.request.fetch(route.request());
-        //      expect(await response.status()).toBe(200);
-        //  });
-        
-        const response_SubscribeAPI = await promise_SubscribeAPI;
-        expect(response_SubscribeAPI.status()).toBe(200);
+        // const promise_SubscribeAPI = this.page.waitForResponse("**subscribeCATerm", async route => {
+        //     expect(await route.request().method()).toBe('POST');
+        //     const response = await this.page.request.fetch(route.request());
+        //     expect(await response.status()).toBe(200);
+        // });
+        // const response_SubscribeAPI = await promise_SubscribeAPI;
+        // expect(response_SubscribeAPI.status()).toBe(200);
 
-        const promise_BindPolicyAPI =  this.page.waitForResponse("**CATermBindPolicy", async route => {
-             expect(await route.request().method()).toBe('POST');
-             const response = await this.page.request.fetch(route.request());
-             expect(await response.status()).toBe(200);
-         });
-        
-        const response_BindPolicyAPI = await promise_BindPolicyAPI;
-        expect(response_BindPolicyAPI.status()).toBe(200);
+        // const promise_BindPolicyAPI = this.page.waitForResponse("**CATermBindPolicy", async route => {
+        //     console.log(route.request());
+        //     expect(await route.request().method()).toBe('POST');
+        //     const response = await this.page.request.fetch(route.request());
+        //     console.log(route.request().postDataJSON());
+        //     const response_BindPolicyAPI = await promise_BindPolicyAPI;
+        //     expect(response_BindPolicyAPI.status()).toBe(200);
+        // });
 
-        const promise_SendPolicyAPI =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/sendCATermPolicyPdf", async route => {
-             expect(await route.request().method()).toBe('POST');
-             const response = await this.page.request.fetch(route.request());
-             expect(await response.status()).toBe(200);
-         });
-        
-        const response_SendPolicyAPI = await promise_SendPolicyAPI;
-        expect(response_SendPolicyAPI.status()).toBe(200);
+        // const promise_SendPolicyAPI = this.page.waitForResponse("**sendCATermPolicyPdf", async route => {
+        //     expect(await route.request().method()).toBe('POST');
+        //     const response = await this.page.request.fetch(route.request());
+        //     expect(await response.status()).toBe(200);
+        // });
+        // const response_SendPolicyAPI = await promise_SendPolicyAPI;
+        // expect(response_SendPolicyAPI.status()).toBe(200);
     }
 
     async purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname) {

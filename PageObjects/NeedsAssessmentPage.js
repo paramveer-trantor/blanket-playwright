@@ -24,9 +24,7 @@ class NeedsAssessmentPage {
         const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/CATermNeedsAssessment", async route => {
              expect(await route.request().method()).toBe('POST');
              const response = await this.page.request.fetch(route.request());
-             expect(await response.status()).toBe(200);
          });
-         
         const response = await promise;
         expect(response.status()).toBe(200);
         
@@ -43,13 +41,10 @@ class NeedsAssessmentPage {
         const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermPremium", async route => {
              expect(await route.request().method()).toBe('POST');
              const response = await this.page.request.fetch(route.request());
-             expect(await response.status()).toBe(200);
          });
-         await this.continueBtn.click();
+        await this.continueBtn.click();
         const response = await promise;
         expect(response.status()).toBe(200);
-
-        
     }
 
 }

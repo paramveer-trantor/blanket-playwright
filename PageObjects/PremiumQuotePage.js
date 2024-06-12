@@ -36,13 +36,14 @@ class PremiumQuotePage {
              const response = await this.page.request.fetch(route.request());
              expect(await response.status()).toBe(200);
          });
-        await this.getQuoteBtn.click();
+        await this.getQuoteBtn.click();       
         const response = await promise;
         expect(response.status()).toBe(200);
-       // const body = await response.text();
-        //console.log(body);
-        //expect(body).toContain({"annualfee": "30", "monthlyfee": "2.700"});
-        
+        const responseAsJson = await response.json();
+        //console.log(responseAsJson);
+        //console.log(responseAsJson.monthlyfee);
+        //expect(responseAsJson.annualfee.value).toBe("30");
+        //expect(responseAsJson.monthlyfee.value).toBe("2.700");
     }
 
     async clickContinueBtn() {
