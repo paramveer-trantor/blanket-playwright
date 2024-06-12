@@ -13,6 +13,7 @@ const { PersonalStatementPage } = require('../PageObjects/PersonalStatemenPage')
 const { BeneficiaryPage } = require('../PageObjects/BeneficiaryPage');
 const { ConfirmIdentityPage } = require('../PageObjects/ConfirmIdentityPage');
 const { PaymentPage } = require('../PageObjects/PaymentPage');
+const { TLFormLoginPage } = require('../PageObjects/TLFormLoginPage');
 
 class POManager {
 
@@ -33,6 +34,7 @@ class POManager {
         this.beneficiaryPage = new BeneficiaryPage(this.page);
         this.confirmIdentityPage = new ConfirmIdentityPage(this.page);
         this.paymentPage = new PaymentPage(this.page);
+        this.termLifeLoginPage = new TLFormLoginPage(this.page);
     }
 
     getLoginPage() {
@@ -93,6 +95,10 @@ class POManager {
 
     getPaymentPage() {
         return this.paymentPage;
+    }
+
+    getTermLifeLoginPage() {
+        return this.termLifeLoginPage;
     }
 
 }

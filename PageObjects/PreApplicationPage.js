@@ -21,8 +21,9 @@ class PreApplicationPage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 
-    async verifyPreApplicationPageHeader() {
-        expect(await this.header.textContent()).toContain('Application');
+    async getPreApplicationPageHeader() {
+        const preapp_header = await this.header.textContent();
+        return preapp_header;
     }
 
     async acceptPopWindow() {
