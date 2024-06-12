@@ -11,6 +11,7 @@ class PremiumQuotePage {
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
         this.canadianCitizen = page.getByText('Yes');
         this.nonSmoker = page.getByText('No');
+        this.dateErrorMsg = page.locator('.v-messages__message');
         this.getQuoteBtn = page.getByRole('button', { name: ' GET QUOTE ' });
         this.continueBtn = page.getByRole('button', { name: 'Continue' });
     }
@@ -27,6 +28,7 @@ class PremiumQuotePage {
             await this.genderFemale.first().click();
         }
         await this.dateOfBirth.click();
+        await this.dateOfBirth.clear();
         await this.dateOfBirth.fill(date);
         await this.canadianCitizen.first().click();
         await this.nonSmoker.nth(1).click();
@@ -44,6 +46,20 @@ class PremiumQuotePage {
         //console.log(responseAsJson.monthlyfee);
         //expect(responseAsJson.annualfee.value).toBe("30");
         //expect(responseAsJson.monthlyfee.value).toBe("2.700");
+    }
+
+    async getIncorrectDateErrorMsg(gender, date) {
+        if (gender == "Male") {
+            await this.genderMale.first().click();
+        }
+        else {
+            await this.genderFemale.first().click();
+        }
+        await this.dateOfBirth.click();
+        await this.dateOfBirth.fill(date);
+        const errorMsg = await this.dateErrorMsg.textContent();
+        await this.page.locator("//button[@aria-label='Clear MM/DD/YYYY']").click();
+        return errorMsg;
     }
 
     async clickContinueBtn() {

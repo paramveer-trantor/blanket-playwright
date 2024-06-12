@@ -8,9 +8,8 @@ class DashboardPage{
         this.countryBtn = page.locator('.v-btn__content .mr-3');
         this.CABtn = page.locator('.v-list-item__icon');
         this.productsBtn = page.getByRole('button', {name: ' Products '});
+        this.productList = page.getByRole('option');
         this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
-        
-        //this.termlifeBtn =  page.getByText('Term Life');
     }
 
     async acceptCookies(){
@@ -29,6 +28,11 @@ class DashboardPage{
         await this.page.waitForLoadState('domcontentloaded');
     }
 
+    async getProductsList() {
+        await this.productsBtn.click();
+        const listofproducts = await this.productList.allInnerTexts();
+        return listofproducts;
+    }
 
 }
 

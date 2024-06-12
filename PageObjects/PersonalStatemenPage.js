@@ -49,7 +49,6 @@ class PersonalStatementPage {
         await this.agreeBtn.click();
         const response = await promise;
         expect(response.status()).toBe(200);
-    
 
      }
 

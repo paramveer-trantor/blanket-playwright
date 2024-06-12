@@ -1,4 +1,5 @@
 module.exports = {   
+    url : "https://blanket-development.web.app",
     username : "gagandeep.singla+autouser@trantorinc.com",
     password : "Test@1",
     tagline : "We’ve got what matters most covered.",

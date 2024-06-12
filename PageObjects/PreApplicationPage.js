@@ -3,12 +3,15 @@ const { expect, request } = require("@playwright/test");
 class PreApplicationPage {
 
     constructor(page) {
+        this.page = page;
         this.header = page.locator("//div[text()=' Pre Application ']");
         this.addressList = page.locator(".address-list");
         this.dialogBox = page.getByRole('dialog');
         this.dialogContinueBtn = page.getByRole('dialog').getByRole('button', { name: 'Continue' });
         this.firstName = page.getByLabel('First name', { exact: true });
         this.lastName = page.getByLabel('Last name', { exact: true });
+        this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
+        this.dateErrorMsg = page.locator('.v-messages__message');
         this.address = page.getByLabel('Address', { exact: true });
         this.selectAddress = page.locator(".address-item");
         this.phoneNumber = page.getByLabel('Phone number', { exact: true });
@@ -33,6 +36,14 @@ class PreApplicationPage {
         await this.firstName.fill(firstname);
         await this.lastName.click();
         await this.lastName.fill(lastname);
+    }
+
+    async getIncorrectDateErrorMsg(date) {
+        await this.page.locator("[name='dob']").click();
+        await this.page.locator("//button[@aria-label='Clear MM/DD/YYYY']").click();
+        await this.dateOfBirth.fill(date);
+        const errorMsg = await this.dateErrorMsg.textContent();
+        return errorMsg;
     }
 
     async enterAddress(houseaddress) {
