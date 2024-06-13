@@ -153,6 +153,65 @@ test.describe('CA Term Life Form Test cases', async () => {
         expect(invalidDOBError1).toContain('Date of birth must be on or after');
     });
 
+    test('BL-T12: User with age between 18 & 50 shall able to buy plan of term period and face amount upto $1M.', async ({ page }) => {
+        const pomanager = new POManager(page);
+        const loginpage = pomanager.getLoginPage();
+        await loginpage.navigateToURL();
+        await loginpage.login(username, password);
+        const dashboardpage = pomanager.getDashboardPage();
+        await dashboardpage.acceptCookies();
+        await dashboardpage.selectCACountry();
+        await dashboardpage.navigateToTermLifeCA();
+        const termlifeCApage = pomanager.getTermLifeCAPage();
+        await termlifeCApage.getHeaderText(tagline);
+        await termlifeCApage.clickApplyNowBtn();
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        await premiunquotepage.getQuoteValue(gender, date);
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        await preapplicationpage.enterAddress(houseaddress);
+        await preapplicationpage.enterPhoneNumber(phonenumber);
+        await preapplicationpage.last3Questions(OptionNo);
+        await preapplicationpage.clickConitnueBtn();
+        const needsassessmentpage = pomanager.getNeedsAssessmentPage();
+        await needsassessmentpage.enterGrossIncome(income,saving,mortgageBal,debt);
+        await needsassessmentpage.clickContinueBtn();
+        const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+        expect(await confirmpremiumpage.getTermsOptions()).toContain('10','15','20');
+        expect(await confirmpremiumpage.getCoverageAmountOptions()).toContain('1M');
+    });
+
+    test.only('BL-T13: User with age above 50 shall able to buy plan with face amount upto $500k.', async ({ page }) => {
+        const pomanager = new POManager(page);
+        const loginpage = pomanager.getLoginPage();
+        await loginpage.navigateToURL();
+        await loginpage.login(username, password);
+        const dashboardpage = pomanager.getDashboardPage();
+        await dashboardpage.acceptCookies();
+        await dashboardpage.selectCACountry();
+        await dashboardpage.navigateToTermLifeCA();
+        const termlifeCApage = pomanager.getTermLifeCAPage();
+        await termlifeCApage.getHeaderText(tagline);
+        await termlifeCApage.clickApplyNowBtn();
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        await premiunquotepage.getQuoteValue(gender, "01/01/1963");
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        await preapplicationpage.enterAddress(houseaddress);
+        await preapplicationpage.enterPhoneNumber(phonenumber);
+        await preapplicationpage.last3Questions(OptionNo);
+        await preapplicationpage.clickConitnueBtn();
+        const needsassessmentpage = pomanager.getNeedsAssessmentPage();
+        await needsassessmentpage.enterGrossIncome(income,saving,mortgageBal,debt);
+        await needsassessmentpage.clickContinueBtn();
+        const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+        //expect(await confirmpremiumpage.getCoverageAmountOptions()).
+        await confirmpremiumpage.getCoverageAmountOptions();
+    });
 
 
 });

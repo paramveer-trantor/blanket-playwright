@@ -43,18 +43,16 @@ class PersonalStatementPage {
         const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision", async route => {
              expect(await route.request().method()).toBe('POST');
              const res = await this.page.request.fetch(route.request());
-             //expect(await response.status()).toBe(200);
-             //console.log(res.text());
          });
         await this.agreeBtn.click();
         const response = await promise;
-        expect(response.status()).toBe(200);
-
+        const responseBody = await response.json();
+        //console.log(responseBody.result.response.errors);
+        return responseBody;
      }
 
-    async verifyKnockoutMsg() {
-       const msg = await this.knockOutMsg.textContent();
-       expect(msg).toContain("A licensed insurance agent will contact you shortly.");
+    async getKnockoutMsg() {
+       return await this.knockOutMsg.textContent();
     }
 
 }

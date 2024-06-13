@@ -6,6 +6,38 @@ const { username,password,tagline, date, gender, firstname, lastname, houseaddre
 
 test.describe('Tests as per page', async () => {
 
+    const rejectionerrors = [
+        'Candidates who have been absent from work for more than 14 consecutive days are not allowed',
+        'You can not buy policy to replace',
+        'You have lived outside for more then 30+ days consecutive',
+        'Candidates who have been absent from work for more than 14 consecutive days in the last 2 years are not allowed',
+        'Candidates with risky occupations are not allowed',
+        'Candidates with a criminal history are not allowed',
+        'Candidates which consume alcohol 15 times or more per week are not allowed',
+        'Candidates with substance history in the last 10 years are not allowed',
+        'Customer BMI is 84.4. BMI > 32 is not allowed',
+        'Customer height is 127. Height < 135 is not allowed',
+        'Candidates whose policies have been declined / rescinded are not allowed',
+        'Use of recreational drugs in the last 5 years is not allowed',
+        'Candidates who use marijuana 7 or more times a week are not allowed',
+        'Customers which engage in extreme sports are not allowed',
+        'Cancer is not allowed',
+        'Fibrosis is not allowed',
+        'Sleep apnea with more than 7 drinks is not allowed',
+        'Heart issues are not allowed',
+        'Immunity issues are not allowed',
+        'Brain disorders are not allowed',
+        'Cognitive issues are not allowed',
+        'Musculoskeletal issues are not allowed',
+        'Psychological issues like schizophrenia are not allowed',
+        'General health issues are not allowed',
+        'Injuries/illness leading to extended time off work are not allowed',
+        'Abnormal mamograms in the last 2 years are not allowed',
+        'Uncompleted follow-ups are not allowed',
+        'Unconsulted symptoms are not allowed',
+        '2 or more family members diagnosed with these conditions is not allowed',
+        '1 or more family members diagnosed with these conditions is not allowed'
+      ];
     test.beforeEach('Base test', async ({ page }) => {
         const pomanager = new POManager(page);
         const loginpage = pomanager.getLoginPage();
@@ -85,7 +117,7 @@ test.describe('Tests as per page', async () => {
         const confirmpremiumpage = pomanager.getConfirmPremiumPage();
         await confirmpremiumpage.clickContinueBtn();
         const lifestylequestionnairepage = pomanager.getLifestyleQuestionnairePage();
-        await lifestylequestionnairepage.lifestyleQuestions(OptionYes, "4", "2", "83", "15", "7");
+        await lifestylequestionnairepage.lifestyleQuestions(OptionYes, "4", "2", "300", "15", "7");
         await lifestylequestionnairepage.clickContinueBtn();
         const medicalquestionnaire1page = pomanager.getMedicalQuestionnaire1Page();
         await medicalquestionnaire1page.medicalQuestionsPage1(OptionYes);
@@ -97,22 +129,9 @@ test.describe('Tests as per page', async () => {
         await reviewyouranswerspage.clickConitnueBtn();
         const personalstatementpage = pomanager.getPersonalStatementPage();
         await personalstatementpage.clickCheckboxes();
-        await personalstatementpage.clickAgreeBtn();
-        await personalstatementpage.verifyKnockoutMsg();
-
-
-    //     const promise =  page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision", async route => {
-    //         expect(await route.request().method()).toBe('POST');
-    //         const response = await page.request.fetch(route.request());
-    //         expect(await response.status()).toBe(200);
-    //     });
-    //    await this.agreeBtn.click();
-    //    const response = await promise;
-    //    expect(response.status()).toBe(200);
-    //    console.log(response.json());
-  
-
-
+        const res = await personalstatementpage.clickAgreeBtn();
+        expect(await personalstatementpage.getKnockoutMsg()).toContain("A licensed insurance agent will contact you shortly.");
+        expect(rejectionerrors.length).toBe(res.result.response.errors.length);
 }); 
 
 
