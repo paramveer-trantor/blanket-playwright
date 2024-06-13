@@ -9,8 +9,9 @@ class ConfirmPremiumPage {
         this.quoteValue = page.locator('.estimate-subtitle .font-weight-bold');
     }
 
-    async verifyConfirmPremiumPageHeader() {
-        expect(await this.header.textContent()).toContain('Premium');
+    async getConfirmPremiumPageHeader() {
+        const confirmPremium_header = await this.header.textContent();
+        return confirmPremium_header;
     }
 
     async comfirmQuoteValue() {

@@ -4,13 +4,11 @@ class TLFormLoginPage {
 
     constructor(page) {
         this.page = page;
-        this.header = page.locator("//div[text()=' In order to continue with the application, please log in or create a Blanket account. ']");
+        this.header = page.locator("//div[@class='d-flex justify-center text-h3 text-center primary--text mb-6 mt-6 col']");
     }
 
-    async getPageHeder() {
-        const Login_header = await this.header.textContent();
-        //console.log(Login_url);
-        return Login_header;
+    async getInFormLoginPageHeder() {
+        return await this.header.innerText();
     }
 
 }

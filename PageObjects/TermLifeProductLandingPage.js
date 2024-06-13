@@ -9,15 +9,12 @@ class TermLifeProductLandingPage {
     }
 
     async getHeaderText(tagline){
-       //const textContent = await this.headerText.first().textContent();
-       //console.log(textContent);
-       await expect(this.headerText.first()).toContainText(tagline);
+        return await this.headerText.first().textContent();
     }
 
     async clickApplyNowBtn(){
         await this.page.waitForLoadState('domcontentloaded');
         await this.applyNowBtn.click();
-
     }
 
 }

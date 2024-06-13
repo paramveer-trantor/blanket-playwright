@@ -21,8 +21,8 @@ class BeneficiaryPage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 
-    async verifyBenecificaryPageHeader() {
-        expect(await this.header.textContent()).toContain('Beneficiaries');
+    async getBenecificaryPageHeader() {
+        return await this.header.textContent();
     }
 
     async clickAddBeneficiryBtn() {

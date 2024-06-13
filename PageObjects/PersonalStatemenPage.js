@@ -19,8 +19,8 @@ class PersonalStatementPage {
         this.knockOutMsg = page.locator("//p[@class='font-weight-bold text-center']//span[1]");
     }
 
-    async verifyPersonalStatementPageHeader() {
-        expect(await this.header.textContent()).toContain('Personal statement');
+    async getPersonalStatementPageHeader() {
+        return await this.header.textContent();
     }
 
     async clickCheckboxes() {

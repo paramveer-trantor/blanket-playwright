@@ -13,8 +13,8 @@ class NeedsAssessmentPage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 
-    async verifyNeedsAssessmentPageHeader() {
-        expect(await this.header.textContent()).toContain('How Much Term Insurance');
+    async getNeedsAssessmentPageHeader() {
+        return await this.header.textContent();
     }
 
     async enterGrossIncome(income, saving, mortgageBal, debt) {

@@ -7,8 +7,8 @@ class ReviewYourAnswersPage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 
-    async verifyReviewPageHeader() {
-        expect(await this.header.textContent()).toContain('Review Your Answers');
+    async getReviewPageHeader() {
+        return await this.header.textContent();
     }
 
     async clickConitnueBtn() {

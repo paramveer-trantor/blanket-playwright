@@ -16,8 +16,8 @@ class PremiumQuotePage {
         this.continueBtn = page.getByRole('button', { name: 'Continue' });
     }
 
-    async verifyPremiumPageHeader() {
-        expect(await this.header.textContent()).toContain('Premium');
+    async getPremiumPageHeader() {
+        return await this.header.textContent();
     }
 
     async getQuoteValue(gender, date) {

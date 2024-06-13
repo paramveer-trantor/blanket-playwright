@@ -21,8 +21,8 @@ class MedicalQuestionnaire2Page {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
     
-    async verifyMedicalQuestionsPageHeader() {
-        expect(await this.header.textContent()).toContain('Medical');
+    async getMedicalQuestionsPageHeader() {
+        return await this.header.textContent();
     }
 
     async medcialQuestionsPage2(option) {

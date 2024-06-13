@@ -30,8 +30,8 @@ class LifestyleQuestionnairePage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 
-    async verifyLifestylePageHeader() {
-        expect(await this.header.textContent()).toContain('Lifestyle');
+    async getLifestylePageHeader() {
+        return await this.header.textContent();
     }
 
     async lifestyleQuestions(option, feet, inches, weight, drinksvalue, marijuanavalue=0) {

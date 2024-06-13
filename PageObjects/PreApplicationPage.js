@@ -4,14 +4,14 @@ class PreApplicationPage {
 
     constructor(page) {
         this.page = page;
-        this.header = page.locator("//div[text()=' Pre Application ']");
+        this.header = page.getByText(' Pre Application ', { exact: true });
         this.addressList = page.locator(".address-list");
         this.dialogBox = page.getByRole('dialog');
         this.dialogContinueBtn = page.getByRole('dialog').getByRole('button', { name: 'Continue' });
         this.firstName = page.getByLabel('First name', { exact: true });
         this.lastName = page.getByLabel('Last name', { exact: true });
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
-        this.dateErrorMsg = page.locator('.v-messages__message');
+        this.errorMsgs = page.locator('.v-messages__message');
         this.address = page.getByLabel('Address', { exact: true });
         this.selectAddress = page.locator(".address-item");
         this.phoneNumber = page.getByLabel('Phone number', { exact: true });
@@ -22,8 +22,7 @@ class PreApplicationPage {
     }
 
     async getPreApplicationPageHeader() {
-        const preapp_header = await this.header.textContent();
-        return preapp_header;
+        return await this.header.textContent();
     }
 
     async acceptPopWindow() {
@@ -43,7 +42,7 @@ class PreApplicationPage {
         await this.page.locator("[name='dob']").click();
         await this.page.locator("//button[@aria-label='Clear MM/DD/YYYY']").click();
         await this.dateOfBirth.fill(date);
-        const errorMsg = await this.dateErrorMsg.textContent();
+        const errorMsg = await this.errorMsgs.textContent();
         return errorMsg;
     }
 
@@ -55,6 +54,12 @@ class PreApplicationPage {
 
     async enterPhoneNumber(phonenumber) {
         await this.phoneNumber.fill(phonenumber);
+    }
+
+    async getIncorrectPhoneErrorMsg(phonenumber) {
+        await this.phoneNumber.fill(phonenumber);
+        const errorMsg = await this.errorMsgs.textContent();
+        return errorMsg;
     }
 
     async last3Questions(option) {

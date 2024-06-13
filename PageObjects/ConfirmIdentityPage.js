@@ -11,8 +11,8 @@ class ConfirmIdentityPage {
         this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' }); 
     }
 
-    async verifyConfirmIdentityPageHeader() {
-        expect(await this.header.textContent()).toContain('Congratulations');
+    async getConfirmIdentityPageHeader() {
+        return await this.header.textContent();
     }
 
     async enterIdentificationDetails(passportno) {

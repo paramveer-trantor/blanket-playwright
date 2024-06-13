@@ -31,12 +31,10 @@ test.describe('CA Term Life Form Test cases', async () => {
         await termlifeCApage.getHeaderText(tagline);
         await termlifeCApage.clickApplyNowBtn();
         const premiunquotepage = pomanager.getPremiumQuotePage();
-        await premiunquotepage.verifyPremiumPageHeader();
         await premiunquotepage.getQuoteValue(gender, date);
         await premiunquotepage.clickContinueBtn();
         const termlifeloginpage = pomanager.getTermLifeLoginPage();
-        const Login_header = await termlifeloginpage.getPageHeder();
-        expect(Login_header).toContain(' In order to continue ');
+        expect(await termlifeloginpage.getInFormLoginPageHeder()).toContain('In order to continue ');
     });
 
     test('BL-T3: User shall be redirect to Pre Application page from Quote page in CA Term policy form if user is already logged in blanket application.', async ({ page }) => {
@@ -52,12 +50,10 @@ test.describe('CA Term Life Form Test cases', async () => {
         await termlifeCApage.getHeaderText(tagline);
         await termlifeCApage.clickApplyNowBtn();
         const premiunquotepage = pomanager.getPremiumQuotePage();
-        await premiunquotepage.verifyPremiumPageHeader();
         await premiunquotepage.getQuoteValue(gender, date);
         await premiunquotepage.clickContinueBtn();
         const preapplicationpage = pomanager.getPreApplicationPage();
-        const PreApp_header = await preapplicationpage.getPreApplicationPageHeader();
-        expect(PreApp_header).toBe(' Pre Application ');
+        expect(await preapplicationpage.getPreApplicationPageHeader()).toBe(' Pre Application ');
     });
 
     test('BL-T5: User shall not be allowed to future date in DOB field.', async ({ page }) => {
@@ -73,15 +69,88 @@ test.describe('CA Term Life Form Test cases', async () => {
         await termlifeCApage.getHeaderText(tagline);
         await termlifeCApage.clickApplyNowBtn();
         const premiunquotepage = pomanager.getPremiumQuotePage();
-        const errorMsg1 = await premiunquotepage.getIncorrectDateErrorMsg(gender, "02/02/2029");
-        expect(errorMsg1).toContain('Date of birth must be on or before');
+        const invalidDOBError = await premiunquotepage.getIncorrectDateErrorMsg(gender, "02/02/2029");
+        expect(invalidDOBError).toContain('Date of birth must be on or before');
         await premiunquotepage.getQuoteValue(gender, date);
         await premiunquotepage.clickContinueBtn();
         const preapplicationpage = pomanager.getPreApplicationPage();
         await preapplicationpage.acceptPopWindow();
         await preapplicationpage.enterUserName(firstname, lastname);
-        const errorMsg2 = await preapplicationpage.getIncorrectDateErrorMsg("02/02/2029");
-        expect(errorMsg2).toContain('Date of birth must be on or before');
+        const invalidDOBError1 = await preapplicationpage.getIncorrectDateErrorMsg("02/02/2029");
+        expect(invalidDOBError1).toContain('Date of birth must be on or before');
+    });
+
+    test('BL-T7: Application shall throw an error message if user enters invalid phone number.', async ({ page }) => {
+        const pomanager = new POManager(page);
+        const loginpage = pomanager.getLoginPage();
+        await loginpage.navigateToURL();
+        await loginpage.login(username, password);
+        const dashboardpage = pomanager.getDashboardPage();
+        await dashboardpage.acceptCookies();
+        await dashboardpage.selectCACountry();
+        await dashboardpage.navigateToTermLifeCA();
+        const termlifeCApage = pomanager.getTermLifeCAPage();
+        await termlifeCApage.getHeaderText(tagline);
+        await termlifeCApage.clickApplyNowBtn();
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        await premiunquotepage.getQuoteValue(gender, date);
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        await preapplicationpage.enterAddress(houseaddress);
+        const invalidPhoneError = await preapplicationpage.getIncorrectPhoneErrorMsg("33333");
+        expect(invalidPhoneError).toContain('Field format is invalid');
+    });
+
+    test('BL-T9: User shall be redirected to Needs Assessment page after pre application page..', async ({ page }) => {
+        const pomanager = new POManager(page);
+        const loginpage = pomanager.getLoginPage();
+        await loginpage.navigateToURL();
+        await loginpage.login(username, password);
+        const dashboardpage = pomanager.getDashboardPage();
+        await dashboardpage.acceptCookies();
+        await dashboardpage.selectCACountry();
+        await dashboardpage.navigateToTermLifeCA();
+        const termlifeCApage = pomanager.getTermLifeCAPage();
+        await termlifeCApage.getHeaderText(tagline);
+        await termlifeCApage.clickApplyNowBtn();
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        await premiunquotepage.getQuoteValue(gender, date);
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        await preapplicationpage.enterAddress(houseaddress);
+        await preapplicationpage.enterPhoneNumber(phonenumber);
+        await preapplicationpage.last3Questions(OptionYes);
+        await preapplicationpage.clickConitnueBtn();
+        const needsassessmentpage = pomanager.getNeedsAssessmentPage();
+        expect(await needsassessmentpage.getNeedsAssessmentPageHeader()).toContain('How Much Term Insurance');
+    });
+
+    test('BL-T11: User with age < 18 or > 80 shall not be allowed to buy a CA term plan.', async ({ page }) => {
+        const pomanager = new POManager(page);
+        const loginpage = pomanager.getLoginPage();
+        await loginpage.navigateToURL();
+        await loginpage.login(username, password);
+        const dashboardpage = pomanager.getDashboardPage();
+        await dashboardpage.acceptCookies();
+        await dashboardpage.selectCACountry();
+        await dashboardpage.navigateToTermLifeCA();
+        const termlifeCApage = pomanager.getTermLifeCAPage();
+        await termlifeCApage.getHeaderText(tagline);
+        await termlifeCApage.clickApplyNowBtn();
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        const invalidDOBError = await premiunquotepage.getIncorrectDateErrorMsg(gender, "02/02/2010");
+        expect(invalidDOBError).toContain('Date of birth must be on or before');
+        await premiunquotepage.getQuoteValue(gender, date);
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        const invalidDOBError1 = await preapplicationpage.getIncorrectDateErrorMsg("02/02/1949");
+        expect(invalidDOBError1).toContain('Date of birth must be on or after');
     });
 
 

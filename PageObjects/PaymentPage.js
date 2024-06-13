@@ -22,8 +22,8 @@ class PaymentPage {
         this.confirmAndPayBtn = page.getByRole('button', { name: ' Confirm and submit payment ' });
     }
 
-    async verifyPaymentPageHeader() {
-        expect(await this.header.textContent()).toContain('Payment');
+    async getPaymentPageHeader() {
+        return await this.header.textContent();
     }
 
     async purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv) {
