@@ -97,7 +97,8 @@ test.describe('Tests as per page', async () => {
         await reviewyouranswerspage.clickConitnueBtn();
         const personalstatementpage = pomanager.getPersonalStatementPage();
         await personalstatementpage.clickCheckboxes();
-        await personalstatementpage.clickAgreeBtn();
+        const res = await personalstatementpage.clickAgreeBtn();
+        console.log('response of promise>>>', res.result.response.errors)
         await personalstatementpage.verifyKnockoutMsg();
 
 
