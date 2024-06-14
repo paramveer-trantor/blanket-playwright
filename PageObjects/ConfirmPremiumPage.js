@@ -17,18 +17,24 @@ class ConfirmPremiumPage {
 
     async getTermsOptions() {
         await this.page.locator("//label[text()='Term']").click();
-        return await this.list.textContent();
+        let termsOptions = [];
+        termsOptions[0] = await this.page.locator('.menuable__content__active').getByRole('option').first().textContent();
+        for (let i = 1; i <= (termsOptions.length - 1); i++) {
+            termsOptions[i] = await this.page.locator('.menuable__content__active').getByRole('option').nth(i).textContent();
+        }
+        return termsOptions;
     }
 
     async getCoverageAmountOptions() {
         await this.page.locator("//label[text()='Coverage Amount']").click();
-        return await this.list.last().textContent();
-        // let newArr = [];
-        // for (let i = 1; i <= 5; i++) {
-        //     let coverageList = await this.page.getByRole('option').nth(i).textContent();
-        //     newArr.push(coverageList);
+        let coverageOptions = [];
+        coverageOptions[0] = await this.page.locator('.menuable__content__active').getByRole('option').first().textContent(); 
+        coverageOptions[1] = await this.page.locator('.menuable__content__active').getByRole('option').last().textContent(); 
+        // for (let i = 1; i <= 3; i++) {
+        //     coverageOptions[i] = await this.page.locator('.menuable__content__active').getByRole('option').nth(i).textContent();
         // }
-        // console.log(newArr);
+        //console.log(coverageOptions);
+        return coverageOptions;
     }
 
     async comfirmQuoteValue() {

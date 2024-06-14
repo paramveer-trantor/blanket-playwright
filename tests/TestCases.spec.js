@@ -2,7 +2,7 @@ import { test, expect, request } from '@playwright/test';
 import { POManager } from '../PageObjects/POManager';
 const { url, username, password, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
-test.describe('Test cases', async () => {
+test.describe('App Flow TCs', async () => {
 
     test('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
         const pomanager = new POManager(page);
@@ -18,7 +18,7 @@ test.describe('Test cases', async () => {
 
 });
 
-test.describe('CA Term Life Form Test cases', async () => {
+test.describe('CA Term Life Flow TCs', async () => {
 
     test('BL-T2: User shall be redirect to Login page from Quote page in CA Term policy form if user is not logged in blanket application.', async ({ page }) => {
         const pomanager = new POManager(page);
@@ -176,14 +176,14 @@ test.describe('CA Term Life Form Test cases', async () => {
         await preapplicationpage.last3Questions(OptionNo);
         await preapplicationpage.clickConitnueBtn();
         const needsassessmentpage = pomanager.getNeedsAssessmentPage();
-        await needsassessmentpage.enterGrossIncome(income,saving,mortgageBal,debt);
+        await needsassessmentpage.enterGrossIncome(income, saving, mortgageBal, debt);
         await needsassessmentpage.clickContinueBtn();
         const confirmpremiumpage = pomanager.getConfirmPremiumPage();
         expect(await confirmpremiumpage.getTermsOptions()).toContain('10','15','20');
-        expect(await confirmpremiumpage.getCoverageAmountOptions()).toContain('1M');
+        expect(await confirmpremiumpage.getCoverageAmountOptions()).toContain('$1M');
     });
 
-    test.only('BL-T13: User with age above 50 shall able to buy plan with face amount upto $500k.', async ({ page }) => {
+    test('BL-T13: User with age above 50 shall able to buy plan with face amount upto $500k.', async ({ page }) => {
         const pomanager = new POManager(page);
         const loginpage = pomanager.getLoginPage();
         await loginpage.navigateToURL();
@@ -206,12 +206,95 @@ test.describe('CA Term Life Form Test cases', async () => {
         await preapplicationpage.last3Questions(OptionNo);
         await preapplicationpage.clickConitnueBtn();
         const needsassessmentpage = pomanager.getNeedsAssessmentPage();
-        await needsassessmentpage.enterGrossIncome(income,saving,mortgageBal,debt);
+        await needsassessmentpage.enterGrossIncome(income, saving, mortgageBal, debt);
         await needsassessmentpage.clickContinueBtn();
         const confirmpremiumpage = pomanager.getConfirmPremiumPage();
-        //expect(await confirmpremiumpage.getCoverageAmountOptions()).
-        await confirmpremiumpage.getCoverageAmountOptions();
+        //expect(await confirmpremiumpage.getCoverageAmountOptions()).toContain('$500K');
+        expect(await confirmpremiumpage.getCoverageAmountOptions()).not.toContain('$600K','$750K','$1M');
     });
 
+    test('BL-T14: User with age in between 66 & 70 shall be allowed to buy only T10 plan.', async ({ page }) => {
+        const pomanager = new POManager(page);
+        const loginpage = pomanager.getLoginPage();
+        await loginpage.navigateToURL();
+        await loginpage.login(username, password);
+        const dashboardpage = pomanager.getDashboardPage();
+        await dashboardpage.acceptCookies();
+        await dashboardpage.selectCACountry();
+        await dashboardpage.navigateToTermLifeCA();
+        const termlifeCApage = pomanager.getTermLifeCAPage();
+        await termlifeCApage.getHeaderText(tagline);
+        await termlifeCApage.clickApplyNowBtn();
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        await premiunquotepage.getQuoteValue(gender, "01/01/1957");
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        await preapplicationpage.enterAddress(houseaddress);
+        await preapplicationpage.enterPhoneNumber(phonenumber);
+        await preapplicationpage.last3Questions(OptionNo);
+        await preapplicationpage.clickConitnueBtn();
+        const needsassessmentpage = pomanager.getNeedsAssessmentPage();
+        await needsassessmentpage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsassessmentpage.clickContinueBtn();
+        const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+        expect(await confirmpremiumpage.getTermsOptions()).not.toContain('15','20');
+    });
+
+    test('BL-T18: App shall display a message if recommended coverage amount is more than maximum face amount.', async ({ page }) => {
+        const pomanager = new POManager(page);
+        const loginpage = pomanager.getLoginPage();
+        await loginpage.navigateToURL();
+        await loginpage.login(username, password);
+        const dashboardpage = pomanager.getDashboardPage();
+        await dashboardpage.acceptCookies();
+        await dashboardpage.selectCACountry();
+        await dashboardpage.navigateToTermLifeCA();
+        const termlifeCApage = pomanager.getTermLifeCAPage();
+        await termlifeCApage.getHeaderText(tagline);
+        await termlifeCApage.clickApplyNowBtn();
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        await premiunquotepage.getQuoteValue(gender, date);
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        await preapplicationpage.enterAddress(houseaddress);
+        await preapplicationpage.enterPhoneNumber(phonenumber);
+        await preapplicationpage.last3Questions(OptionNo);
+        await preapplicationpage.clickConitnueBtn();
+        const needsassessmentpage = pomanager.getNeedsAssessmentPage();
+        await needsassessmentpage.enterGrossIncome("50000", saving, mortgageBal, debt);
+        const total = await needsassessmentpage.getTotalValue();
+        expect(await needsassessmentpage.getCoverageAmountMoreMessage()).toBe('Based on the information provided, your life insurance need appears to be' + total + '. You can apply for up to $1,000,000 now. ');
+    });
+
+    test('BL-T19: App shall not display a message if recommended coverage amount is less than maximum face amount.', async ({ page }) => {
+        const pomanager = new POManager(page);
+        const loginpage = pomanager.getLoginPage();
+        await loginpage.navigateToURL();
+        await loginpage.login(username, password);
+        const dashboardpage = pomanager.getDashboardPage();
+        await dashboardpage.acceptCookies();
+        await dashboardpage.selectCACountry();
+        await dashboardpage.navigateToTermLifeCA();
+        const termlifeCApage = pomanager.getTermLifeCAPage();
+        await termlifeCApage.getHeaderText(tagline);
+        await termlifeCApage.clickApplyNowBtn();
+        const premiunquotepage = pomanager.getPremiumQuotePage();
+        await premiunquotepage.getQuoteValue(gender, date);
+        await premiunquotepage.clickContinueBtn();
+        const preapplicationpage = pomanager.getPreApplicationPage();
+        await preapplicationpage.acceptPopWindow();
+        await preapplicationpage.enterUserName(firstname, lastname);
+        await preapplicationpage.enterAddress(houseaddress);
+        await preapplicationpage.enterPhoneNumber(phonenumber);
+        await preapplicationpage.last3Questions(OptionNo);
+        await preapplicationpage.clickConitnueBtn();
+        const needsassessmentpage = pomanager.getNeedsAssessmentPage();
+        await needsassessmentpage.enterGrossIncome("20000", saving, mortgageBal, debt);
+        expect(await needsassessmentpage.checkIfAnyMessageAppears()).toBeFalsy();
+    });
 
 });

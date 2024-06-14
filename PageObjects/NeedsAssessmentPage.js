@@ -10,6 +10,8 @@ class NeedsAssessmentPage {
         this.saving = page.locator("[name = 'savings']");
         this.mortgageBalance = page.locator("[name = 'mortgageBalance']");
         this.loansAndDebts = page.locator("[name = 'loansAndDebts']");
+        this.message = page.locator("//p[contains(@class,'secondary--text text-center')]");
+        this.totalvalue = page.locator("//div[@class='col-sm-4 col-11']//p[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 
@@ -33,6 +35,19 @@ class NeedsAssessmentPage {
         await this.mortgageBalance.fill(mortgageBal);
         await this.loansAndDebts.click();
         await this.loansAndDebts.fill(debt);
+    }
+
+    async checkIfAnyMessageAppears() {
+        const condition = await this.message.isVisible();
+        return condition;
+    }
+
+    async getTotalValue() {
+        return await this.totalvalue.textContent();
+    }
+
+    async getCoverageAmountMoreMessage() {
+        return await this.message.textContent();
     }
 
     async clickContinueBtn() {

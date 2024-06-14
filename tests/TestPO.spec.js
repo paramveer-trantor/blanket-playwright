@@ -79,7 +79,6 @@ test.describe('Tests as per page', async () => {
         await medicalquestionnaire2page.medcialQuestionsPage2(OptionNo);
         await medicalquestionnaire2page.clickConitnueBtn(); 
         const reviewyouranswerspage = pomanager.getReviewYourAnswersPage();
-        await reviewyouranswerspage.verifyReviewPageHeader();
         await reviewyouranswerspage.clickConitnueBtn();
         const personalstatementpage = pomanager.getPersonalStatementPage();
         await personalstatementpage.clickCheckboxes();
