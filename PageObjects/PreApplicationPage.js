@@ -22,6 +22,7 @@ class PreApplicationPage {
     }
 
     async getPreApplicationPageHeader() {
+        console.log('header', await this.header.textContent());
         return await this.header.textContent();
     }
 

@@ -85,7 +85,7 @@ test.describe('Tests as per page', async () => {
         await personalstatementpage.clickAgreeBtn();
         const beneficiarypage = pomanager.getBeneficiaryPage();
         await beneficiarypage.clickAddBeneficiryBtn();
-        await beneficiarypage.enterBeneficiary(benfirstname, benlastname, bendob, benshare);
+        await beneficiarypage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
         await beneficiarypage.clickConitnueBtn();
         const confirmidentitypage = pomanager.getConfirmIdentityPage();
         await confirmidentitypage.enterIdentificationDetails(passportno);

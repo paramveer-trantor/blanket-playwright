@@ -5,6 +5,7 @@ class PersonalStatementPage {
     constructor(page) {
         this.page = page;
         this.header = page.locator("//div[text()=' Personal statement ']");
+        this.username = page.locator("//div[contains(@class,'text-h4 ma-2')]");
         this.checkbox1= page.locator("[name='termCheckbox0'] + div.v-input--selection-controls__ripple");
         this.checkbox2= page.locator("[name='termCheckbox1'] + div.v-input--selection-controls__ripple");
         this.checkbox3= page.locator("[name='termCheckbox2'] + div.v-input--selection-controls__ripple");
@@ -21,6 +22,10 @@ class PersonalStatementPage {
 
     async getPersonalStatementPageHeader() {
         return await this.header.textContent();
+    }
+
+    async getUsername() {
+        return await this.username.textContent();
     }
 
     async clickCheckboxes() {

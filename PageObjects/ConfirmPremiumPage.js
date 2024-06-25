@@ -19,9 +19,11 @@ class ConfirmPremiumPage {
         await this.page.locator("//label[text()='Term']").click();
         let termsOptions = [];
         termsOptions[0] = await this.page.locator('.menuable__content__active').getByRole('option').first().textContent();
-        for (let i = 1; i <= (termsOptions.length - 1); i++) {
-            termsOptions[i] = await this.page.locator('.menuable__content__active').getByRole('option').nth(i).textContent();
-        }
+        termsOptions[1] = await this.page.locator('.menuable__content__active').getByRole('option').last().textContent();
+        // for (let i = 1; i <= (termsOptions.length - 1); i++) {
+        //     termsOptions[i] = await this.page.locator('.menuable__content__active').getByRole('option').nth(i).textContent();
+        // }
+        
         return termsOptions;
     }
 
