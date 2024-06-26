@@ -19,8 +19,9 @@ class BeneficiaryPage {
         this.percentage = this.dialogBox.locator("[name='percentage']");
         this.saveBtn = this.dialogBox.getByRole('button', { name: ' Save ' });
         this.errorMsg = page.locator("//div[@class='red--text font-weight-bold']");
-        this.noBen = page.getByRole('checkbox', { name: ' Proceed without adding a beneficiary ' });
+        this.noBen = page.locator("//label[text()='Proceed without adding a beneficiary']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.addedbendetails = page.locator("//div[@class ='v-data-table__wrapper']/table/tbody/tr/td");
     }
 
     async getBenecificaryPageHeader() {
@@ -49,6 +50,15 @@ class BeneficiaryPage {
         await this.percentage.fill(benshare);
         await this.saveBtn.isEnabled();
         await this.saveBtn.click();
+    }
+
+    async getAddedBenDetails() {
+        let addedBenDetails = [];
+        addedBenDetails[0] = await this.addedbendetails.first().textContent();
+        for(let i=1; i <= 8; i++) {
+            addedBenDetails[i] = await this.addedbendetails.nth(i).textContent();
+        }
+        return addedBenDetails;
     }
 
     async clickConitnueBtn() {

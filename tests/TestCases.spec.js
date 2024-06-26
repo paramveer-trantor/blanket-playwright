@@ -12,9 +12,10 @@ import { verifyMed1PageHeader, navigateToMedicalQuestion2Page } from '../PageTes
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
 import { verifyReviewPageHeader, navigateToPersonalStatementPage } from '../PageTests/ReviewYourAnswersPageTest';
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage } from '../PageTests/PersonalStatementPageTest';
-import { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyErrorMessage, proceedWithoutBeneficiry } from '../PageTests/BeneficiaryPageTest';
-import {verifyConfirmIdentityPageHeader} from '../PageTests/ConfirmIdentityPageTest';
+import { verifyBenecificaryPageHeader, addBeneficiary, verifyAddedBenDetails, navigateToConfirmIdentityPage, verifyErrorMessage, proceedWithoutBeneficiry } from '../PageTests/BeneficiaryPageTest';
+import { verifyConfirmIdentityPageHeader, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage } from '../PageTests/ConfirmIdentityPageTest';
 import exp from 'constants';
+import { Console } from 'console';
 const { url, username, password, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('App Flow TCs', async () => {
@@ -120,6 +121,16 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyTermOptions(page)).not.toContain('20');
     });
 
+    test('BL-T16: User with age 60 or less shall be allowed to buy any plan.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, "01/01/1980");
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        expect(await verifyTermOptions(page)).toContain('10','15','20');
+    });
+
     test('BL-T18: App shall display a message if recommended coverage amount is more than maximum face amount.', async ({ page }) => {
         await loginIntoApp(page, username, password);
         await navigateToProductPage(page);
@@ -168,6 +179,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        expect(await verifyAddedBenDetails(page)).toContain('Individual', 'Revocable', 'Brother', '100', 'Test', 'Beneficiary', '01/01/2010');
     });
 
     test('BL-T25: Total share of beneficiaries shall not increase by 100%.', async ({ page }) => {
@@ -188,7 +200,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyErrorMessage(page)).toContain("Total Percentage of Beneficiaries must be 100");
     });
     
-    test.only('BL-T26: User shall proceed without adding beneficiary.', async ({ page }) => {
+    test('BL-T26: User shall be able to proceed without adding beneficiary.', async ({ page }) => {
         await loginIntoApp(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
@@ -203,6 +215,132 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToBeneficiryPage(page);
         await proceedWithoutBeneficiry(page);
         await verifyConfirmIdentityPageHeader(page);
+    });
+
+    test('BL-T27: Application shall display 3 options to user to confirm the identity on offer summary screen.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        expect(await getIdTypeList(page)).toContain('Passport', 'Provincial health card', "Driver's licence");
+    });
+
+    test('BL-T28: Application shall ask passport number from user if user selects the passport option.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        expect(await verifyPassportInputFieldVisible(page)).toBeTruthy();
+    });
+
+    test('BL-T30: Application shall throw an error message if user enters invalid passport number.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        expect(await verifyInvalidPassportError(page, "a123456b")).toContain('Invalid passport number. It should begin with two letters and end with six  numbers. Please remove any spaces or special characters (-, *).');
+    });
+
+    test('BL-T31: Application shall ask province and DL number from user if user selects the DL option.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        expect(await verifyLicenseInputFieldVisible(page)).toBeTruthy();
+    });
+
+    test('BL-T33: Application shall throw an error message if user enters invalid DL number.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        expect(await verifyInvalidLicenseError(page, "AAA123")).toContain("Invalid driver's license format. Please remove any spaces or special characters (-, *).");
+    });
+
+    test('BL-T34: Application shall ask province and health number from user if user selects the Provincial health card option.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        expect(await verifyHealthInputFieldVisible(page)).toBeTruthy();
+    });
+
+    test('BL-T36: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        expect(await verifyInvalidHealthError(page, "123456")).toContain('Invalid health card format. Please remove any spaces or special characters (-, *).');
     });
 
 });

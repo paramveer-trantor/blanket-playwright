@@ -14,6 +14,13 @@ async function addBeneficiary(page, benfirstname, benlastname, bendob, benshare)
     await beneficiarypage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare)
 }
 
+async function verifyAddedBenDetails(page) {
+    const pomanager = new POManager(page);
+    const beneficiarypage = pomanager.getBeneficiaryPage();
+    const bendetails = await beneficiarypage.getAddedBenDetails();
+    return bendetails;
+}
+
 async function navigateToConfirmIdentityPage(page) {
     const pomanager = new POManager(page);
     const beneficiarypage = pomanager.getBeneficiaryPage();
@@ -34,4 +41,4 @@ async function proceedWithoutBeneficiry(page) {
     await beneficiarypage.clickConitnueBtn();
 }
 
-module.exports = { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyErrorMessage, proceedWithoutBeneficiry };
+module.exports = { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyErrorMessage, proceedWithoutBeneficiry };
