@@ -4,12 +4,19 @@ class DashboardPage{
 
     constructor(page){
         this.page = page;
+        this.cookieBanner = page.locator('.v-banner__text .text-content')
         this.acceptCookiesBtn = page.getByRole('button', {name: ' Allow all cookies '});    
         this.countryBtn = page.locator('.v-btn__content .mr-3');
         this.CABtn = page.locator('.v-list-item__icon');
+        this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
         this.productList = page.getByRole('option');
         this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
+        this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
+    }
+
+    async getCookieBannerHeading() {
+        return await this.cookieBanner.textContent();
     }
 
     async acceptCookies(){
@@ -22,6 +29,10 @@ class DashboardPage{
         await this.CABtn.last().click();
     }
 
+    async getMenuOptions(){
+       return await this.menuOptions.textContent();  
+    }
+
     async navigateToTermLifeCA(){
         await this.productsBtn.click();
         await this.termlifeBtn.click();
@@ -32,6 +43,11 @@ class DashboardPage{
         await this.productsBtn.click();
         const listofproducts = await this.productList.allInnerTexts();
         return listofproducts;
+    }
+
+    async clickLifeBanner() {
+        await this.lifebanner.isVisible();    
+        await this.lifebanner.click();
     }
 
 }

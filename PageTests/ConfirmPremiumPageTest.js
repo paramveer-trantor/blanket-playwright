@@ -28,4 +28,11 @@ async function navigateToLifeStyleQuestionsPage(page) {
     await confirmpremiumpage.clickContinueBtn();
 }
 
-module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, navigateToLifeStyleQuestionsPage };
+async function verifyQuoteValue(page) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    const quote_value = await confirmpremiumpage.getQuoteValue();
+    return quote_value;
+}
+
+module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage };

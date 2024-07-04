@@ -5,6 +5,7 @@ class PaymentPage {
     constructor(page) {
         this.page = page;
         this.header = page.locator("(//div[text()=' Payment '])[2]");
+        this.amountdue = page.locator("//div[@class='row d-flex justify-center']/div[@class='text-center text-h3 primary--text font-weight-bold col']");
         this.creditCard = page.locator("[name='creditcard']");
         this.cardName = page.locator("[name='cardName']");
         this.cardNumber = page.locator("[name='cardNumber']");
@@ -24,6 +25,10 @@ class PaymentPage {
 
     async getPaymentPageHeader() {
         return await this.header.textContent();
+    }
+
+    async getTotalAmountDue() {
+        return await this.amountdue.textContent();
     }
 
     async purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv) {

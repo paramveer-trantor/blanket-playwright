@@ -1,22 +1,24 @@
 import { test, expect, request } from '@playwright/test';
 import { loginIntoApp } from '../PageTests/LoginPageTest';
-import { verifyProductList, navigateToProductPage } from '../PageTests/DashboardTest';
+import { verifyProductList, verifyCookieBannerIsVisible, verifyMenuMenu, navigateToProductPage, navigateToTermLifeByLifeBanner } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
 import { getLoginPageHeader } from '../PageTests/LoginPageInTermLifeFormTest';
 import { verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
-import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, navigateToLifeStyleQuestionsPage } from '../PageTests/ConfirmPremiumPageTest';
+import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page } from '../PageTests/LifestyleQuestionsPageTest';
 import { verifyMed1PageHeader, navigateToMedicalQuestion2Page } from '../PageTests/MedicalQuestionnaire1PageTest';
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
 import { verifyReviewPageHeader, navigateToPersonalStatementPage } from '../PageTests/ReviewYourAnswersPageTest';
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage } from '../PageTests/PersonalStatementPageTest';
-import { verifyBenecificaryPageHeader, addBeneficiary, verifyAddedBenDetails, navigateToConfirmIdentityPage, verifyErrorMessage, proceedWithoutBeneficiry } from '../PageTests/BeneficiaryPageTest';
-import { verifyConfirmIdentityPageHeader, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage } from '../PageTests/ConfirmIdentityPageTest';
+import { verifyBenecificaryPageHeader, addBeneficiary, verifyAddedBenDetails, navigateToConfirmIdentityPage, verifyShareErrorMessage, proceedWithoutBeneficiry } from '../PageTests/BeneficiaryPageTest';
+import { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage, navigateToPaymentPageUsingHealthNumber } from '../PageTests/ConfirmIdentityPageTest';
+import { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch } from '../PageTests/PaymentPageTest';
+import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment } from '../PageTests/CongratulationsPageTest';
 import exp from 'constants';
 import { Console } from 'console';
-const { url, username, password, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+const { url, username, password, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('App Flow TCs', async () => {
 
@@ -197,7 +199,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToBeneficiryPage(page);
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
-        expect(await verifyErrorMessage(page)).toContain("Total Percentage of Beneficiaries must be 100");
+        expect(await verifyShareErrorMessage(page)).toContain("Total Percentage of Beneficiaries must be 100");
     });
     
     test('BL-T26: User shall be able to proceed without adding beneficiary.', async ({ page }) => {
@@ -325,6 +327,34 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyHealthInputFieldVisible(page)).toBeTruthy();
     });
 
+    test('BL-T35: Check payment frequency options displaying to user', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        const monthly = await verifyMonthlyPremiumSelected(page);
+        await navigateToPaymentPage(page,passportno);
+        let amountdue_monthly = await verifyAmountDue(page);
+        const myArray_monthly = amountdue_monthly.split(" ");
+        expect(monthly).toContain(myArray_monthly[3]);
+        await page.getByRole('button', { name: ' Back ' }).click();
+        const Annually = await verifyAnnualPremiumSelected(page);
+        await page.getByRole('button', { name: ' Accept and pay '}).click();
+        let amountdue_annually = await verifyAmountDue(page);
+        const myArray_annually = amountdue_annually.split(" ");
+        expect(Annually).toContain(myArray_annually[3]);
+    });
+
     test('BL-T36: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
         await loginIntoApp(page, username, password);
         await navigateToProductPage(page);
@@ -343,4 +373,83 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyInvalidHealthError(page, "123456")).toContain('Invalid health card format. Please remove any spaces or special characters (-, *).');
     });
 
+    test('BL-T37: User shall able to move forward after entering all valid details on confirm identity page.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        await navigateToPaymentPageUsingHealthNumber(page, healthno);
+        expect(await verifyPaymentPageHeader(page)).toContain("Payment");
+    });
+
+    test('BL-T40: Purchased policy details shall be displayed properly on congratulations screen.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        const monthly = await verifyMonthlyPremiumSelected(page);
+        const myArray_monthly = monthly.split(" ");
+        await navigateToPaymentPageUsingHealthNumber(page, healthno);
+        await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
+        expect(await verifyPolicyInfoColumns(page)).toContain(' Provider ' , ' Effective Date ' , ' Payment ' , ' Policy No. ');
+        expect(await verifyProviderName(page)).toContain('Blanket Life underwritten by Humania Assurance Inc.');
+        const todays_date = new Date().toISOString().slice(0, 10);
+        expect (await verifyEffectiveDate(page)).toContain(todays_date);
+        expect(await verifyPayment(page)).toContain(myArray_monthly[3]);
+    });
+
+    test('BL-T42: Term life banner shall be visible on home screen.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToTermLifeByLifeBanner(page);
+        expect(await verifyProductPageHeader(page)).toContain(tagline);
+    });
+
+    test('BL-T43: Premium rates should be different for smoker & non smokers users.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        //console.log("Non S R: " + await verifyQuoteValue(page) );
+        const non_smoker_quote = await verifyQuoteValue(page);
+        //await page.getByText(' Initial Info ').click();  
+        await page.getByRole('button', { name: ' Back ' }).click();
+        await page.getByRole('button', { name: ' Back ' }).click();
+        await page.getByText('Yes', { exact: true }).nth(1).click();
+        await page.getByRole('button', { name: ' Continue ' }).click();
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        //console.log("S R: " + await verifyQuoteValue(page) );
+        expect(await verifyQuoteValue(page)).not.toBe(non_smoker_quote);
+    });
+
+    test('BL-T45: My policies menu option shall be visible in menu on desktop browser.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        expect(await verifyMenuMenu(page)).toContain('My Policies');
+    });
+
+    test.only('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        expect(await verifyCookieBannerIsVisible(page)).toContain('We value your privacy');
+    });
 });

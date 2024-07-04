@@ -27,7 +27,7 @@ async function navigateToConfirmIdentityPage(page) {
     await beneficiarypage.clickConitnueBtn();
 }
 
-async function verifyErrorMessage(page) {
+async function verifyShareErrorMessage(page) {
     const pomanager = new POManager(page);
     const beneficiarypage = pomanager.getBeneficiaryPage();
     const percentageerror = await beneficiarypage.getErrorMessage();
@@ -41,4 +41,4 @@ async function proceedWithoutBeneficiry(page) {
     await beneficiarypage.clickConitnueBtn();
 }
 
-module.exports = { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyErrorMessage, proceedWithoutBeneficiry };
+module.exports = { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, proceedWithoutBeneficiry };

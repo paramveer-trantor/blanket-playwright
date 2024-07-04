@@ -27,6 +27,7 @@ module.exports = {
     bendob : "01/01/2010", 
     benshare : "100",
     passportno : "AB123456",
+    healthno: "123456789",
     cardname : "Teser User", 
     cardnumber : "4111 1111 1111 1111", 
     expirydate : "01/2027",

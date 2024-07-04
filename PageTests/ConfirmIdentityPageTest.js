@@ -52,7 +52,7 @@ async function verifyInvalidLicenseError(page, licenseno) {
     return invalid_license_error;
 }
 
-async function getIdTypeList(page) {
+async function getIdTypeList(page) {         
     const pomanager = new POManager(page);
     const identitypage = pomanager.getConfirmIdentityPage();
     const list = await identitypage.getIdTypeList();
@@ -62,9 +62,32 @@ async function getIdTypeList(page) {
 async function navigateToPaymentPage(page,passportno) {
     const pomanager = new POManager(page);
     const identitypage = pomanager.getConfirmIdentityPage();
-    await identitypage.enterIdentificationDetails(passportno);
+    await identitypage.enterIdentificationDetailsWithPassport(passportno);
     await identitypage.clickCheckBox();
     await identitypage.clickAcceptandPayBtn();
 }
 
-module.exports = { verifyConfirmIdentityPageHeader, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage };
+async function navigateToPaymentPageUsingHealthNumber(page,healthno) {
+    const pomanager = new POManager(page);
+    const identitypage = pomanager.getConfirmIdentityPage();
+    await identitypage.enterIdentificationDetailsWithHealth(healthno);
+    await identitypage.clickCheckBox();
+    await identitypage.clickAcceptandPayBtn();
+}
+
+async function verifyMonthlyPremiumSelected(page) {
+    const pomanager = new POManager(page);
+    const identitypage = pomanager.getConfirmIdentityPage();
+    const premium_monthly = await identitypage.getMonthlyPremiumValue();
+    return premium_monthly;
+}
+
+async function verifyAnnualPremiumSelected(page) {
+    const pomanager = new POManager(page);
+    const identitypage = pomanager.getConfirmIdentityPage();
+    await identitypage.selectAnnualPremiumOption();
+    const premium_annual = await identitypage.getAnnualPremiumValue();
+    return premium_annual;
+}
+
+module.exports = { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage, navigateToPaymentPageUsingHealthNumber };

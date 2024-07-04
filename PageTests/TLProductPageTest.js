@@ -4,7 +4,7 @@ async function verifyProductPageHeader(page) {
 
     const pomanager = new POManager(page);
     const termlifeCApage = pomanager.getTermLifeCAPage();
-    return await termlifeCApage.getHeaderText(tagline);
+    return await termlifeCApage.getHeaderText();
 
 }
 

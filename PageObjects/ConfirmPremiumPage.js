@@ -39,7 +39,7 @@ class ConfirmPremiumPage {
         return coverageOptions;
     }
 
-    async comfirmQuoteValue() {
+    async getQuoteValue() {
         await this.quoteValue.waitFor();
         const quotevalue = await this.quoteValue.textContent();
         return quotevalue;

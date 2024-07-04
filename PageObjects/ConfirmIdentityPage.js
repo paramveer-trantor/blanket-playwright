@@ -17,10 +17,26 @@ class ConfirmIdentityPage {
         this.agreeCheckBox = page.locator("//input[@name='payAgree']/following-sibling::div[1]");
         this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' }); 
         this.options = page.getByRole('option');
+        this.monthlyPremium = page.locator("(//div[@class='d-flex align-start']//span)[1]");
+        this.selectAnnualPremium = page.locator("//input[@value='annual']/following-sibling::div[1]");
+        this.annualPremium = page.locator("//div[@class='d-flex align-start'][2]/p/span[@class='font-weight-bold']");
+        //this.annualPremium = page.getByText("/Total Annual Payment:/i");
     }
 
     async getConfirmIdentityPageHeader() {
         return await this.header.textContent();
+    }
+
+    async getMonthlyPremiumValue() {
+        return await this.monthlyPremium.textContent();
+    }
+
+    async selectAnnualPremiumOption() {
+        await this.selectAnnualPremium.click();
+    }
+
+    async getAnnualPremiumValue() {
+        return await this.annualPremium.last().textContent();
     }
 
     async checkPassportInputFieldVisible() {
