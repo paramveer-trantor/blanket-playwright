@@ -1,6 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 import { loginIntoApp } from '../PageTests/LoginPageTest';
-import { verifyProductList, verifyCookieBannerIsVisible, verifyMenuMenu, navigateToProductPage, navigateToTermLifeByLifeBanner } from '../PageTests/DashboardTest';
+import { verifyProductList, verifyCookieBannerIsVisible, verifyMenuMenu, navigateToProductPage, navigateToTermLifeByLifeBanner, navigateToMyPoliciesPage } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
 import { getLoginPageHeader } from '../PageTests/LoginPageInTermLifeFormTest';
@@ -448,8 +448,14 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyMenuMenu(page)).toContain('My Policies');
     });
 
-    test.only('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
+    test('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
         await loginIntoApp(page, username, password);
         expect(await verifyCookieBannerIsVisible(page)).toContain('We value your privacy');
+    });
+
+    test.only('BL-T50: App shall display purchased policy details under My policies page.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToMyPoliciesPage();
+        console.log(await verifyPoliciesDetails(page));
     });
 });

@@ -43,4 +43,11 @@ async function navigateToTermLifeByLifeBanner(page) {
     await dashboardpage.clickLifeBanner();
 }
 
-module.exports = { verifyProductList, verifyCookieBannerIsVisible, verifyMenuMenu, navigateToProductPage, navigateToTermLifeByLifeBanner };
+async function navigateToMyPoliciesPage(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.acceptCookies();
+    await dashboardpage.clickMyPoliciesBtn();
+}
+
+module.exports = { verifyProductList, verifyCookieBannerIsVisible, verifyMenuMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };

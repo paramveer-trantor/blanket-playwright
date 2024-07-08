@@ -1,4 +1,4 @@
-const{ expect, request } = require("@playwright/test");
+const{ expect } = require("@playwright/test");
 
 class LoginPage {
 
