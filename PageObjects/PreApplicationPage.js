@@ -7,7 +7,8 @@ class PreApplicationPage {
         this.header = page.getByText(' Pre Application ', { exact: true });
         this.addressList = page.locator(".address-list");
         this.dialogBox = page.getByRole('dialog');
-        this.dialogContinueBtn = page.getByRole('dialog').getByRole('button', { name: 'Continue' });
+        this.dialogContinueBtn = this.dialogBox.getByRole('button', { name: 'Continue' });
+        this.afterHoursMsg = this.dialogBox.locator('.v-card__title');
         this.firstName = page.getByLabel('First name', { exact: true });
         this.lastName = page.getByLabel('Last name', { exact: true });
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
@@ -30,6 +31,10 @@ class PreApplicationPage {
         if (await this.dialogBox.isVisible()) {
             await this.dialogContinueBtn.click();
         }
+    }
+
+    async getAfterHoursMsg() {
+        return this.afterHoursMsg.textContent();  
     }
 
     async enterUserName(firstname, lastname) {

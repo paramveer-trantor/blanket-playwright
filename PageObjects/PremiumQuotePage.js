@@ -1,4 +1,3 @@
-// const{ expect } = require("@playwright/test");
 import { expect } from "@playwright/test";
 
 class PremiumQuotePage {

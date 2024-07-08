@@ -4,7 +4,7 @@ import { verifyProductList, verifyCookieBannerIsVisible, verifyMenuMenu, navigat
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
 import { getLoginPageHeader } from '../PageTests/LoginPageInTermLifeFormTest';
-import { verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError } from '../PageTests/PreApplicationPageTest';
+import { verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
 import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page } from '../PageTests/LifestyleQuestionsPageTest';
@@ -15,7 +15,8 @@ import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, n
 import { verifyBenecificaryPageHeader, addBeneficiary, verifyAddedBenDetails, navigateToConfirmIdentityPage, verifyShareErrorMessage, proceedWithoutBeneficiry } from '../PageTests/BeneficiaryPageTest';
 import { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage, navigateToPaymentPageUsingHealthNumber } from '../PageTests/ConfirmIdentityPageTest';
 import { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch } from '../PageTests/PaymentPageTest';
-import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment } from '../PageTests/CongratulationsPageTest';
+import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment, verifyThankYouMsg } from '../PageTests/CongratulationsPageTest';
+import { verifyMyPoliciesPageHeader, verifyPolicySendingOverEmail, verifyPoliciesDetails } from '../PageTests/MyPoliciesPageTest';
 import exp from 'constants';
 import { Console } from 'console';
 const { url, username, password, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
@@ -219,7 +220,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await verifyConfirmIdentityPageHeader(page);
     });
 
-    test('BL-T27: Application shall display 3 options to user to confirm the identity on offer summary screen.', async ({ page }) => {
+    test('BL-T27: Application shall display 3 options to user to confirm the identity on Confirm Identity page.', async ({ page }) => {
         await loginIntoApp(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
@@ -453,9 +454,45 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyCookieBannerIsVisible(page)).toContain('We value your privacy');
     });
 
-    test.only('BL-T50: App shall display purchased policy details under My policies page.', async ({ page }) => {
+    test('BL-T50: App shall display purchased policy details under My policies page.', async ({ page }) => {
         await loginIntoApp(page, username, password);
-        await navigateToMyPoliciesPage();
-        console.log(await verifyPoliciesDetails(page));
+        await navigateToMyPoliciesPage(page);
+        expect(await verifyPoliciesDetails(page)).toContain( 'Provider: Blanket Life underwritten by Humania Assurance Inc.');
     });
+
+    test('BL-T51: User shall have an option to send policy over email.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToMyPoliciesPage(page);
+        //console.log(await verifyPolicySendingOverEmail(page));
+        expect(await verifyPolicySendingOverEmail(page)).toContain(' Success! ');
+    });
+
+    test('BL-T53: After hours message shall be displayed if user access the application in odd hours.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        expect(await verifyAfterHoursMsg(page)).toContain(' After hours ');
+    });
+
+    test.only('BL-T55: User shall able to do premium payment successfully.', async ({ page }) => {
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await navigateToConfirmIdentityPage(page);
+        await navigateToPaymentPageUsingHealthNumber(page, healthno);
+        await verifyPurchasePolicyWithAch(page,accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
+        expect(await verifyThankYouMsg(page)).toContain(' Thank you for your purchase! ');
+    });
+
 });

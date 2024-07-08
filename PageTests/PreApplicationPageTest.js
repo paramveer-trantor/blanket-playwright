@@ -41,4 +41,11 @@ async function verifyInvalidPhoneError(page,firstname, lastname, houseaddress, p
     return phone_error;
 }
 
-module.exports = { verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError };
+async function verifyAfterHoursMsg(page) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    const afterhours_msg = await preapplicationpage.getAfterHoursMsg();
+    return afterhours_msg;
+}
+
+module.exports = { verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError };

@@ -12,7 +12,7 @@ class PaymentPage {
         this.expiryDate = page.getByLabel('Expiration Date (MM/YYYY)', { exact: true });
         this.cvv = page.getByLabel('CVV', { exact: true });
         this.payNowBtn = page.getByRole('button', { name: ' Pay now ' });
-        this.ach = page.locator("[name='ach']");
+        this.ach = page.getByText('Pre-Authorized Debit');
         this.accountHoldername = page.locator("[name='accountHolder']");
         this.accountType = page.getByLabel('Account Type', { exact: true });
         this.selectAccountType = page.getByText('Savings', { exact: true });

@@ -1,10 +1,17 @@
 import { POManager } from '../PageObjects/POManager';
 
+async function verifyThankYouMsg(page) {
+    const pomanager = new POManager(page);
+    const congratulationspage = pomanager.getCongratulationsPage();
+    const thanks_msg = await congratulationspage.getThanksMsg();
+    return thanks_msg; 
+} 
+
 async function verifyPolicyInfoColumns(page) {
     const pomanager = new POManager(page);
     const congratulationspage = pomanager.getCongratulationsPage();
     const policy_columns = await congratulationspage.getPolicyInfoHeaders();
-    return policy_columns;
+    return policy_columns; 
 }
 
 async function verifyProviderName(page) {
@@ -37,4 +44,4 @@ async function verifyPayment(page) {
 
 
 
-module.exports = { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment };
+module.exports = { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment, verifyThankYouMsg };
