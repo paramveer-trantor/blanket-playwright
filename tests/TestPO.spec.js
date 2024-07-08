@@ -131,6 +131,24 @@ test.describe('Tests as per page', async () => {
         const res = await personalstatementpage.clickAgreeBtn();
         expect(await personalstatementpage.getKnockoutMsg()).toContain("A licensed insurance agent will contact you shortly.");
         expect(rejectionerrors.length).toBe(res.result.response.errors.length);
+
+        console.log('response of promise>>>', res.result.response.errors)
+        await personalstatementpage.verifyKnockoutMsg();
+
+
+    //     const promise =  page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision", async route => {
+    //         expect(await route.request().method()).toBe('POST');
+    //         const response = await page.request.fetch(route.request());
+    //         expect(await response.status()).toBe(200);
+    //     });
+    //    await this.agreeBtn.click();
+    //    const response = await promise;
+    //    expect(response.status()).toBe(200);
+    //    console.log(response.json());
+  
+
+
+
 }); 
 
 

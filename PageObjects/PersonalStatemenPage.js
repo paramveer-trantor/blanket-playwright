@@ -52,7 +52,6 @@ class PersonalStatementPage {
         await this.agreeBtn.click();
         const response = await promise;
         const responseBody = await response.json();
-        //console.log(responseBody.result.response.errors);
         return responseBody;
      }
 
