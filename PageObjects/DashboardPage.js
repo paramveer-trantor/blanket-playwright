@@ -42,7 +42,7 @@ class DashboardPage{
 
     async getProductsList() {
         await this.productsBtn.click();
-        const listofproducts = (await this.productList.first().textContent()).trim();
+        const listofproducts = (await this.termlifeBtn.textContent()).trim();
         return listofproducts;
     }
 
