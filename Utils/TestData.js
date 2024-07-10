@@ -1,5 +1,6 @@
 module.exports = {   
     url : "https://blanket-development.web.app",
+    urlLogin : "https://blanket-development.web.app/pages/login",
     username : "gagandeep.singla+autouser1@trantorinc.com",
     password : "Test@1",
     tagline : "We’ve got what matters most covered.",
@@ -28,6 +29,7 @@ module.exports = {
     benshare : "100",
     passportno : "AB123456",
     healthno: "123456789",
+    licenseno: "AA1234",
     cardname : "Teser User", 
     cardnumber : "4111 1111 1111 1111", 
     expirydate : "01/2027",

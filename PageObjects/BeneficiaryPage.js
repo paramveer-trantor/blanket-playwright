@@ -25,7 +25,7 @@ class BeneficiaryPage {
     }
 
     async getBenecificaryPageHeader() {
-        return await this.header.textContent();
+        return (await this.header.textContent()).trim();
     }
 
     async clickAddBeneficiryBtn() {
@@ -67,7 +67,7 @@ class BeneficiaryPage {
     }
 
     async getErrorMessage() {
-        return await this.errorMsg.textContent();
+        return (await this.errorMsg.textContent()).trim();
     }
 
     async checkWithoutBenCheckbox() {

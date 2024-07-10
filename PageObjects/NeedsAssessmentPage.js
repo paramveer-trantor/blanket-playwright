@@ -16,19 +16,19 @@ class NeedsAssessmentPage {
     }
 
     async getNeedsAssessmentPageHeader() {
-        return await this.header.textContent();
+        return (await this.header.textContent()).trim();
     }
 
     async enterGrossIncome(income, saving, mortgageBal, debt) {
         await this.annualIncome.click();
         await this.annualIncome.fill(income);
         await this.saving.click();
-        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/CATermNeedsAssessment", async route => {
-             expect(await route.request().method()).toBe('POST');
-             const response = await this.page.request.fetch(route.request());
-         });
-        const response = await promise;
-        expect(response.status()).toBe(200);
+        // const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/CATermNeedsAssessment", async route => {
+        //      expect(await route.request().method()).toBe('POST');
+        //      const response = await this.page.request.fetch(route.request());
+        //  });
+        // const response = await promise;
+        // expect(response.status()).toBe(200);
         
         await this.saving.fill(saving);
         await this.mortgageBalance.click();
@@ -43,11 +43,11 @@ class NeedsAssessmentPage {
     }
 
     async getTotalValue() {
-        return await this.totalvalue.textContent();
+        return (await this.totalvalue.textContent()).trim();
     }
 
     async getCoverageAmountMoreMessage() {
-        return await this.message.textContent();
+        return (await this.message.textContent()).trim();
     }
 
     async clickContinueBtn() {

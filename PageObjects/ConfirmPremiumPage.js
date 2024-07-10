@@ -7,7 +7,7 @@ class ConfirmPremiumPage {
         this.header = page.locator("//div[text()=' Premium Quote ']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.quoteValue = page.locator('.estimate-subtitle .font-weight-bold');
-        this.list = page.getByRole('listbox');
+        this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
     }
 
     async getConfirmPremiumPageHeader() {
@@ -18,24 +18,25 @@ class ConfirmPremiumPage {
     async getTermsOptions() {
         await this.page.locator("//label[text()='Term']").click();
         let termsOptions = [];
-        termsOptions[0] = await this.page.locator('.menuable__content__active').getByRole('option').first().textContent();
-        termsOptions[1] = await this.page.locator('.menuable__content__active').getByRole('option').last().textContent();
-        // for (let i = 1; i <= (termsOptions.length - 1); i++) {
-        //     termsOptions[i] = await this.page.locator('.menuable__content__active').getByRole('option').nth(i).textContent();
-        // }
-        
+    
+        const menuContentElement = await this.page.waitForSelector("//div[@class='v-menu__content theme--light menuable__content__active']");
+        const count_terms = await menuContentElement.$$eval('div[role="option"]', options => options.length);
+        termsOptions[0] = await this.list.first().textContent();
+        for (let i = 1; i <= (count_terms-1); i++) {
+            termsOptions[i] = await this.list.nth(i).textContent();
+        }
         return termsOptions;
     }
 
     async getCoverageAmountOptions() {
         await this.page.locator("//label[text()='Coverage Amount']").click();
         let coverageOptions = [];
-        coverageOptions[0] = await this.page.locator('.menuable__content__active').getByRole('option').first().textContent(); 
-        coverageOptions[1] = await this.page.locator('.menuable__content__active').getByRole('option').last().textContent(); 
-        // for (let i = 1; i <= 3; i++) {
-        //     coverageOptions[i] = await this.page.locator('.menuable__content__active').getByRole('option').nth(i).textContent();
-        // }
-        //console.log(coverageOptions);
+        const menuContentElement = await this.page.waitForSelector("//div[@class='v-menu__content theme--light menuable__content__active']");
+        const count_coverage = await menuContentElement.$$eval('div[role="option"]', options => options.length);
+        coverageOptions[0] = await this.list.first().textContent();
+        for (let i = 1; i <= (count_coverage-1); i++) {
+            coverageOptions[i] = await this.list.nth(i).textContent();
+        }
         return coverageOptions;
     }
 

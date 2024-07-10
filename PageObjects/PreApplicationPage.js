@@ -14,6 +14,9 @@ class PreApplicationPage {
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
         this.errorMsgs = page.locator('.v-messages__message');
         this.address = page.getByLabel('Address', { exact: true });
+        this.province = page.getByLabel('Province', { exact: true });
+        this.selectProvinceBC = page.getByRole('listbox').getByRole('option').filter({ hasText: 'British Columbia' });
+        this.notAvailableMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']");
         this.selectAddress = page.locator(".address-item");
         this.phoneNumber = page.getByLabel('Phone number', { exact: true });
         this.optionYes = page.getByText('Yes', { exact: true });
@@ -23,8 +26,7 @@ class PreApplicationPage {
     }
 
     async getPreApplicationPageHeader() {
-        console.log('header', await this.header.textContent());
-        return await this.header.textContent();
+        return (await this.header.textContent()).trim();
     }
 
     async acceptPopWindow() {
@@ -48,8 +50,8 @@ class PreApplicationPage {
         await this.page.locator("[name='dob']").click();
         await this.page.locator("//button[@aria-label='Clear MM/DD/YYYY']").click();
         await this.dateOfBirth.fill(date);
-        const errorMsg = await this.errorMsgs.textContent();
-        return errorMsg;
+        return await this.errorMsgs.textContent();
+        
     }
 
     async enterAddress(houseaddress) {
@@ -58,14 +60,19 @@ class PreApplicationPage {
         await this.selectAddress.first().click();
     }
 
+    async getProductNotAvailableMsg() {
+        await  this.province.click();
+        await this.selectProvinceBC.click();   
+        return (await this.notAvailableMsg.last().textContent()).trim();
+    }
+
     async enterPhoneNumber(phonenumber) {
         await this.phoneNumber.fill(phonenumber);
     }
 
     async getIncorrectPhoneErrorMsg(phonenumber) {
         await this.phoneNumber.fill(phonenumber);
-        const errorMsg = await this.errorMsgs.textContent();
-        return errorMsg;
+        return (await this.errorMsgs.textContent()).trim();
     }
 
     async last3Questions(option) {

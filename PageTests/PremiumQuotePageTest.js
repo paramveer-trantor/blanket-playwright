@@ -3,7 +3,8 @@ import { POManager } from '../PageObjects/POManager';
 async function verifyPremiumQuotePageHeader(page) {
     const pomanager = new POManager(page);
     const premiunquotepage = pomanager.getPremiumQuotePage();
-    return await premiunquotepage.getPremiumQuotePageHeader;
+    const premiumquote_header = await premiunquotepage.getPremiumQuotePageHeader();
+    return premiumquote_header;
 }
 
 async function navigateToPreApplicationPage(page, gender, date) {

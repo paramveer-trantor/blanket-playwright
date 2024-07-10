@@ -75,6 +75,14 @@ async function navigateToPaymentPageUsingHealthNumber(page,healthno) {
     await identitypage.clickAcceptandPayBtn();
 }
 
+async function navigateToPaymentPageUsingLicenseNumber(page,licenseno) {
+    const pomanager = new POManager(page);
+    const identitypage = pomanager.getConfirmIdentityPage();
+    await identitypage.enterIdentificationDetailsWithLicense(licenseno);
+    await identitypage.clickCheckBox();
+    await identitypage.clickAcceptandPayBtn();
+}
+
 async function verifyMonthlyPremiumSelected(page) {
     const pomanager = new POManager(page);
     const identitypage = pomanager.getConfirmIdentityPage();
@@ -90,4 +98,4 @@ async function verifyAnnualPremiumSelected(page) {
     return premium_annual;
 }
 
-module.exports = { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage, navigateToPaymentPageUsingHealthNumber };
+module.exports = { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage, navigateToPaymentPageUsingHealthNumber, navigateToPaymentPageUsingLicenseNumber };

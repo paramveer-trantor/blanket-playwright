@@ -9,8 +9,8 @@ class LoginPage {
         this.loginBtn = page.locator('.login-btn')
     }
 
-    async navigateToURL() {
-        await this.page.goto("https://blanket-development.web.app/pages/login");
+    async navigateToURL(urlLogin) {
+        await this.page.goto(urlLogin);
     }
 
     async login(username, password) {

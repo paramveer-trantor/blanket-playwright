@@ -28,4 +28,12 @@ async function navigateToBeneficiryPage(page) {
     await personalstatmentpage.clickAgreeBtn();
 }
 
-module.exports = {verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage };
+async function getLastStatementText(page) {
+    const pomanager = new POManager(page);
+    const personalstatmentpage = pomanager.getPersonalStatementPage();
+    await personalstatmentpage.clickCheckboxes();
+    const text_last = await personalstatmentpage.getLastStatementText();
+    return text_last;
+}
+
+module.exports = {verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText };

@@ -10,7 +10,7 @@ class CongratulationsPage {
     }
 
     async getThanksMsg() {
-        return this.thanksMsg.textContent();
+        return (await this.thanksMsg.textContent()).trim();
     }
 
     async getPolicyInfoHeaders() {
@@ -23,19 +23,19 @@ class CongratulationsPage {
     }
 
     async getProviderName() {
-        return await this.policyRelatedInfo.first().textContent();
+        return (await this.policyRelatedInfo.first().textContent()).trim();
     }
 
     async getEffectiveDate() {
-        return await this.policyRelatedInfo.nth(1).textContent();
+        return (await this.policyRelatedInfo.nth(1).textContent()).trim();
     }
 
     async getPaymentValue() {
-        return await this.policyRelatedInfo.nth(2).textContent();
+        return (await this.policyRelatedInfo.nth(2).textContent()).trim();
     }
 
     async getPolicyNumber() {
-        return await this.policyRelatedInfo.last().textContent();
+        return (await this.policyRelatedInfo.last().textContent()).trim();
     }
 
 }

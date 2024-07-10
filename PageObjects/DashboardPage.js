@@ -11,7 +11,7 @@ class DashboardPage{
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
-        this.productList = page.getByRole('option');
+        this.productList = page.locator("//a[@role='option']");
         this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
     }
@@ -42,7 +42,7 @@ class DashboardPage{
 
     async getProductsList() {
         await this.productsBtn.click();
-        const listofproducts = await this.productList.allInnerTexts();
+        const listofproducts = (await this.productList.first().textContent()).trim();
         return listofproducts;
     }
 

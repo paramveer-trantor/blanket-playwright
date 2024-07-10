@@ -48,4 +48,13 @@ async function verifyAfterHoursMsg(page) {
     return afterhours_msg;
 }
 
-module.exports = { verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError };
+async function verifyProductNotAvailableMsg(page) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.acceptPopWindow();
+    // await preapplicationpage.enterUserName(firstname, lastname); 
+    const productNotAvailable_msg = await preapplicationpage.getProductNotAvailableMsg();
+    return productNotAvailable_msg;
+}
+
+module.exports = { verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg };
