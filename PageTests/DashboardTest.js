@@ -7,23 +7,23 @@ async function verifyCookieBannerIsVisible(page){
     return cookie_status;
 }
 
-async function verifyProductList(page) {
+async function verifyTLProductIsVisible(page) {
 
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
     await dashboardpage.selectCACountry();
-    return await dashboardpage.getProductsList();
+    return await dashboardpage.getTLProductName();
 }
 
-async function verifyMenuMenu(page) {
+async function verifyMyPoliciesInMenu(page) {
 
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
-    await dashboardpage.selectCACountry();
-    const menu_optons = await dashboardpage.getMenuOptions();
-    return menu_optons;
+    const MyPolicies_Status = await dashboardpage.checkMyPoliciesButtonInMenu();
+    console.log("Status :" + MyPolicies_Status);
+    return MyPolicies_Status;
 }
 
 async function navigateToProductPage(page) {
@@ -50,4 +50,4 @@ async function navigateToMyPoliciesPage(page) {
     await dashboardpage.clickMyPoliciesBtn();
 }
 
-module.exports = { verifyProductList, verifyCookieBannerIsVisible, verifyMenuMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
+module.exports = { verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };

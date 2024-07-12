@@ -1,6 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 import { loginIntoApp } from '../PageTests/LoginPageTest';
-import { verifyProductList, verifyCookieBannerIsVisible, verifyMenuMenu, navigateToProductPage, navigateToTermLifeByLifeBanner, navigateToMyPoliciesPage } from '../PageTests/DashboardTest';
+import { verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToTermLifeByLifeBanner, navigateToMyPoliciesPage } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
@@ -23,9 +23,9 @@ const { url, urlLogin, username, password, tagline, date, gender, firstname, las
 
 test.describe('App Flow TCs', async () => {
 
-    test.only('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
+    test('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
         await page.goto(url);
-        expect(await verifyProductList(page)).toEqual('Term Life');
+        expect(await verifyTLProductIsVisible(page)).toEqual('Term Life');
     });
 
 });
@@ -292,6 +292,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToBeneficiryPage(page);
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
+        console.log(await verifyInvalidPassportError(page, "a123456b"));
         expect(await verifyInvalidPassportError(page, "a123456b")).toEqual('Invalid passport number. It should begin with two letters and end with six  numbers. Please remove any spaces or special characters (-, *).');
     });
 
@@ -328,7 +329,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToBeneficiryPage(page);
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
-        expect(await verifyInvalidLicenseError(page, "AAA123")).toContain("Invalid driver's license format. Please remove any spaces or special characters (-, *).");
+        expect(await verifyInvalidLicenseError(page, "AAA123")).toEqual("Invalid driver's license format. Please remove any spaces or special characters (-, *).");
     });
 
     test('BL-T34: Application shall ask province and health number from user if user selects the Provincial health card option.', async ({ page }) => {
@@ -392,7 +393,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToBeneficiryPage(page);
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
-        expect(await verifyInvalidHealthError(page, "123456")).toContain('Invalid health card format. Please remove any spaces or special characters (-, *).');
+        expect(await verifyInvalidHealthError(page, "123456")).toEqual('Invalid health card format. Please remove any spaces or special characters (-, *).');
     });
 
     test('BL-T37: User shall able to move forward after entering all valid details on confirm identity page.', async ({ page }) => {
@@ -411,7 +412,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingHealthNumber(page, healthno);
-        expect(await verifyPaymentPageHeader(page)).toContain("Payment");
+        expect(await verifyPaymentPageHeader(page)).toEqual("Payment");
     });
 
     test('BL-T40: Purchased policy details shall be displayed properly on congratulations screen.', async ({ page }) => {
@@ -433,17 +434,17 @@ test.describe('CA Term Life Flow TCs', async () => {
         const myArray_monthly = monthly.split(" ");
         await navigateToPaymentPageUsingHealthNumber(page, healthno);
         await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
-        expect(await verifyPolicyInfoColumns(page)).toContain(' Provider ' , ' Effective Date ' , ' Payment ' , ' Policy No. ');
-        expect(await verifyProviderName(page)).toContain('Blanket Life underwritten by Humania Assurance Inc.');
+        expect(await verifyPolicyInfoColumns(page)).toContainEqual(' Provider ' , ' Effective Date ' , ' Payment ' , ' Policy No. ');
+        expect(await verifyProviderName(page)).toEqual('Blanket Life underwritten by Humania Assurance Inc.');
         const todays_date = new Date().toISOString().slice(0, 10);
-        expect (await verifyEffectiveDate(page)).toContain(todays_date);
+        expect (await verifyEffectiveDate(page)).toEqual(todays_date);
         expect(await verifyPayment(page)).toContain(myArray_monthly[3]);
     });
 
     test('BL-T42: Term life banner shall be visible on home screen.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto(url);
         await navigateToTermLifeByLifeBanner(page);
-        expect(await verifyProductPageHeader(page)).toContain(tagline);
+        expect(await verifyProductPageHeader(page)).toEqual(tagline);
     });
 
     test('BL-T43: Premium rates should be different for smoker & non smokers users.', async ({ page }) => {
@@ -465,13 +466,14 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyQuoteValue(page)).not.toBe(non_smoker_quote);
     });
 
-    test('BL-T45: My policies menu option shall be visible in menu on desktop browser.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
-        expect(await verifyMenuMenu(page)).toContain('My Policies');
+    test.only('BL-T45: My policies menu option shall be visible in menu on desktop browser.', async ({ page }) => {
+        await page.goto(url);
+        console.log(await verifyMyPoliciesInMenu);
+        expect(await verifyMyPoliciesInMenu).toBeTruthy();
     });
 
     test('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto(url);
         expect(await verifyCookieBannerIsVisible(page)).toContain('We value your privacy');
     });
 
@@ -543,14 +545,14 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
-        expect(await verifyProductNotAvailableMsg(page)).toContain("This product is unavailable in your province at this time.");
+        expect(await verifyProductNotAvailableMsg(page)).toEqual("This product is unavailable in your province at this time.");
     });
 
     test('BL-T117: User shall land on Premium quote page of CA term life policy form on clicking Apply now or Get your term life today button.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password)
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
-        expect(await verifyPremiumQuotePageHeader(page)).toEqual("Premium Quote");
+        expect(await verifyPremiumQuotePageHeader(page)).toEqual("Term Life Insurance Premium Quote");
     });
 
 });

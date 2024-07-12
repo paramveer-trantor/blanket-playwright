@@ -5,9 +5,10 @@ class ConfirmIdentityPage {
     constructor(page) {
         this.header = page.locator("(//div[contains(@class,'estimate-title primary--text')])[2]");
         this.openIDType = page.getByLabel('Please select an ID type', { exact: true });
-        this.selectPassport = page.getByText('Passport', { exact: true });
-        this.selectHealthCard = page.getByText('Provincial health card', { exact: true }); 
-        this.selectDriverLicense = page.getByText("Driver's licence", { exact: true });
+        this.listBox = page.getByRole('listbox');
+        this.selectPassport = this.listBox.getByText('Passport', { exact: true });
+        this.selectHealthCard = this.listBox.getByText('Provincial health card', { exact: true }); 
+        this.selectDriverLicense = this.listBox.getByText("Driver's licence", { exact: true });
         this.passportInputField = page.getByLabel('Passport number', { exact: true });
         this.provinceList = page.getByLabel('Select province', { exact: true });
         this.selectProvince = page.getByRole('listbox').getByText('Alberta', { exact: true }); 
@@ -62,7 +63,7 @@ class ConfirmIdentityPage {
     }
 
     async getErrorMsg() {
-        return await this.errorMsg.textContent();
+        return (await this.errorMsg.textContent()).trim();
     }
     
     async enterIdentificationDetailsWithPassport(passportno) {
@@ -103,4 +104,4 @@ class ConfirmIdentityPage {
     }
 }
 
-module.exports = { ConfirmIdentityPage };
+module.exports = { ConfirmIdentityPage };  

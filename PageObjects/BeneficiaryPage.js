@@ -29,7 +29,6 @@ class BeneficiaryPage {
     }
 
     async clickAddBeneficiryBtn() {
-        //await this.page.waitForLoadState('networkidle');
         await this.addBeneficiryBtn.click();
     }
 

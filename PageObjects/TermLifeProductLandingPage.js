@@ -9,7 +9,7 @@ class TermLifeProductLandingPage {
     }
 
     async getHeaderText(tagline){
-        return await this.headerText.first().textContent();
+        return (await this.headerText.first().textContent()).trim();
     }
 
     async clickApplyNowBtn(){

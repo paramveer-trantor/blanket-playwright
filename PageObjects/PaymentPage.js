@@ -24,11 +24,11 @@ class PaymentPage {
     }
 
     async getPaymentPageHeader() {
-        return await this.header.textContent();
+        return (await this.header.textContent()).trim();
     }
 
     async getTotalAmountDue() {
-        return await this.amountdue.textContent();
+        return (await this.amountdue.textContent()).trim();
     }
 
     async purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv) {

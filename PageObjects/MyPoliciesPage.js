@@ -11,7 +11,7 @@ class MyPoliciesPage {
     }
 
     async getMyPoliciesPageHeader() {  
-        return await this.header.textContent();
+        return (await this.header.textContent()).trim();
     }
 
     async clickEyeBtn() {

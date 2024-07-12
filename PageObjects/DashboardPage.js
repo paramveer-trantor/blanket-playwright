@@ -9,6 +9,7 @@ class DashboardPage{
         this.countryBtn = page.locator('.v-btn__content .mr-3');
         this.CABtn = page.locator('.v-list-item__icon');
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
+        this.myPoliciesLink = page.locator("//div[@class='row d-flex justify-end pt-3']").filter({ hasText: ' My Policies ' });
         this.productsBtn = page.getByRole('button', {name: ' Products '});
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
@@ -30,8 +31,9 @@ class DashboardPage{
         await this.CABtn.last().click();
     }
 
-    async getMenuOptions(){
-       return await this.menuOptions.textContent();  
+    async checkMyPoliciesButtonInMenu(){
+       const status_mypolicies = await this.myPoliciesLink.textContent();
+       return status_mypolicies;
     }
 
     async navigateToTermLifeCA(){
@@ -40,10 +42,10 @@ class DashboardPage{
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async getProductsList() {
+    async getTLProductName() {
         await this.productsBtn.click();
-        const listofproducts = (await this.termlifeBtn.textContent()).trim();
-        return listofproducts;
+        const tl_products = (await this.termlifeBtn.textContent()).trim();
+        return tl_products;
     }
 
     async clickLifeBanner() {
