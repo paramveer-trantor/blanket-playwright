@@ -36,7 +36,7 @@ class PreApplicationPage {
     }
 
     async getAfterHoursMsg() {
-        return this.afterHoursMsg.textContent();  
+        return (await this.afterHoursMsg.textContent()).trim();  
     }
 
     async enterUserName(firstname, lastname) {

@@ -23,22 +23,18 @@ class MyPoliciesPage {
     }
 
     async getPolicyDetails() {
-        let policydetailsrows = [];
-        policydetailsrows[0] = await this.policyDetails.first().textContent();
-        policydetailsrows[1] = await this.policyDetails.nth(1).textContent();
-        policydetailsrows[2] = await this.policyDetails.nth(2).textContent();
-        policydetailsrows[3] = await this.policyDetails.nth(3).textContent();
-        policydetailsrows[4] = await this.policyDetails.nth(4).textContent();
-        policydetailsrows[5] = await this.policyDetails.last().textContent();
-        //console.log(policydetailsrows);
-        // for(let i=1; i <=5; i++) {
-        //     policydetailsrows[i] = await this.policyDetails.nth(i).textContent();
-        //}
-        return policydetailsrows;
+        //let policydetailsrows = [];
+        //policydetailsrows[0] = await this.policyDetails.first().textContent();
+        //policydetailsrows[1] = await this.policyDetails.nth(1).textContent();
+        //policydetailsrows[2] = await this.policyDetails.nth(2).textContent();
+        //policydetailsrows[3] = await this.policyDetails.nth(3).textContent();
+        //policydetailsrows[4] = await this.policyDetails.nth(4).textContent();
+        //policydetailsrows[5] = await this.policyDetails.last().textContent();
+        return (await this.policyDetails.nth(4).textContent()).trim();
     }
 
     async getSuccessMsg() {
-        return await this.successMsg.textContent();
+        return (await this.successMsg.textContent()).trim();
     }
 
 }

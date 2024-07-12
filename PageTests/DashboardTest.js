@@ -8,7 +8,6 @@ async function verifyCookieBannerIsVisible(page){
 }
 
 async function verifyTLProductIsVisible(page) {
-
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
@@ -17,17 +16,19 @@ async function verifyTLProductIsVisible(page) {
 }
 
 async function verifyMyPoliciesInMenu(page) {
-
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
-    const MyPolicies_Status = await dashboardpage.checkMyPoliciesButtonInMenu();
-    console.log("Status :" + MyPolicies_Status);
-    return MyPolicies_Status;
+    const name = await dashboardpage.getMenuOptions();
+    console.log(name);
+    await dashboardpage.clickMyPoliciesBtn();
+
+    // const MyPolicies_Status = await dashboardpage.checkMyPoliciesButtonInMenu();
+    // console.log("Status :" + MyPolicies_Status);
+    // return MyPolicies_Status;
 }
 
 async function navigateToProductPage(page) {
-
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();

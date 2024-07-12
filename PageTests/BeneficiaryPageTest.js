@@ -12,6 +12,7 @@ async function addBeneficiary(page, benfirstname, benlastname, bendob, benshare)
     const beneficiarypage = pomanager.getBeneficiaryPage();
     await beneficiarypage.clickAddBeneficiryBtn();
     await beneficiarypage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare)
+    await beneficiarypage.clickConitnueBtn();
 }
 
 async function verifyAddedBenDetails(page) {
@@ -34,11 +35,10 @@ async function verifyShareErrorMessage(page) {
     return percentageerror;
 }
 
-async function proceedWithoutBeneficiry(page) {
+async function checkWithoutBeneficiryCheckbox(page) {
     const pomanager = new POManager(page);
     const beneficiarypage = pomanager.getBeneficiaryPage();
     await beneficiarypage.checkWithoutBenCheckbox();
-    await beneficiarypage.clickConitnueBtn();
 }
 
-module.exports = { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, proceedWithoutBeneficiry };
+module.exports = { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, checkWithoutBeneficiryCheckbox };

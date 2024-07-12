@@ -9,7 +9,6 @@ class DashboardPage{
         this.countryBtn = page.locator('.v-btn__content .mr-3');
         this.CABtn = page.locator('.v-list-item__icon');
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
-        this.myPoliciesLink = page.locator("//div[@class='row d-flex justify-end pt-3']").filter({ hasText: ' My Policies ' });
         this.productsBtn = page.getByRole('button', {name: ' Products '});
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
@@ -18,7 +17,7 @@ class DashboardPage{
     }
 
     async getCookieBannerHeading() {  
-        return await this.cookieBanner.textContent();
+        return (await this.cookieBanner.textContent()).trim();
     }
 
     async acceptCookies(){
@@ -31,9 +30,9 @@ class DashboardPage{
         await this.CABtn.last().click();
     }
 
-    async checkMyPoliciesButtonInMenu(){
-       const status_mypolicies = await this.myPoliciesLink.textContent();
-       return status_mypolicies;
+    async getMenuOptions(){
+        console.log(await this.menuOptions.textContent());
+        return await this.menuOptions.textContent();
     }
 
     async navigateToTermLifeCA(){
