@@ -8,6 +8,10 @@ class DashboardPage{
         this.acceptCookiesBtn = page.getByRole('button', {name: ' Allow all cookies '});    
         this.countryBtn = page.locator('.v-btn__content .mr-3');
         this.CABtn = page.locator('.v-list-item__icon');
+        this.langBtn = page.locator('.v-btn__content .currentLang');
+        this.langFR = page.getByRole('menuitem');
+        this.dialogBox =  page.getByRole('dialog');
+        this.warningMsg = this.dialogBox.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//p");
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
@@ -16,7 +20,7 @@ class DashboardPage{
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
     }
 
-    async getCookieBannerHeading() {  
+    async getCookieBannerHeading() {    
         return (await this.cookieBanner.textContent()).trim();
     }
 
@@ -54,6 +58,12 @@ class DashboardPage{
 
     async clickMyPoliciesBtn() {  
         await this.myPoliciesBtn.click();
+    }
+
+    async selectFRLangInForm() {
+        await this.langBtn.click();
+        await this.langFR.last().click();
+        return (await this.warningMsg.textContent()).trim();
     }
 
 }

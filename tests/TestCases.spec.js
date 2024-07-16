@@ -1,6 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 import { loginIntoApp } from '../PageTests/LoginPageTest';
-import { verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToTermLifeByLifeBanner, navigateToMyPoliciesPage } from '../PageTests/DashboardTest';
+import { verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToTermLifeByLifeBanner, navigateToMyPoliciesPage, verifyWarningMsgOnLangChangeInForm } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';

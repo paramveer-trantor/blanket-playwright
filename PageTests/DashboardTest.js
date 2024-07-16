@@ -22,10 +22,6 @@ async function verifyMyPoliciesInMenu(page) {
     const name = await dashboardpage.getMenuOptions();
     console.log(name);
     await dashboardpage.clickMyPoliciesBtn();
-
-    // const MyPolicies_Status = await dashboardpage.checkMyPoliciesButtonInMenu();
-    // console.log("Status :" + MyPolicies_Status);
-    // return MyPolicies_Status;
 }
 
 async function navigateToProductPage(page) {
@@ -51,4 +47,11 @@ async function navigateToMyPoliciesPage(page) {
     await dashboardpage.clickMyPoliciesBtn();
 }
 
-module.exports = { verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
+async function verifyWarningMsgOnLangChangeInForm(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    const warning_msg = await dashboardpage.selectFRLangInForm();
+    return warning_msg;
+}
+
+module.exports = { verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, verifyWarningMsgOnLangChangeInForm };
