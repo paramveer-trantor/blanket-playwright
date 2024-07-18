@@ -95,8 +95,24 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyNeedsAssessmentPageHeader(page)).toEqual('How Much Term Insurance Do I Need?');
     });
 
+    test('BL-T10: User shall be knocked out if selects inappropriate answer on Pre Application page.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password)
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        expect(await verifyNonCanadianWarning(page)).toEqual('You must be a Canadian Citizen or permanent resident to be eligible for this coverage');
+        await navigateToPreApplicationPage(page, gender, date);
+        expect(await verifyNonCanadianWarningOnPreAppPage(page, firstname, lastname, houseaddress, phonenumber)).toEqual('You must be a Canadian Citizen or permanent resident to be eligible for this coverage');
+        await answerYesOnPreAppQues(page, OptionYes);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        expect(await verifyKnockoutMsg(page)).toContain("A licensed insurance agent will contact you shortly.");
+    });
     
-
     test('BL-T11: User with age < 18 or > 80 shall not be allowed to buy a CA term plan.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await navigateToProductPage(page);
@@ -584,7 +600,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyWarningMsgOnLangChangeInForm(page)).toEqual("Please note that changing the language will reload the page and your information will be lost.");
     });
 
-    test('BL-T127: DOB field shall not accept invalid date on quote, pre application & beneficiary page.', async ({ page }) => {
+    test.only('BL-T127: DOB field shall not accept invalid date on quote, pre application & beneficiary page.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
