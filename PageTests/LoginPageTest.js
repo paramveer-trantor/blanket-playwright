@@ -9,4 +9,10 @@ async function loginIntoApp(page, urlLogin, username, password) {
 
 }
 
-module.exports = { loginIntoApp };
+async function loginWithValidUser(page, username, password) {
+    const pomanager = new POManager(page);
+    const loginpage = pomanager.getLoginPage();
+    await loginpage.enterLoginDetails(username, password);
+}
+
+module.exports = { loginIntoApp, loginWithValidUser };

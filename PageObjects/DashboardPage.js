@@ -14,6 +14,13 @@ class DashboardPage{
         this.productList = page.locator("//a[@role='option']");
         this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
+        this.myProfileBtn = page.locator("//div[@class='v-toolbar__content']/button[2]");
+        this.profileOptions = page.getByRole('menuitem');
+        this.openApplicationMsg = page.getByRole('status');
+        this.langBtn = page.locator('.v-btn__content .currentLang');
+        this.langFR = page.getByRole('menuitem');
+        this.dialogBox =  page.getByRole('dialog');
+        this.langChangeWarningMsg = this.dialogBox.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//p");
     }
 
     async getCookieBannerHeading() {  
@@ -28,6 +35,15 @@ class DashboardPage{
     async selectCACountry(){
         await this.countryBtn.click();
         await this.CABtn.last().click();
+    }
+
+    async selectFRLang(){
+        await this.langBtn.click();
+        await this.langFR.last().click();
+    }
+
+    async getLangChangeWarningMsg() {
+        return (await this.langChangeWarningMsg.textContent()).trim();
     }
 
     async getMenuOptions(){
@@ -54,6 +70,24 @@ class DashboardPage{
 
     async clickMyPoliciesBtn() {  
         await this.myPoliciesBtn.click();
+    }
+
+    async clickMyProfileBtn() {
+        await this.myProfileBtn.click();
+    }
+
+    async clickMyApplicationsBtn() {
+        await this.profileOptions.nth(1).click();
+    }
+
+    async clickLogoutBtn() {
+        await this.profileOptions.last().click();
+    }
+
+    async getOpenApplicationsMsg() {
+      const msg_openapps =  (await this.openApplicationMsg.textContent()).trim();
+      await this.openApplicationMsg.click();
+      return msg_openapps;
     }
 
 }

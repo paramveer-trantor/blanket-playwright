@@ -41,4 +41,12 @@ async function checkWithoutBeneficiryCheckbox(page) {
     await beneficiarypage.checkWithoutBenCheckbox();
 }
 
-module.exports = { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, checkWithoutBeneficiryCheckbox };
+async function verifyIncorrectDateErrorMessage(page, bendob) {
+    const pomanager = new POManager(page);
+    const beneficiarypage = pomanager.getBeneficiaryPage();
+    await beneficiarypage.clickAddBeneficiryBtn();
+    const error_date = await beneficiarypage.getIncorrectDateError(bendob);
+    return error_date;
+}
+
+module.exports = { verifyBenecificaryPageHeader, verifyIncorrectDateErrorMessage, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, checkWithoutBeneficiryCheckbox };

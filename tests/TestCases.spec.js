@@ -1,10 +1,10 @@
 import { test, expect, request } from '@playwright/test';
-import { loginIntoApp } from '../PageTests/LoginPageTest';
-import { verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToTermLifeByLifeBanner, navigateToMyPoliciesPage } from '../PageTests/DashboardTest';
+import { loginIntoApp, loginWithValidUser } from '../PageTests/LoginPageTest';
+import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
-import { verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
+import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
-import { verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg } from '../PageTests/PreApplicationPageTest';
+import { verifyNonCanadianWarningOnPreAppPage, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, fillPreApplicationFormPage, answerYesOnPreAppQues } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
 import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page } from '../PageTests/LifestyleQuestionsPageTest';
@@ -12,7 +12,7 @@ import { verifyMed1PageHeader, navigateToMedicalQuestion2Page } from '../PageTes
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
 import { verifyReviewPageHeader, navigateToPersonalStatementPage } from '../PageTests/ReviewYourAnswersPageTest';
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText } from '../PageTests/PersonalStatementPageTest';
-import { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, checkWithoutBeneficiryCheckbox } from '../PageTests/BeneficiaryPageTest';
+import { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, checkWithoutBeneficiryCheckbox, verifyIncorrectDateErrorMessage } from '../PageTests/BeneficiaryPageTest';
 import { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage, navigateToPaymentPageUsingHealthNumber, navigateToPaymentPageUsingLicenseNumber } from '../PageTests/ConfirmIdentityPageTest';
 import { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch } from '../PageTests/PaymentPageTest';
 import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment, verifyThankYouMsg } from '../PageTests/CongratulationsPageTest';
@@ -94,6 +94,8 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         expect(await verifyNeedsAssessmentPageHeader(page)).toEqual('How Much Term Insurance Do I Need?');
     });
+
+    
 
     test('BL-T11: User with age < 18 or > 80 shall not be allowed to buy a CA term plan.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
@@ -552,5 +554,106 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToPolicyForm(page);
         expect(await verifyPremiumQuotePageHeader(page)).toEqual("Term Life Insurance Premium Quote");
     });
+
+    test('BL-T119: User shall be directed to Pre application page directly from quote page if user is logged in already.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password)
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        expect(await verifyPreApplicationPageHeader(page)).toEqual("Pre Application");
+    });
+
+    test('BL-T120: User shall be directed to Sign in/Sign up page from quote page if user is not logged in.', async ({ page }) => {
+        await page.goto(url);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        expect(await verifyInFormLoginPageHeader(page)).toEqual("In order to continue with the application, please log in or create a Blanket account.");
+        await loginInForm(page,username,password);
+        expect(await verifyPreApplicationPageHeader(page)).toEqual("Pre Application");
+    });
+
+    test('BL-T122: Application shall show user a warning message if user tries to change the language while filling CA term form.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password)
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        expect(await verifyWarningMsgOnLangChangeInForm(page)).toEqual("Please note that changing the language will reload the page and your information will be lost.");
+    });
+
+    test('BL-T127: DOB field shall not accept invalid date on quote, pre application & beneficiary page.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        expect(await verifyInvalidDateError(page, gender, "13/01/2000")).toEqual("Date of birth is not a valid date");
+        await navigateToPreApplicationPage(page, gender, date);
+        expect(await verifyInvalidDateErrorMsg(page, firstname, lastname, "13/01/2000")).toEqual("Date of birth is not a valid date");
+        await fillPreApplicationFormPage(page, date, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        expect(await verifyIncorrectDateErrorMessage(page, "13/01/2000")).toEqual("Date of birth is not a valid date");
+    });
+
+    test('BL-T128: Application shall display notification message to user if user has any open application.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await logoutFromApplication(page);
+        await loginWithValidUser(page, username, password);
+        expect(await verifyIfNotificationMsgForOpenApplication(page)).toEqual("You have an application in progress, would you like to continue?");
+    });
+    
+    test('BL-T171: Application shall show the current step name in URL as user proceed with CA term life policy form.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password)
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await verifyPremiumQuotePageHeader(page);
+        expect(await page.url()).toContain("quote");
+        await navigateToPreApplicationPage(page, gender, date);   
+        await verifyPreApplicationPageHeader(page);  
+        expect(await page.url()).toContain("pre-application");
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await verifyNeedsAssessmentPageHeader(page);
+        page.waitForTimeout(30000);
+        //expect(await page.url()).toContain("policy-options");
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await verifyConfirmIdentityPageHeader(page);
+        expect(await page.url()).toContain("policy-options");
+        await navigateToLifeStyleQuestionsPage(page);
+        await verifyLifestyleQuestionsPageHeader(page);
+        page.waitForTimeout(5000);
+        expect(await page.url()).toContain("underwritting");
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        expect(await page.url()).toContain("underwritting");
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        expect(await page.url()).toContain("underwritting");
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        expect(await page.url()).toContain("underwritting");
+        await navigateToPersonalStatementPage(page);
+        await verifyPersonalStatementPageHeader(page);
+        page.waitForTimeout(5000);
+        expect(await page.url()).toContain("personal-statements");
+        await navigateToBeneficiryPage(page);
+        await verifyBenecificaryPageHeader(page);
+        page.waitForTimeout(5000);
+        expect(await page.url()).toContain("beneficiary");
+        await checkWithoutBeneficiryCheckbox(page);
+        await navigateToConfirmIdentityPage(page);
+        await verifyConfirmIdentityPageHeader(page);
+        page.waitForTimeout(5000);
+        expect(await page.url()).toContain("your-policy");
+        await navigateToPaymentPageUsingHealthNumber(page, healthno);
+        await verifyPaymentPageHeader(page);
+        page.waitForTimeout(5000);
+        expect(await page.url()).toContain("payment");
+    });
+
+    
 
 });

@@ -5,12 +5,12 @@ class BeneficiaryPage {
     constructor(page) {
         this.page = page;
         this.header = page.locator("//div[text()=' Beneficiaries ']");
-        this.addBeneficiryBtn = page.locator("[name='addBeneficiary']"); 
+        this.addBeneficiryBtn = page.getByRole('button', {name: ' Add beneficiary '}); 
         this.dialogBox =  page.getByRole('dialog');
         this.openMyBeneficiaries = this.dialogBox.getByLabel('My Beneficiaries', { exact: true });
         this.selectIndividual = this.dialogBox.getByText('Individual', { exact: true });
-        this.benFirstName = this.dialogBox.locator("[name='benFirstName']");
-        this.benLastName = this.dialogBox.locator("[name='benLastName']");
+        this.benFirstName = this.dialogBox.getByLabel('First name', { exact: true });
+        this.benLastName = this.dialogBox.getByLabel('Last name', { exact: true }); 
         this.openRelationshipDropDown = this.dialogBox.getByLabel('Relationship to policy owner', { exact: true });
         this.selectRelationshipOption = this.dialogBox.getByText('Brother', { exact: true });
         this.openBeneficiaryType = this.dialogBox.getByLabel('Beneficiary type', { exact: true });
@@ -22,6 +22,7 @@ class BeneficiaryPage {
         this.noBen = page.locator("//label[text()='Proceed without adding a beneficiary']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.addedbendetails = page.locator("//div[@class ='v-data-table__wrapper']/table/tbody/tr/td");
+        this.errorMsgs = this.dialogBox.locator('.v-messages__message');
     }
 
     async getBenecificaryPageHeader() {
@@ -71,6 +72,14 @@ class BeneficiaryPage {
 
     async checkWithoutBenCheckbox() {
         await this.noBen.click();
+    }
+
+    async getIncorrectDateError(bendob) {
+        await this.openMyBeneficiaries.click();
+        await this.selectIndividual.click();
+        await this.dateOfBirth.click();
+        await this.dateOfBirth.fill(bendob);
+        return (await this.errorMsgs.textContent()).trim();
     }
 
 }

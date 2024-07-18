@@ -9,10 +9,14 @@ class PremiumQuotePage {
         this.genderFemale = page.getByText('Female', { exact: true });
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
         this.canadianCitizen = page.getByText('Yes');
+        this.optionNo = page.getByText('No');
         this.nonSmoker = page.getByText('No');
         this.dateErrorMsg = page.locator('.v-messages__message');
         this.getQuoteBtn = page.getByRole('button', { name: ' GET QUOTE ' });
         this.continueBtn = page.getByRole('button', { name: 'Continue' });
+        this.dialogBox = page.getByRole('dialog');
+        this.warningMsgText = this.dialogBox.locator("//div[@class='v-card__text justify-center text-center']/div/div");
+        this.closeBtn = this.dialogBox.getByRole('button', { name: ' Close '});
     }
 
     async getPremiumQuotePageHeader() {
@@ -45,6 +49,13 @@ class PremiumQuotePage {
         //console.log(responseAsJson.monthlyfee);
         //expect(responseAsJson.annualfee.value).toBe("30");
         //expect(responseAsJson.monthlyfee.value).toBe("2.700");
+    }
+
+    async getNonCandianWarningMsg() {
+        await this.optionNo.first().click();
+        const msg_warning = (await this.warningMsgText.textContent()).trim();
+        await this.closeBtn.click();
+        return msg_warning;  
     }
 
     async getIncorrectDateErrorMsg(gender, date) {
