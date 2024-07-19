@@ -32,8 +32,7 @@ class MedicalQuestionnaire1Page {
     }
     
     async getMedicalQuestionsPageHeader() {
-        return await this.header.textContent();
-
+        return (await this.header.textContent()).trim();
     }
 
     async medicalQuestionsPage1(option) {

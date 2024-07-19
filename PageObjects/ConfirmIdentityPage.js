@@ -25,7 +25,7 @@ class ConfirmIdentityPage {
     }
 
     async getConfirmIdentityPageHeader() {
-        return await this.header.textContent();
+        return (await this.header.textContent()).trim();
     }
 
     async getMonthlyPremiumValue() {

@@ -11,8 +11,7 @@ class ConfirmPremiumPage {
     }
 
     async getConfirmPremiumPageHeader() {
-        const confirmPremium_header = await this.header.textContent();
-        return confirmPremium_header;
+        retun (await this.header.textContent()).trim();
     }
 
     async getTermsOptions() {

@@ -20,12 +20,7 @@ async function verifyMyPoliciesInMenu(page) {
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
     const name = await dashboardpage.getMenuOptions();
-    console.log(name);
-    await dashboardpage.clickMyPoliciesBtn();
-
-    // const MyPolicies_Status = await dashboardpage.checkMyPoliciesButtonInMenu();
-    // console.log("Status :" + MyPolicies_Status);
-    // return MyPolicies_Status;
+    return name;
 }
 
 async function navigateToProductPage(page) {
@@ -33,7 +28,7 @@ async function navigateToProductPage(page) {
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
     await dashboardpage.selectCACountry();
-    await dashboardpage.navigateToTermLifeCA();
+    await dashboardpage.openTermLifeCAProduct();
 }
 
 async function navigateToTermLifeByLifeBanner(page) {
@@ -49,6 +44,13 @@ async function navigateToMyPoliciesPage(page) {
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
     await dashboardpage.clickMyPoliciesBtn();
+}
+
+async function navigateToMyApplicationsPage(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.clickMyProfileBtn();
+    await dashboardpage.clickMyApplicationsBtn();
 }
 
 async function logoutFromApplication(page) {
@@ -82,4 +84,4 @@ async function verifyWarningMsgOnLangChangeInForm(page) {
     return warn_langChange;
 }
 
-module.exports = { logoutFromApplication, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
+module.exports = { logoutFromApplication, navigateToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
