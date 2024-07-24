@@ -49,6 +49,7 @@ async function navigateToMyPoliciesPage(page) {
 async function navigateToMyApplicationsPage(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.acceptCookies();
     await dashboardpage.clickMyProfileBtn();
     await dashboardpage.clickMyApplicationsBtn();
 }

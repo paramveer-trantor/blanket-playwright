@@ -7,14 +7,14 @@ async function verifyPreApplicationPageHeader(page) {
     return header_pa;
 }
 
-async function navigateToNeedsAssessmentPage(page,firstname, lastname, houseaddress, phonenumber, Option) {
+async function navigateToNeedsAssessmentPage(page,firstname, lastname, houseaddress, phonenumber, option) {
     const pomanager = new POManager(page);
     const preapplicationpage = pomanager.getPreApplicationPage();
     await preapplicationpage.acceptPopWindow();
     await preapplicationpage.enterUserName(firstname, lastname);
     await preapplicationpage.enterAddress(houseaddress);
     await preapplicationpage.enterPhoneNumber(phonenumber);
-    await preapplicationpage.last3Questions(Option);
+    await preapplicationpage.last3Questions(option);
     await preapplicationpage.clickConitnueBtn();
 }
 
@@ -81,6 +81,16 @@ async function fillPreApplicationFormPage(page, firstname, lastname, date, house
     await preapplicationpage.last3Questions(option);
 }
 
+async function enterAddressManually(page, firstname, lastname, date, houseaddress, city, zipcode, phonenumber, option) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.enterUserName(firstname, lastname);
+    await preapplicationpage.enterDOB(date);
+    await preapplicationpage.enterAddressManually(houseaddress, city, zipcode)
+    await preapplicationpage.enterPhoneNumber(phonenumber);
+    await preapplicationpage.last3Questions(option);
+}
+
 async function acceptAfterHoursMsg(page) {
     const pomanager = new POManager(page);
     const preapplicationpage = pomanager.getPreApplicationPage();
@@ -100,4 +110,14 @@ async function verifyAddressValidateFailureError(page) {
     return address_validate;
 }
 
-module.exports = { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg };
+async function verifyScrollingToErrorMsg(page, firstname, lastname, houseaddress, option) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.acceptPopWindow();
+    await preapplicationpage.enterUserName(firstname, lastname);
+    await preapplicationpage.enterAddress(houseaddress);
+    await preapplicationpage.last3Questions(option);
+    await preapplicationpage.clickConitnueBtn();
+}
+
+module.exports = { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, enterAddressManually, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg, verifyScrollingToErrorMsg };

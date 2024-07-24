@@ -17,6 +17,7 @@ const { LoginPageInTermLifeForm } = require('../PageObjects/LoginPageInTermLifeF
 const { CongratulationsPage } = require('../PageObjects/CongratulationsPage');
 const { MyPoliciesPage } = require('../PageObjects/MyPoliciesPage');
 const { MyApplicationsPage } = require('../PageObjects/MyApplicationsPage');
+const { ProgressBar } = require('../PageObjects/ProgressBar');
 
 class POManager {
 
@@ -41,6 +42,7 @@ class POManager {
         this.congratulationsPage = new CongratulationsPage(this.page);
         this.myPoliciesPage = new MyPoliciesPage(this.page);
         this.myApplicationsPage = new MyApplicationsPage(this.page);
+        this.progressBar = new ProgressBar(this.page);
     }
 
     getLoginPage() {
@@ -117,6 +119,10 @@ class POManager {
 
     getMyApplicationsPage() {
         return this.myApplicationsPage;
+    }
+
+    getProgressBar() {
+        return this.progressBar;
     }
 
 }

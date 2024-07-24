@@ -4,22 +4,21 @@ import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangCh
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
-import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues } from '../PageTests/PreApplicationPageTest';
+import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyScrollingToErrorMsg } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
-import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage } from '../PageTests/ConfirmPremiumPageTest';
+import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page } from '../PageTests/LifestyleQuestionsPageTest';
-import { verifyMed1PageHeader, navigateToMedicalQuestion2Page } from '../PageTests/MedicalQuestionnaire1PageTest';
+import { verifyMed1PageHeader, navigateToMedicalQuestion2Page, moveToNextPageSleepApneaYes } from '../PageTests/MedicalQuestionnaire1PageTest';
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
 import { verifyReviewPageHeader, clickMakeAnEditButton, navigateToPersonalStatementPage } from '../PageTests/ReviewYourAnswersPageTest';
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText } from '../PageTests/PersonalStatementPageTest';
 import { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, checkWithoutBeneficiryCheckbox, verifyIncorrectDateErrorMessage } from '../PageTests/BeneficiaryPageTest';
 import { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage, navigateToPaymentPageUsingHealthNumber, navigateToPaymentPageUsingLicenseNumber } from '../PageTests/ConfirmIdentityPageTest';
-import { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch } from '../PageTests/PaymentPageTest';
+import { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch, verifyIconTransitNumberIsVisible, verifyIconRoutingNumberIsVisible, verifyIconAccountNumberIsVisible } from '../PageTests/PaymentPageTest';
 import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment, verifyThankYouMsg } from '../PageTests/CongratulationsPageTest';
 import { verifyMyPoliciesPageHeader, verifyPolicySendingOverEmail, verifyPoliciesDetails } from '../PageTests/MyPoliciesPageTest';
-import {verifyMyApplicationsPageHeader, resumeLatestLeftApplication } from '../PageTests/MyApplicationsPageTest';
-import exp from 'constants';
-import { Console } from 'console';
+import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxOpenApplicationsCount } from '../PageTests/MyApplicationsPageTest';
+import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, verifyStep5IsInactive, verifyStep6IsInactive, verifyStep7IsInactive } from '../PageTests/ProgressBarTest';
 const { url, urlLogin, username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('App Flow TCs', async () => {
@@ -111,7 +110,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
-        expect(await verifyKnockoutMsg(page)).toContain("A licensed insurance agent will contact you shortly.");
+        expect(await verifyKnockoutMsg(page)).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('BL-T11: User with age < 18 or > 80 shall not be allowed to buy a CA term plan.', async ({ page }) => {
@@ -258,7 +257,7 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToBeneficiryPage(page);
         await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page)
-        await verifyConfirmIdentityPageHeader(page);
+        expect(await verifyConfirmIdentityPageHeader(page)).toBeVisible();
     });
 
     test('BL-T27: Application shall display 3 options to user to confirm the identity on Confirm Identity page.', async ({ page }) => {
@@ -435,6 +434,34 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyPaymentPageHeader(page)).toEqual("Payment");
     });
 
+    test.only('BL-T38: Term plan details shall be displayed properly on confirm identity page.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        const pa_value = await getpremiumAmount(page);
+        const tl_value = await getTermLength(page);
+        const ca_value = await getCoverageAmount(page); 
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await checkWithoutBeneficiryCheckbox(page);
+        await navigateToConfirmIdentityPage(page);
+        const confirm_term = (await page.locator('.offer-term').textContent()).trim();
+        const confirm_coverage = (await page.locator('.offer-coverage').textContent()).trim();
+        const monthly = (page.getByText('^Monthly Premium:')).textContent();
+        console.log(monthly);
+        //const myArray_monthly = monthly
+        //expect(myArray_monthly[3]).toEqual(pa_value);
+        expect(confirm_term).toEqual(tl_value);
+        expect(confirm_coverage).toEqual(ca_value);
+    });
+
     test('BL-T40: Purchased policy details shall be displayed properly on congratulations screen.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await navigateToProductPage(page);
@@ -485,11 +512,11 @@ test.describe('CA Term Life Flow TCs', async () => {
 
     test('BL-T45: My policies menu option shall be visible in menu on desktop browser.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
-        //expect(await verifyMyPoliciesInMenu(page)).toContain(' Products  Partnerships  About Us  Contact Us  My Policies ');
         await navigateToMyPoliciesPage(page);
         expect(await verifyMyPoliciesPageHeader(page)).toEqual('My Policies');
+        
     });
-
+    
     test('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
         await page.goto(url);
         expect(await verifyCookieBannerIsVisible(page)).toEqual(cookiestext);
@@ -513,7 +540,6 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
         expect(await verifyAfterHoursMsg(page)).toEqual('After hours');
-       
     });
 
     test('BL-T55: User shall able to do premium payment successfully.', async ({ page }) => {
@@ -542,6 +568,29 @@ test.describe('CA Term Life Flow TCs', async () => {
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
         expect(await createAccountInForm(page,"test@mailnator.com","Test@1")).toEqual("Please enter the 6 digit One time password sent to");
+    });
+
+    test('BL-T91: An info icon & helper image for some fields shall be displayed to user on payment screen.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        await checkWithoutBeneficiryCheckbox(page);
+        await navigateToConfirmIdentityPage(page)
+        await navigateToPaymentPageUsingHealthNumber(page, healthno);
+        await expect(verifyIconTransitNumberIsVisible(page)).toBeTruthy;
+        await page.locator("//div[@class='v-dialog__content v-dialog__content--active']").click();
+        await expect(verifyIconTransitNumberIsVisible(page)).toBeTruthy;
+        await page.locator("//div[@class='v-dialog__content v-dialog__content--active']").click();
+        await expect(verifyIconTransitNumberIsVisible(page)).toBeTruthy;
     });
 
     test('BL-T103: Application shall display a special statement for Quebec residents on personal statement page if user is filling form in EN.', async ({ page }) => {
@@ -674,7 +723,19 @@ test.describe('CA Term Life Flow TCs', async () => {
         expect(await verifyMyApplicationsPageHeader(page)).toEqual("My Applications");
     });
 
-    test.only('BL-T141: Application shall throw an error message after clicking continue button if address validation fails.', async ({ page }) => {
+    test('BL-T140: Application shall also give user an option to enter address manually and validate the same on clicking continue button.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password)
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);  
+        await acceptAfterHoursMsg(page);
+        await enterAddressManually(page, firstname, lastname, date, "112-860 Cahill Dr W", "Ottawa", "K1V 9A3", phonenumber, OptionNo);
+        await clickPreAppPageContinueBtn(page);
+        expect(await verifyNeedsAssessmentPageHeader(page)).toBeVisible();
+        //<< Check with dev about manual entry of address >>//
+    });
+
+    test('BL-T141: Application shall throw an error message after clicking continue button if address validation fails.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password)
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
@@ -685,7 +746,55 @@ test.describe('CA Term Life Flow TCs', async () => {
         await clickPreAppPageContinueBtn(page);
         expect(await verifyAddressValidateFailureError(page)).toEqual("The address you enter could not be validated. Please enter the correct address.");
     });
+
+    test('BL-T147: The completed sections shall be checked and uncompleted sections shall be greyed out in CA term policy form progress bar in web view.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        expect(await verifyStep1IsCompleted(page)).toBeVisible();
+        expect(await verifyStep2IsCompleted(page)).toBeVisible();
+        expect(await verifyStep4IsInactive(page)).toBeVisible();
+        expect(await verifyStep5IsInactive(page)).toBeVisible();
+        expect(await verifyStep6IsInactive(page)).toBeVisible();
+        expect(await verifyStep7IsInactive(page)).toBeVisible();
+    });
+
+    test('BL-T152: User email address shall be pre populated in email field on pre application page of CA term policy form.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await acceptAfterHoursMsg(page);
+        await expect(page.locator("[name='emailAddress']")).toHaveValue(username);
+    });
+
+    test('BL-T153: User shall be knocked out if selects an inappropriate answer for Sleep Apnea or related medical questions.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, "8");
+        await moveToNextPageSleepApneaYes(page);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
+        expect(await verifyKnockoutMsg(page)).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+    });
     
+    test('BL-T159: Application shall store upto 7 open application on My application page.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToMyApplicationsPage(page);
+        console.log(await await verifyMaxOpenApplicationsCount(page));
+        expect(await verifyMaxOpenApplicationsCount(page)).toBeLessThanOrEqual(7);
+    });
+
     test('BL-T171: Application shall show the current step name in URL as user proceed with CA term life policy form.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password)
         await navigateToProductPage(page);

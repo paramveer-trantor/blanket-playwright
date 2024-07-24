@@ -21,10 +21,9 @@ class ConfirmIdentityPage {
         this.monthlyPremium = page.locator("(//div[@class='d-flex align-start']//span)[1]");
         this.selectAnnualPremium = page.locator("//input[@value='annual']/following-sibling::div[1]");
         this.annualPremium = page.locator("//div[@class='d-flex align-start'][2]/p/span[@class='font-weight-bold']");
-        //this.annualPremium = page.getByText("/Total Annual Payment:/i");
     }
 
-    async getConfirmIdentityPageHeader() {
+    async getConfirmIdentityPageHeader() {  
         return (await this.header.textContent()).trim();
     }
 

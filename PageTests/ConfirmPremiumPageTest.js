@@ -15,6 +15,27 @@ async function verifyTermOptions(page) {
     return terms;
 }
 
+async function getpremiumAmount(page) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    const premium_amount = await confirmpremiumpage.getPremiumValue();
+    return premium_amount;
+}
+
+async function getTermLength(page) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    const term_length = await confirmpremiumpage.getTermLength();
+    return term_length;
+}
+
+async function getCoverageAmount(page) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    const coverage_amount = await confirmpremiumpage.getCoverageAmountValue();
+    return coverage_amount;
+}
+
 async function verifyCoverageAmountOptions(page) {
     const pomanager = new POManager(page);
     const confirmpremiumpage = pomanager.getConfirmPremiumPage();
@@ -35,4 +56,4 @@ async function verifyQuoteValue(page) {
     return quote_value;
 }
 
-module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage };
+module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount };
