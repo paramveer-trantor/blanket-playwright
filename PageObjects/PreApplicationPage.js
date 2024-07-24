@@ -12,10 +12,14 @@ class PreApplicationPage {
         this.firstName = page.getByLabel('First name', { exact: true });
         this.lastName = page.getByLabel('Last name', { exact: true });
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
+        this.dob = page.locator("[name='dob']");
         this.errorMsgs = page.locator('.v-messages__message');
         this.address = page.getByLabel('Address', { exact: true });
+        this.city = page.getByLabel('City', { exact: true });
         this.province = page.getByLabel('Province', { exact: true });
         this.selectProvinceBC = page.getByRole('listbox').getByRole('option').filter({ hasText: 'British Columbia' });
+        this.selectProvinceON = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Ontario' });
+        this.zipcode = page.getByLabel('Postal code', { exact: true });
         this.notAvailableMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']");
         this.selectAddress = page.locator(".address-item");
         this.phoneNumber = page.getByLabel('Phone number', { exact: true });
@@ -25,6 +29,7 @@ class PreApplicationPage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.warningMsgText = page.locator("//div[@class='v-dialog v-dialog--active']/div/div/div/div[@class='col']");
         this.closeBtn = page.getByRole('button', { name: ' Close '});
+        this.addressvalidate = this.dialogBox.locator('.col');
     }
 
     async getPreApplicationPageHeader() {
@@ -66,6 +71,16 @@ class PreApplicationPage {
         await this.selectAddress.first().click();
     }
 
+    async enterAddressManually(houseaddress, city, zipcode) {
+        await this.address.fill(houseaddress);
+        await this.city.click();
+        await this.city.fill(city);
+        await  this.province.click();
+        await this.selectProvinceON.click();
+        await this.zipcode.click();
+        await this.zipcode.fill(zipcode);
+    }
+
     async getProductNotAvailableMsg() {
         await  this.province.click();
         await this.selectProvinceBC.click();   
@@ -73,6 +88,7 @@ class PreApplicationPage {
     }
 
     async enterPhoneNumber(phonenumber) {
+        await this.phoneNumber.click();
         await this.phoneNumber.fill(phonenumber);
     }
 
@@ -105,6 +121,10 @@ class PreApplicationPage {
         await this.closeBtn.click();
         await this.optionYes.first().click();
         return msg_warning;  
+    }
+
+    async getAddressValidateFailureErrorMsg() {
+        return (await this.addressvalidate.first().textContent()).trim();
     }
 
 }

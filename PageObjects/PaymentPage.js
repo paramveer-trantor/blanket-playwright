@@ -21,6 +21,9 @@ class PaymentPage {
         this.accountNumber = page.locator("[name='accountNumber']");
         this.bankName = page.locator("[name='bankName']");
         this.confirmAndPayBtn = page.getByRole('button', { name: ' Confirm and submit payment ' });
+        this.iconTransitNumber = page.locator("//button[@aria-label='Transit Number appended action']");
+        this.iconRoutingNumber = page.locator("//button[@aria-label='Institution Number appended action']");
+        this.iconAccountNumber = page.locator("//button[@aria-label='Account Number appended action']");
     }
 
     async getPaymentPageHeader() {
@@ -42,47 +45,25 @@ class PaymentPage {
         await this.cvv.fill(cvv);
         await this.payNowBtn.isVisible();
         await this.payNowBtn.click();
+    }
 
-        // const promise_CustormerAPI =  this.page.waitForResponse("**createCATermCustomer", async route => {
-        //      expect(await route.request().method()).toBe('POST');
-        //      const response = await this.page.request.fetch(route.request());
-        //      expect(await response.status()).toBe(200);
-        //  });
-        // const response_CustormerAPI = await promise_CustormerAPI;
-        // expect(response_CustormerAPI.status()).toBe(200);
+    async checkIconTransitNumber() {
+        await this.ach.click();
+        const status_tn = await this.iconTransitNumber.isVisible();
+        await this.iconTransitNumber.click();
+        return status_tn;
+    }
 
-        // const promise_StoreCCAPI = this.page.waitForResponse("**storeCATermCreditCard", async route => {
-        //     expect(await route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());
-        //     expect(await response.status()).toBe(200);
-        // });
-        // const response_StoreCCAPI = await promise_StoreCCAPI;
-        // expect(response_StoreCCAPI.status()).toBe(200);
+    async checkIconRoutingNumber() {
+        const status_rn = await this.iconRoutingNumber.isVisible();
+        await this.iconRoutingNumber.click();
+        return status_rn;
+    }
 
-        // const promise_SubscribeAPI = this.page.waitForResponse("**subscribeCATerm", async route => {
-        //     expect(await route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());
-        //     expect(await response.status()).toBe(200);
-        // });
-        // const response_SubscribeAPI = await promise_SubscribeAPI;
-        // expect(response_SubscribeAPI.status()).toBe(200);
-
-        // const promise_BindPolicyAPI = this.page.waitForResponse("**CATermBindPolicy", async route => {
-        //     console.log(route.request());
-        //     expect(await route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());
-        //     console.log(route.request().postDataJSON());
-        //     const response_BindPolicyAPI = await promise_BindPolicyAPI;
-        //     expect(response_BindPolicyAPI.status()).toBe(200);
-        // });
-
-        // const promise_SendPolicyAPI = this.page.waitForResponse("**sendCATermPolicyPdf", async route => {
-        //     expect(await route.request().method()).toBe('POST');
-        //     const response = await this.page.request.fetch(route.request());
-        //     expect(await response.status()).toBe(200);
-        // });
-        // const response_SendPolicyAPI = await promise_SendPolicyAPI;
-        // expect(response_SendPolicyAPI.status()).toBe(200);
+    async checkIconAccountNumber() {
+        const status_an = await this.iconAccountNumber.isVisible();
+        await this.iconAccountNumber.click();
+        return status_an;
     }
 
     async purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname) {

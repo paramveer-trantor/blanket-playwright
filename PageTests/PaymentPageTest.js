@@ -26,4 +26,24 @@ async function verifyPurchasePolicyWithAch(page,accountholdername, transitnumber
     await paymentypage.purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
 }
 
-module.exports = { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch };
+async function verifyIconTransitNumberIsVisible(page) {
+    const pomanager = new POManager(page);
+    const paymentypage = pomanager.getPaymentPage();
+    const tn_status = await paymentypage.checkIconTransitNumber();
+    return tn_status;
+}
+
+async function verifyIconRoutingNumberIsVisible(page) {
+    const pomanager = new POManager(page);
+    const paymentypage = pomanager.getPaymentPage();
+    const rn_status = await paymentypage.checkIconRoutingNumber();
+    return rn_status;
+}
+
+async function verifyIconAccountNumberIsVisible(page) {
+    const pomanager = new POManager(page);
+    const paymentypage = pomanager.getPaymentPage();
+    const an_status = await paymentypage.checkIconAccountNumber();
+    return an_status;
+}
+module.exports = { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch, verifyIconTransitNumberIsVisible, verifyIconRoutingNumberIsVisible, verifyIconAccountNumberIsVisible };

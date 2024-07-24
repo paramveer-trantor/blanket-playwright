@@ -31,7 +31,7 @@ class LifestyleQuestionnairePage {
     }
 
     async getLifestylePageHeader() {
-        return await this.header.textContent();
+        return (await this.header.textContent()).trim();
     }
 
     async lifestyleQuestions(option, feet, inches, weight, drinksvalue, marijuanavalue=0) {

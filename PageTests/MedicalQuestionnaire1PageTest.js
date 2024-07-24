@@ -7,6 +7,13 @@ async function verifyMed1PageHeader(page) {
     return header_med1;
 }
 
+async function moveToNextPageSleepApneaYes(page) {
+    const pomanager = new POManager(page);
+    const medical1 = pomanager.getMedicalQuestionnaire1Page();
+    await medical1.AnswerSleepApneaAsYesandRestNo();
+    await medical1.clickConitnueBtn();
+}
+
 async function navigateToMedicalQuestion2Page(page, option) {
     const pomanager = new POManager(page);
     const medical1 = pomanager.getMedicalQuestionnaire1Page();
@@ -14,4 +21,4 @@ async function navigateToMedicalQuestion2Page(page, option) {
     await medical1.clickConitnueBtn();
 }
 
-module.exports = { verifyMed1PageHeader, navigateToMedicalQuestion2Page };
+module.exports = { verifyMed1PageHeader, navigateToMedicalQuestion2Page, moveToNextPageSleepApneaYes };
