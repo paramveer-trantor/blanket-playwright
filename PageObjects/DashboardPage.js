@@ -23,7 +23,7 @@ class DashboardPage{
         this.langChangeWarningMsg = this.dialogBox.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//p");
     }
 
-    async getCookieBannerHeading() {  
+    async getCookieBannerHeading() {     
         return (await this.cookieBanner.textContent()).trim();
     }
 
@@ -47,11 +47,10 @@ class DashboardPage{
     }
 
     async getMenuOptions(){
-        console.log(await this.menuOptions.textContent());
-        return await this.menuOptions.textContent();
+        return await this.menuOptions.allTextContents();
     }
 
-    async navigateToTermLifeCA(){
+    async openTermLifeCAProduct(){
         await this.productsBtn.click();
         await this.termlifeBtn.click();
         await this.page.waitForLoadState('domcontentloaded');
@@ -88,6 +87,11 @@ class DashboardPage{
       const msg_openapps =  (await this.openApplicationMsg.textContent()).trim();
       await this.openApplicationMsg.click();
       return msg_openapps;
+    }
+
+    async clickMyApplicationsPage() {
+        await this.myProfileBtn.click();
+        await this.profileOptions.nth(1).click();
     }
 
 }

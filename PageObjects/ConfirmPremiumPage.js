@@ -7,12 +7,12 @@ class ConfirmPremiumPage {
         this.header = page.locator("//div[text()=' Premium Quote ']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.quoteValue = page.locator('.estimate-subtitle .font-weight-bold');
+        this.policyOptions = page.locator('.chip-text');
         this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
     }
 
     async getConfirmPremiumPageHeader() {
-        const confirmPremium_header = await this.header.textContent();
-        return confirmPremium_header;
+        retun (await this.header.textContent()).trim();
     }
 
     async getTermsOptions() {
@@ -56,6 +56,14 @@ class ConfirmPremiumPage {
 
     async getCoverageAmountValue() {
         return (await this.policyOptions.last().textContent()).trim();
+    }
+
+    async getTermLength() {
+        return await this.policyOptions.nth(1).textContent();
+    }
+
+    async getCoverageAmountValue() {
+        return await this.policyOptions.last().textContent();
     }
 
     async clickContinueBtn() {
