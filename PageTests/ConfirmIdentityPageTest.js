@@ -25,7 +25,7 @@ async function verifyLicenseInputFieldVisible(page) {
     const pomanager = new POManager(page);
     const identitypage = pomanager.getConfirmIdentityPage();
     const status_license = await identitypage.checkLicenseInputFieldVisible();
-    return status_license;
+    return status_license;  
 }
 
 async function verifyInvalidPassportError(page, passportno) {
@@ -59,7 +59,7 @@ async function getIdTypeList(page) {
     return list;
 }
 
-async function navigateToPaymentPage(page,passportno) {
+async function navigateToPaymentPageUsingPassportNumber(page,passportno) {
     const pomanager = new POManager(page);
     const identitypage = pomanager.getConfirmIdentityPage();
     await identitypage.enterIdentificationDetailsWithPassport(passportno);
@@ -98,4 +98,4 @@ async function verifyAnnualPremiumSelected(page) {
     return premium_annual;
 }
 
-module.exports = { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPage, navigateToPaymentPageUsingHealthNumber, navigateToPaymentPageUsingLicenseNumber };
+module.exports = { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPageUsingPassportNumber, navigateToPaymentPageUsingHealthNumber, navigateToPaymentPageUsingLicenseNumber };

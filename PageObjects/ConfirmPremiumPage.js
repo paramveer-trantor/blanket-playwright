@@ -43,7 +43,19 @@ class ConfirmPremiumPage {
     async getQuoteValue() {
         await this.quoteValue.waitFor();
         const quotevalue = await this.quoteValue.textContent();
-        return quotevalue;
+        return quotevalue;  
+    }
+
+    async getPremiumValue() {
+        return (await this.policyOptions.first().textContent()).trim();
+    }
+
+    async getTermLength() {
+        return (await this.policyOptions.nth(1).textContent()).trim();
+    }
+
+    async getCoverageAmountValue() {
+        return (await this.policyOptions.last().textContent()).trim();
     }
 
     async clickContinueBtn() {

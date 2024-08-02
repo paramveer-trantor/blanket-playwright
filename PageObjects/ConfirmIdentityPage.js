@@ -90,7 +90,7 @@ class ConfirmIdentityPage {
     }
 
     async clickCheckBox() {
-        await this.agreeCheckBox.click();
+        await this.agreeCheckBox.click();  
     }
 
     async clickAcceptandPayBtn() {
