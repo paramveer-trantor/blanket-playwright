@@ -1,0 +1,15 @@
+name: macOS Scheduled Workflow
+on:
+  schedule:
+    - cron: '*/1 * * * *'
+jobs:
+  test:
+    runs-on: macos-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Print macOS version
+      run: |
+        echo "macOS Version:"
+        sw_vers
