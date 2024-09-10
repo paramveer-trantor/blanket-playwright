@@ -25,6 +25,12 @@ class LoginPage {
        expect(response.status()).toBe(200);
     }
 
+    async enterLoginDetails(username, password) {
+        await this.email.fill(username);
+        await this.password.fill(password);
+        await this.loginBtn.click();
+    }
+
 }
 
 module.exports = { LoginPage };

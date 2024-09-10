@@ -1,7 +1,6 @@
 import { POManager } from '../PageObjects/POManager';
 
 async function verifyPreApplicationPageHeader(page) {
-
     const pomanager = new POManager(page);
     const preapplicationpage = pomanager.getPreApplicationPage();
     await preapplicationpage.acceptPopWindow();
@@ -10,7 +9,6 @@ async function verifyPreApplicationPageHeader(page) {
 }
 
 async function navigateToNeedsAssessmentPage(page,firstname, lastname, houseaddress, phonenumber, Option) {
-
     const pomanager = new POManager(page);
     const preapplicationpage = pomanager.getPreApplicationPage();
     await preapplicationpage.acceptPopWindow();
@@ -19,7 +17,6 @@ async function navigateToNeedsAssessmentPage(page,firstname, lastname, houseaddr
     await preapplicationpage.enterPhoneNumber(phonenumber);
     await preapplicationpage.last3Questions(Option);
     await preapplicationpage.clickConitnueBtn();
-
 }
 
 async function verifyInvalidDateErrorMsg(page,firstname, lastname, date) {
@@ -29,6 +26,7 @@ async function verifyInvalidDateErrorMsg(page,firstname, lastname, date) {
     await preapplicationpage.enterUserName(firstname, lastname);
     const date_error =  await preapplicationpage.getIncorrectDateErrorMsg(date);
     return date_error;
+    
 }
 
 async function verifyInvalidPhoneError(page,firstname, lastname, houseaddress, phone) {
@@ -57,4 +55,32 @@ async function verifyProductNotAvailableMsg(page) {
     return productNotAvailable_msg;
 }
 
-module.exports = { verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg };
+async function verifyNonCanadianWarningOnPreAppPage(page, firstname, lastname, houseaddress, phonenumber) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.acceptPopWindow();
+    await preapplicationpage.enterUserName(firstname, lastname);
+    await preapplicationpage.enterAddress(houseaddress);
+    await preapplicationpage.enterPhoneNumber(phonenumber);
+    const Warning_NonCA = await preapplicationpage.getNonCandianWarningMsg();
+    return Warning_NonCA;
+}
+
+async function answerYesOnPreAppQues(page, option) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.last3Questions(option);
+    await preapplicationpage.clickConitnueBtn();
+}
+
+async function fillPreApplicationFormPage(page, date, houseaddress, phonenumber, option) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.enterDOB(date);
+    await preapplicationpage.enterAddress(houseaddress);
+    await preapplicationpage.enterPhoneNumber(phonenumber);
+    await preapplicationpage.last3Questions(option);
+    await preapplicationpage.clickConitnueBtn();
+}
+
+module.exports = { verifyNonCanadianWarningOnPreAppPage, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg };

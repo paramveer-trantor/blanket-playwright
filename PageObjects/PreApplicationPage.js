@@ -23,6 +23,8 @@ class PreApplicationPage {
         this.optionNo = page.getByText('No', { exact: true });
         this.questionSurvey = page.locator("//input[@name='survey 0']/following-sibling::div[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.warningMsgText = page.locator("//div[@class='v-dialog v-dialog--active']/div/div/div/div[@class='col']");
+        this.closeBtn = page.getByRole('button', { name: ' Close '});
     }
 
     async getPreApplicationPageHeader() {
@@ -46,12 +48,16 @@ class PreApplicationPage {
         await this.lastName.fill(lastname);
     }
 
+    async enterDOB(date) {
+        await this.page.locator("//button[@aria-label='Clear MM/DD/YYYY']").click();
+        await this.dateOfBirth.fill(date);
+    }
+
     async getIncorrectDateErrorMsg(date) {
         await this.page.locator("[name='dob']").click();
         await this.page.locator("//button[@aria-label='Clear MM/DD/YYYY']").click();
         await this.dateOfBirth.fill(date);
         return await this.errorMsgs.textContent();
-        
     }
 
     async enterAddress(houseaddress) {
@@ -92,6 +98,15 @@ class PreApplicationPage {
     async clickConitnueBtn() {
         await this.continueBtn.click();
     }
+
+    async getNonCandianWarningMsg() {
+        await this.optionNo.first().click();
+        const msg_warning = (await this.warningMsgText.textContent()).trim();
+        await this.closeBtn.click();
+        await this.optionYes.first().click();
+        return msg_warning;  
+    }
+
 }
 
 module.exports = { PreApplicationPage };

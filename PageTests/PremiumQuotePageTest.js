@@ -21,4 +21,11 @@ async function verifyInvalidDateError(page, gender, date) {
     return error_date;
 }
 
-module.exports = { verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError };
+async function verifyNonCanadianWarning(page) {
+    const pomanager = new POManager(page);
+    const premiunquotepage = pomanager.getPremiumQuotePage();
+    const Warning_NonCA = await premiunquotepage.getNonCandianWarningMsg();
+    return Warning_NonCA;
+}
+
+module.exports = { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError };
