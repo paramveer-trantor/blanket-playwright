@@ -1,7 +1,7 @@
 import { test, expect, request } from '@playwright/test';
 import { loginIntoApp, loginWithValidUser } from '../PageTests/LoginPageTest';
 import { logoutFromApplication, goToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
-import { addNewPartnerManually, approvePartnerRequest, verifyPartnerNameLatestAdded, verifyPartnerStatusLatestAdded, verifyErrorMessageWhileAddingPartner, verifyTotalPartnersCount, bulkUploadPartners, verifyBulkUploadError } from '../PageTests/PP_DashboadTest';
+import { addNewPartnerManually, approvePartnerRequest, verifyPartnerNameLatestAdded, verifyPartnerStatusLatestAdded, verifyErrorMessageWhileAddingPartner, verifyTotalPartnersCount, bulkUploadPartners, verifyBulkUploadError, deletePartnersInBulk } from '../PageTests/PP_DashboadPageTest';
 import { navigateToReportsTab, verifyReportTypeOptionsList, verifyPopUpMessage, downloadCATermSalesReport, downloadUSTravelSalesReport, downloadUserKnockoutReport, downloadCATermUserJourneyReport, downloadCSTPartnerReport, downloadGGAPartnerReport, downloadALLPartnerReport, verifyNoDataMessage } from '../PageTests/PP_ReportsPageTest'; 
 import { verifyProductPageHeader, verifyGetYourTLQuoteBtnIsVisible, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { applyForPartnership } from '../PageTests/PartnershipsPageTest';
@@ -135,9 +135,11 @@ test.describe('App Flow TCs', async () => {
     test.only('BL-T174: Admin shall have ability to bulk delete partners from partner portal dashboard page.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, adminuser, adminpass);
         await navigateToAdminPartnershipPage(page);
-        const count_totalpartners = page.locator('.v-data-footer__pagination').allTextContents();
-        console.log(count_totalpartners);
-        //console.log(await verifyTotalPartnersCount(page));
+        const totalPartners_beforeDelete = await verifyTotalPartnersCount(page);
+        await deletePartnersInBulk(page);
+        const totalPartners_afterDelete = await verifyTotalPartnersCount(page);
+        await expect(page.getByRole('status')).toBeVisible();
+        expect(totalPartners_beforeDelete).not.toBe(totalPartners_afterDelete);
     });
 
     test('BL-T177: User shall able to upload partners in bulk through csv file using bulk upload.', async ({ page }) => {

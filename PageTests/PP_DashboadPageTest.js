@@ -54,5 +54,10 @@ async function verifyBulkUploadError(page) {
     return error_bulkupload;
 }
 
+async function deletePartnersInBulk(page) {
+    const pomanager = new POManager(page);
+    const partnerdashboard = pomanager.getPPDashboardPage();
+    await partnerdashboard.bulkDeletePartners();
+}
 
-module.exports = { addNewPartnerManually, approvePartnerRequest, verifyPartnerNameLatestAdded, verifyPartnerStatusLatestAdded, verifyErrorMessageWhileAddingPartner, verifyTotalPartnersCount, bulkUploadPartners, verifyBulkUploadError }; 
+module.exports = { addNewPartnerManually, approvePartnerRequest, verifyPartnerNameLatestAdded, verifyPartnerStatusLatestAdded, verifyErrorMessageWhileAddingPartner, verifyTotalPartnersCount, bulkUploadPartners, verifyBulkUploadError, deletePartnersInBulk }; 

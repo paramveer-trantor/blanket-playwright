@@ -24,6 +24,9 @@ class PP_DashboardPage{
         this.bulkUploadBtn = page.getByRole('button', {name: ' Bulk Upload '});
         this.uploadCSVBtn = page.locator("//input[@data-testid='bulkUploadFile']");
         this.bulkUploadError = page.locator('.v-alert__content');
+        this.checkBoxBulkSelect = page.locator('.v-input--selection-controls__ripple');
+        this.deletePartnerBtn = page.getByRole('button', {name: ' Delete Partner '});
+        this.okBtn = page.locator("//div[@class='v-card__actions']//button[2]");
     }
 
     async clickAddNewPartnerBtn() {
@@ -80,12 +83,10 @@ class PP_DashboardPage{
     }
 
     async getTotalPartnersCount() {
+        await this.page.waitForTimeout(2000);
         const count_partners = await this.pagination.textContent();
-        console.log(count_partners)
-        return count_partners;
-        //const arr_openApp = count_partners.trim().split(" ");
-        //await this.page.waitForTimeout(500);
-        //return Number(arr_openApp[2]);
+        const arr_openApp = count_partners.trim().split(" ");
+        return Number(arr_openApp[2]);
     }
     
     async bulkUploadCSV(filePath) { 
@@ -95,6 +96,13 @@ class PP_DashboardPage{
 
     async getBulkUploadCSVError() {
         return (await this.bulkUploadError.textContent()).trim();
+    }
+
+    async bulkDeletePartners() {
+        await this.checkBoxBulkSelect.nth(1).click();
+        await this.checkBoxBulkSelect.nth(2).click();
+        await this.deletePartnerBtn.click();
+        await this.okBtn.click();
     }
 
 }
