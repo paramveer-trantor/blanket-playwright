@@ -7,7 +7,7 @@ import { verifyProductPageHeader, verifyGetYourTLQuoteBtnIsVisible, navigateToPo
 import { applyForPartnership } from '../PageTests/PartnershipsPageTest';
 const { url, urlLogin, urlRegister, username, password, adminuser, adminpass, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
-test.describe('App Flow TCs', async () => {
+test.describe('Partner Portal TCs', async () => {
 
     test('BL-T124: Admin shall have ability to add partner manually from partner portal dashboard page.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, adminuser, adminpass);

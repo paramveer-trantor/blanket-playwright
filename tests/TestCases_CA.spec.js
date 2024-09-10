@@ -23,7 +23,7 @@ import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxO
 import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, verifyStep5IsInactive, verifyStep6IsInactive, verifyStep7IsInactive } from '../PageTests/ProgressBarTest';
 const { url, urlLogin, urlRegister, username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
-test.describe('App Flow TCs', async () => {
+test.describe('Product Visibility TC', async () => {
 
     test('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
         await page.goto(url);
@@ -32,7 +32,7 @@ test.describe('App Flow TCs', async () => {
 
 });
 
-test.describe('CA Term Life Flow TCs', async () => {
+test.describe('CA Term Life TCs', async () => {
 
     test('BL-T2: User shall be redirect to Login page from Quote page in CA Term policy form if user is not logged in blanket application.', async ({ page }) => {
         await page.goto(url);

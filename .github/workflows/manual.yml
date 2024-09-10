@@ -1,7 +1,7 @@
 name: macOS Test Workflow
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Run every 5 minutes for testing
+    
 jobs:
   test:
     runs-on: macos-latest
