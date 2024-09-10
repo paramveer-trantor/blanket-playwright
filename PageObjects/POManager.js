@@ -18,6 +18,9 @@ const { CongratulationsPage } = require('../PageObjects/CongratulationsPage');
 const { MyPoliciesPage } = require('../PageObjects/MyPoliciesPage');
 const { MyApplicationsPage } = require('../PageObjects/MyApplicationsPage');
 const { ProgressBar } = require('../PageObjects/ProgressBar');
+const { PP_DashboardPage} = require('../PageObjects/PP_DashboardPage');
+const { PP_ReportsPage } = require('../PageObjects/PP_ReportsPage');
+const { PartnershipsPage } = require('../PageObjects/PartnershipsPage');
 
 class POManager {
 
@@ -43,6 +46,9 @@ class POManager {
         this.myPoliciesPage = new MyPoliciesPage(this.page);
         this.myApplicationsPage = new MyApplicationsPage(this.page);
         this.progressBar = new ProgressBar(this.page);
+        this.pp_DashboardPage = new PP_DashboardPage(this.page);
+        this.pp_ReportsPage = new PP_ReportsPage(this.page);
+        this.partnershipsPage = new PartnershipsPage(this.page);
     }
 
     getLoginPage() {
@@ -123,6 +129,18 @@ class POManager {
 
     getProgressBar() {
         return this.progressBar;
+    }
+
+    getPPDashboardPage() {
+        return this.pp_DashboardPage;
+    }
+
+    getPPReportsPage() {
+        return this.pp_ReportsPage;
+    }
+
+    getPartnershipsPage() {
+        return this.partnershipsPage;
     }
 
 }

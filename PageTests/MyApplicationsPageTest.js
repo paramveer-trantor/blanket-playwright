@@ -12,12 +12,12 @@ async function resumeLatestLeftApplication(page) {
     const myapplicationspage = pomanager.getMyApplicationsPage();
     await myapplicationspage.clickEditBtnFirstApp();
 }
-
+  
 async function verifyMaxOpenApplicationsCount(page) {
     const pomanager = new POManager(page);
     const myapplicationspage = pomanager.getMyApplicationsPage();
     const openApp_count = await myapplicationspage.getOpenApplicationsCount();
-    return openApp_count;
+    return openApp_count;  
 }
 
 module.exports = {verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxOpenApplicationsCount };

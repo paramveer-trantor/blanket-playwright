@@ -4,7 +4,7 @@ class BeneficiaryPage {
 
     constructor(page) {
         this.page = page;
-        this.header = page.locator("//div[text()=' Beneficiaries ']");
+        this.header = page.locator("div[text=' Beneficiaries ']");
         this.addBeneficiryBtn = page.getByRole('button', {name: ' Add beneficiary '}); 
         this.dialogBox =  page.getByRole('dialog');
         this.openMyBeneficiaries = this.dialogBox.getByLabel('My Beneficiaries', { exact: true });
@@ -16,10 +16,10 @@ class BeneficiaryPage {
         this.openBeneficiaryType = this.dialogBox.getByLabel('Beneficiary type', { exact: true });
         this.selectBeneficiryType = this.dialogBox.getByText('Revocable', { exact: true });
         this.dateOfBirth = this.dialogBox.getByLabel('MM/DD/YYYY', { exact: true });
-        this.percentage = this.dialogBox.locator("[name='percentage']");
+        this.percentage = this.dialogBox.getByLabel('% Share', { exact: true });
         this.saveBtn = this.dialogBox.getByRole('button', { name: ' Save ' });
-        this.errorMsg = page.locator("//div[@class='red--text font-weight-bold']");
-        this.noBen = page.locator("//label[text()='Proceed without adding a beneficiary']");
+        this.errorMsg = page.locator('.red--text.font-weight-bold');
+        this.noBen = page.getByText('Proceed without adding a beneficiary');
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.addedbendetails = page.locator("//div[@class ='v-data-table__wrapper']/table/tbody/tr/td");
         this.errorMsgs = this.dialogBox.locator('.v-messages__message');

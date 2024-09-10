@@ -12,7 +12,7 @@ async function addBeneficiary(page, benfirstname, benlastname, bendob, benshare)
     const beneficiarypage = pomanager.getBeneficiaryPage();
     await beneficiarypage.clickAddBeneficiryBtn();
     await beneficiarypage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare)
-    await beneficiarypage.clickConitnueBtn();
+    //await beneficiarypage.clickConitnueBtn();
 }
 
 async function verifyAddedBenDetails(page) {

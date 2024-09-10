@@ -18,7 +18,8 @@ class PersonalStatementPage {
         this.checkbox10 = page.locator("[name='termCheckbox9'] + div.v-input--selection-controls__ripple");
         this.textLastOption = page.locator("//div[@class='pa-4 v-card v-sheet theme--light elevation-6']/div[2]//div[10]//label");
         this.agreeBtn = page.getByRole('button', { name: ' I Agree ' });
-        this.knockOutMsg = page.locator("//p[@class='font-weight-bold text-center']//span[1]");
+        this.dialogBox = page.getByRole('dialog');
+        this.knockOutMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']//span[1]");  
     }
 
     async getPersonalStatementPageHeader() {
@@ -45,7 +46,6 @@ class PersonalStatementPage {
     }
 
     async clickAgreeBtn(){
-
         const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision", async route => {
              expect(await route.request().method()).toBe('POST');
              const res = await this.page.request.fetch(route.request());
@@ -53,7 +53,10 @@ class PersonalStatementPage {
         await this.agreeBtn.click();
         const response = await promise;
         const responseBody = await response.json();
-        return responseBody;
+        const errors = responseBody.result.response.errors;
+        const error_string = [errors].toString();
+        //console.log(error_string);
+        return error_string; 
      }
 
     async getKnockoutMsg() {

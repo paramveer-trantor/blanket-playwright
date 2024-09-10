@@ -25,7 +25,8 @@ async function navigateToBeneficiryPage(page) {
     const pomanager = new POManager(page);
     const personalstatmentpage = pomanager.getPersonalStatementPage();
     await personalstatmentpage.clickCheckboxes();
-    await personalstatmentpage.clickAgreeBtn();
+    const error_apiresponse = await personalstatmentpage.clickAgreeBtn();
+    return error_apiresponse;
 }
 
 async function getLastStatementText(page) {

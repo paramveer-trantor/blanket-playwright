@@ -17,7 +17,7 @@ class PreApplicationPage {
         this.address = page.getByLabel('Address', { exact: true });
         this.city = page.getByLabel('City', { exact: true });
         this.province = page.getByLabel('Province', { exact: true });
-        this.selectProvinceBC = page.getByRole('listbox').getByRole('option').filter({ hasText: 'British Columbia' });
+        this.selectProvinceMN = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Manitoba' });
         this.selectProvinceON = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Ontario' });
         this.zipcode = page.getByLabel('Postal code', { exact: true });
         this.notAvailableMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']");
@@ -81,9 +81,9 @@ class PreApplicationPage {
         await this.zipcode.fill(zipcode);
     }
 
-    async getProductNotAvailableMsg() {
+    async getProductNotAvailableMsg() {  
         await  this.province.click();
-        await this.selectProvinceBC.click();   
+        await this.selectProvinceMN.click();   
         return (await this.notAvailableMsg.last().textContent()).trim();
     }
 

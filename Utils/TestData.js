@@ -1,8 +1,11 @@
 module.exports = {   
     url : "https://blanket-development.web.app",
     urlLogin : "https://blanket-development.web.app/pages/login",
+    urlRegister : "https://blanket-development.web.app/pages/register",
     username : "gagandeep.singla+autouser1@trantorinc.com",
     password : "Test@1",
+    adminuser : "tester_env_dev@blanket.com",
+    adminpass : "123456",
     cookiestext : "We value your privacy  For us, cookies are more than just a sweet treat. They are essential to providing you with an optimal and customized online experience. These little bits of data let us adapt the content and ads you see, while analyzing our traffic to better meet your needs. Enjoy our website, knowing that we do our utmost to offer you a tasty online experience. Check out our privacy policy  for more information.",
     tagline : "We’ve got what matters most covered.",
     date : "01/01/2000",

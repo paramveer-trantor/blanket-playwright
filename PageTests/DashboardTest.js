@@ -85,8 +85,33 @@ async function verifyIfNotificationMsgForOpenApplication(page) {
 async function verifyWarningMsgOnLangChangeInForm(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
-    await dashboardpage.selectFRLang()
+    await dashboardpage.selectFRLang();
     const warn_langChange = await dashboardpage.getLangChangeWarningMsg();
     return warn_langChange;
 }
+<<<<<<< HEAD
+
+async function navigateToAdminPartnershipPage(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.acceptCookies();
+    await dashboardpage.clickAdminPartnershipsBtn();
+}
+
+async function navigateToAdminReportsPage(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.acceptCookies();
+    await dashboardpage.clickAdminReportsBtn();
+}
+
+async function navigateToPartnershipsPage(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.clickPartnershipsBtn();
+}
+
+module.exports = { logoutFromApplication, navigateToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
+=======
 module.exports = { logoutFromApplication, navigateToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
+>>>>>>> main
