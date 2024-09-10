@@ -10,6 +10,7 @@ class DashboardPage{
         this.CABtn = page.locator('.v-list-item__icon');
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
+        this.partnershipBtn = page.locator("//span[text()=' Partnerships ']");
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
         this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
@@ -21,6 +22,9 @@ class DashboardPage{
         this.langFR = page.getByRole('menuitem');
         this.dialogBox =  page.getByRole('dialog');
         this.langChangeWarningMsg = this.dialogBox.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//p");
+        this.aboutUsBtn = page.getByRole('button', {name: ' About Us '});    
+        this.adminPartnershipsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Partnerships' });
+        this.adminReportsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Reports' });
     }
 
     async getCookieBannerHeading() {     
@@ -67,6 +71,10 @@ class DashboardPage{
         await this.lifebanner.click();
     }
 
+    async clickPartnershipsBtn() {
+        await this.partnershipBtn.click();
+    }
+
     async clickMyPoliciesBtn() {  
         await this.myPoliciesBtn.click();
     }
@@ -84,7 +92,7 @@ class DashboardPage{
     }
 
     async getOpenApplicationsMsg() {
-      const msg_openapps =  (await this.openApplicationMsg.textContent()).trim();
+      const msg_openapps = (await this.openApplicationMsg.textContent()).trim();
       await this.openApplicationMsg.click();
       return msg_openapps;
     }
@@ -92,6 +100,16 @@ class DashboardPage{
     async clickMyApplicationsPage() {
         await this.myProfileBtn.click();
         await this.profileOptions.nth(1).click();
+    }
+
+    async clickAdminPartnershipsBtn() {
+        await this.aboutUsBtn.last().click();
+        await this.adminPartnershipsBtn.click();
+    }
+
+    async clickAdminReportsBtn() {
+        await this.aboutUsBtn.last().click();
+        await this.adminReportsBtn.click();
     }
 
 }

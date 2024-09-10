@@ -36,7 +36,7 @@ async function verifyNoMsgDisplayed(page, income, saving, mortgageBal, debt) {
     const needsassessmentpage = pomanager.getNeedsAssessmentPage();
     await needsassessmentpage.enterGrossIncome(income, saving, mortgageBal, debt);
     const nomessage = await needsassessmentpage.checkIfAnyMessageAppears();
-    return nomessage;
+    return nomessage;  
 }
 
 module.exports = { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue };

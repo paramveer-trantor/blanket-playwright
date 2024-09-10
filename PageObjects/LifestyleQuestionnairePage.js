@@ -64,7 +64,6 @@ class LifestyleQuestionnairePage {
             await this.heightInches.click();
             await this.heightInches.fill(inches);
             await this.weight.click();
-            //await this.weight.type(weight);
             await this.weight.type(weight.toString());
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
@@ -77,6 +76,198 @@ class LifestyleQuestionnairePage {
             await this.questionDrugsUse10YOptionNo.click();
             await this.questionOutsideCAOptionNo.click();
         }
+    }
+
+    async answerOutsideBMIRange(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerCompanyDeclinedAsYesandRestNo(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionYes.click();
+            await this.questionCompanyDeclineAddition.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerRiskyOccupationAsYesandRestNo(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionYes.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerCriminalOffenceAsYesandRestNo(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionYes.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerExtremeSportsAsYesandRestNo(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionYes.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerMarijuanaValueAsHighandRestNo(feet, inches, weight, marijuanavalue, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionYes.click();
+            await this.questionMarijuanaUseValue.fill(marijuanavalue);
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerDrinksValueAsHighandRestNo(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerDrugsUse5YAsYesandRestNo(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionYes.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerDrugsUse10YAsYesandRestNo(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionYes.click();
+            await this.questionOutsideCAOptionNo.click();
+    }
+
+    async answerOutsideCaAsYesandRestNo(feet, inches, weight, drinksvalue) {
+        await this.heightFeet.click();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.type(weight.toString());
+            await this.questionCompanyDeclineOptionNo.click();
+            await this.questionRiskOccupationOptionNo.click();
+            await this.questionCriminalOptionNo.click();
+            await this.questionExtremeSportsOptionNo.click();
+            await this.questionMarijuanaUseOptionNo.click();
+            await this.drinksValue.click();
+            await this.drinksValue.fill(drinksvalue);
+            await this.questionDrugsUse5YOptionNo.click();
+            await this.questionDrugsUse10YOptionNo.click();
+            await this.questionOutsideCAOptionYes.click();
     }
 
     async clickContinueBtn() {

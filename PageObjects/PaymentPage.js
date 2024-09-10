@@ -7,19 +7,19 @@ class PaymentPage {
         this.header = page.locator("(//div[text()=' Payment '])[2]");
         this.amountdue = page.locator("//div[@class='row d-flex justify-center']/div[@class='text-center text-h3 primary--text font-weight-bold col']");
         this.creditCard = page.locator("[name='creditcard']");
-        this.cardName = page.locator("[name='cardName']");
-        this.cardNumber = page.locator("[name='cardNumber']");
+        this.cardName = page.getByLabel('Name on Card', { exact: true });
+        this.cardNumber = page.getByLabel('Card Number', { exact: true });
         this.expiryDate = page.getByLabel('Expiration Date (MM/YYYY)', { exact: true });
         this.cvv = page.getByLabel('CVV', { exact: true });
         this.payNowBtn = page.getByRole('button', { name: ' Pay now ' });
         this.ach = page.getByText('Pre-Authorized Debit');
-        this.accountHoldername = page.locator("[name='accountHolder']");
+        this.accountHoldername = page.getByLabel('Account Holder', { exact: true });
         this.accountType = page.getByLabel('Account Type', { exact: true });
         this.selectAccountType = page.getByText('Savings', { exact: true });
-        this.transitNumber = page.locator("[name='transitNumber']");
-        this.institutionNumber = page.locator("[name='institutionNumber']");
-        this.accountNumber = page.locator("[name='accountNumber']");
-        this.bankName = page.locator("[name='bankName']");
+        this.transitNumber = page.getByLabel('Transit Number', { exact: true }); 
+        this.institutionNumber = page.getByLabel('Institution Number', { exact: true }); 
+        this.accountNumber = page.getByLabel('Account Number', { exact: true });
+        this.bankName = page.getByLabel('Bank Name', { exact: true });
         this.confirmAndPayBtn = page.getByRole('button', { name: ' Confirm and submit payment ' });
         this.iconTransitNumber = page.locator("//button[@aria-label='Transit Number appended action']");
         this.iconRoutingNumber = page.locator("//button[@aria-label='Institution Number appended action']");
@@ -43,7 +43,7 @@ class PaymentPage {
         await this.expiryDate.fill(expirydate);
         await this.cvv.click();
         await this.cvv.fill(cvv);
-        await this.payNowBtn.isVisible();
+        await this.payNowBtn.isVisible();  
         await this.payNowBtn.click();
     }
 

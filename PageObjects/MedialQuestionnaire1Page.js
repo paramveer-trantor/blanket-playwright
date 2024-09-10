@@ -64,13 +64,11 @@ class MedicalQuestionnaire1Page {
         }
     }
 
-    async AnswerSleepApneaAsYesandRestNo() {
-        await this.questionCancerOptionNo.click();
+    async answerCancerAsYesandRestNo() {  
+        await this.questionCancerOptionYes.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
-        await this.questionSleepApneaOptionYes.click();
-        await this.page.getByText("Were you diagnosed with Sleep Apnea more than 12 months ago for which you are currently using a CPAP every day or, Sleep Apnea that was diagnosed in the last 12 months but there is no recommendation for treatment, including a CPAP?").isVisible();
-        await this.questionSleepApneaAdditionalOptionYes.click();
+        await this.questionSleepApneaOptionNo.click();
         await this.questionAIDSHIVOptionNo.click();
         await this.questionBrainDisorderOptionNo.click();
         await this.questionMemoryDisorderOptionNo.click();
@@ -79,7 +77,160 @@ class MedicalQuestionnaire1Page {
         await this.questionDepressionOptionNo.click();
         await this.questionAnxietyOptionNo.click();
     }
+
+    async answerHeartAttackAsYesandRestNo() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionYes.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
+    }
+
+    async answerFibrosisAsYesandRestNo() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionYes.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
+    }
+
+    async answerSleepApneaAsYesandRestNo() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionYes.click();
+        await this.questionSleepApneaAdditionalOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
+    } 
+
+    async answerSleepApneaAsYesandAdditionAsYes() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionYes.click();
+        await this.questionSleepApneaAdditionalOptionYes.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
+    } 
+
+    async answerAIDSHIVAsYesandRestNo() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionYes.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
+    }
+
+    async answerBrainDisorderAsYesandRestNo() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionYes.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
+    }
+
+    async answerMemoryDisorderAsYesandRestNo() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionYes.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
+    }
+
+    async answerRheumatoidArthritisAsYesandRestNo() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionYes.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
+    }
+
+    async answerSchizophreniaAsYesandRestNo() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionYes.click();
+    }
    
+    async answerDepressionAsYes() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionYes.click();
+    }
+
+    async answerAnxietyAsYes() {  
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionNo.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionYes.click();
+    }
+
     async clickConitnueBtn() {
         await this.continueBtn.isEnabled();
         await this.continueBtn.click();

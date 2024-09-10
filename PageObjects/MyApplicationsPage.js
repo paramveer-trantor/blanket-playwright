@@ -19,9 +19,8 @@ class MyApplicationsPage{
 
     async getOpenApplicationsCount() {
         const count_openapps = await this.pagination.textContent();
-        let arr_openApp = count_openapps.trim().split(" ");
+        const arr_openApp = count_openapps.trim().split(" ");
         await this.page.waitForTimeout(500);
-        //console.log(Number(arr_openApp[2]));
         return Number(arr_openApp[2]);
     }
 
