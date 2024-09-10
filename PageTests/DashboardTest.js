@@ -20,7 +20,7 @@ async function verifyMyPoliciesInMenu(page) {
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
     const name = await dashboardpage.getMenuOptions();
-    return name;
+    await dashboardpage.clickMyPoliciesBtn();
 }
 
 async function navigateToProductPage(page) {
@@ -53,7 +53,12 @@ async function navigateToMyApplicationsPage(page) {
     await dashboardpage.clickMyProfileBtn();
     await dashboardpage.clickMyApplicationsBtn();
 }
-
+async function verifyWarningMsgOnLangChangeInForm(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    const warning_msg = await dashboardpage.selectFRLangInForm();
+    return warning_msg;
+}
 async function logoutFromApplication(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
@@ -84,6 +89,7 @@ async function verifyWarningMsgOnLangChangeInForm(page) {
     const warn_langChange = await dashboardpage.getLangChangeWarningMsg();
     return warn_langChange;
 }
+<<<<<<< HEAD
 
 async function navigateToAdminPartnershipPage(page) {
     const pomanager = new POManager(page);
@@ -106,3 +112,6 @@ async function navigateToPartnershipsPage(page) {
 }
 
 module.exports = { logoutFromApplication, navigateToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
+=======
+module.exports = { logoutFromApplication, navigateToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
+>>>>>>> main

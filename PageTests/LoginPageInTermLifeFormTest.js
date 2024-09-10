@@ -3,7 +3,7 @@ import { POManager } from '../PageObjects/POManager';
 async function verifyInFormLoginPageHeader(page) {
     const pomanager = new POManager(page);
     const termlifelogin = pomanager.getLoginPageInTermLifeForm();
-    return (await termlifelogin.getInFormLoginPageHeder()).trim();
+    return await termlifelogin.getInFormLoginPageHeder();
 
 }
 
