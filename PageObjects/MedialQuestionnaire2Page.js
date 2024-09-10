@@ -22,7 +22,7 @@ class MedicalQuestionnaire2Page {
     }
     
     async getMedicalQuestionsPageHeader() {
-        return await this.header.textContent();
+        return (await this.header.textContent()).trim();
     }
 
     async medcialQuestionsPage2(option) {

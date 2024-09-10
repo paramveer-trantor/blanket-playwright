@@ -3,6 +3,7 @@ const{ expect, request } = require("@playwright/test");
 class MedicalQuestionnaire1Page {
 
     constructor(page) {
+        this.page = page;
         this.header = page.locator("(//div[text()=' Medical Questionnaire '])[2]");
         this.questionCancerOptionYes = page.locator("//input[@name='cancer0']/following-sibling::div[1]");
         this.questionCancerOptionNo = page.locator("//input[@name='cancer1']/following-sibling::div[1]");
@@ -32,8 +33,7 @@ class MedicalQuestionnaire1Page {
     }
     
     async getMedicalQuestionsPageHeader() {
-        return await this.header.textContent();
-
+        return (await this.header.textContent()).trim();
     }
 
     async medicalQuestionsPage1(option) {
@@ -62,6 +62,22 @@ class MedicalQuestionnaire1Page {
             await this.questionDepressionOptionNo.click();
             await this.questionAnxietyOptionNo.click();
         }
+    }
+
+    async AnswerSleepApneaAsYesandRestNo() {
+        await this.questionCancerOptionNo.click();
+        await this.questionHeartAttackOptionNo.click();
+        await this.questionFibrosisOptionNo.click();
+        await this.questionSleepApneaOptionYes.click();
+        await this.page.getByText("Were you diagnosed with Sleep Apnea more than 12 months ago for which you are currently using a CPAP every day or, Sleep Apnea that was diagnosed in the last 12 months but there is no recommendation for treatment, including a CPAP?").isVisible();
+        await this.questionSleepApneaAdditionalOptionYes.click();
+        await this.questionAIDSHIVOptionNo.click();
+        await this.questionBrainDisorderOptionNo.click();
+        await this.questionMemoryDisorderOptionNo.click();
+        await this.questionRheumatoidArthritisOptionNo.click();
+        await this.questionSchizophreniaOptionNo.click();
+        await this.questionDepressionOptionNo.click();
+        await this.questionAnxietyOptionNo.click();
     }
    
     async clickConitnueBtn() {
