@@ -64,10 +64,10 @@ test.describe('Partner Portal TCs', async () => {
         expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
     });
 
-    test('BL-T164: Application shall highlight all duplicate email ids in red color and display on top while bulk uploading partners through csv.', async ({ page }) => {
+    test('BL-T164: All duplicate email ids in csv file shall get highlighted in red color and display on top while bulk uploading partners through csv.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, adminuser, adminpass);
         await navigateToAdminPartnershipPage(page);
-        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/DuplicatePartners.csv');
+        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/DuplicatePartnersEmailids.csv');
         await expect(page.locator("//div[@data-testid='bulkUploadTable']/div/table/colgroup")).toBeVisible();
         await expect(page.locator("//tr[1][@class='duplicate']")).toBeVisible();
     });
@@ -88,15 +88,14 @@ test.describe('Partner Portal TCs', async () => {
         expect(await verifyBulkUploadError(page)).toEqual("Max limit is 300");
     });
 
-    test('BL-T167: Application shall not allow user to upload the partners with csv having wrong template or invalid data.', async ({ page }) => {
+    test('BL-T167: Application shall not allow user to upload the partners with csv having wrong template or duplicate data.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, adminuser, adminpass);
         await navigateToAdminPartnershipPage(page);
         await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/IncorrectColumnPartners.csv');
         expect(await verifyBulkUploadError(page)).toEqual("CSV file contains incorrect or missing headers.");
         await page.getByRole('dialog').getByRole('button', {name: ' Cancel '}).click();
-        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/IncorrectDataPartners.csv');
-        await page.locator("//div[@data-testid='bulkUploadDialog']//div[3]/button[2]").click();
-        expect(await verifyBulkUploadError(page)).toEqual("Request failed with status code 400");
+        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/PartnersWithSameEmailOfExistingPartners.csv');
+        expect(await verifyBulkUploadError(page)).toContain("Duplicate emails found");
     });
 
     test('BL-T168: Admin shall not be allowed to add partner manually without adding mandatory partner info.', async ({ page }) => {
@@ -132,7 +131,7 @@ test.describe('Partner Portal TCs', async () => {
         expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
     });
 
-    test.only('BL-T174: Admin shall have ability to bulk delete partners from partner portal dashboard page.', async ({ page }) => {
+    test('BL-T174: Admin shall have ability to bulk delete partners from partner portal dashboard page.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, adminuser, adminpass);
         await navigateToAdminPartnershipPage(page);
         const totalPartners_beforeDelete = await verifyTotalPartnersCount(page);
