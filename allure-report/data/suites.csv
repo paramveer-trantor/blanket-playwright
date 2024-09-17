@@ -1,2 +1,2 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","17971","BL-T1: Product Term life shall be visible under CA products list.","chromium","Mon Sep 16 18:06:02 IST 2024","passed","Mon Sep 16 18:06:20 IST 2024","Product Visibility TC","TestDemo.spec.js","",""
+"","21242","BL-T1: Product Term life shall be visible under CA products list.","chromium","Tue Sep 17 16:19:39 IST 2024","passed","Tue Sep 17 16:20:00 IST 2024","Product Visibility TC","TestDemo.spec.js","",""

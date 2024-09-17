@@ -9,9 +9,9 @@
   "devDependencies": {
     "@playwright/test": "^1.44.1",
     "@types/node": "^20.12.12",
-    "allure-playwright": "^2.30.0",
-    "axios": "^1.7.2",
     "cross-env": "^7.0.3",
+    "allure-playwright": "2.15.0",
+    "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2"
   },
