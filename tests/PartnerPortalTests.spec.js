@@ -112,12 +112,22 @@ test.describe('Partner Portal TCs', async () => {
         expect(await verifyReportTypeOptionsList(page)).toContainEqual("CST Partner Report","GGA Partner Report","All Partner Report");
         await downloadCSTPartnerReport(page);
         expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
-        await page.getByRole('dialog').getByRole('button', { name: ' Close '}).click();
-        await page.locator('.v-select__selection').filter({ hasText: 'CST Partner Report' }).click();
+    });
+
+    test('BL-T169_1: Admin shall have ability to download the partners (CST, GGA & All) report.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, adminuser, adminpass);
+        await navigateToAdminReportsPage(page);
+        await navigateToReportsTab(page);
+        expect(await verifyReportTypeOptionsList(page)).toContainEqual("CST Partner Report","GGA Partner Report","All Partner Report");
         await downloadGGAPartnerReport(page);
         expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
-        await page.getByRole('dialog').getByRole('button', { name: ' Close '}).click();
-        await page.locator('.v-select__selection').filter({ hasText: 'GGA Partner Report' }).click();
+    });
+
+    test('BL-T169_2: Admin shall have ability to download the partners (CST, GGA & All) report.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, adminuser, adminpass);
+        await navigateToAdminReportsPage(page);
+        await navigateToReportsTab(page);
+        expect(await verifyReportTypeOptionsList(page)).toContainEqual("CST Partner Report","GGA Partner Report","All Partner Report");
         await downloadALLPartnerReport(page);
         expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
     });

@@ -14,7 +14,7 @@ class DashboardPage{
         this.warningMsg = this.dialogBox.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//p");
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
-        this.partnershipBtn = page.locator("//span[text()=' Partnerships ']");
+        this.partnershipBtn = page.getByRole('menu').getByRole('menuitem', { name: ' Partnerships ' });
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
         this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
@@ -75,11 +75,13 @@ class DashboardPage{
     }
 
     async clickPartnershipsBtn() {
+        await this.aboutUsBtn.first().click();
         await this.partnershipBtn.click();
     }
 
     async clickMyPoliciesBtn() {  
-        await this.myPoliciesBtn.click();
+        await this.myProfileBtn.click();
+        await this.profileOptions.nth(2).click();
     }
     async selectFRLangInForm() {
         await this.langBtn.click();

@@ -10,7 +10,7 @@ class PartnershipsPage{
         this.industry = page.getByLabel('Industry', { exact: true }); 
         this.lifeIndustry = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Life Insurance' });
         this.message = page.getByLabel('Your Message', { exact: true });
-        this.applyBtn = page.getByRole('button', { name: 'Apply for Partnership' });
+        this.applyBtn = page.getByTestId('singlePartnerSaveButton');
         this.blankSpace = page.locator('.v-messages');        
     }
 

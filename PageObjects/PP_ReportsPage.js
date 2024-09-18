@@ -11,7 +11,7 @@ class PP_ReportsPage {
         this.dialogBox =  page.getByRole('dialog');
         this.popUpMsg = this.dialogBox.locator('.v-card .col');
     }
-
+    
     async clickReportsTab() {
         await this.reportsTab.click();
     }
@@ -45,7 +45,7 @@ class PP_ReportsPage {
     }
 
     async selectReportAsALLPartner() {
-        await this.reportTypeOptions.nth(6).click();
+        await this.reportTypeOptions.nth(7).click();
     }
 
     async getReportTypeOptionsList() {  
