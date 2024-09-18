@@ -48,7 +48,7 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyPreApplicationPageHeader(page)).toEqual('Pre Application');
     });
 
-    test.only('BL-T4: User shall be able to buy the term life policy successfully.', async ({ page }) => {
+    test('BL-T4: User shall be able to buy the term life policy successfully.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
