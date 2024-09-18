@@ -51,7 +51,7 @@ class ConfirmPremiumPage {
     }
 
     async getTermLength() {
-        return (await this.policyOptions.nth(1).textContent()).trim();
+        return (await this.policyOptions.nth(1).textContent()).trim();  
     }
 
     async getCoverageAmountValue() {
