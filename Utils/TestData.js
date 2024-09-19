@@ -2,7 +2,7 @@ module.exports = {
     url : "https://blanket-development.web.app",
     urlLogin : "https://blanket-development.web.app/pages/login",
     urlRegister : "https://blanket-development.web.app/pages/register",
-    username : "gagandeep.singla+autouser1@trantorinc.com",
+    username : "gagandeep.singla+autouser3@trantorinc.com",
     password : "Test@1",
     adminuser : "tester_env_dev@blanket.com",
     adminpass : "123456",
