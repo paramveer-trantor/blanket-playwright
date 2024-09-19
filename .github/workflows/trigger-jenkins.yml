@@ -1,0 +1,21 @@
+name: Trigger Jenkins Job
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Adjust the schedule as needed
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Jenkins Job
+        env:
+          JENKINS_URL: ${{ secrets.JENKINS_URL }}
+          JENKINS_USER: ${{ secrets.JENKINS_USER }}
+          JENKINS_TOKEN: ${{ secrets.JENKINS_TOKEN }}
+        run: |
+          curl -X POST "${JENKINS_URL}/job/YOUR_JOB_NAME/buildWithParameters" \
+          --user "${JENKINS_USER}:${JENKINS_TOKEN}" \
+          --data-urlencode "PARAM1=value1" \
+          --data-urlencode "PARAM2=value2" # Adjust parameters as needed
