@@ -119,4 +119,26 @@ async function verifyScrollingToErrorMsg(page, firstname, lastname, houseaddress
     await preapplicationpage.clickConitnueBtn();
 }
 
-module.exports = { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, enterAddressManually, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg, verifyScrollingToErrorMsg };
+async function verifyKnockoutScenarioCurrentlyAbsentFromWorkQues(page, firstname, lastname, houseaddress, phonenumber) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.acceptPopWindow();
+    await preapplicationpage.enterUserName(firstname, lastname);
+    await preapplicationpage.enterAddress(houseaddress);
+    await preapplicationpage.enterPhoneNumber(phonenumber);
+    await preapplicationpage.answerCurrentAbsentFromWorkAsYes();
+}
+
+async function verifyKnockoutScenarioPastAbsentFromWorkQues(page, firstname, lastname, houseaddress, phonenumber) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.acceptPopWindow();
+    await preapplicationpage.enterUserName(firstname, lastname);
+    await preapplicationpage.enterAddress(houseaddress);
+    await preapplicationpage.enterPhoneNumber(phonenumber);
+    await preapplicationpage.answerPastAbsentFromWorkAsYes();
+}
+
+
+
+module.exports = { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, enterAddressManually, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg, verifyScrollingToErrorMsg, verifyKnockoutScenarioCurrentlyAbsentFromWorkQues, verifyKnockoutScenarioPastAbsentFromWorkQues };

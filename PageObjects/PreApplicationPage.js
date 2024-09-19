@@ -127,6 +127,19 @@ class PreApplicationPage {
         return (await this.addressvalidate.first().textContent()).trim();
     }
 
+    async answerCurrentAbsentFromWorkAsYes() {
+        await this.optionNo.nth(2).click();
+        await this.optionYes.nth(3).click();
+        await this.optionNo.nth(4).click();
+    }
+
+    async answerPastAbsentFromWorkAsYes() {
+        await this.optionNo.nth(2).click();
+        await this.optionNo.nth(3).click();
+        await this.optionYes.nth(4).click();
+        await this.questionSurvey.click();
+    }
+
 }
 
 module.exports = { PreApplicationPage };

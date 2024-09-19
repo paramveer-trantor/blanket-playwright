@@ -67,6 +67,7 @@ class ConfirmPremiumPage {
     }
 
     async clickContinueBtn() {
+        await this.continueBtn.isVisible();
         await this.continueBtn.click();     
 }
 

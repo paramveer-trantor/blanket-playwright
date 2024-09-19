@@ -17,7 +17,7 @@ import { verifyReviewPageHeader, clickMakeAnEditButton, navigateToPersonalStatem
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText } from '../PageTests/PersonalStatementPageTest';
 const { url, urlLogin, username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
-test.describe('Lifestyle Questions Knockout Scenarios', async () => {
+test.describe('Lifestyle Questions knockout scenarios', async () => {
 
     test('Verify knockout with BMI > 32 Declined lifestyle question.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
