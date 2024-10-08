@@ -44,6 +44,10 @@ class PP_ReportsPage {
         await this.reportTypeOptions.nth(5).click();
     }
 
+    async selectReportAsConfidentialSales() {
+        await this.reportTypeOptions.nth(6).click();
+    }
+
     async selectReportAsALLPartner() {
         await this.reportTypeOptions.nth(7).click();
     }
@@ -59,7 +63,7 @@ class PP_ReportsPage {
 
     async selectStartDate() {
         await this.startDate.click();
-        await this.page.locator("//div[@class='v-date-picker-table v-date-picker-table--date theme--light']/table/tbody/tr[1]/td[1]/button").click();
+        await this.page.locator("//div[@class='v-date-picker-table v-date-picker-table--date theme--light']/table/tbody/tr[1]/td[3]/button").click();
         await this.page.locator("//div[@class='v-picker__actions v-card__actions']/div/button[2]").click();
     }
 

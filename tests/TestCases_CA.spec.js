@@ -60,7 +60,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToMedicalQuestion2Page(page, OptionNo);
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
-        await navigateToBeneficiryPage(page);
+        await navigateToBeneficiryPage(page);  
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingLicenseNumber(page, licenseno);

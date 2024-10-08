@@ -61,6 +61,14 @@ async function downloadGGAPartnerReport(page) {
     await partnereport.clickDownloadCSVBtn();
 }
 
+async function downloadConfidentialSalesReport(page) {
+    const pomanager = new POManager(page);
+    const partnereport = pomanager.getPPReportsPage();
+    await partnereport.selectReportAsConfidentialSales();
+    await partnereport.selectStartDate();
+    await partnereport.clickDownloadCSVBtn();
+}
+
 async function downloadALLPartnerReport(page) {
     const pomanager = new POManager(page);
     const partnereport = pomanager.getPPReportsPage();
@@ -84,4 +92,4 @@ async function verifyNoDataMessage(page) {
     return await partnereport.getPopUpMessageText();
 }
 
-module.exports = { navigateToReportsTab, verifyReportTypeOptionsList, verifyPopUpMessage, downloadCATermSalesReport, downloadUSTravelSalesReport, downloadUserKnockoutReport, downloadCATermUserJourneyReport, downloadCSTPartnerReport, downloadGGAPartnerReport, downloadALLPartnerReport, verifyNoDataMessage }; 
+module.exports = { navigateToReportsTab, verifyReportTypeOptionsList, verifyPopUpMessage, downloadCATermSalesReport, downloadUSTravelSalesReport, downloadUserKnockoutReport, downloadCATermUserJourneyReport, downloadCSTPartnerReport, downloadGGAPartnerReport, downloadALLPartnerReport, verifyNoDataMessage, downloadConfidentialSalesReport }; 

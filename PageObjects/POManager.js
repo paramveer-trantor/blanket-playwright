@@ -21,6 +21,7 @@ const { ProgressBar } = require('../PageObjects/ProgressBar');
 const { PP_DashboardPage} = require('../PageObjects/PP_DashboardPage');
 const { PP_ReportsPage } = require('../PageObjects/PP_ReportsPage');
 const { PartnershipsPage } = require('../PageObjects/PartnershipsPage');
+const { Api_Interceptor } = require('../PageObjects/Api_Interceptor');
 
 class POManager {
 
@@ -49,6 +50,7 @@ class POManager {
         this.pp_DashboardPage = new PP_DashboardPage(this.page);
         this.pp_ReportsPage = new PP_ReportsPage(this.page);
         this.partnershipsPage = new PartnershipsPage(this.page);
+        this.api_interceptor = new Api_Interceptor(this.page);
     }
 
     getLoginPage() {
@@ -141,6 +143,10 @@ class POManager {
 
     getPartnershipsPage() {
         return this.partnershipsPage;
+    }
+
+    getApiInterceptorFunction() {
+        return this.api_interceptor;
     }
 
 }

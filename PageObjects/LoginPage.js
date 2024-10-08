@@ -10,7 +10,7 @@ class LoginPage {
     }
 
     async navigateToURL(urlLogin) {
-        await this.page.goto(urlLogin);
+        await this.page.goto(urlLogin);  
     }
 
     async login(username, password) {

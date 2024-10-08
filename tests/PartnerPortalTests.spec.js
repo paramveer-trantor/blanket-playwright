@@ -2,7 +2,7 @@ import { test, expect, request } from '@playwright/test';
 import { loginIntoApp, loginWithValidUser } from '../PageTests/LoginPageTest';
 import { logoutFromApplication, goToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
 import { addNewPartnerManually, approvePartnerRequest, verifyPartnerNameLatestAdded, verifyPartnerStatusLatestAdded, verifyErrorMessageWhileAddingPartner, verifyTotalPartnersCount, bulkUploadPartners, verifyBulkUploadError, deletePartnersInBulk } from '../PageTests/PP_DashboadPageTest';
-import { navigateToReportsTab, verifyReportTypeOptionsList, verifyPopUpMessage, downloadCATermSalesReport, downloadUSTravelSalesReport, downloadUserKnockoutReport, downloadCATermUserJourneyReport, downloadCSTPartnerReport, downloadGGAPartnerReport, downloadALLPartnerReport, verifyNoDataMessage } from '../PageTests/PP_ReportsPageTest'; 
+import { navigateToReportsTab, verifyReportTypeOptionsList, verifyPopUpMessage, downloadCATermSalesReport, downloadUSTravelSalesReport, downloadUserKnockoutReport, downloadCATermUserJourneyReport, downloadCSTPartnerReport, downloadGGAPartnerReport, downloadALLPartnerReport, downloadConfidentialSalesReport, verifyNoDataMessage } from '../PageTests/PP_ReportsPageTest'; 
 import { verifyProductPageHeader, verifyGetYourTLQuoteBtnIsVisible, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { applyForPartnership } from '../PageTests/PartnershipsPageTest';
 const { url, urlLogin, urlRegister, username, password, adminuser, adminpass, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
@@ -159,6 +159,15 @@ test.describe('Partner Portal TCs', async () => {
         await expect(page.getByRole('status')).toBeVisible();
         expect(await verifyPartnerNameLatestAdded(page)).toEqual("Bulk Partner 1 Auto");   
         expect(await verifyPartnerStatusLatestAdded(page)).toEqual(" APPROVED ");
+    });
+
+    test.only('BL-T180: Admin shall have ability to download the Confidential Sales Report (Customer Name).', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, adminuser, adminpass);
+        await navigateToAdminReportsPage(page);
+        await navigateToReportsTab(page);
+        expect(await verifyReportTypeOptionsList(page)).toContainEqual("Confidential Sales Report (Customer Name)");
+        await downloadConfidentialSalesReport(page);
+        expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
     });
 
 });
