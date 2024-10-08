@@ -322,7 +322,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
     }
     });
 
-    test.only('Application shall throw an error if api response is not 200 or 201 in forgot password API', async ({ page }) => {
+    test('Application shall throw an error if api response is not 200 or 201 in forgot password API', async ({ page }) => {
         await page.goto(urlLogin);
         await page.locator(".signup-text").first().click();
         await page.getByLabel('Email').fill("Test@testaccount.com");

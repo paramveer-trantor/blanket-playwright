@@ -24,12 +24,17 @@ test.describe('US Travel API status codes handling TCs', async () => {
         await page.getByRole('listbox').getByRole('option', { name: 'Alabama', exact: true }).click();
         await page.getByLabel("Primary Traveler Age").fill("40");
         await page.getByLabel("Primary Traveler Trip Cost").fill("2000");
-        await sendFakeStatusCodeToApI(page, 500);
-        await page.getByRole('button', {name: ' Get A Quote '}).click();
-        expect(page.getByRole('dialog')).toBeVisible();
+        const codes = [400, 403, 408, 429, 500, 503, 504];
+        let message = "Something went wrong, Please try again later";
+        for(let i = 0; i < codes.length; i++) {
+                await sendFakeStatusCodeToApI(page, codes[i]);
+                await page.getByRole('button', {name: ' Get A Quote '}).click();
+                expect(await verifyErrorMessage(page)).toEqual(message);  
+                await page.getByTestId('globalErrorCloseBtn').click();
+        }
     });
 
-    test.only('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
+    test('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
         await page.getByRole('button', {name: ' Products '}).click();
@@ -65,12 +70,17 @@ test.describe('US Travel API status codes handling TCs', async () => {
         await page.getByLabel("Exp Year (YY)").fill("29");
         await page.getByLabel("Security Code CVV").fill(cvv);
         await page.getByRole('button', {name: ' Purchase Policy '}).isEnabled();
-        await sendFakeStatusCodeToApI(page, 429);
-        await page.getByRole('button', {name: ' Purchase Policy '}).click();
-        expect(page.getByRole('dialog')).toBeVisible();
+        const codes = [400, 403, 408, 429, 500, 503, 504];
+        let message = "Something went wrong, Please try again later";
+        for(let i = 0; i < codes.length; i++) {
+                await sendFakeStatusCodeToApI(page, codes[i]);
+                await page.getByRole('button', {name: ' Purchase Policy '}).click();
+                expect(await verifyErrorMessage(page)).toEqual(message);  
+                await page.getByTestId('globalErrorCloseBtn').click();
+        }
+        //await sendFakeStatusCodeToApI(page, 429);
+        //await page.getByRole('button', {name: ' Purchase Policy '}).click();
+        //expect(page.getByRole('dialog')).toBeVisible();
     });
-    
-
-
 
 });

@@ -161,7 +161,7 @@ test.describe('Partner Portal TCs', async () => {
         expect(await verifyPartnerStatusLatestAdded(page)).toEqual(" APPROVED ");
     });
 
-    test.only('BL-T180: Admin shall have ability to download the Confidential Sales Report (Customer Name).', async ({ page }) => {
+    test('BL-T180: Admin shall have ability to download the Confidential Sales Report (Customer Name).', async ({ page }) => {
         await loginIntoApp(page, urlLogin, adminuser, adminpass);
         await navigateToAdminReportsPage(page);
         await navigateToReportsTab(page);
