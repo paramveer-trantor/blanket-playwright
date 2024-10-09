@@ -119,6 +119,16 @@ async function verifyScrollingToErrorMsg(page, firstname, lastname, houseaddress
     await preapplicationpage.clickConitnueBtn();
 }
 
+async function verifyPolicyPurchaseOnReplacePolicyQues(page, firstname, lastname, houseaddress, phonenumber) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.acceptPopWindow();
+    await preapplicationpage.enterUserName(firstname, lastname);
+    await preapplicationpage.enterAddress(houseaddress);
+    await preapplicationpage.enterPhoneNumber(phonenumber);
+    await preapplicationpage.answerReplacePolicyAsYes();
+}
+
 async function verifyKnockoutScenarioCurrentlyAbsentFromWorkQues(page, firstname, lastname, houseaddress, phonenumber) {
     const pomanager = new POManager(page);
     const preapplicationpage = pomanager.getPreApplicationPage();
@@ -141,4 +151,4 @@ async function verifyKnockoutScenarioPastAbsentFromWorkQues(page, firstname, las
 
 
 
-module.exports = { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, enterAddressManually, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg, verifyScrollingToErrorMsg, verifyKnockoutScenarioCurrentlyAbsentFromWorkQues, verifyKnockoutScenarioPastAbsentFromWorkQues };
+module.exports = { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, enterAddressManually, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg, verifyScrollingToErrorMsg, verifyKnockoutScenarioCurrentlyAbsentFromWorkQues, verifyKnockoutScenarioPastAbsentFromWorkQues, verifyPolicyPurchaseOnReplacePolicyQues };

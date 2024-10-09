@@ -78,9 +78,6 @@ test.describe('US Travel API status codes handling TCs', async () => {
                 expect(await verifyErrorMessage(page)).toEqual(message);  
                 await page.getByTestId('globalErrorCloseBtn').click();
         }
-        //await sendFakeStatusCodeToApI(page, 429);
-        //await page.getByRole('button', {name: ' Purchase Policy '}).click();
-        //expect(page.getByRole('dialog')).toBeVisible();
     });
 
 });

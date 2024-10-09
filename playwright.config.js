@@ -32,7 +32,7 @@ module.exports = defineConfig({
     // baseURL: 'http://127.0.0.1:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
@@ -44,7 +44,7 @@ module.exports = defineConfig({
       use: { 
         use: { ...devices['Desktop Chrome'] },
         headless: false,
-        trace: 'on' 
+        trace: 'retain-on-failure'
     },
     },
 
@@ -52,7 +52,7 @@ module.exports = defineConfig({
       name: 'firefox',
       use: { ...devices['Desktop Firefox'],
       headless: false,
-      trace: 'on'
+      trace: 'retain-on-failure'
     },
     },
 
@@ -60,7 +60,7 @@ module.exports = defineConfig({
       name: 'webkit',
       use: { ...devices['Desktop Safari'],
       headless: false,
-      trace: 'on'
+      trace: 'retain-on-failure'
     },
     },
 

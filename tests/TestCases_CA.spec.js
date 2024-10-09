@@ -4,7 +4,7 @@ import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangCh
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
-import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyScrollingToErrorMsg } from '../PageTests/PreApplicationPageTest';
+import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPolicyPurchaseOnReplacePolicyQues, verifyScrollingToErrorMsg } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
 import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page, verifyCompanyDeclinedKnockout, verifyRiskyOccupationKnockout, verifyCriminalOffenceKnockout, verifyExtremeSportsKnockout, verifyMarijuanaKnockout, verifyDrugsUse5YKnockout, verifyDrugsUse10YKnockout, verifyOutsideCaKnockout } from '../PageTests/LifestyleQuestionsPageTest';
@@ -973,6 +973,22 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPaymentPageUsingHealthNumber(page, healthno);
         await page.waitForTimeout(2000);
         expect(page.url()).toContain("payment");
+    });
+
+    test('BL-T181: User shall be allowed to purchase policy on answering YES to replacement question on Pre Application page.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await verifyPolicyPurchaseOnReplacePolicyQues(page, firstname, lastname, houseaddress, phonenumber);
+        await clickPreAppPageContinueBtn(page);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);
     });
 
     
