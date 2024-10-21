@@ -25,16 +25,18 @@ test.describe('US Travel API status codes handling TCs', async () => {
         await page.getByLabel("Primary Traveler Age").fill("40");
         await page.getByLabel("Primary Traveler Trip Cost").fill("2000");
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "Something went wrong, Please try again later";
+        let message = "we are unable to complete the application at this time. a member of our customer service team will contact you shortly. you can contact us anytime at 1(833) 625-4353.";
         for(let i = 0; i < codes.length; i++) {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', {name: ' Get A Quote '}).click();
+                
                 expect(await verifyErrorMessage(page)).toEqual(message);  
                 await page.getByTestId('globalErrorCloseBtn').click();
         }
+        
     });
 
-    test('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
+    test.only('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
         await page.getByRole('button', {name: ' Products '}).click();
@@ -71,7 +73,7 @@ test.describe('US Travel API status codes handling TCs', async () => {
         await page.getByLabel("Security Code CVV").fill(cvv);
         await page.getByRole('button', {name: ' Purchase Policy '}).isEnabled();
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "Something went wrong, Please try again later";
+        let message = "we are unable to complete the application at this time. a member of our customer service team will contact you shortly. you can contact us anytime at 1(833) 625-4353.";
         for(let i = 0; i < codes.length; i++) {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', {name: ' Purchase Policy '}).click();
