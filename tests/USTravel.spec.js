@@ -36,7 +36,7 @@ test.describe('US Travel API status codes handling TCs', async () => {
         
     });
 
-    test.only('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
+    test('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
         await page.getByRole('button', {name: ' Products '}).click();
