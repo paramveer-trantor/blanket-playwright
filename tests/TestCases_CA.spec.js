@@ -6,7 +6,7 @@ import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreAp
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
 import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPolicyPurchaseOnReplacePolicyQues, verifyScrollingToErrorMsg } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
-import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount } from '../PageTests/ConfirmPremiumPageTest';
+import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page, verifyCompanyDeclinedKnockout, verifyRiskyOccupationKnockout, verifyCriminalOffenceKnockout, verifyExtremeSportsKnockout, verifyMarijuanaKnockout, verifyDrugsUse5YKnockout, verifyDrugsUse10YKnockout, verifyOutsideCaKnockout } from '../PageTests/LifestyleQuestionsPageTest';
 import { verifyMed1PageHeader, navigateToMedicalQuestion2Page, moveToNextPageSleepApneaYes } from '../PageTests/MedicalQuestionnaire1PageTest';
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
@@ -24,6 +24,7 @@ const { url, urlLogin, urlRegister, username, password, cookiestext, tagline, da
 test.describe('Product Visibility TC', async () => {
 
     test('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
+        //await page.goto(`${process.env.BASE_URL}/login`);
         await page.goto(url);
         expect(await verifyTLProductIsVisible(page)).toEqual('Term Life');
     });
@@ -83,6 +84,22 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
         expect(await verifyInvalidPhoneError(page, firstname, lastname, houseaddress, "33333")).toEqual('Field format is invalid');
+    });
+
+    test('BL-T8: Premium rate shall get update if user changes term length or coverage amount value on confirm premium page.', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        const orginal_quoteValue = await verifyQuoteValue(page);
+        expect(await getQuoteValueOnChangingTermLength(page, 10)).toBe(orginal_quoteValue);
+        expect(await getQuoteValueOnChangingTermLength(page, 15)).not.toBe(orginal_quoteValue);
+        expect(await getQuoteValueOnChangingTermLength(page, 20)).not.toBe(orginal_quoteValue);
+        expect(await getQuoteValueOnChangingCoverage(page, "$100K")).not.toBe(orginal_quoteValue);
+        expect(await getQuoteValueOnChangingCoverage(page, "$500K")).not.toBe(orginal_quoteValue);
+        expect(await getQuoteValueOnChangingCoverage(page, "$1M")).toBe(orginal_quoteValue);
     });
 
     test('BL-T9: User shall be redirected to Needs Assessment page after pre application page..', async ({ page }) => {
@@ -662,7 +679,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
         await checkWithoutBeneficiryCheckbox(page);
-        await navigateToConfirmIdentityPage(page)
+        await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingHealthNumber(page, healthno);
         await expect(verifyIconTransitNumberIsVisible(page)).toBeTruthy;
         await page.locator("//div[@class='v-dialog__content v-dialog__content--active']").click();
@@ -988,9 +1005,28 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToMedicalQuestion2Page(page, OptionNo);
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
-        await navigateToBeneficiryPage(page);
+        await navigateToBeneficiryPage(page);  
+        await checkWithoutBeneficiryCheckbox(page);
+        await navigateToConfirmIdentityPage(page);
+        await navigateToPaymentPageUsingLicenseNumber(page, licenseno);
+        await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
+        expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
-    
+    /*
+    test('Bulk User need assessment', async ({ page }) => {
+        await loginIntoApp(page, urlLogin, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        for (let i = 0; i < 1000; i++) {
+        const random_value = Math.floor(Math.random() * (50000 - 20000 + 1)) + 20000;
+        await page.locator("[name = 'annualIncome']").click();
+        //await page.locator("[name = 'annualIncome']").clear();
+        await page.locator("[name = 'annualIncome']").fill(random_value.toString());
+        await page.locator("[name = 'savings']").click();
+        }
+    }); */
 
 });

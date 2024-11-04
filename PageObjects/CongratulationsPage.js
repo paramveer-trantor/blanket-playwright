@@ -4,7 +4,7 @@ class CongratulationsPage {
 
     constructor(page) {
         this.page = page;
-        this.thanksMsg = page.locator(".title-subtext");
+        this.thanksMsg = page.locator('.title-subtext');
         this.policyInfoHeaders = page.locator("//div[@class='row grey-background grey-outline table-fields']/div");
         this.policyRelatedInfo = page.locator("//div[@class='row grey-outline table-fields']/div");
     }

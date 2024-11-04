@@ -28,6 +28,25 @@ class ConfirmPremiumPage {
         return termsOptions;
     }
 
+    async getQuoteOnTermSelected(termvalue) {
+        await this.page.locator("//label[text()='Term']").click();
+        if (termvalue == 10) {
+            await this.page.getByRole('listbox').getByRole('option').first().click();
+            const quotevalue_10 = await this.quoteValue.textContent();
+            return quotevalue_10; 
+        }
+        if (termvalue == 15) {
+            await this.page.getByRole('listbox').getByRole('option').nth(1).click();
+            const quotevalue_15 = await this.quoteValue.textContent();
+            return quotevalue_15; 
+        }
+        if (termvalue == 20) {
+            await this.page.getByRole('listbox').getByRole('option').last().click();
+            const quotevalue_20 = await this.quoteValue.textContent();
+            return quotevalue_20; 
+        }
+    }
+
     async getCoverageAmountOptions() {
         await this.page.locator("//label[text()='Coverage Amount']").click();
         let coverageOptions = [];
@@ -38,6 +57,25 @@ class ConfirmPremiumPage {
             coverageOptions[i] = await this.list.nth(i).textContent();
         }
         return coverageOptions;
+    }
+
+    async getQuoteOnCoverageAmountSelected(coveragevalue) {
+        await this.page.locator("//label[text()='Coverage Amount']").click();
+        if (coveragevalue == "$100K") {
+            await this.page.getByRole('listbox').getByRole('option').first().click();
+            const quotevalue_100k = await this.quoteValue.textContent();
+            return quotevalue_100k; 
+        }
+        if (coveragevalue == "$500K") {
+            await this.page.getByRole('listbox').getByRole('option').nth(3).click();
+            const quotevalue_500k = await this.quoteValue.textContent();
+            return quotevalue_500k; 
+        }
+        if (coveragevalue == "$1M") {
+            await this.page.getByRole('listbox').getByRole('option').last().click();
+            const quotevalue_1M = await this.quoteValue.textContent();
+            return quotevalue_1M; 
+        }
     }
 
     async getQuoteValue() {

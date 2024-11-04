@@ -33,7 +33,7 @@ async function getCoverageAmount(page) {
     const pomanager = new POManager(page);
     const confirmpremiumpage = pomanager.getConfirmPremiumPage();
     const coverage_amount = await confirmpremiumpage.getCoverageAmountValue();
-    return coverage_amount;
+    return coverage_amount;  
 }
 
 async function verifyCoverageAmountOptions(page) {
@@ -56,4 +56,18 @@ async function verifyQuoteValue(page) {
     return quote_value;
 }
 
-module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount };
+async function getQuoteValueOnChangingTermLength(page,termlength) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    const quotevalue_rec = await confirmpremiumpage.getQuoteOnTermSelected(termlength);
+    return quotevalue_rec;
+}
+
+async function getQuoteValueOnChangingCoverage(page,coverage) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    const quotevalue_rec = await confirmpremiumpage.getQuoteOnCoverageAmountSelected(coverage);
+    return quotevalue_rec;
+}
+
+module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage };

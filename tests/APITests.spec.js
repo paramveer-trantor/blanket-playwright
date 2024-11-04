@@ -24,6 +24,7 @@ const { url, urlLogin, urlRegister, username, password, cookiestext, tagline, da
 
 test.describe('CA Term API status codes handling TCs', async () => {
 
+    //Prod parameters = (page, "https://www.blanket.com/pages/login", "tester@blanket.com", "123456");
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Get Premium Quote API', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await navigateToProductPage(page);
@@ -112,7 +113,6 @@ test.describe('CA Term API status codes handling TCs', async () => {
                 await page.getByTestId('globalErrorCloseBtn').click();
         }
     });
-
 
     /*
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Create Customer API ', async ({ page }) => {
@@ -363,6 +363,5 @@ test.describe('CA Term API status codes handling TCs', async () => {
     }
     });
 
-
-
 });
+
