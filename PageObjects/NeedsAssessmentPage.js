@@ -23,7 +23,7 @@ class NeedsAssessmentPage {
         await this.annualIncome.click();
         await this.annualIncome.fill(income);
         await this.saving.click();
-        // const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/CATermNeedsAssessment", async route => {
+        // const promise =  this.page.waitForResponse("**/CATermNeedsAssessment", async route => {
         //      expect(await route.request().method()).toBe('POST');
         //      const response = await this.page.request.fetch(route.request());
         //  });
@@ -53,7 +53,7 @@ class NeedsAssessmentPage {
     async clickContinueBtn() {
         await this.continueBtn.isEnabled();
 
-        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermPremium", async route => {
+        const promise =  this.page.waitForResponse("**/getCATermPremium", async route => {
              expect(await route.request().method()).toBe('POST');
              const response = await this.page.request.fetch(route.request());
          });

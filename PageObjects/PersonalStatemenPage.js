@@ -46,7 +46,7 @@ class PersonalStatementPage {
     }
 
     async clickAgreeBtn(){
-        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermDecision", async route => {
+        const promise =  this.page.waitForResponse("**/getCATermDecision", async route => {
              expect(await route.request().method()).toBe('POST');
              const res = await this.page.request.fetch(route.request());
          });

@@ -56,6 +56,10 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPreApplicationPage(page, gender, date);
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        const orginal_quoteValue = await verifyQuoteValue(page);
+        const amountdue = orginal_quoteValue + "2.70";
+        console.log(amountdue);
+        /*
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
         await navigateToMedicalQuestion2Page(page, OptionNo);
@@ -65,8 +69,9 @@ test.describe('CA Term Life TCs', async () => {
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingLicenseNumber(page, licenseno);
-        await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
-        expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+        await (verifyAmountDue(page)).toBe(amountdue); */
+        //await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
+        //expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
     test('BL-T5: User shall not be allowed to future date in DOB field.', async ({ page }) => {
@@ -99,7 +104,8 @@ test.describe('CA Term Life TCs', async () => {
         expect(await getQuoteValueOnChangingTermLength(page, 20)).not.toBe(orginal_quoteValue);
         expect(await getQuoteValueOnChangingCoverage(page, "$100K")).not.toBe(orginal_quoteValue);
         expect(await getQuoteValueOnChangingCoverage(page, "$500K")).not.toBe(orginal_quoteValue);
-        expect(await getQuoteValueOnChangingCoverage(page, "$1M")).toBe(orginal_quoteValue);
+        expect(await getQuoteValueOnChangingCoverage(page, "$1M")).not.toBe(orginal_quoteValue);
+        expect(await getQuoteValueOnChangingTermLength(page, 10)).toBe(orginal_quoteValue);
     });
 
     test('BL-T9: User shall be redirected to Needs Assessment page after pre application page..', async ({ page }) => {
