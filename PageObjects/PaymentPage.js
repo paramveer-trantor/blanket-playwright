@@ -31,7 +31,11 @@ class PaymentPage {
     }
 
     async getTotalAmountDue() {
-        return (await this.amountdue.textContent()).trim();
+        //return (await this.amountdue.textContent()).trim();
+        const premium_value = (await this.amountdue.textContent()).trim();
+        const match = premium_value.match(/(\d+\.\d+)/);
+        const amountdue = parseFloat(match[1]);
+        return amountdue;  
     }
 
     async purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv) {

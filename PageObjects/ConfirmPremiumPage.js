@@ -64,24 +64,27 @@ class ConfirmPremiumPage {
         if (coveragevalue == "$100K") {
             await this.page.getByRole('listbox').getByRole('option').first().click();
             const quotevalue_100k = await this.quoteValue.textContent();
-            return quotevalue_100k; 
+            return quotevalue_100k;  
         }
         if (coveragevalue == "$500K") {
             await this.page.getByRole('listbox').getByRole('option').nth(3).click();
             const quotevalue_500k = await this.quoteValue.textContent();
-            return quotevalue_500k; 
+            return quotevalue_500k;  
         }
         if (coveragevalue == "$1M") {
             await this.page.getByRole('listbox').getByRole('option').last().click();
             const quotevalue_1M = await this.quoteValue.textContent();
-            return quotevalue_1M; 
+            return quotevalue_1M;
         }
     }
 
     async getQuoteValue() {
         await this.quoteValue.waitFor();
-        const quotevalue = await this.quoteValue.textContent();
-        return quotevalue;  
+        const premiumrate_value = await this.quoteValue.textContent();
+        const match = premiumrate_value.match(/(\d+\.\d+)/);
+        const numericValue = parseFloat(match[1]);
+        const premiumrate = numericValue + 2.70;
+        return premiumrate;  
     }
 
     async getPremiumValue() {

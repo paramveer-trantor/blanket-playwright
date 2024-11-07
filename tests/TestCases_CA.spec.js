@@ -56,10 +56,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPreApplicationPage(page, gender, date);
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
-        const orginal_quoteValue = await verifyQuoteValue(page);
-        const amountdue = orginal_quoteValue + "2.70";
-        console.log(amountdue);
-        /*
+        const premiumrate_value = await verifyQuoteValue(page);
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
         await navigateToMedicalQuestion2Page(page, OptionNo);
@@ -69,9 +66,9 @@ test.describe('CA Term Life TCs', async () => {
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingLicenseNumber(page, licenseno);
-        await (verifyAmountDue(page)).toBe(amountdue); */
-        //await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
-        //expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+        expect(await (verifyAmountDue(page))).toBe(premiumrate_value); 
+        await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
+        expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
     test('BL-T5: User shall not be allowed to future date in DOB field.', async ({ page }) => {
@@ -98,7 +95,8 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPreApplicationPage(page, gender, date);
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
-        const orginal_quoteValue = await verifyQuoteValue(page);
+        await page.locator('.estimate-subtitle .font-weight-bold').waitFor();
+        const orginal_quoteValue = await page.locator('.estimate-subtitle .font-weight-bold').textContent();
         expect(await getQuoteValueOnChangingTermLength(page, 10)).toBe(orginal_quoteValue);
         expect(await getQuoteValueOnChangingTermLength(page, 15)).not.toBe(orginal_quoteValue);
         expect(await getQuoteValueOnChangingTermLength(page, 20)).not.toBe(orginal_quoteValue);
@@ -650,6 +648,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPreApplicationPage(page, gender, date);
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        const premiumrate_value = await verifyQuoteValue(page);
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
         await navigateToMedicalQuestion2Page(page, OptionNo);
@@ -659,6 +658,7 @@ test.describe('CA Term Life TCs', async () => {
         await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page)
         await navigateToPaymentPageUsingHealthNumber(page, healthno);
+        expect(await (verifyAmountDue(page))).toBe(premiumrate_value); 
         await verifyPurchasePolicyWithAch(page,accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
         expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
@@ -1005,7 +1005,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPreApplicationPage(page, gender, date);
         await verifyPolicyPurchaseOnReplacePolicyQues(page, firstname, lastname, houseaddress, phonenumber);
         await clickPreAppPageContinueBtn(page);
-        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToConfirmPremiumPage(page, "1000", saving, mortgageBal, debt);
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
         await navigateToMedicalQuestion2Page(page, OptionNo);
@@ -1014,7 +1014,8 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToBeneficiryPage(page);  
         await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
-        await navigateToPaymentPageUsingLicenseNumber(page, licenseno);
+        await page.locator("//input[@value='annual']/following-sibling::div[1]").click();
+        await navigateToPaymentPageUsingPassportNumber(page,passportno);
         await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
         expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });

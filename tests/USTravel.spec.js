@@ -42,7 +42,7 @@ test.describe('US Travel API status codes handling TCs', async () => {
     test('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
-        await page.getByRole('button', {name: ' Products '}).click();
+        await page.locator(".v-btn__content").filter({ hasText: ' Products ' }).click();
         await page.getByRole('menu').getByRole('menuitem', { name: 'Travel', exact: true  }).click();
         await page.locator('.v-btn__content').filter({ hasText: ' Apply Now '}).first().click();
         await page.getByLabel("I'm going to").click();

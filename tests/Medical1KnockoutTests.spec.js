@@ -19,9 +19,8 @@ const { url, urlLogin, username, password, cookiestext, tagline, date, gender, f
 
 test.describe('Medical Questions knockout scenarios', async () => {
 
-    test.only('Verify knockout with Cancer medical page 1 question.', async ({ page }) => {
+    test('Verify knockout with Cancer medical page 1 question.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password);
-        await loginIntoApp(page, "https://www.blanket.com/pages/login", "gagandeep.singla+prodqa1@trantorinc.com", "123456");
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);

@@ -20,6 +20,7 @@ class NeedsAssessmentPage {
     }
 
     async enterGrossIncome(income, saving, mortgageBal, debt) {
+        await this.page.waitForTimeout(2500);
         await this.annualIncome.click();
         await this.annualIncome.fill(income);
         await this.saving.click();
@@ -29,7 +30,6 @@ class NeedsAssessmentPage {
         //  });
         // const response = await promise;
         // expect(response.status()).toBe(200);
-        
         await this.saving.fill(saving);
         await this.mortgageBalance.click();
         await this.mortgageBalance.fill(mortgageBal);

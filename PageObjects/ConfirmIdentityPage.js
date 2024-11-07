@@ -22,7 +22,7 @@ class ConfirmIdentityPage {
         this.selectAnnualPremium = page.locator("//input[@value='annual']/following-sibling::div[1]");
         this.annualPremium = page.locator("//div[@class='d-flex align-start'][2]/p/span[@class='font-weight-bold']");
     }
-
+  
     async getConfirmIdentityPageHeader() {  
         return (await this.header.last().textContent()).trim();
     }
