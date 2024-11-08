@@ -842,8 +842,8 @@ test.describe('CA Term Life TCs', async () => {
         await expect(page.getByText('No data available')).not.toBeVisible();
         expect(await verifyMaxOpenApplicationsCount(page)).toBeLessThanOrEqual(7);
         await page.locator("tbody > tr:first-of-type > td:nth-of-type(5) > button:nth-of-type(2)").click();
-        await page.waitForTimeout(2000);
-        //expect(await verifyMaxOpenApplicationsCount(page)).toBe(count_apps - 1);
+        const new_count_apps = count_apps - 1;
+        expect(await verifyMaxOpenApplicationsCount(page)).toBe(new_count_apps);
     });
 
     test("BL-T130: Application shall not display notification message to user if user has no open application", async ({ page }) => {
@@ -865,16 +865,26 @@ test.describe('CA Term Life TCs', async () => {
         await expect(page.locator('.address-list')).toBeVisible();
     });
 
-    test('BL-T140: Application shall also give user an option to enter address manually and validate the same on clicking continue button.', async ({ page }) => {
+    test('BL-T140 User shall be allowed to enter address manually and application shall not validate address on continue button of pre application page.', async ({ page }) => {
         await loginIntoApp(page, urlLogin, username, password)
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);  
         await acceptAfterHoursMsg(page);
-        await enterAddressManually(page, firstname, lastname, date, "112-860 Cahill Dr W", "Ottawa", "K1V 9A3", phonenumber, OptionNo);
+        await enterAddressManually(page, "Test", "Manual Address", date, "Dummy Address", "Dummy", "A1A 1A1", phonenumber, OptionNo);
         await clickPreAppPageContinueBtn(page);
-        expect(await verifyNeedsAssessmentPageHeader(page)).toBeVisible();
-        //<< Check with dev about manual entry of address >>//
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);  
+        await checkWithoutBeneficiryCheckbox(page);
+        await navigateToConfirmIdentityPage(page);
+        await navigateToPaymentPageUsingPassportNumber(page,passportno);
+        await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
+        expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
     test('BL-T141: Application shall throw an error message after clicking continue button if address validation fails.', async ({ page }) => {
@@ -887,26 +897,6 @@ test.describe('CA Term Life TCs', async () => {
         await page.getByLabel('City', { exact: true }).fill("Delhi");
         await clickPreAppPageContinueBtn(page);
         expect(await verifyAddressValidateFailureError(page)).toEqual("The address you enter could not be validated. Please enter the correct address.");
-    });
-
-    test('BL-T142: Application shall allow user to move forward without address validation in case API downtime.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);  
-        await acceptAfterHoursMsg(page);
-        await enterAddressManually(page, firstname, lastname, date, "112-860 Cahill Dr W", "Ottawa", "K1V 9A3", phonenumber, OptionNo);
-        await page.getByLabel('Province', { exact: true }).click();
-        await page.getByRole('listbox').getByRole('option').filter({ hasText: 'Ontario' }).click();
-        await page.route('https://ws1.postescanada-canadapost.ca/AddressComplete/Interactive/Find/v2.10/json3ex.ws?Key=JY94-GZ94-KF41-GG59&SearchTerm=112-860%20Cahill%20Dr%20W&Country=CA', async route => {
-        const fakeResponse = {
-                status: 500,
-            };
-        await route.fulfill(fakeResponse);
-        });
-        await clickPreAppPageContinueBtn(page);
-        await expect(page.getByText("How Much Term Insurance Do I Need?")).toBeVisible();
-        
     });
 
     test('BL-T147: The completed sections shall be checked and uncompleted sections shall be greyed out in CA term policy form progress bar in web view.', async ({ page }) => {
