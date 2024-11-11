@@ -1,5 +1,5 @@
 import { test, expect, request } from '@playwright/test';
-import { loginIntoApp, loginWithValidUser } from '../PageTests/LoginPageTest';
+import { login } from '../PageTests/LoginPageTest';
 import { sendFakeStatusCodeToApI, getAPIResponseStatus, verifyErrorMessage } from '../PageTests/CallAPI_Interceptor';
 import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
@@ -20,13 +20,14 @@ import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verif
 import { verifyMyPoliciesPageHeader, verifyPolicySendingOverEmail, verifyPoliciesDetails } from '../PageTests/MyPoliciesPageTest';
 import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxOpenApplicationsCount } from '../PageTests/MyApplicationsPageTest';
 import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, verifyStep5IsInactive, verifyStep6IsInactive, verifyStep7IsInactive } from '../PageTests/ProgressBarTest';
-const { url, urlLogin, urlRegister, username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+const { username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('CA Term API status codes handling TCs', async () => {
 
     //Prod parameters = (page, "https://www.blanket.com/pages/login", "tester@blanket.com", "123456");
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Get Premium Quote API', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await page.getByText('Male', { exact: true }).first().click();
@@ -45,7 +46,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Assessment API', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -64,7 +66,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Get Premium API', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -84,7 +87,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Decission API', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -116,7 +120,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
 
     /*
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Create Customer API ', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -151,7 +156,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Store Credit Card API ', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -183,7 +189,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Subscribe API ', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -215,7 +222,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Bind Policy API ', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -247,7 +255,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Send Policy Pdf API ', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -281,7 +290,8 @@ test.describe('CA Term API status codes handling TCs', async () => {
     */
 
     test('Application shall throw an error if api response is not 200 or 201 in send email policy API', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
         await page.locator("//div[@class='v-toolbar__content']/button[2]").click();
         await page.getByRole('menuitem').nth(2).click();
@@ -298,7 +308,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in login API', async ({ page }) => {
-        await page.goto(urlLogin);
+        await page.goto('/pages/login');
         await page.locator("[name='email']").fill(username);
         await page.locator("[name='password']").fill(password);
         const codes = [400, 403, 408, 429, 500, 503, 504];
@@ -320,7 +330,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in forgot password API', async ({ page }) => {
-        await page.goto(urlLogin);
+        await page.goto('/pages/login');
         await page.locator(".signup-text").first().click();
         await page.getByLabel('Email').fill("Test@testaccount.com");
         const codes = [400, 403, 408, 429, 500, 503, 504];
@@ -341,7 +351,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in create account API', async ({ page }) => {
-        await page.goto(urlRegister);
+        await page.goto('/pages/register');
         await page.getByLabel('Email').fill("Test@testaccount.com");
         await page.locator("[name='password']").fill("Test@1");
         await page.locator("[type='password']").last().fill("Test@1");

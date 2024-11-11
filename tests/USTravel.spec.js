@@ -1,14 +1,15 @@
 import { test, expect, request } from '@playwright/test';
-import { loginIntoApp, loginWithValidUser } from '../PageTests/LoginPageTest';
+import { login } from '../PageTests/LoginPageTest';
 import { sendFakeStatusCodeToApI, getAPIResponseStatus, verifyErrorMessage } from '../PageTests/CallAPI_Interceptor';
-const { urlLogin, username, password, firstname, lastname, phonenumber, cardname, cardnumber, expirydate, cvv } = require('../Utils/TestData');
+const { username, password, firstname, lastname, phonenumber, cardname, cardnumber, expirydate, cvv } = require('../Utils/TestData');
 
 test.describe('US Travel API status codes handling TCs', async () => {
 
     //prod parameters = (page, "https://www.blanket.com/pages/login", "tester@blanket.com", "123456");
 
     test('Application shall throw an error if api response is not 200 or 201 in US Travel Get Premium Quote API', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
         await page.locator(".v-btn__content").filter({ hasText: ' Products ' }).click();
         //await page.getByRole('button', {name: ' Products '}).click();
@@ -40,7 +41,8 @@ test.describe('US Travel API status codes handling TCs', async () => {
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
         await page.locator(".v-btn__content").filter({ hasText: ' Products ' }).click();
         await page.getByRole('menu').getByRole('menuitem', { name: 'Travel', exact: true  }).click();

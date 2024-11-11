@@ -2,7 +2,7 @@ import { json } from 'stream/consumers';
 import { runInContext } from 'vm';
 import { POManager } from '../PageObjects/POManager';
 import { test, expect, request } from '@playwright/test';
-import { loginIntoApp, loginWithValidUser } from '../PageTests/LoginPageTest';
+import { login } from '../PageTests/LoginPageTest';
 import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
@@ -15,12 +15,13 @@ import { verifyMed1PageHeader, navigateToMedicalQuestion2Page, moveToNextPageSle
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage, verifyHepatitisKnockout, verifyMedicalCondition4WKnockout, verifyMamogramKnockout, verifyMedicalFollowupsKnockout, verifyLast3MonthSymptomsKnockout, verify2orMoreParentsDiagnosedKnockout, verify1orMoreParentsDiagnosedKnockout } from '../PageTests/MedicalQuestionnaire2PageTest';
 import { verifyReviewPageHeader, clickMakeAnEditButton, navigateToPersonalStatementPage } from '../PageTests/ReviewYourAnswersPageTest';
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText } from '../PageTests/PersonalStatementPageTest';
-const { url, urlLogin, username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+const { username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('Medical Questions knockout scenarios', async () => {
 
     test('Verify knockout with Hepatitis medical page 2 question.', async ({ page }) => {  
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -36,7 +37,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Medical Condition 4 W medical page 2 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -52,7 +54,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Mamogram medical page 2 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -68,7 +71,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Medical Followups medical page 2 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -84,7 +88,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Last 3 Months Symptoms medical page 2 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -100,7 +105,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with 2 or More Parents Diagnosed medical page 2 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -116,7 +122,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with 1 or More Parents Diagnosed medical page 2 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);

@@ -2,7 +2,7 @@ import { json } from 'stream/consumers';
 import { runInContext } from 'vm';
 import { POManager } from '../PageObjects/POManager';
 import { test, expect, request } from '@playwright/test';
-import { loginIntoApp, loginWithValidUser } from '../PageTests/LoginPageTest';
+import { login } from '../PageTests/LoginPageTest';
 import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
@@ -15,12 +15,13 @@ import { verifyMed1PageHeader, navigateToMedicalQuestion2Page, moveToNextPageSle
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
 import { verifyReviewPageHeader, clickMakeAnEditButton, navigateToPersonalStatementPage } from '../PageTests/ReviewYourAnswersPageTest';
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText } from '../PageTests/PersonalStatementPageTest';
-const { url, urlLogin, username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+const { username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('Medical Questions knockout scenarios', async () => {
 
     test('Verify knockout with Cancer medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -36,7 +37,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Heart Attack medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -52,7 +54,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Fibrosis medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -68,7 +71,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Sleep Apnea medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -84,7 +88,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with AIDS HIV medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -100,7 +105,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Brain Disorder medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -116,7 +122,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Memory Disorder medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -132,7 +139,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Rheumatoid Arthritis medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -148,7 +156,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Schizophrenia medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -164,7 +173,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Depression medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -180,7 +190,8 @@ test.describe('Medical Questions knockout scenarios', async () => {
     });
 
     test('Verify knockout with Anxiety medical page 1 question.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);

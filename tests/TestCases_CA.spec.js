@@ -1,5 +1,5 @@
 import { test, expect, request } from '@playwright/test';
-import { loginIntoApp, loginWithValidUser } from '../PageTests/LoginPageTest';
+import { login } from '../PageTests/LoginPageTest';
 import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
@@ -19,13 +19,12 @@ import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verif
 import { verifyMyPoliciesPageHeader, verifyPolicySendingOverEmail, verifyPoliciesDetails } from '../PageTests/MyPoliciesPageTest';
 import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxOpenApplicationsCount } from '../PageTests/MyApplicationsPageTest';
 import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, verifyStep5IsInactive, verifyStep6IsInactive, verifyStep7IsInactive } from '../PageTests/ProgressBarTest';
-const { url, urlLogin, urlRegister, username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+const { username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('Product Visibility TC', async () => {
 
     test('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
-        //await page.goto(`${process.env.BASE_URL}/login`);
-        await page.goto(url);
+        await page.goto('');
         expect(await verifyTLProductIsVisible(page)).toEqual('Term Life');
     });
 
@@ -34,7 +33,7 @@ test.describe('Product Visibility TC', async () => {
 test.describe('CA Term Life TCs', async () => {
 
     test('BL-T2: User shall be redirect to Login page from Quote page in CA Term policy form if user is not logged in blanket application.', async ({ page }) => {
-        await page.goto(url);
+        await page.goto('');
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -42,7 +41,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T3: User shall be redirect to Pre Application page from Quote page in CA Term policy form if user is already logged in blanket application.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -50,7 +50,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T4: User shall be able to buy the term life policy successfully.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -72,7 +73,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T5: User shall not be allowed to future date in DOB field.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         expect(await verifyInvalidDateError(page, gender, "02/02/2029")).toMatch(/\bDate of birth must be on or before (\d{2}\/\d{2}\/\d{4})\b/);
@@ -81,7 +83,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T7: Application shall throw an error message if user enters invalid phone number.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -89,7 +92,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T8: Premium rate shall get update if user changes term length or coverage amount value on confirm premium page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -107,7 +111,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T9: User shall be redirected to Needs Assessment page after pre application page..', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -116,7 +121,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T10: User shall be knocked out if selects inappropriate answer on Pre Application page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         expect(await verifyNonCanadianWarning(page)).toEqual('You must be a Canadian Citizen or permanent resident to be eligible for this coverage');
@@ -134,7 +140,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T11: User with age < 18 or > 80 shall not be allowed to buy a CA term plan.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         expect(await verifyInvalidDateError(page, gender, "02/02/2010")).toMatch(/\bDate of birth must be on or before (\d{2}\/\d{2}\/\d{4})\b/);
@@ -143,7 +150,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T12: User with age between 18 & 50 shall able to buy plan of term period and face amount upto $1M.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -154,7 +162,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T13: User with age above 50 shall able to buy plan with face amount upto $500k.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, "01/01/1963");
@@ -164,7 +173,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T14: User with age in between 66 & 70 shall be allowed to buy only T10 plan.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, "01/01/1957");
@@ -174,7 +184,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T15: User with age in between 61 & 65 shall be allowed to buy only T10 & T15 plans.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, "01/01/1961");
@@ -184,7 +195,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T16: User with age 60 or less shall be allowed to buy any plan.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, "01/01/1980");
@@ -194,7 +206,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T18: App shall display a message if recommended coverage amount is more than maximum face amount.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -204,7 +217,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T19: App shall not display a message if recommended coverage amount is less than maximum face amount.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, "01/01/1957");
@@ -213,7 +227,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T23: User name and statements shall be properly displayed on personal statement page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -228,7 +243,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T24: User shall be able to add beneficiaries.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -245,7 +261,8 @@ test.describe('CA Term Life TCs', async () => {
     });
  
     test('BL-T25: Total share of beneficiaries shall not increase by 100%.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -263,7 +280,8 @@ test.describe('CA Term Life TCs', async () => {
     });
     
     test('BL-T26: User shall be able to proceed without adding beneficiary.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -281,7 +299,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T27: Application shall display 3 options to user to confirm the identity on Confirm Identity page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -299,7 +318,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T28: Application shall ask passport number from user if user selects the passport option.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -317,7 +337,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T29: Passport number shall have 8 characters including 2 letters in starting and 6 numbers in the end.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -337,7 +358,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T30: Application shall throw an error message if user enters invalid passport number.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -355,7 +377,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T31: Application shall ask province and DL number from user if user selects the DL option.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -373,7 +396,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T32: Application shall accept DL number only if entered in proper format.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -393,7 +417,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T33: Application shall throw an error message if user enters invalid DL number.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -411,7 +436,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T34: Application shall ask province and health number from user if user selects the Provincial health card option.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -429,7 +455,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T35: Check payment frequency options displaying to user', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -459,7 +486,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T36: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -477,7 +505,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T37: User shall able to move forward after entering all valid details on confirm identity page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -495,7 +524,8 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyPaymentPageHeader(page)).toEqual("Payment");
     });
     test('BL-T38: Term plan details shall be displayed properly on confirm identity page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -522,7 +552,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T39: User shall have 2 options (CC & ACH) to pay the policy premium on payment page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -542,7 +573,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T40: Purchased policy details shall be displayed properly on congratulations screen.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -568,13 +600,14 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T42: Term life banner shall be visible on home screen.', async ({ page }) => {
-        await page.goto(url);
+        await page.goto('');
         await navigateToTermLifeByLifeBanner(page);
         expect(await verifyProductPageHeader(page)).toEqual(tagline);
     });
 
     test('BL-T43: Premium rates should be different for smoker & non smokers users.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -590,31 +623,35 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T45: My policies menu option shall be visible in menu on desktop browser.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToMyPoliciesPage(page);
         expect(await verifyMyPoliciesPageHeader(page)).toEqual('My Policies');
         
     });
     
     test('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
-        await page.goto(url);
+        await page.goto('');
         expect(await verifyCookieBannerIsVisible(page)).toEqual(cookiestext);
     });
 
     test('BL-T50: App shall display purchased policy details under My policies page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToMyPoliciesPage(page);
         expect(await verifyPoliciesDetails(page)).toEqual('Provider: Blanket Life underwritten by Humania Assurance Inc.');
     });
 
     test('BL-T51: User shall have an option to send policy over email.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToMyPoliciesPage(page);
         expect(await verifyPolicySendingOverEmail(page)).toEqual('Success!');
     });
 
     test('BL-T52: Application shall accept health number only if entered in proper format.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -634,7 +671,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T53: After hours message shall be displayed if user access the application in odd hours.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -642,7 +680,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T55: User shall able to do premium payment successfully.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -672,7 +711,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T91: An info icon & helper image for some fields shall be displayed to user on payment screen.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -695,7 +735,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T103: Application shall display a special statement for Quebec residents on personal statement page if user is filling form in EN.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -710,7 +751,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T107: User shall be allowed to review & modify answers before confirmation page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -726,7 +768,8 @@ test.describe('CA Term Life TCs', async () => {
     });
     
     test('BL-T109: Application shall display a pop-up message if user selects any province other than AB, ON & QC.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -734,7 +777,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T112: User shall be able to continue CA term flow where has left off.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -747,14 +791,16 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T117: User shall land on Premium quote page of CA term life policy form on clicking Apply now or Get your term life today button.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         expect(await verifyPremiumQuotePageHeader(page)).toEqual("Term Life Insurance Premium Quote");
     });
 
     test('BL-T118: User information filled on quote page shall be pre filled on pre application page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -765,7 +811,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T119: User shall be directed to Pre application page directly from quote page if user is logged in already.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -773,7 +820,7 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T120: User shall be directed to Sign in/Sign up page from quote page if user is not logged in.', async ({ page }) => {
-        await page.goto(url);
+        await page.goto('');
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -783,7 +830,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T122: Application shall show user a warning message if user tries to change the language while filling CA term form.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -794,7 +842,7 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T123: Application shall block some particular email addresses to register on Blanket website.', async ({ page }) => {
-        await page.goto(urlRegister);
+        await page.goto('/pages/register');
         await page.getByLabel('Email', { exact: true }).fill("userone@maildrop.cc");
         await expect(page.getByText('Please enter valid email')).toBeVisible();
         await page.getByLabel('Email', { exact: true }).clear();
@@ -809,7 +857,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T127: DOB field shall not accept invalid date on quote, pre application & beneficiary page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         expect(await verifyInvalidDateError(page, gender, "13/01/2000")).toEqual("Date of birth is not a valid date");
@@ -828,7 +877,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T128: Application shall display notification message to user if user has any open application.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await logoutFromApplication(page);
         await loginWithValidUser(page, username, password);
         expect(await verifyIfNotificationMsgForOpenApplication(page)).toEqual("You have an application in progress, would you like to continue?");
@@ -836,7 +886,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test("BL-T129: Application shall display user's open applications on My application page.", async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToMyApplicationsPage(page);
         const count_apps = await verifyMaxOpenApplicationsCount(page);
         await expect(page.getByText('No data available')).not.toBeVisible();
@@ -847,14 +898,16 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test("BL-T130: Application shall not display notification message to user if user has no open application", async ({ page }) => {
-        await loginIntoApp(page, urlLogin, "gagandeep.singla+autouser2@trantorinc.com", password);
+        await page.goto('/pages/login');
+        await login(page, "gagandeep.singla+autouser2@trantorinc.com", password);
         await expect(page.getByRole('status')).not.toBeVisible();
         await navigateToMyApplicationsPage(page);
         await expect(page.getByText('No data available')).toBeVisible();
     });
 
     test('BL-T139: Application shall display address options to select from to auto complete address after user enters 3 or more characters in address field.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -866,7 +919,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T140 User shall be allowed to enter address manually and application shall not validate address on continue button of pre application page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);  
@@ -888,7 +942,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T141: Application shall throw an error message after clicking continue button if address validation fails.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);  
@@ -900,7 +955,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T147: The completed sections shall be checked and uncompleted sections shall be greyed out in CA term policy form progress bar in web view.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -916,7 +972,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T152: User email address shall be pre populated in email field on pre application page of CA term policy form.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -925,7 +982,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T153: User shall be knocked out if selects an inappropriate answer for Sleep Apnea or related medical questions.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -941,13 +999,15 @@ test.describe('CA Term Life TCs', async () => {
     });
     
     test('BL-T159: Application shall store upto 7 open application on My application page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToMyApplicationsPage(page);
         expect(await verifyMaxOpenApplicationsCount(page)).toBeLessThanOrEqual(7);
     });
 
     test('BL-T171: Application shall show the current step name in URL as user proceed with CA term life policy form.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password)
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await page.waitForTimeout(2000);
@@ -989,7 +1049,8 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T181: User shall be allowed to purchase policy on answering YES to replacement question on Pre Application page.', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -1012,7 +1073,7 @@ test.describe('CA Term Life TCs', async () => {
 
     test('BL-T187: User shall be able to fill different billing address on payment screen.', async ({ page }) => {
         await page.goto('/pages/login');
-        await loginIntoApp(page, username, password);
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -1032,7 +1093,8 @@ test.describe('CA Term Life TCs', async () => {
 
     /*
     test('Bulk User need assessment', async ({ page }) => {
-        await loginIntoApp(page, urlLogin, username, password);
+        await page.goto('/pages/login');
+        await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);

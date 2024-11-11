@@ -9,11 +9,7 @@ class LoginPage {
         this.loginBtn = page.locator('.login-btn')
     }
 
-    async navigateToURL(urlLogin) {
-        await this.page.goto(urlLogin);  
-    }
-
-    async login(username, password) {
+    async loginIntoApp(username, password) {
         await this.email.fill(username);
         await this.password.fill(password);
         const promise =  this.page.waitForResponse("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=*", async route => {
@@ -22,12 +18,6 @@ class LoginPage {
        await this.loginBtn.click();
        const response = await promise;
        expect(response.status()).toBe(200);
-    }
-
-    async enterLoginDetails(username, password) {
-        await this.email.fill(username);
-        await this.password.fill(password);
-        await this.loginBtn.click();
     }
 
 }
