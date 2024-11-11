@@ -24,6 +24,14 @@ class PaymentPage {
         this.iconTransitNumber = page.locator("//button[@aria-label='Transit Number appended action']");
         this.iconRoutingNumber = page.locator("//button[@aria-label='Institution Number appended action']");
         this.iconAccountNumber = page.locator("//button[@aria-label='Account Number appended action']");
+        this.checkBox = page.getByLabel('Billing Info Same as Mailing Info', { exact: true });
+        this.firstName = page.getByLabel('First name', { exact: true });
+        this.lastName = page.getByLabel('Last name', { exact: true }); 
+        this.address = page.getByLabel('Address', { exact: true }); 
+        this.city = page.getByLabel('City', { exact: true }); 
+        this.postalCode = page.getByLabel('Postal code', { exact: true }); 
+        this.province = page.getByLabel('Province', { exact: true });
+        this.selectProvinceON = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Ontario' });
     }
 
     async getPaymentPageHeader() {
@@ -87,6 +95,19 @@ class PaymentPage {
         await this.confirmAndPayBtn.click();
     }
 
+    async clickBillingAddressCheckBox() {
+        await this.checkBox.click();
+    }
+
+    async enterAddressDetails(firstname, lastname, address, city, postal) {
+        await this.firstName.fill(firstname);
+        await this.lastName.fill(lastname); 
+        await this.address.fill(address); 
+        await this.city.fill(city); 
+        await this.postalCode.fill(postal); 
+        await this.province.fill();
+        await this.selectProvinceON.fill();
+    }
 
 }
 

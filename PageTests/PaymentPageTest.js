@@ -46,4 +46,13 @@ async function verifyIconAccountNumberIsVisible(page) {
     const an_status = await paymentypage.checkIconAccountNumber();
     return an_status;
 }
-module.exports = { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch, verifyIconTransitNumberIsVisible, verifyIconRoutingNumberIsVisible, verifyIconAccountNumberIsVisible };
+
+async function enterBillingAddress(page, firstname, lastname, address, city, postal) {
+    const pomanager = new POManager(page);
+    const paymentypage = pomanager.getPaymentPage();
+    await paymentypage.clickBillingAddressCheckBox();
+    await paymentypage.enterAddressDetails(firstname, lastname, address, city, postal)
+}
+
+
+module.exports = { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch, verifyIconTransitNumberIsVisible, verifyIconRoutingNumberIsVisible, verifyIconAccountNumberIsVisible, enterBillingAddress };

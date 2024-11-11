@@ -14,7 +14,7 @@ import { verifyReviewPageHeader, clickMakeAnEditButton, navigateToPersonalStatem
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText } from '../PageTests/PersonalStatementPageTest';
 import { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, checkWithoutBeneficiryCheckbox, verifyIncorrectDateErrorMessage } from '../PageTests/BeneficiaryPageTest';
 import { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPageUsingPassportNumber, navigateToPaymentPageUsingHealthNumber, navigateToPaymentPageUsingLicenseNumber } from '../PageTests/ConfirmIdentityPageTest';
-import { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch, verifyIconTransitNumberIsVisible, verifyIconRoutingNumberIsVisible, verifyIconAccountNumberIsVisible } from '../PageTests/PaymentPageTest';
+import { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch, verifyIconTransitNumberIsVisible, verifyIconRoutingNumberIsVisible, verifyIconAccountNumberIsVisible, enterBillingAddress } from '../PageTests/PaymentPageTest';
 import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment, verifyThankYouMsg } from '../PageTests/CongratulationsPageTest';
 import { verifyMyPoliciesPageHeader, verifyPolicySendingOverEmail, verifyPoliciesDetails } from '../PageTests/MyPoliciesPageTest';
 import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxOpenApplicationsCount } from '../PageTests/MyApplicationsPageTest';
@@ -664,7 +664,7 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T86: Application shall valiate the first time user email id through OTP in CA product policy form.', async ({ page }) => {
-        await page.goto(url);
+        await page.goto('');
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -1008,6 +1008,26 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPaymentPageUsingPassportNumber(page,passportno);
         await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
         expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+    });
+
+    test('BL-T187: User shall be able to fill different billing address on payment screen.', async ({ page }) => {
+        await page.goto('/pages/login');
+        await loginIntoApp(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        await navigateToBeneficiryPage(page);  
+        await checkWithoutBeneficiryCheckbox(page);
+        await navigateToConfirmIdentityPage(page);
+        await navigateToPaymentPageUsingPassportNumber(page,passportno);
+        await enterBillingAddress(page, "Test", "User", "15 Filton Rd", "Caledon East", "L7C 1R5")
     });
 
     /*

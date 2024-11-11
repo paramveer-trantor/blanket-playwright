@@ -1,5 +1,5 @@
 // @ts-check
-const { defineConfig, devices } = require('@playwright/test');
+const { defineConfig, devices, chromium, firefox, webkit } = require('@playwright/test');
 require('dotenv').config();
 
 /**
@@ -30,7 +30,7 @@ module.exports = defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
-    baseURL: process.env.BASE_URL || 'https://blanket-development.web.app/pages/login',
+    baseURL: 'https://blanket-development.web.app/',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
@@ -43,22 +43,33 @@ module.exports = defineConfig({
     {
       name: 'chromium',
       use: { 
-        use: { ...devices['Desktop Chrome'] },
+        browserName: 'chromium',
+        trace: 'retain-on-failure'
+    },
+    },
+
+    {
+      name: 'production',
+      use: { 
+        baseURL: 'https://www.blanket.com/',
+        browserName: 'chromium',
         trace: 'retain-on-failure'
     },
     },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'],
-      trace: 'retain-on-failure'
+      use: {
+        browserName: 'firefox',
+        trace: 'retain-on-failure'
     },
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'],
-      trace: 'retain-on-failure'
+      use: { 
+        browserName: 'webkit',
+        trace: 'retain-on-failure'
     },
     },
 
