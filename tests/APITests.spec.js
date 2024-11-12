@@ -36,11 +36,12 @@ test.describe('CA Term API status codes handling TCs', async () => {
         await page.getByText('Yes').first().click();
         await page.getByText('No').nth(1).click();
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "We are unable to complete the application at this time. A member of our customer service team will contact you shortly. You can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', { name: ' GET QUOTE ' }).click();  
                 expect(await verifyErrorMessage(page)).toEqual(message);  
+                await page.waitForTimeout(200000);
                 await page.getByTestId('globalErrorCloseBtn').click();
         }
     });
@@ -54,7 +55,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         const codes = [400, 403, 408, 429, 500, 503, 504];
         const income = ["10000","20000","30000","40000","50000","60000","70000"];
-        let message = "We are unable to complete the application at this time. A member of our customer service team will contact you shortly. You can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
             await page.locator("[name = 'annualIncome']").click();
             await page.locator("[name = 'annualIncome']").fill(income[i]);
@@ -77,7 +78,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         await page.locator("[name = 'savings']").click();
         await page.locator("[name = 'mortgageBalance']").click();
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "We are unable to complete the application at this time. A member of our customer service team will contact you shortly. You can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', { name: ' Continue ' }).click(); 
@@ -109,7 +110,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         await page.locator("[name='termCheckbox7'] + div.v-input--selection-controls__ripple").click();
         await page.locator("[name='termCheckbox8'] + div.v-input--selection-controls__ripple").click();
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "We are unable to complete the application at this time. A member of our customer service team will contact you shortly. You can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', { name: ' I Agree ' }).click();
@@ -297,7 +298,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         await page.getByRole('menuitem').nth(2).click();
         await page.locator("//div[@class='v-data-table__wrapper']//tbody/tr/td[5]/button").first().click();
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "We are unable to complete the application at this time. A member of our customer service team will contact you shortly. You can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', { name: ' Email Policy ' }).click();
@@ -312,7 +313,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         await page.locator("[name='email']").fill(username);
         await page.locator("[name='password']").fill(password);
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "We are unable to complete the application at this time. A member of our customer service team will contact you shortly. You can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
         //await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=**", (route) => {
         await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=**", (route) => {  
@@ -334,7 +335,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         await page.locator(".signup-text").first().click();
         await page.getByLabel('Email').fill("Test@testaccount.com");
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "We are unable to complete the application at this time. A member of our customer service team will contact you shortly. You can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
         await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode?key=**", (route) => {  
         const fakeResponse = {
@@ -356,7 +357,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         await page.locator("[name='password']").fill("Test@1");
         await page.locator("[type='password']").last().fill("Test@1");
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "We are unable to complete the application at this time. A member of our customer service team will contact you shortly. You can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
         await page.route("https://us-central1-blanket-development.cloudfunctions.net/getAccountKeybyEmail", (route) => {  
         const fakeResponse = {

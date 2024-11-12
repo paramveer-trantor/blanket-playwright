@@ -35,8 +35,7 @@ test.describe('Lifestyle Questions knockout scenarios', async () => {
         expect(await navigateToBeneficiryPage(page)).toContain('BMI > 32 is not allowed');
         expect(await verifyKnockoutMsg(page)).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
-
-    /*
+    
     test('Verify knockout with BMI < 17.5 Declined lifestyle question.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
@@ -206,8 +205,6 @@ test.describe('Lifestyle Questions knockout scenarios', async () => {
         expect(await navigateToBeneficiryPage(page)).toEqual('You have lived outside for more then 30+ days consecutive');
         expect(await verifyKnockoutMsg(page)).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
-
-*/
 
 });
 

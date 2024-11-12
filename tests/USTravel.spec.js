@@ -29,7 +29,7 @@ test.describe('US Travel API status codes handling TCs', async () => {
         await page.getByLabel("Primary Traveler Age").fill("40");
         await page.getByLabel("Primary Traveler Trip Cost").fill("2000");
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "we are unable to complete the application at this time. a member of our customer service team will contact you shortly. you can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', {name: ' Get A Quote '}).click();
@@ -78,7 +78,7 @@ test.describe('US Travel API status codes handling TCs', async () => {
         await page.getByLabel("Security Code CVV").fill(cvv);
         await page.getByRole('button', {name: ' Purchase Policy '}).isEnabled();
         const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "we are unable to complete the application at this time. a member of our customer service team will contact you shortly. you can contact us anytime at 1(833) 625-4353.";
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', {name: ' Purchase Policy '}).click();

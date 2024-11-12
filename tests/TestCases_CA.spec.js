@@ -1088,7 +1088,7 @@ test.describe('CA Term Life TCs', async () => {
         await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingPassportNumber(page,passportno);
-        await enterBillingAddress(page, "Test", "User", "15 Filton Rd", "Caledon East", "L7C 1R5")
+        await enterBillingAddress(page, "Test", "User", "15 Filton Rd", "Caledon East", "L7C 1R5");
     });
 
     /*

@@ -24,13 +24,13 @@ class PaymentPage {
         this.iconTransitNumber = page.locator("//button[@aria-label='Transit Number appended action']");
         this.iconRoutingNumber = page.locator("//button[@aria-label='Institution Number appended action']");
         this.iconAccountNumber = page.locator("//button[@aria-label='Account Number appended action']");
-        this.checkBox = page.getByLabel('Billing Info Same as Mailing Info', { exact: true });
-        this.firstName = page.getByLabel('First name', { exact: true });
-        this.lastName = page.getByLabel('Last name', { exact: true }); 
-        this.address = page.getByLabel('Address', { exact: true }); 
-        this.city = page.getByLabel('City', { exact: true }); 
-        this.postalCode = page.getByLabel('Postal code', { exact: true }); 
-        this.province = page.getByLabel('Province', { exact: true });
+        this.checkBox = page.getByText('Billing Info Same as Mailing Info', { exact: true });
+        this.firstName = page.getByTestId('billing-firstname');
+        this.lastName = page.getByTestId('billing-lastname');
+        this.address = page.getByTestId('billing-address');
+        this.city = page.getByTestId('billing-city');
+        this.postalCode = page.getByTestId('billing-postalcode');
+        this.province = page.getByTestId('billing-province');
         this.selectProvinceON = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Ontario' });
     }
 
@@ -105,8 +105,8 @@ class PaymentPage {
         await this.address.fill(address); 
         await this.city.fill(city); 
         await this.postalCode.fill(postal); 
-        await this.province.fill();
-        await this.selectProvinceON.fill();
+        await this.province.click();
+        await this.selectProvinceON.click();
     }
 
 }
