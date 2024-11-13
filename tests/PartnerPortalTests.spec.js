@@ -176,6 +176,8 @@ test.describe('Partner Portal TCs', async () => {
         await expect(page.getByRole('status')).toBeVisible();
         expect(await verifyPartnerNameLatestAdded(page)).toEqual("Bulk Partner 1 Auto");   
         expect(await verifyPartnerStatusLatestAdded(page)).toEqual(" APPROVED ");
+        await page.locator("//div[@class='v-data-table__wrapper']/table/tbody/tr[1]/td[11]//button[2]").click();
+        await page.getByRole('dialog').getByRole('button', { name: ' OK ' }).click();
     });
 
     test('BL-T180: Admin shall have ability to download the Confidential Sales Report (Customer Name).', async ({ page }) => {
