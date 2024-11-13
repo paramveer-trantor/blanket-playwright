@@ -41,7 +41,6 @@ test.describe('CA Term API status codes handling TCs', async () => {
                 await sendFakeStatusCodeToApI(page, codes[i]);
                 await page.getByRole('button', { name: ' GET QUOTE ' }).click();  
                 expect(await verifyErrorMessage(page)).toEqual(message);  
-                await page.waitForTimeout(200000);
                 await page.getByTestId('globalErrorCloseBtn').click();
         }
     });
@@ -368,7 +367,6 @@ test.describe('CA Term API status codes handling TCs', async () => {
             });
         });
         await page.getByRole('button', { name: ' Create Account ' }).click();
-        await page.waitForTimeout(20000);
         expect(await verifyErrorMessage(page)).toEqual(message);  
         await page.getByTestId('globalErrorCloseBtn').click();
     }

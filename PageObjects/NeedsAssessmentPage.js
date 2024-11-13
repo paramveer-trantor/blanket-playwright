@@ -10,8 +10,8 @@ class NeedsAssessmentPage {
         this.saving = page.locator("[name = 'savings']");
         this.mortgageBalance = page.locator("[name = 'mortgageBalance']");
         this.loansAndDebts = page.locator("[name = 'loansAndDebts']");
-        this.message = page.locator("//p[contains(@class,'secondary--text text-center')]");
-        this.totalvalue = page.locator("//div[@class='col-sm-4 col-11']//p[1]");
+        this.message = page.locator("//div[@class='col']//p[1]");
+        this.totalvalue = page.locator("//div[@class='col-sm-8 col-md-4 col-11']/p");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
     }
 

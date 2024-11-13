@@ -63,7 +63,8 @@ class PP_ReportsPage {
 
     async selectStartDate() {
         await this.startDate.click();
-        await this.page.locator("//div[@class='v-date-picker-table v-date-picker-table--date theme--light']/table/tbody/tr[1]/td[3]/button").click();
+        await this.page.locator("//div[@class='v-picker v-card v-picker--date theme--light']/div[2]/div/div/button[1]").click();
+        await this.page.locator("//div[@class='v-date-picker-table v-date-picker-table--date theme--light']/table/tbody/tr[1]/td[7]/button").first().click();
         await this.page.locator("//div[@class='v-picker__actions v-card__actions']/div/button[2]").click();
     }
 

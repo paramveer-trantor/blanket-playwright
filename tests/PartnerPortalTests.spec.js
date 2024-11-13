@@ -1,11 +1,11 @@
 import { test, expect, request } from '@playwright/test';
 import { login } from '../PageTests/LoginPageTest';
-import { logoutFromApplication, goToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
+import { logoutFromApplication, goToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage, navigateToManageUsersPage } from '../PageTests/DashboardTest';
 import { addNewPartnerManually, approvePartnerRequest, verifyPartnerNameLatestAdded, verifyPartnerStatusLatestAdded, verifyErrorMessageWhileAddingPartner, verifyTotalPartnersCount, bulkUploadPartners, verifyBulkUploadError, deletePartnersInBulk } from '../PageTests/PP_DashboadPageTest';
 import { navigateToReportsTab, verifyReportTypeOptionsList, verifyPopUpMessage, downloadCATermSalesReport, downloadUSTravelSalesReport, downloadUserKnockoutReport, downloadCATermUserJourneyReport, downloadCSTPartnerReport, downloadGGAPartnerReport, downloadALLPartnerReport, downloadConfidentialSalesReport, verifyNoDataMessage } from '../PageTests/PP_ReportsPageTest'; 
-import { verifyProductPageHeader, verifyGetYourTLQuoteBtnIsVisible, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { applyForPartnership } from '../PageTests/PartnershipsPageTest';
-const { username, password, adminuser, adminpass, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+import { searchAndSelectUser, verifySelectUserEmail, verifySuperAdminLogout } from '../PageTests/ManageUserPageTest';
+const { superadminuser, superadminpass, adminuser, adminpass, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('Partner Portal TCs', async () => {
 
@@ -187,5 +187,28 @@ test.describe('Partner Portal TCs', async () => {
         await downloadConfidentialSalesReport(page);
         expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
     });
+
+    test('BL-T188: Super admin shall be allowed to select any user & able to purchase CA term life policy on selected user behalf.', async ({ page }) => {
+        await page.goto('/pages/login');
+        await login(page, superadminuser, superadminpass);
+        await navigateToManageUsersPage(page);
+        await searchAndSelectUser(page, "gagandeep.singla+qa2@trantorinc.com");
+        expect(await verifySelectUserEmail(page)).toEqual('gagandeep.singla+qa2@trantorinc.com');
+        await expect(page.getByText('My Applications')).toBeVisible();
+        await page.locator("//div[@class='v-data-table__wrapper']/table/tbody/tr[1]/td[5]/button[1]").click();
+        await expect(page.getByRole('dialog')).toBeVisible();
+    });
+
+    test('BL-T189: Super admin shall be moved to his own account after logging out selected user account.', async ({ page }) => {
+        await page.goto('/pages/login');
+        await login(page, superadminuser, superadminpass);
+        await navigateToManageUsersPage(page);
+        await searchAndSelectUser(page, "gagandeep.singla+qa2@trantorinc.com");
+        expect(await verifySelectUserEmail(page)).toEqual('gagandeep.singla+qa2@trantorinc.com');
+        await verifySuperAdminLogout(page);
+        await expect(page.locator('.row.activeUser .col')).not.toBeVisible();
+    });
+
+
 
 });

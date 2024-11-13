@@ -15,10 +15,9 @@ async function navigateToConfirmPremiumPage(page, income, saving, mortgageBal, d
     await needsassessmentpage.clickContinueBtn();
 }
 
-async function verifyCoverageAmountMsg(page, income, saving, mortgageBal, debt) {
+async function verifyCoverageAmountMsg(page) {
     const pomanager = new POManager(page);
     const needsassessmentpage = pomanager.getNeedsAssessmentPage();
-    await needsassessmentpage.enterGrossIncome(income, saving, mortgageBal, debt);
     const coveragemoremsg = await needsassessmentpage.getCoverageAmountMoreMessage();
     return coveragemoremsg;
 }

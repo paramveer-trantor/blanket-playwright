@@ -46,19 +46,14 @@ async function navigateToMyPoliciesPage(page) {
     await dashboardpage.clickMyPoliciesBtn();
 }
 
-async function navigateToMyApplicationsPage(page) {
+async function navigateToMyApplicationsPage(page) { 
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
     await dashboardpage.acceptCookies();
     await dashboardpage.clickMyProfileBtn();
     await dashboardpage.clickMyApplicationsBtn();
 }
-// async function verifyWarningMsgOnLangChangeInForm(page) {
-//     const pomanager = new POManager(page);
-//     const dashboardpage = pomanager.getDashboardPage();
-//     const warning_msg = await dashboardpage.selectFRLangInForm();
-//     return warning_msg;
-// }
+
 async function logoutFromApplication(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
@@ -70,7 +65,6 @@ async function logoutFromApplication(page) {
 async function goToMyApplicationsPage(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
-    await dashboardpage.acceptCookies();
     await dashboardpage.clickMyProfileBtn();
     await dashboardpage.clickMyApplicationsBtn();
 }
@@ -107,7 +101,15 @@ async function navigateToAdminReportsPage(page) {
 async function navigateToPartnershipsPage(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.acceptCookies();
     await dashboardpage.clickPartnershipsBtn();
 }
 
-module.exports = { logoutFromApplication, navigateToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner };
+async function navigateToManageUsersPage(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.acceptCookies();
+    await dashboardpage.clickManageUserstsBtn();
+}
+
+module.exports = { logoutFromApplication, navigateToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToManageUsersPage };

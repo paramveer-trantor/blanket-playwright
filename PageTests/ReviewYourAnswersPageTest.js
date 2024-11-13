@@ -20,7 +20,7 @@ async function clickMakeAnEditButton(page, pagename) {
     }
 
     if (pagename == "Medical1") {
-        await reviewpage.clickEditBtn(pagename);
+        await reviewpage.clickEditBtn(pagename); 
     }
 
     if (pagename == "Medical2") {

@@ -29,7 +29,9 @@ class DashboardPage{
         this.aboutUsBtn = page.getByRole('button', {name: ' About Us '});    
         this.adminPartnershipsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Partnerships' });
         this.adminReportsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Reports' });
+        this.manageUsersBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Manage Users' });
     }
+    
     async getCookieBannerHeading() {    
         return (await this.cookieBanner.textContent()).trim();
     }
@@ -119,6 +121,11 @@ class DashboardPage{
     async clickAdminReportsBtn() {
         await this.aboutUsBtn.last().click();
         await this.adminReportsBtn.click();
+    }
+
+    async clickManageUserstsBtn() {
+        await this.aboutUsBtn.last().click();
+        await this.manageUsersBtn.click();
     }
 
 }

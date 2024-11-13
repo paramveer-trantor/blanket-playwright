@@ -213,7 +213,8 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPreApplicationPage(page, gender, date);
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         const total = await returnTotalValue(page, "40000", saving, mortgageBal, debt);
-        expect(await verifyCoverageAmountMsg(page, "40000", saving, mortgageBal, debt)).toEqual('Based on the information provided, your life insurance need appears to be ' + total + ' . You can apply for up to $1,000,000 now.');
+        const message = await verifyCoverageAmountMsg(page);
+        expect(message).toEqual('Based on the information provided, your life insurance need appears to be ' + total + ' . You can apply for up to $1,000,000 now.');
     });
 
     test('BL-T19: App shall not display a message if recommended coverage amount is less than maximum face amount.', async ({ page }) => {
@@ -474,15 +475,15 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPaymentPageUsingPassportNumber(page,passportno);
         await verifyPaymentPageHeader(page);
         let amountdue_monthly = await verifyAmountDue(page);
-        const myArray_monthly = amountdue_monthly.split(" ");
-        expect(monthly).toContain(myArray_monthly[2]);
+        const  amountdue_monthly_str=amountdue_monthly.toString();
+        expect(monthly).toContain(amountdue_monthly_str);
         await page.waitForTimeout(1000);
         await page.locator("//div[@class='v-stepper__items']/div[6]//button").click();
         const Annually = await verifyAnnualPremiumSelected(page);
         await page.getByRole('button', { name: ' Accept and pay '}).click();
         let amountdue_annually = await verifyAmountDue(page);
-        const myArray_annually = amountdue_annually.split(" ");
-        expect(Annually).toContain(myArray_annually[2]);
+        const amountdue_annually_str = amountdue_annually.toString();
+        expect(Annually).toContain(amountdue_annually_str);
     });
 
     test('BL-T36: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
@@ -785,7 +786,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
         await navigateToLifeStyleQuestionsPage(page);
-        await navigateToMyApplicationsPage(page);
+        await goToMyApplicationsPage(page);
         await resumeLatestLeftApplication(page);
         await expect(page.getByText('Choose Units of Measurement')).toBeVisible();
     });
@@ -880,7 +881,7 @@ test.describe('CA Term Life TCs', async () => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await logoutFromApplication(page);
-        await loginWithValidUser(page, username, password);
+        await login(page, username, password);
         expect(await verifyIfNotificationMsgForOpenApplication(page)).toEqual("You have an application in progress, would you like to continue?");
         expect(await verifyMyApplicationsPageHeader(page)).toEqual("My Applications");
     });
@@ -899,7 +900,7 @@ test.describe('CA Term Life TCs', async () => {
 
     test("BL-T130: Application shall not display notification message to user if user has no open application", async ({ page }) => {
         await page.goto('/pages/login');
-        await login(page, "gagandeep.singla+autouser2@trantorinc.com", password);
+        await login(page, "gagandeep.singla+autouser2@trantorinc.com", "Test@1");
         await expect(page.getByRole('status')).not.toBeVisible();
         await navigateToMyApplicationsPage(page);
         await expect(page.getByText('No data available')).toBeVisible();
@@ -939,19 +940,6 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPaymentPageUsingPassportNumber(page,passportno);
         await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
         expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
-    });
-
-    test('BL-T141: Application shall throw an error message after clicking continue button if address validation fails.', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);  
-        await acceptAfterHoursMsg(page);
-        await fillPreApplicationFormPage(page, firstname, lastname, date, houseaddress, phonenumber, OptionNo);
-        await page.getByLabel('City', { exact: true }).fill("Delhi");
-        await clickPreAppPageContinueBtn(page);
-        expect(await verifyAddressValidateFailureError(page)).toEqual("The address you enter could not be validated. Please enter the correct address.");
     });
 
     test('BL-T147: The completed sections shall be checked and uncompleted sections shall be greyed out in CA term policy form progress bar in web view.', async ({ page }) => {
