@@ -6,7 +6,7 @@ import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreAp
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
 import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPolicyPurchaseOnReplacePolicyQues, verifyScrollingToErrorMsg } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
-import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage } from '../PageTests/ConfirmPremiumPageTest';
+import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage, selectTermlength, selectCoverageAmount } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page, verifyCompanyDeclinedKnockout, verifyRiskyOccupationKnockout, verifyCriminalOffenceKnockout, verifyExtremeSportsKnockout, verifyMarijuanaKnockout, verifyDrugsUse5YKnockout, verifyDrugsUse10YKnockout, verifyOutsideCaKnockout } from '../PageTests/LifestyleQuestionsPageTest';
 import { verifyMed1PageHeader, navigateToMedicalQuestion2Page, moveToNextPageSleepApneaYes } from '../PageTests/MedicalQuestionnaire1PageTest';
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
@@ -19,7 +19,7 @@ import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verif
 import { verifyMyPoliciesPageHeader, verifyPolicySendingOverEmail, verifyPoliciesDetails } from '../PageTests/MyPoliciesPageTest';
 import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxOpenApplicationsCount } from '../PageTests/MyApplicationsPageTest';
 import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, verifyStep5IsInactive, verifyStep6IsInactive, verifyStep7IsInactive } from '../PageTests/ProgressBarTest';
-const { username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('Product Visibility TC', async () => {
 
@@ -67,7 +67,7 @@ test.describe('CA Term Life TCs', async () => {
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingLicenseNumber(page, licenseno);
-        expect(await (verifyAmountDue(page))).toBe(premiumrate_value); 
+        expect(await (verifyAmountDue(page))).toBe(premiumrate_value.toString()); 
         await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
         expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
@@ -685,9 +685,10 @@ test.describe('CA Term Life TCs', async () => {
         await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);
+        await navigateToPreApplicationPage(page, genderMale, "01/01/1990");
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await selectTermlength(page, "15");
         const premiumrate_value = await verifyQuoteValue(page);
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
@@ -698,7 +699,7 @@ test.describe('CA Term Life TCs', async () => {
         await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page)
         await navigateToPaymentPageUsingHealthNumber(page, healthno);
-        expect(await (verifyAmountDue(page))).toBe(premiumrate_value); 
+        expect(await (verifyAmountDue(page))).toBe(premiumrate_value.toString()); 
         await verifyPurchasePolicyWithAch(page,accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
         expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
@@ -929,6 +930,8 @@ test.describe('CA Term Life TCs', async () => {
         await enterAddressManually(page, "Test", "Manual Address", date, "Dummy Address", "Dummy", "A1A 1A1", phonenumber, OptionNo);
         await clickPreAppPageContinueBtn(page);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await selectTermlength(page, "20");
+        await selectCoverageAmount(page, "$100K");
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
         await navigateToMedicalQuestion2Page(page, OptionNo);

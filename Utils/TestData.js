@@ -12,6 +12,7 @@ module.exports = {
     tagline : "We’ve got what matters most covered.",
     date : "01/01/2000",
     gender : "Female",
+    genderMale : "Male",
     firstname : "Test",
     lastname : "Auto user",
     houseaddress : "110",

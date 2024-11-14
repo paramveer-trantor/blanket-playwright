@@ -70,4 +70,17 @@ async function getQuoteValueOnChangingCoverage(page,coverage) {
     return quotevalue_rec;
 }
 
-module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage };
+async function selectTermlength(page,length) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    await confirmpremiumpage.changeTermLength(length);
+}
+
+async function selectCoverageAmount(page,amount) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    await confirmpremiumpage.changeCoverageAmount(amount);
+}
+
+
+module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage, selectTermlength, selectCoverageAmount };

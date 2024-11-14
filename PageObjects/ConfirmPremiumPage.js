@@ -9,6 +9,8 @@ class ConfirmPremiumPage {
         this.quoteValue = page.locator('.estimate-subtitle .font-weight-bold');
         this.policyOptions = page.locator('.chip-text');
         this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
+        this.term = page.locator("//label[text()='Term']");
+        this.coverage = page.locator("//label[text()='Coverage Amount']");
     }
 
     async getConfirmPremiumPageHeader() {
@@ -107,10 +109,20 @@ class ConfirmPremiumPage {
         return await this.policyOptions.last().textContent();
     }
 
+    async changeTermLength(length) {
+        await this.term.click();
+        await this.page.getByRole('listbox').getByRole('option', { name: length }).click();
+    }
+
+    async changeCoverageAmount(amount) {
+        await this.coverage.click();
+        await this.page.getByRole('listbox').getByRole('option', { name: amount }).click();
+    }
+
     async clickContinueBtn() {
         await this.continueBtn.isVisible();
         await this.continueBtn.click();     
-}
+    }
 
 }
 
