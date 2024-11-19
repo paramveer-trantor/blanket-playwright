@@ -7,6 +7,12 @@ async function verifyCookieBannerIsVisible(page){
     return cookie_status;
 }
 
+async function acceptCookiesWindow(page) {
+    const pomanager = new POManager(page);
+    const dashboardpage = pomanager.getDashboardPage();
+    await dashboardpage.acceptCookies();
+}
+
 async function verifyTLProductIsVisible(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
@@ -87,29 +93,25 @@ async function verifyWarningMsgOnLangChangeInForm(page) {
 async function navigateToAdminPartnershipPage(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
-    await dashboardpage.acceptCookies();
     await dashboardpage.clickAdminPartnershipsBtn();
 }
 
 async function navigateToAdminReportsPage(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
-    await dashboardpage.acceptCookies();
     await dashboardpage.clickAdminReportsBtn();
 }
 
 async function navigateToPartnershipsPage(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
-    await dashboardpage.acceptCookies();
     await dashboardpage.clickPartnershipsBtn();
 }
 
 async function navigateToManageUsersPage(page) {
     const pomanager = new POManager(page);
     const dashboardpage = pomanager.getDashboardPage();
-    await dashboardpage.acceptCookies();
     await dashboardpage.clickManageUserstsBtn();
 }
 
-module.exports = { logoutFromApplication, navigateToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToManageUsersPage };
+module.exports = { logoutFromApplication, acceptCookiesWindow, navigateToMyApplicationsPage, navigateToAdminPartnershipPage, navigateToPartnershipsPage, navigateToAdminReportsPage, verifyWarningMsgOnLangChangeInForm, goToMyApplicationsPage, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToManageUsersPage };
