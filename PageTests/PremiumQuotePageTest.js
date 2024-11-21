@@ -10,7 +10,14 @@ async function verifyPremiumQuotePageHeader(page) {
 async function navigateToPreApplicationPage(page, gender, date) {
     const pomanager = new POManager(page);
     const premiunquotepage = pomanager.getPremiumQuotePage();
-    await premiunquotepage.getQuoteValue(gender, date);
+    await premiunquotepage.getQuoteValueNonSmoker(gender, date);
+    await premiunquotepage.clickContinueBtn();
+}
+
+async function navigateToPreApplicationPageAsSmoker(page, gender, date) {
+    const pomanager = new POManager(page);
+    const premiunquotepage = pomanager.getPremiumQuotePage();
+    await premiunquotepage.getQuoteValueAsSmoker(gender, date);
     await premiunquotepage.clickContinueBtn();
 }
 
@@ -18,7 +25,7 @@ async function verifyInvalidDateError(page, gender, date) {
     const pomanager = new POManager(page);
     const premiunquotepage = pomanager.getPremiumQuotePage();
     const error_date = await premiunquotepage.getIncorrectDateErrorMsg(gender, date);
-    return error_date;
+    return error_date;  
 }
 
 async function verifyNonCanadianWarning(page) {
@@ -28,4 +35,4 @@ async function verifyNonCanadianWarning(page) {
     return Warning_NonCA;
 }
 
-module.exports = { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError };
+module.exports = { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError, navigateToPreApplicationPageAsSmoker };

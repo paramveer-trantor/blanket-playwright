@@ -83,9 +83,9 @@ class ConfirmPremiumPage {
     async getQuoteValue() {
         await this.quoteValue.waitFor();
         const premiumrate_value = await this.quoteValue.textContent();
-        const match = premiumrate_value.match(/(\d+\.\d+)/);
-        const numericValue = parseFloat(match[1]);
-        const premiumrate = numericValue + 2.70;
+        const numericValue = parseFloat(premiumrate_value.replace(/[^0-9.]/g, ''));
+        const addedValue = numericValue + 2.70;
+        const premiumrate = parseFloat(addedValue.toFixed(2));
         return premiumrate;  
     }
 

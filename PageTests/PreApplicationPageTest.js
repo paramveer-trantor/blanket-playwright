@@ -80,11 +80,10 @@ async function fillPreApplicationFormPage(page, firstname, lastname, date, house
     await preapplicationpage.last3Questions(option);
 }
 
-async function enterAddressManually(page, firstname, lastname, date, houseaddress, city, zipcode, phonenumber, option) {
+async function enterAddressManually(page, firstname, lastname, houseaddress, city, zipcode, phonenumber, option) {
     const pomanager = new POManager(page);
     const preapplicationpage = pomanager.getPreApplicationPage();
     await preapplicationpage.enterUserName(firstname, lastname);
-    await preapplicationpage.enterDOB(date);
     await preapplicationpage.enterAddressManually(houseaddress, city, zipcode)
     await preapplicationpage.enterPhoneNumber(phonenumber);
     await preapplicationpage.last3Questions(option);

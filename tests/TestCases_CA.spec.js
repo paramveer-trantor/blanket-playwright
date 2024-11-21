@@ -2,7 +2,7 @@ import { test, expect, request } from '@playwright/test';
 import { login } from '../PageTests/LoginPageTest';
 import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
-import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
+import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError, navigateToPreApplicationPageAsSmoker } from '../PageTests/PremiumQuotePageTest';
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
 import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPolicyPurchaseOnReplacePolicyQues, verifyScrollingToErrorMsg } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
@@ -67,7 +67,7 @@ test.describe('CA Term Life TCs', async () => {
         await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingLicenseNumber(page, licenseno);
-        expect(await (verifyAmountDue(page))).toBe(premiumrate_value.toString()); 
+        expect(await (verifyAmountDue(page))).toEqual(premiumrate_value.toString()); 
         await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
         expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
@@ -77,9 +77,11 @@ test.describe('CA Term Life TCs', async () => {
         await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
-        expect(await verifyInvalidDateError(page, gender, "02/02/2029")).toMatch(/\bDate of birth must be on or before (\d{2}\/\d{2}\/\d{4})\b/);
-        await navigateToPreApplicationPage(page, gender, date);
-        expect(await verifyInvalidDateErrorMsg(page, "02/02/2029")).toMatch(/\bDate of birth must be on or before (\d{2}\/\d{2}\/\d{4})\b/);
+        const today = new Date();
+        const cutoffDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        const formattedDate = cutoffDate.toLocaleDateString('en-US');
+        const expectedErrorMessage = `Date of birth must be on or before ${formattedDate}`;
+        expect(await verifyInvalidDateError(page, gender, "02/02/2029")).toEqual(expectedErrorMessage);
     });
 
     test('BL-T7: Application shall throw an error message if user enters invalid phone number.', async ({ page }) => {
@@ -144,9 +146,15 @@ test.describe('CA Term Life TCs', async () => {
         await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
-        expect(await verifyInvalidDateError(page, gender, "02/02/2010")).toMatch(/\bDate of birth must be on or before (\d{2}\/\d{2}\/\d{4})\b/);
-        await navigateToPreApplicationPage(page, gender, date);
-        expect(await verifyInvalidDateErrorMsg(page, "02/02/1949")).toMatch(/\bDate of birth must be on or after (\d{2}\/\d{2}\/\d{4})\b/);
+        const today = new Date();
+        const cutoffDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        const formattedDate = cutoffDate.toLocaleDateString('en-US');
+        const expectedErrorMessage = `Date of birth must be on or before ${formattedDate}`;
+        expect(await verifyInvalidDateError(page, gender, "02/02/2010")).toEqual(expectedErrorMessage);
+        const cutoffDate1 = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+        const formattedDate1 = cutoffDate1.toLocaleDateString('en-US');
+        const expectedErrorMessage1 = `Date of birth must be on or before ${formattedDate1}`;
+        expect(await verifyInvalidDateError(page, gender, "02/02/1949")).toEqual(expectedErrorMessage1);
     });
 
     test('BL-T12: User with age between 18 & 50 shall able to buy plan of term period and face amount upto $1M.', async ({ page }) => {
@@ -617,8 +625,9 @@ test.describe('CA Term Life TCs', async () => {
         const non_smoker_quote = await verifyQuoteValue(page);
         await page.getByRole('button', { name: ' Back ' }).click();
         await page.getByRole('button', { name: ' Back ' }).click();
-        await page.getByText('Yes', { exact: true }).nth(1).click();
-        await page.getByRole('button', { name: ' Continue ' }).click();
+        await page.getByRole('button', { name: ' Back to quote ' }).click();
+        await navigateToPreApplicationPageAsSmoker(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
         expect(await verifyQuoteValue(page)).not.toBe(non_smoker_quote);
     });
@@ -858,16 +867,14 @@ test.describe('CA Term Life TCs', async () => {
         await expect(page.getByText('Please enter valid email')).toBeVisible();
     });
 
-    test('BL-T127: DOB field shall not accept invalid date on quote, pre application & beneficiary page.', async ({ page }) => {
+    test('BL-T127: DOB field shall not accept invalid date on quote & beneficiary page.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         expect(await verifyInvalidDateError(page, gender, "13/01/2000")).toEqual("Date of birth is not a valid date");
         await navigateToPreApplicationPage(page, gender, date);
-        expect(await verifyInvalidDateErrorMsg(page, "13/01/2000")).toEqual("Date of birth is not a valid date");
-        await fillPreApplicationFormPage(page, firstname, lastname, date, houseaddress, phonenumber, OptionNo);
-        await clickPreAppPageContinueBtn(page);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
@@ -925,9 +932,9 @@ test.describe('CA Term Life TCs', async () => {
         await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);  
+        await navigateToPreApplicationPageAsSmoker(page, gender, date);  
         await acceptAfterHoursMsg(page);
-        await enterAddressManually(page, "Test", "Manual Address", date, "Dummy Address", "Dummy", "A1A 1A1", phonenumber, OptionNo);
+        await enterAddressManually(page, "Test", "Manual Address", "Dummy Address", "Dummy", "A1A 1A1", phonenumber, OptionNo);
         await clickPreAppPageContinueBtn(page);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
         await selectTermlength(page, "20");

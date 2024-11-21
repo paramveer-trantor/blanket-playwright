@@ -8,7 +8,7 @@ class PremiumQuotePage {
         this.genderMale = page.getByText('Male', { exact: true });
         this.genderFemale = page.getByText('Female', { exact: true });
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
-        this.canadianCitizen = page.getByText('Yes');
+        this.optionYes = page.getByText('Yes');
         this.optionNo = page.getByText('No');
         this.nonSmoker = page.getByText('No');
         this.dateErrorMsg = page.locator('.v-messages__message');
@@ -23,7 +23,7 @@ class PremiumQuotePage {
         return (await this.header.textContent()).trim();
     }
 
-    async getQuoteValue(gender, date) {
+    async getQuoteValueNonSmoker(gender, date) {
         if (gender == "Male") {
             await this.genderMale.first().click();
         }
@@ -33,8 +33,23 @@ class PremiumQuotePage {
         await this.dateOfBirth.click();
         await this.dateOfBirth.clear();
         await this.dateOfBirth.fill(date);
-        await this.canadianCitizen.first().click();
+        await this.optionYes.first().click();
         await this.nonSmoker.nth(1).click();
+        await this.getQuoteBtn.click();       
+    }
+
+    async getQuoteValueAsSmoker(gender, date) {
+        if (gender == "Male") {
+            await this.genderMale.first().click();
+        }
+        else {
+            await this.genderFemale.first().click();
+        }
+        await this.dateOfBirth.click();
+        await this.dateOfBirth.clear();
+        await this.dateOfBirth.fill(date);
+        await this.optionYes.first().click();
+        await this.optionYes.last().click();
         await this.getQuoteBtn.click();       
     }
 
@@ -60,7 +75,7 @@ class PremiumQuotePage {
     }
 
     async clickContinueBtn() {
-        await this.continueBtn.click();        
+        await this.continueBtn.click();          
     }
 }
 
