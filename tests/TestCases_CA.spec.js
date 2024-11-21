@@ -699,6 +699,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
         await selectTermlength(page, "15");
         const premiumrate_value = await verifyQuoteValue(page);
+        console.log(premiumrate_value);
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
         await navigateToMedicalQuestion2Page(page, OptionNo);
