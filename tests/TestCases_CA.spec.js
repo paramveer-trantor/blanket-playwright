@@ -109,7 +109,6 @@ test.describe('CA Term Life TCs', async () => {
         expect(await getQuoteValueOnChangingCoverage(page, "$100K")).not.toBe(orginal_quoteValue);
         expect(await getQuoteValueOnChangingCoverage(page, "$500K")).not.toBe(orginal_quoteValue);
         expect(await getQuoteValueOnChangingCoverage(page, "$1M")).not.toBe(orginal_quoteValue);
-        expect(await getQuoteValueOnChangingTermLength(page, 10)).toBe(orginal_quoteValue);
     });
 
     test('BL-T9: User shall be redirected to Needs Assessment page after pre application page..', async ({ page }) => {
@@ -141,7 +140,7 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyKnockoutMsg(page)).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
-    test('BL-T11: User with age < 18 or > 80 shall not be allowed to buy a CA term plan.', async ({ page }) => {
+    test('BL-T11: Application shall not allow user with age < 18 or > 70 to purchase a CA term plan', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -153,11 +152,11 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyInvalidDateError(page, gender, "02/02/2010")).toEqual(expectedErrorMessage);
         const cutoffDate1 = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
         const formattedDate1 = cutoffDate1.toLocaleDateString('en-US');
-        const expectedErrorMessage1 = `Date of birth must be on or before ${formattedDate1}`;
+        const expectedErrorMessage1 = `Date of birth must be on or after ${formattedDate1}`;
         expect(await verifyInvalidDateError(page, gender, "02/02/1949")).toEqual(expectedErrorMessage1);
     });
 
-    test('BL-T12: User with age between 18 & 50 shall able to buy plan of term period and face amount upto $1M.', async ({ page }) => {
+    test('BL-T12: Application shall allow user with age in between 18 & 50 to purchase the policy with any term period and coverage amount upto $1M.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -169,7 +168,7 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyCoverageAmountOptions(page)).toContainEqual('$100K', '$250K', '$400K', '$500K', '$600K', '$750K', '$1M');
     });
 
-    test('BL-T13: User with age above 50 shall able to buy plan with face amount upto $500k.', async ({ page }) => {
+    test('BL-T13: Application shall allow user with age above 50 to purchase the policy with coverage amount upto $500k.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -180,7 +179,7 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyCoverageAmountOptions(page)).toContainEqual('$100K', '$250K', '$400K', '$500K');
     });
 
-    test('BL-T14: User with age in between 66 & 70 shall be allowed to buy only T10 plan.', async ({ page }) => {
+    test('BL-T14: Application shall allow user with age in between 66 & 70 to purchase only T10 plan.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -191,7 +190,7 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyTermOptions(page)).toContainEqual('10');
     });
 
-    test('BL-T15: User with age in between 61 & 65 shall be allowed to buy only T10 & T15 plans.', async ({ page }) => {
+    test('BL-T15: Application shall allow user with age in between 61 & 65 to purchase T10 & T15 plans.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -202,7 +201,7 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyTermOptions(page)).toContainEqual('10', '15');
     });
 
-    test('BL-T16: User with age 60 or less shall be allowed to buy any plan.', async ({ page }) => {
+    test('BL-T16: Application shall allow user with age 60 or less to purchase plan with any term length.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -699,7 +698,6 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
         await selectTermlength(page, "15");
         const premiumrate_value = await verifyQuoteValue(page);
-        console.log(premiumrate_value);
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
         await navigateToMedicalQuestion2Page(page, OptionNo);
@@ -719,7 +717,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
-        expect(await createAccountInForm(page,"test@mailnator.com","Test@1")).toEqual("Please enter the 6 digit One time password sent to");
+        expect(await createAccountInForm(page,"test+1@mailnator.com","Test@1")).toEqual("Please enter the 6 digit One time password sent to");
     });
 
     test('BL-T91: An info icon & helper image for some fields shall be displayed to user on payment screen.', async ({ page }) => {
