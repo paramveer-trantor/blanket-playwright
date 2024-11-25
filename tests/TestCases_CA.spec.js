@@ -717,7 +717,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
-        expect(await createAccountInForm(page,"test+1@mailnator.com","Test@1")).toEqual("Please enter the 6 digit One time password sent to");
+        expect(await createAccountInForm(page,"test+qa1@mailnator.com","Test@1")).toEqual("Please enter the 6 digit One time password sent to");
     });
 
     test('BL-T91: An info icon & helper image for some fields shall be displayed to user on payment screen.', async ({ page }) => {
