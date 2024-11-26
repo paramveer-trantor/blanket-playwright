@@ -148,6 +148,11 @@ async function verifyKnockoutScenarioPastAbsentFromWorkQues(page, firstname, las
     await preapplicationpage.answerPastAbsentFromWorkAsYes();
 }
 
+async function navigateBackToQuotePage(page) {
+    const pomanager = new POManager(page);
+    const preapplicationpage = pomanager.getPreApplicationPage();
+    await preapplicationpage.clickBackToQuoteBtn();
+}
 
 
-module.exports = { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, enterAddressManually, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg, verifyScrollingToErrorMsg, verifyKnockoutScenarioCurrentlyAbsentFromWorkQues, verifyKnockoutScenarioPastAbsentFromWorkQues, verifyPolicyPurchaseOnReplacePolicyQues };
+module.exports = { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, enterAddressManually, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg, verifyScrollingToErrorMsg, verifyKnockoutScenarioCurrentlyAbsentFromWorkQues, verifyKnockoutScenarioPastAbsentFromWorkQues, verifyPolicyPurchaseOnReplacePolicyQues, navigateBackToQuotePage };

@@ -2,11 +2,11 @@ import { test, expect, request } from '@playwright/test';
 import { login } from '../PageTests/LoginPageTest';
 import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
-import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError, navigateToPreApplicationPageAsSmoker } from '../PageTests/PremiumQuotePageTest';
+import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError, navigateToPreApplicationPageAsSmoker, getQuotePremiumRateValue } from '../PageTests/PremiumQuotePageTest';
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
-import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPolicyPurchaseOnReplacePolicyQues, verifyScrollingToErrorMsg } from '../PageTests/PreApplicationPageTest';
+import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPolicyPurchaseOnReplacePolicyQues, verifyScrollingToErrorMsg, navigateBackToQuotePage } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
-import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage, selectTermlength, selectCoverageAmount } from '../PageTests/ConfirmPremiumPageTest';
+import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage, selectTermlength, selectCoverageAmount, getPremiumRateValue } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page, verifyCompanyDeclinedKnockout, verifyRiskyOccupationKnockout, verifyCriminalOffenceKnockout, verifyExtremeSportsKnockout, verifyMarijuanaKnockout, verifyDrugsUse5YKnockout, verifyDrugsUse10YKnockout, verifyOutsideCaKnockout } from '../PageTests/LifestyleQuestionsPageTest';
 import { verifyMed1PageHeader, navigateToMedicalQuestion2Page, moveToNextPageSleepApneaYes } from '../PageTests/MedicalQuestionnaire1PageTest';
 import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
@@ -19,6 +19,7 @@ import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verif
 import { verifyMyPoliciesPageHeader, verifyPolicySendingOverEmail, verifyPoliciesDetails } from '../PageTests/MyPoliciesPageTest';
 import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxOpenApplicationsCount } from '../PageTests/MyApplicationsPageTest';
 import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, verifyStep5IsInactive, verifyStep6IsInactive, verifyStep7IsInactive } from '../PageTests/ProgressBarTest';
+import exp from 'constants';
 const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.describe('Product Visibility TC', async () => {
@@ -1088,21 +1089,52 @@ test.describe('CA Term Life TCs', async () => {
         await enterBillingAddress(page, "Test", "User", "15 Filton Rd", "Caledon East", "L7C 1R5");
     });
 
-    /*
-    test('Bulk User need assessment', async ({ page }) => {
+    test('BL-T193: Premium rate selected on "Get quote" page shall be displayed same on "Confirm premium" page.', async ({ page }) => {
+        await page.goto('/pages/login');
+        await login(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        const premiumrate_quotepage = await getQuotePremiumRateValue(page, gender, date);
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        expect(await getPremiumRateValue(page)).toEqual(premiumrate_quotepage);
+    });
+
+    test('BL-T194: User shall not be allowed to change values in gender, DOB & Smoke status questions on pre application page.', async ({ page }) => {
+        await page.goto('/pages/login');
+        await login(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await expect(page.getByLabel('Female')).toBeDisabled();
+        await expect(page.locator('[name="dob"]')).toBeDisabled();
+        await expect(page.getByLabel('Yes').nth(1)).toBeDisabled();
+    });
+
+    test('BL-T195: User shall have option to go back to "Get TL Premium Quote" page from pre application page.', async ({ page }) => {
+        await page.goto('/pages/login');
+        await login(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await page.getByRole('dialog').getByRole('button', { name: 'Continue' }).click();
+        await navigateBackToQuotePage(page);
+        await expect(page.getByText(' Term Life Insurance Premium Quote ')).toBeVisible();
+    });
+
+    test('BL-T196: Existing application shall be closed if user goes back to Get quote page from pre application.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
-        for (let i = 0; i < 1000; i++) {
-        const random_value = Math.floor(Math.random() * (50000 - 20000 + 1)) + 20000;
-        await page.locator("[name = 'annualIncome']").click();
-        //await page.locator("[name = 'annualIncome']").clear();
-        await page.locator("[name = 'annualIncome']").fill(random_value.toString());
-        await page.locator("[name = 'savings']").click();
-        }
-    }); */
+        await page.waitForTimeout(2000);
+        const preapp_url = await page.url();
+        await page.getByText(' Initial Info ',{exact: true }).click();
+        await page.waitForTimeout(2000);
+        await navigateBackToQuotePage(page);
+        expect(page.url()).not.toEqual(preapp_url);
+    });
 
 });

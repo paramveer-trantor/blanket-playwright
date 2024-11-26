@@ -80,6 +80,12 @@ class ConfirmPremiumPage {
         }
     }
 
+    async getPremiumValueWithoutFee() {
+        await this.quoteValue.waitFor();
+        const premiumrate_value = (await this.quoteValue.textContent()).trim();
+        return premiumrate_value;  
+    }
+
     async getQuoteValue() {
         await this.quoteValue.waitFor();
         const premiumrate_value = await this.quoteValue.textContent();
@@ -114,7 +120,7 @@ class ConfirmPremiumPage {
         await this.page.getByRole('listbox').getByRole('option', { name: length }).click();
     }
 
-    async changeCoverageAmount(amount) {
+    async changeCoverageAmount(amount) { 
         await this.coverage.click();
         await this.page.getByRole('listbox').getByRole('option', { name: amount }).click();
     }

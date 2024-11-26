@@ -37,8 +37,10 @@ class DashboardPage{
     }
 
     async acceptCookies(){
-        await this.acceptCookiesBtn.first().isVisible();
-        await this.acceptCookiesBtn.first().click();
+        if(this.page.getByText(' We value your privacy ').isVisible()) {
+            await this.acceptCookiesBtn.first().isVisible();
+            await this.acceptCookiesBtn.first().click();
+        }
     }
 
     async selectCACountry(){

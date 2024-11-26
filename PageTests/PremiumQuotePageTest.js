@@ -35,4 +35,12 @@ async function verifyNonCanadianWarning(page) {
     return Warning_NonCA;
 }
 
-module.exports = { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError, navigateToPreApplicationPageAsSmoker };
+async function getQuotePremiumRateValue(page, gender, date) {
+    const pomanager = new POManager(page);
+    const premiunquotepage = pomanager.getPremiumQuotePage();
+    await premiunquotepage.getQuoteValueNonSmoker(gender, date);
+    const premiumrate = await premiunquotepage.getQuotePremiumRateValue();  
+    return premiumrate;
+}
+
+module.exports = { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError, navigateToPreApplicationPageAsSmoker, getQuotePremiumRateValue };

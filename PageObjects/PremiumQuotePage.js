@@ -17,6 +17,7 @@ class PremiumQuotePage {
         this.dialogBox = page.getByRole('dialog');
         this.warningMsgText = this.dialogBox.locator("//div[@class='v-card__text justify-center text-center']/div/div");
         this.closeBtn = this.dialogBox.getByRole('button', { name: ' Close '});
+        this.premiumValue = page.locator('.estimate-subtitle .font-weight-bold ');
     }
 
     async getPremiumQuotePageHeader() {
@@ -72,6 +73,12 @@ class PremiumQuotePage {
         const errorMsg = await this.dateErrorMsg.textContent();
         await this.page.locator("//button[@aria-label='Clear MM/DD/YYYY']").click();
         return errorMsg;
+    }
+
+    async getQuotePremiumRateValue() {
+        const value_quotepremium = (await this.premiumValue.textContent()).trim();
+        await this.continueBtn.click(); 
+        return value_quotepremium;
     }
 
     async clickContinueBtn() {

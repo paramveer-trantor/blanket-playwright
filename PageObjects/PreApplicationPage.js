@@ -30,6 +30,7 @@ class PreApplicationPage {
         this.warningMsgText = page.locator("//div[@class='v-dialog v-dialog--active']/div/div/div/div[@class='col']");
         this.closeBtn = page.getByRole('button', { name: ' Close '});
         this.addressvalidate = this.dialogBox.locator('.col');
+        this.backToQuoteBtn = page.getByRole('button', { name: ' Back to quote ' }); 
     }
 
     async getPreApplicationPageHeader() {
@@ -144,6 +145,11 @@ class PreApplicationPage {
         await this.optionNo.nth(3).click();
         await this.optionYes.nth(4).click();
         await this.questionSurvey.click();
+    }
+
+    async clickBackToQuoteBtn() {
+        await this.backToQuoteBtn.isVisible();
+        await this.backToQuoteBtn.click();
     }
 
 }

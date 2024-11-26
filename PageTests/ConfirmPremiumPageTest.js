@@ -82,5 +82,12 @@ async function selectCoverageAmount(page,amount) {
     await confirmpremiumpage.changeCoverageAmount(amount);
 }
 
+async function getPremiumRateValue(page) {
+    const pomanager = new POManager(page);
+    const confirmpremiumpage = pomanager.getConfirmPremiumPage();
+    const premium_value = await confirmpremiumpage.getPremiumValueWithoutFee();
+    return premium_value;
+}
 
-module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage, selectTermlength, selectCoverageAmount };
+
+module.exports = { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage, selectTermlength, selectCoverageAmount, getPremiumRateValue };
