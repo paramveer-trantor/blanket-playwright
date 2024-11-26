@@ -217,7 +217,8 @@ test.describe('Partner Portal TCs', async () => {
         expect(await verifySelectUserEmail(page)).toEqual('gagandeep.singla+qa2@trantorinc.com');
         await expect(page.getByText('My Applications')).toBeVisible();
         await page.locator("//div[@class='v-data-table__wrapper']/table/tbody/tr[1]/td[5]/button[1]").click();
-        await expect(page.getByRole('dialog')).toBeVisible();
+        await page.waitForTimeout(2000);
+        expect(page.url()).toContain("canadianterm/survey");
     });
 
     test('BL-T189: Super admin shall be moved to his own account after logging out selected user account.', async ({ page }) => {
