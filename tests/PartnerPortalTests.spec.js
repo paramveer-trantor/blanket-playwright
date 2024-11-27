@@ -81,7 +81,8 @@ test.describe('Partner Portal TCs', async () => {
         await login(page, adminuser, adminpass);
         await acceptCookiesWindow(page);
         await navigateToAdminPartnershipPage(page);
-        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/DuplicatePartnersEmailids.csv');
+        //await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/DuplicatePartnersEmailids.csv');
+        await bulkUploadPartners(page, '/opt/files/DuplicatePartnersEmailids.csv');
         await expect(page.locator("//div[@data-testid='bulkUploadTable']/div/table/colgroup")).toBeVisible();
         await expect(page.locator("//tr[1][@class='duplicate']")).toBeVisible();
     });
@@ -102,7 +103,8 @@ test.describe('Partner Portal TCs', async () => {
         await login(page, adminuser, adminpass);
         await acceptCookiesWindow(page);
         await navigateToAdminPartnershipPage(page);
-        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/LimitCross300partners.csv');
+        //await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/LimitCross300partners.csv');
+        await bulkUploadPartners(page, '/opt/files/LimitCross300partners.csv');
         expect(await verifyBulkUploadError(page)).toEqual("Max limit is 300");
     });
 
@@ -111,10 +113,12 @@ test.describe('Partner Portal TCs', async () => {
         await login(page, adminuser, adminpass);
         await acceptCookiesWindow(page);
         await navigateToAdminPartnershipPage(page);
-        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/IncorrectColumnPartners.csv');
+        //await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/IncorrectColumnPartners.csv');
+        await bulkUploadPartners(page, '/opt/files/IncorrectColumnPartners.csv');
         expect(await verifyBulkUploadError(page)).toEqual("CSV file contains incorrect or missing headers.");
         await page.getByRole('dialog').getByRole('button', {name: ' Cancel '}).click();
-        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/PartnersWithSameEmailOfExistingPartners.csv');
+        //await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/PartnersWithSameEmailOfExistingPartners.csv');
+        await bulkUploadPartners(page, '/opt/files/PartnersWithSameEmailOfExistingPartners.csv');
         expect(await verifyBulkUploadError(page)).toContain("Duplicate emails found");
     });
 
@@ -188,7 +192,8 @@ test.describe('Partner Portal TCs', async () => {
         await login(page, adminuser, adminpass);
         await acceptCookiesWindow(page);
         await navigateToAdminPartnershipPage(page);
-        await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/ValidPartners.csv');
+        //await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/ValidPartners.csv');
+        await bulkUploadPartners(page, '/opt/files/ValidPartners.csv');
         await page.locator("//div[@data-testid='bulkUploadDialog']//div[3]/button[2]").click();
         await expect(page.getByRole('status')).toBeVisible();
         expect(await verifyPartnerNameLatestAdded(page)).toEqual("Bulk Partner 1 Auto");   
