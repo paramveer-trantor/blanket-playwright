@@ -22,16 +22,12 @@ import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, 
 import exp from 'constants';
 const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
-test.describe('Product Visibility TC', async () => {
+test.describe('CA Term Life TCs', async () => {
 
     test('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
         await page.goto('');
         expect(await verifyTLProductIsVisible(page)).toEqual('Term Life');
     });
-
-});
-
-test.describe('CA Term Life TCs', async () => {
 
     test('BL-T2: User shall be redirect to Login page from Quote page in CA Term policy form if user is not logged in blanket application.', async ({ page }) => {
         await page.goto('');
@@ -686,7 +682,20 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
-        expect(await verifyAfterHoursMsg(page)).toEqual('After hours');
+        const CurrentTimeEst = await page.evaluate(() => {
+            const formatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/New_York', 
+            hour: '2-digit',
+            hour12: false,
+            });
+            return formatter.format(new Date());
+            });
+        if (CurrentTimeEst > 21 || CurrentTimeEst < 9) {
+            expect(await verifyAfterHoursMsg(page)).toEqual('After hours');
+        }
+        else {
+            expect(page.getByRole('dialog')).not.toBeVisible();
+        }
     });
 
     test('BL-T55: User shall able to do premium payment successfully.', async ({ page }) => {

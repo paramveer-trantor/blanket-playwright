@@ -8,17 +8,16 @@ test.describe('US Travel API status codes handling TCs', async () => {
     //prod parameters = (page, "https://www.blanket.com/pages/login", "tester@blanket.com", "123456");
 
     test('Application shall throw an error if api response is not 200 or 201 in US Travel Get Premium Quote API', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
+        await page.goto('');
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
         await page.locator(".v-btn__content").filter({ hasText: ' Products ' }).click();
-        //await page.getByRole('button', {name: ' Products '}).click();
         await page.getByRole('menu').getByRole('menuitem', { name: 'Travel', exact: true  }).click();
         await page.locator('.v-btn__content').filter({ hasText: ' Apply Now '}).first().click();
         await page.getByLabel("I'm going to").click();
         await page.getByRole('listbox').getByRole('option', { name: 'Åland Islands', exact: true }).click();
-        await page.locator(".v-text-field__slot").last().click();
-        await page.locator("//div[@role='dialog']//table//tbody/tr[5]/td[5]/button").click();
+        await page.getByLabel('To', { exact: true }).click();
+        await page.locator("//div[@class='v-picker v-card v-picker--date theme--light']/div[2]/div/div/button[2]").click();
+        await page.locator("//div[@class='v-date-picker-table v-date-picker-table--date theme--light']/table/tbody/tr[1]/td[7]/button").first().click();
         await page.locator("//div[@role='dialog']/div/div/div[3]/button[2]").click();
         await page.getByLabel("Trip Type").click();
         await page.getByRole('listbox').getByRole('option', { name: 'Air Only', exact: true }).click();
@@ -37,7 +36,6 @@ test.describe('US Travel API status codes handling TCs', async () => {
                 expect(await verifyErrorMessage(page)).toEqual(message);  
                 await page.getByTestId('globalErrorCloseBtn').click();
         }
-        
     });
 
     test('Application shall throw an error if api response is not 200 or 201 in purchase US Travel API', async ({ page }) => {
@@ -49,8 +47,9 @@ test.describe('US Travel API status codes handling TCs', async () => {
         await page.locator('.v-btn__content').filter({ hasText: ' Apply Now '}).first().click();
         await page.getByLabel("I'm going to").click();
         await page.getByRole('listbox').getByRole('option', { name: 'Åland Islands', exact: true }).click();
-        await page.locator(".v-text-field__slot").last().click();
-        await page.locator("//div[@role='dialog']//table//tbody/tr[5]/td[5]/button").click();
+        await page.getByLabel('To', { exact: true }).click();
+        await page.locator("//div[@class='v-picker v-card v-picker--date theme--light']/div[2]/div/div/button[2]").click();
+        await page.locator("//div[@class='v-date-picker-table v-date-picker-table--date theme--light']/table/tbody/tr[1]/td[7]/button").first().click();
         await page.locator("//div[@role='dialog']/div/div/div[3]/button[2]").click();
         await page.getByLabel("Trip Type").click();
         await page.getByRole('listbox').getByRole('option', { name: 'Air Only', exact: true }).click();

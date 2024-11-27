@@ -41,7 +41,7 @@ class PreApplicationPage {
         if (await this.dialogBox.isVisible()) {
             await this.dialogContinueBtn.click();
         }
-    }
+    }  
 
     async getAfterHoursMsg() {
         return (await this.afterHoursMsg.textContent()).trim();  
