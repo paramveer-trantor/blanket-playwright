@@ -192,6 +192,11 @@ test.describe('Partner Portal TCs', async () => {
         await login(page, adminuser, adminpass);
         await acceptCookiesWindow(page);
         await navigateToAdminPartnershipPage(page);
+        const emailfirstrow = await page.locator("//div[@class='v-data-table__wrapper']/table/tbody/tr[1]/td[8]").textContent();
+        if (emailfirstrow == "partnerbulkauto@test.com") {
+            await page.locator("//div[@class='v-data-table__wrapper']/table/tbody/tr[1]/td[11]//button[2]").click();
+            await page.getByRole('dialog').getByRole('button', { name: ' OK ' }).click();
+        }
         //await bulkUploadPartners(page, 'C:/Users/gagandeep.singla/Downloads/ValidPartners.csv');
         await bulkUploadPartners(page, '/opt/files/ValidPartners.csv');
         await page.locator("//div[@data-testid='bulkUploadDialog']//div[3]/button[2]").click();

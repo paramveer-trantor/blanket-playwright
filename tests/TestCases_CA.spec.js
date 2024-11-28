@@ -1128,11 +1128,8 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPreApplicationPage(page, gender, date);
         if (await page.getByRole('dialog').isVisible()) {
             await page.getByRole('dialog').getByRole('button', { name: 'Continue' }).click();
-            await navigateBackToQuotePage(page);
-        }
-        else {
-            await navigateBackToQuotePage(page);
-        }
+        }    
+        await navigateBackToQuotePage(page);
         await expect(page.getByText(' Term Life Insurance Premium Quote ')).toBeVisible();
     });
 
