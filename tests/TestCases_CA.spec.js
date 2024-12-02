@@ -76,7 +76,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPolicyForm(page);
         const today = new Date();
         const cutoffDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-        const formattedDate = cutoffDate.toLocaleDateString('en-US');
+        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), {year:'numeric', month:'2-digit', day:'2-digit'});
         const expectedErrorMessage = `Date of birth must be on or before ${formattedDate}`;
         expect(await verifyInvalidDateError(page, gender, "02/02/2029")).toEqual(expectedErrorMessage);
     });
@@ -144,11 +144,11 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPolicyForm(page);
         const today = new Date();
         const cutoffDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-        const formattedDate = cutoffDate.toLocaleDateString('en-US');
+        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), {year:'numeric', month:'2-digit', day:'2-digit'});
         const expectedErrorMessage = `Date of birth must be on or before ${formattedDate}`;
         expect(await verifyInvalidDateError(page, gender, "02/02/2010")).toEqual(expectedErrorMessage);
         const cutoffDate1 = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
-        const formattedDate1 = cutoffDate1.toLocaleDateString('en-US');
+        const formattedDate1 = cutoffDate1.toLocaleDateString(('en-US'), {year:'numeric', month:'2-digit', day:'2-digit'});
         const expectedErrorMessage1 = `Date of birth must be on or after ${formattedDate1}`;
         expect(await verifyInvalidDateError(page, gender, "02/02/1949")).toEqual(expectedErrorMessage1);
     });
