@@ -22,10 +22,10 @@ import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxO
 import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, verifyStep5IsInactive, verifyStep6IsInactive, verifyStep7IsInactive } from '../PageTests/ProgressBarTest';
 const { username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
-test.describe('CA Term API status codes handling TCs', async () => {
+test.describe('API status codes handling TCs', async () => {
 
     //Prod parameters = (page, "https://www.blanket.com/pages/login", "tester@blanket.com", "123456");
-    test('Application shall throw an error if api response is not 200 or 201 in CA Term Get Premium Quote API', async ({ page }) => {
+    test('BL-T186: Application shall throw an error if CA Term Get Premium Quote API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -45,7 +45,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         }
     });
 
-    test('Application shall throw an error if api response is not 200 or 201 in CA Term Assessment API', async ({ page }) => {
+    test('BL-T186(1): Application shall throw an error if CA Term Assessment API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -65,7 +65,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         }
     });
 
-    test('Application shall throw an error if api response is not 200 or 201 in CA Term Get Premium API', async ({ page }) => {
+    test('BL-T186(2): Application shall throw an error if CA Term Get Premium API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -86,7 +86,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         }
     });
 
-    test('Application shall throw an error if api response is not 200 or 201 in CA Term Decission API', async ({ page }) => {
+    test('BL-T186(3): Application shall throw an error if CA Term Decission API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -289,7 +289,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
 
     */
 
-    test('Application shall throw an error if api response is not 200 or 201 in send email policy API', async ({ page }) => {
+    test('Application shall throw an error if send email policy API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
@@ -307,7 +307,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
         }
     });
 
-    test('Application shall throw an error if api response is not 200 or 201 in login API', async ({ page }) => {
+    test('Application shall throw an error if login API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await page.locator("[name='email']").fill(username);
         await page.locator("[name='password']").fill(password);
@@ -329,7 +329,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
     }
     });
 
-    test('Application shall throw an error if api response is not 200 or 201 in forgot password API', async ({ page }) => {
+    test('Application shall throw an error if forgot password API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await page.locator(".signup-text").first().click();
         await page.getByLabel('Email').fill("Test@testaccount.com");
@@ -350,7 +350,7 @@ test.describe('CA Term API status codes handling TCs', async () => {
     }
     });
 
-    test('Application shall throw an error if api response is not 200 or 201 in create account API', async ({ page }) => {
+    test('Application shall throw an error if create account API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/register');
         await page.getByLabel('Email').fill("Test@testaccount.com");
         await page.locator("[name='password']").fill("Test@1");

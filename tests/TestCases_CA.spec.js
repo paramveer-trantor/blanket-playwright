@@ -936,7 +936,7 @@ test.describe('CA Term Life TCs', async () => {
         await expect(page.locator('.address-list')).toBeVisible();
     });
 
-    test('BL-T140 User shall be allowed to enter address manually and application shall not validate address on continue button of pre application page.', async ({ page }) => {
+    test('BL-T140: User shall be allowed to enter address manually and application shall not validate address on continue button of pre application page.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
