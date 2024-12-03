@@ -289,7 +289,7 @@ test.describe('API status codes handling TCs', async () => {
 
     */
 
-    test('Application shall throw an error if send email policy API response is not 200 or 201', async ({ page }) => {
+    test('BL-T141: Application shall throw an error if send email policy API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
@@ -307,7 +307,7 @@ test.describe('API status codes handling TCs', async () => {
         }
     });
 
-    test('Application shall throw an error if login API response is not 200 or 201', async ({ page }) => {
+    test('BL-T141(1): Application shall throw an error if login API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await page.locator("[name='email']").fill(username);
         await page.locator("[name='password']").fill(password);
@@ -329,7 +329,7 @@ test.describe('API status codes handling TCs', async () => {
     }
     });
 
-    test('Application shall throw an error if forgot password API response is not 200 or 201', async ({ page }) => {
+    test('BL-T141(2): Application shall throw an error if forgot password API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/login');
         await page.locator(".signup-text").first().click();
         await page.getByLabel('Email').fill("Test@testaccount.com");
@@ -350,7 +350,7 @@ test.describe('API status codes handling TCs', async () => {
     }
     });
 
-    test('Application shall throw an error if create account API response is not 200 or 201', async ({ page }) => {
+    test('BL-T141(3): Application shall throw an error if create account API response is not 200 or 201', async ({ page }) => {
         await page.goto('/pages/register');
         await page.getByLabel('Email').fill("Test@testaccount.com");
         await page.locator("[name='password']").fill("Test@1");

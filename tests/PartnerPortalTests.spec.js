@@ -142,7 +142,7 @@ test.describe('Partner Portal TCs', async () => {
         expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
     });
 
-    test('BL-T169_1: Admin shall have ability to download the partners (CST, GGA & All) report.', async ({ page }) => {
+    test('BL-T169(1): Admin shall have ability to download the partners (CST, GGA & All) report.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, adminuser, adminpass);
         await acceptCookiesWindow(page);
@@ -153,7 +153,7 @@ test.describe('Partner Portal TCs', async () => {
         expect(await verifyPopUpMessage(page)).toMatch(/File downloaded successfully|No data found for selected date/);
     });
 
-    test('BL-T169_2: Admin shall have ability to download the partners (CST, GGA & All) report.', async ({ page }) => {
+    test('BL-T169(2): Admin shall have ability to download the partners (CST, GGA & All) report.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, adminuser, adminpass);
         await acceptCookiesWindow(page);

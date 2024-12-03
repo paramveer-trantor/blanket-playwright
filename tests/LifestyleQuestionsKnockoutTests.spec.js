@@ -17,7 +17,7 @@ import { verifyReviewPageHeader, clickMakeAnEditButton, navigateToPersonalStatem
 import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText } from '../PageTests/PersonalStatementPageTest';
 const { username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
-test.describe('Lifestyle Questions knockout scenarios', async () => {
+test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
     test('Verify knockout with BMI > 32 Declined lifestyle question.', async ({ page }) => {
         await page.goto('/pages/login');

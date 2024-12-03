@@ -118,22 +118,49 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyNeedsAssessmentPageHeader(page)).toEqual('How Much Term Insurance Do I Need?');
     });
 
-    test('BL-T10: User shall be knocked out if selects inappropriate answer on Pre Application page.', async ({ page }) => {
+    test('BL-T10: App shall throw warning message on selecting NO to residence question', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         expect(await verifyNonCanadianWarning(page)).toEqual('You must be a Canadian Citizen or permanent resident to be eligible for this coverage');
         await navigateToPreApplicationPage(page, gender, date);
-        expect(await verifyNonCanadianWarningOnPreAppPage(page, firstname, lastname, houseaddress, phonenumber)).toEqual('You must be a Canadian Citizen or permanent resident to be eligible for this coverage');
-        await answerYesOnPreAppQues(page, OptionYes);
+        expect(await verifyNonCanadianWarningOnPreAppPage(page)).toEqual('You must be a Canadian Citizen or permanent resident to be eligible for this coverage'); 
+    });
+
+    test('BL-T10(1): Verify knockout with currently absent from work question', async ({ page }) => {
+        await page.goto('/pages/login');
+        await login(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await verifyKnockoutScenarioCurrentlyAbsentFromWorkQues(page, firstname, lastname, houseaddress, phonenumber);
+        await clickPreAppPageContinueBtn(page);
         await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
         await navigateToLifeStyleQuestionsPage(page);
         await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
         await navigateToMedicalQuestion2Page(page, OptionNo);
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
-        await navigateToBeneficiryPage(page);
+        expect(await navigateToBeneficiryPage(page)).toContain('Candidates who have been absent from work for more than 14 consecutive days are not allowed');
+        expect(await verifyKnockoutMsg(page)).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+    });
+
+    test('BL-T10(2): Verify knockout with past absent from work question', async ({ page }) => {
+        await page.goto('/pages/login');
+        await login(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        await navigateToPreApplicationPage(page, gender, date);
+        await verifyKnockoutScenarioPastAbsentFromWorkQues(page, firstname, lastname, houseaddress, phonenumber);
+        await clickPreAppPageContinueBtn(page);
+        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
+        await navigateToLifeStyleQuestionsPage(page);
+        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
+        await navigateToMedicalQuestion2Page(page, OptionNo);
+        await navigateToReviewYourAnswersPage(page, OptionNo);
+        await navigateToPersonalStatementPage(page);
+        expect(await navigateToBeneficiryPage(page)).toContain('Candidates who have been absent from work for more than 14 consecutive days in the last 2 years are not allowed');
         expect(await verifyKnockoutMsg(page)).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 

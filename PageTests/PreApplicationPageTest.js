@@ -52,13 +52,10 @@ async function verifyProductNotAvailableMsg(page) {
     return productNotAvailable_msg;
 }
 
-async function verifyNonCanadianWarningOnPreAppPage(page, firstname, lastname, houseaddress, phonenumber) {
+async function verifyNonCanadianWarningOnPreAppPage(page) {
     const pomanager = new POManager(page);
     const preapplicationpage = pomanager.getPreApplicationPage();
     await preapplicationpage.acceptPopWindow();
-    await preapplicationpage.enterUserName(firstname, lastname);
-    await preapplicationpage.enterAddress(houseaddress);
-    await preapplicationpage.enterPhoneNumber(phonenumber);
     const Warning_NonCA = await preapplicationpage.getNonCandianWarningMsg();
     return Warning_NonCA;
 }
