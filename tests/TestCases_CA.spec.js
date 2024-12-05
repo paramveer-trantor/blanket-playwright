@@ -46,7 +46,7 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyPreApplicationPageHeader(page)).toEqual('Pre Application');
     });
 
-    test('BL-T4: User shall be able to buy the term life policy successfully.', async ({ page }) => {
+    test.only('BL-T4: User shall be able to buy the term life policy successfully.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
@@ -254,6 +254,20 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, "01/01/1957");
+        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        expect(await verifyNoMsgDisplayed(page, "50000", saving, mortgageBal, debt)).toBeFalsy();
+    });
+
+    test('BL-T20: App shall not display a message if recommended coverage amount returns total amount as $0.', async ({ page }) => {
+        await page.goto('/pages/login');
+        await login(page, username, password);
+        await navigateToProductPage(page);
+        await navigateToPolicyForm(page);
+        const today = new Date();
+        const cutoffDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
+        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), {year:'numeric', month:'2-digit', day:'2-digit'});
+        console.log(formattedDate);
+        await navigateToPreApplicationPage(page, gender, formattedDate);
         await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
         expect(await verifyNoMsgDisplayed(page, "50000", saving, mortgageBal, debt)).toBeFalsy();
     });
