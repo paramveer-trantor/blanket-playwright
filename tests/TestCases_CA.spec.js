@@ -4,7 +4,7 @@ import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangCh
 import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
 import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError, navigateToPreApplicationPageAsSmoker, getQuotePremiumRateValue } from '../PageTests/PremiumQuotePageTest';
 import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
-import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPolicyPurchaseOnReplacePolicyQues, verifyScrollingToErrorMsg, navigateBackToQuotePage } from '../PageTests/PreApplicationPageTest';
+import { verifyNonCanadianWarningOnPreAppPage, acceptAfterHoursMsg, verifyAddressValidateFailureError, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyPreApplicationPageHeader, verifyAfterHoursMsg, navigateToNeedsAssessmentPage, enterAddressManually, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyProductNotAvailableMsg, verifyScrollingToErrorMsg, verifyKnockoutScenarioCurrentlyAbsentFromWorkQues, verifyKnockoutScenarioPastAbsentFromWorkQues, verifyPolicyPurchaseOnReplacePolicyQues, navigateBackToQuotePage } from '../PageTests/PreApplicationPageTest';
 import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
 import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount, getQuoteValueOnChangingTermLength, getQuoteValueOnChangingCoverage, selectTermlength, selectCoverageAmount, getPremiumRateValue } from '../PageTests/ConfirmPremiumPageTest';
 import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page, verifyCompanyDeclinedKnockout, verifyRiskyOccupationKnockout, verifyCriminalOffenceKnockout, verifyExtremeSportsKnockout, verifyMarijuanaKnockout, verifyDrugsUse5YKnockout, verifyDrugsUse10YKnockout, verifyOutsideCaKnockout } from '../PageTests/LifestyleQuestionsPageTest';
@@ -46,7 +46,7 @@ test.describe('CA Term Life TCs', async () => {
         expect(await verifyPreApplicationPageHeader(page)).toEqual('Pre Application');
     });
 
-    test.only('BL-T4: User shall be able to buy the term life policy successfully.', async ({ page }) => {
+    test('BL-T4: User shall be able to buy the term life policy successfully.', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, username, password);
         await navigateToProductPage(page);
