@@ -4,6 +4,8 @@ module.exports = {
     urlRegister : "https://blanket-development.web.app/pages/register",
     username : "gagandeep.singla+autoqa2@trantorinc.com",
     password : "123456",
+    // username : "gagandeep.singla+prod1@trantorinc.com",
+    // password : "Test@1",
     adminuser : "tester_dev@blanket.com",
     adminpass : "123456",
     superadminuser : "gagandeep.singla+qa1@trantorinc.com",

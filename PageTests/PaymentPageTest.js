@@ -17,12 +17,14 @@ async function verifyAmountDue(page) {
 async function verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv) {
     const pomanager = new POManager(page);
     const paymentypage = pomanager.getPaymentPage();
+    await paymentypage.clickBillingAddressCheckBox();
     await paymentypage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
 }
 
 async function verifyPurchasePolicyWithAch(page,accountholdername, transitnumber, institutionnumber, accountnumber, bankname) {
     const pomanager = new POManager(page);
     const paymentypage = pomanager.getPaymentPage();
+    await paymentypage.clickBillingAddressCheckBox();
     await paymentypage.purchasePolicyWithACH(accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
 }
 
@@ -50,7 +52,6 @@ async function verifyIconAccountNumberIsVisible(page) {
 async function enterBillingAddress(page, firstname, lastname, address, city, postal) {
     const pomanager = new POManager(page);
     const paymentypage = pomanager.getPaymentPage();
-    await paymentypage.clickBillingAddressCheckBox();
     await paymentypage.enterAddressDetails(firstname, lastname, address, city, postal)
 }
 

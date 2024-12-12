@@ -5,7 +5,7 @@ class PaymentPage {
     constructor(page) {
         this.page = page;
         this.header = page.locator("(//div[text()=' Payment '])[2]");
-        this.amountdue = page.locator("//div[@class='row d-flex justify-center']/div[@class='text-center text-h3 primary--text font-weight-bold col']");
+        this.amountdue = page.locator('.final-premium');
         this.creditCard = page.locator("[name='creditcard']");
         this.cardName = page.getByLabel('Name on Card', { exact: true });
         this.cardNumber = page.getByLabel('Card Number', { exact: true });

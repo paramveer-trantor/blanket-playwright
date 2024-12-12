@@ -1115,6 +1115,8 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToConfirmIdentityPage(page);
         await page.locator("//input[@value='annual']/following-sibling::div[1]").click();
         await navigateToPaymentPageUsingPassportNumber(page,passportno);
+        const payment_frequency = (await page.locator('.payment-frequency').textContent()).trim();
+        expect(payment_frequency).toEqual('Payment Frequency: $ Paid Annually');
         await verifyPurchasePolicyWithCC(page,cardname, cardnumber, expirydate, cvv);
         expect(await verifyThankYouMsg(page)).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
@@ -1136,7 +1138,12 @@ test.describe('CA Term Life TCs', async () => {
         await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingPassportNumber(page,passportno);
+        expect(page.getByTestId('billing-firstname')).toHaveValue('');
+        expect(page.getByTestId('billing-address')).toHaveValue('');
+        expect(page.getByTestId('billing-phoneno')).toHaveValue('(222)-222-2222');
         await enterBillingAddress(page, "Test", "User", "15 Filton Rd", "Caledon East", "L7C 1R5");
+        const payment_frequency = (await page.locator('.payment-frequency').textContent()).trim();
+        expect(payment_frequency).toEqual('Payment Frequency: $ Paid Monthly');
     });
 
     test('BL-T193: Premium rate selected on "Get quote" page shall be displayed same on "Confirm premium" page.', async ({ page }) => {
