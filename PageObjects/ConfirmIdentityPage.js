@@ -14,7 +14,7 @@ class ConfirmIdentityPage {
         this.selectProvince = page.getByRole('listbox').getByText('Alberta', { exact: true }); 
         this.healthCardInputField = page.getByLabel('Health number', { exact: true });
         this.licenseInputField = page.getByLabel("Driver's licence  number", { exact: true });
-        this.errorMsg = page.locator(".v-messages__message");
+        this.errorMsg = page.getByRole('alert').locator('.v-messages__message');
         this.agreeCheckBox = page.locator("//input[@name='payAgree']/following-sibling::div[1]");
         this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' }); 
         this.options = page.getByRole('option');

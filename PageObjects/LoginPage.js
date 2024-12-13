@@ -1,12 +1,16 @@
-const{ expect } = require("@playwright/test");
+const{ expect, request } = require("@playwright/test"); 
 
 class LoginPage {
-
+    
     constructor(page) {
         this.page = page;
         this.email = page.locator("[name='email']");
         this.password = page.locator("[name='password']");
         this.loginBtn = page.locator('.login-btn')
+    }
+
+    async openURL(url) {
+        await this.page.goto(url);
     }
 
     async loginIntoApp(username, password) {
@@ -23,3 +27,4 @@ class LoginPage {
 }
 
 module.exports = { LoginPage };
+ 

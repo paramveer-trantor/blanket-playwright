@@ -27,12 +27,10 @@ async function verifyInvalidDateErrorMsg(page, date) {
     
 }
 
-async function verifyInvalidPhoneError(page,firstname, lastname, houseaddress, phone) {
+async function verifyInvalidPhoneError(page, phone) {
     const pomanager = new POManager(page);
     const preapplicationpage = pomanager.getPreApplicationPage();
     await preapplicationpage.acceptPopWindow();
-    await preapplicationpage.enterUserName(firstname, lastname);
-    await preapplicationpage.enterAddress(houseaddress);
     const phone_error = await preapplicationpage.getIncorrectPhoneErrorMsg(phone);
     return phone_error;
 }

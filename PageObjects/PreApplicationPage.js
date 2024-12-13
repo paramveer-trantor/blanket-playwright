@@ -13,7 +13,7 @@ class PreApplicationPage {
         this.lastName = page.getByTestId('lastname');
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
         this.dob = page.locator("[name='dob']");
-        this.errorMsgs = page.locator('.v-messages__message');
+        this.errorMsgs = page.getByTestId('preApplicationForm').locator('.v-messages__message');
         this.address = page.getByTestId('preApplicationForm').getByLabel('Address', { exact: true });
         this.city = page.getByTestId('preApplicationForm').getByLabel('City', { exact: true });
         this.province = page.getByTestId('preApplicationForm').getByLabel('Province', { exact: true });

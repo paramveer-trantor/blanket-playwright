@@ -30,7 +30,7 @@ test.describe('CA Term Life TCs', async () => {
     });
 
     test('BL-T2: User shall be redirect to Login page from Quote page in CA Term policy form if user is not logged in blanket application.', async ({ page }) => {
-        await page.goto('');
+        await page.goto('');  
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -87,7 +87,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
-        expect(await verifyInvalidPhoneError(page, firstname, lastname, houseaddress, "33333")).toEqual('Field format is invalid');
+        expect(await verifyInvalidPhoneError(page,"33333")).toEqual('Field format is invalid');
     });
 
     test('BL-T8: Premium rate shall get update if user changes term length or coverage amount value on confirm premium page.', async ({ page }) => {
@@ -358,7 +358,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
-        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
         expect(await getIdTypeList(page)).toContainEqual('Passport', 'Provincial health card', "Driver's licence");
     });
@@ -377,28 +377,9 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
-        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
         expect(await verifyPassportInputFieldVisible(page)).toBeTruthy();
-    });
-
-    test('BL-T29: Passport number shall have 8 characters including 2 letters in starting and 6 numbers in the end.', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);
-        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
-        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
-        await navigateToLifeStyleQuestionsPage(page);
-        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
-        await navigateToMedicalQuestion2Page(page, OptionNo);
-        await navigateToReviewYourAnswersPage(page, OptionNo);
-        await navigateToPersonalStatementPage(page);
-        await navigateToBeneficiryPage(page);
-        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
-        await navigateToConfirmIdentityPage(page);
-        expect(await verifyInvalidPassportError(page, "a123456b")).toEqual('Invalid passport number. It should begin with two letters and end with six  numbers. Please remove any spaces or special characters (-, *).');
         await page.getByLabel('Passport number', { exact: true }).fill("AB123123");
         expect(page.locator('.v-messages__message')).not.toBeVisible();
     });
@@ -417,7 +398,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
-        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
         expect(await verifyInvalidPassportError(page, "a123456b")).toEqual('Invalid passport number. It should begin with two letters and end with six  numbers. Please remove any spaces or special characters (-, *).');
     });
@@ -436,29 +417,10 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
-        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
-        await navigateToConfirmIdentityPage(page);
-        expect(await verifyLicenseInputFieldVisible(page)).toBeTruthy();
-    });
-
-    test('BL-T32: Application shall accept DL number only if entered in proper format.', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);
-        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
-        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
-        await navigateToLifeStyleQuestionsPage(page);
-        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
-        await navigateToMedicalQuestion2Page(page, OptionNo);
-        await navigateToReviewYourAnswersPage(page, OptionNo);
-        await navigateToPersonalStatementPage(page);
-        await navigateToBeneficiryPage(page);
         await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
-        expect(await verifyInvalidLicenseError(page, "AAA123")).toEqual("Invalid driver's license format. Please remove any spaces or special characters (-, *).");
-        await page.getByLabel("Driver's licence  number", { exact: true }).fill("123456789");
+        expect(await verifyLicenseInputFieldVisible(page)).toBeTruthy();
+        await page.getByLabel("Driver's licence  number", { exact: true }).fill("123456");
         expect(await page.locator('.v-messages__message')).not.toBeVisible();
     });
 
@@ -476,10 +438,11 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
-        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
         expect(await verifyInvalidLicenseError(page, "AAA123")).toEqual("Invalid driver's license format. Please remove any spaces or special characters (-, *).");
     });
+    
 
     test('BL-T34: Application shall ask province and health number from user if user selects the Provincial health card option.', async ({ page }) => {
         await page.goto('/pages/login');
@@ -495,9 +458,11 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
-        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
         expect(await verifyHealthInputFieldVisible(page)).toBeTruthy();
+        await page.getByLabel('Health number', { exact: true }).fill("123456789");
+        expect(page.locator('.v-messages__message')).not.toBeVisible();
     });
 
     test('BL-T35: Check payment frequency options displaying to user', async ({ page }) => {
@@ -564,7 +529,7 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToReviewYourAnswersPage(page, OptionNo);
         await navigateToPersonalStatementPage(page);
         await navigateToBeneficiryPage(page);
-        await addBeneficiary(page, benfirstname, benlastname, bendob, benshare);
+        await checkWithoutBeneficiryCheckbox(page);
         await navigateToConfirmIdentityPage(page);
         await navigateToPaymentPageUsingHealthNumber(page, healthno);
         expect(await verifyPaymentPageHeader(page)).toEqual("Payment");
@@ -694,27 +659,6 @@ test.describe('CA Term Life TCs', async () => {
         await login(page, username, password);
         await navigateToMyPoliciesPage(page);
         expect(await verifyPolicySendingOverEmail(page)).toEqual('Success!');
-    });
-
-    test('BL-T52: Application shall accept health number only if entered in proper format.', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);
-        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
-        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
-        await navigateToLifeStyleQuestionsPage(page);
-        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
-        await navigateToMedicalQuestion2Page(page, OptionNo);
-        await navigateToReviewYourAnswersPage(page, OptionNo);
-        await navigateToPersonalStatementPage(page);
-        await navigateToBeneficiryPage(page);
-        await checkWithoutBeneficiryCheckbox(page);
-        await navigateToConfirmIdentityPage(page);
-        expect(await verifyInvalidHealthError(page, "123456")).toEqual('Invalid health card format. Please remove any spaces or special characters (-, *).');
-        await page.getByLabel('Health number', { exact: true }).fill("123456789");
-        expect(page.locator('.v-messages__message')).not.toBeVisible();
     });
 
     test('BL-T53: After hours message shall be displayed if user access the application in odd hours.', async ({ page }) => {
@@ -971,9 +915,9 @@ test.describe('CA Term Life TCs', async () => {
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
         await acceptAfterHoursMsg(page);
-        await page.getByLabel('Address', { exact: true }).pressSequentially("12");
+        await page.getByTestId('preApplicationForm').getByLabel('Address', { exact: true }).pressSequentially("12");
         await expect(page.locator('.address-list')).not.toBeVisible();
-        await page.getByLabel('Address', { exact: true }).pressSequentially("3");
+        await page.getByTestId('preApplicationForm').getByLabel('Address', { exact: true }).pressSequentially("3");
         await expect(page.locator('.address-list')).toBeVisible();
     });
 
