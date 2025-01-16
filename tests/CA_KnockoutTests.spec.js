@@ -13,21 +13,99 @@ import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage'
 import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage'
 const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo } = require('../Utils/TestData');
 
+test.beforeEach('Run flow till TL landing page', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.login('/pages/login', username, password);
+
+    const dashboardPage = new DashboardPage(page);
+    await dashboardPage.navigateToCATLProduct();
+
+    const landingpage = new TLProductLandingPage(page);
+    await landingpage.clickApplyNowBtn();
+}); 
+
 test.afterEach('Close the browser', async ({ page }) => {
     await page.close(); 
 });
+
+test.describe('BL-T10: Pre Application Questions knockout scenarios', async () => {
+    test('BL-T10(1): Verify knockout with currently absent from work question', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillUserInfoWithCurrentlyAbsentFromWorkAsYes(firstname, lastname, houseaddress, phonenumber);
+        await preApplicationPage.clickConitnueBtn();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.clickContinueBtn();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates who have been absent from work for more than 14 consecutive days are not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+    });
+
+    test('BL-T10(2): Verify knockout with past absent from work question', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillUserInfoWithPastAbsentFromWorkAsYes(firstname, lastname, houseaddress, phonenumber);
+        await preApplicationPage.clickConitnueBtn();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.clickContinueBtn();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates who have been absent from work for more than 14 consecutive days in the last 2 years are not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+    });
+
+});
+
 test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
-
-    test.beforeEach('Run flow till TL landing page', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', username, password);
-
-        const dashboardPage = new DashboardPage(page);
-        await dashboardPage.navigateToCATLProduct();
-
-        const landingpage = new TLProductLandingPage(page);
-        await landingpage.clickApplyNowBtn();
-    }); 
     
     test('Verify knockout with BMI > 35 Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
@@ -439,17 +517,6 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 });
 
 test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
-
-    test.beforeEach('Run flow till TL landing page', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', username, password);
-
-        const dashboardPage = new DashboardPage(page);
-        await dashboardPage.navigateToCATLProduct();
-
-        const landingpage = new TLProductLandingPage(page);
-        await landingpage.clickApplyNowBtn();
-    }); 
     
     test('Verify knockout with Cancer medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
