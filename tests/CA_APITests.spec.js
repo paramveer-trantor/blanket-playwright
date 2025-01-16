@@ -1,120 +1,167 @@
-import { test, expect, request } from '@playwright/test';
-import { login } from '../PageTests/LoginPageTest';
-import { sendFakeStatusCodeToApI, getAPIResponseStatus, verifyErrorMessage } from '../PageTests/CallAPI_Interceptor';
-import { logoutFromApplication, goToMyApplicationsPage, verifyWarningMsgOnLangChangeInForm, verifyIfNotificationMsgForOpenApplication, verifyTLProductIsVisible, verifyCookieBannerIsVisible, verifyMyPoliciesInMenu, navigateToProductPage, navigateToMyPoliciesPage, navigateToTermLifeByLifeBanner, navigateToMyApplicationsPage } from '../PageTests/DashboardTest';
-import { verifyProductPageHeader, navigateToPolicyForm } from '../PageTests/TLProductPageTest';
-import { verifyNonCanadianWarning, verifyPremiumQuotePageHeader, navigateToPreApplicationPage, verifyInvalidDateError } from '../PageTests/PremiumQuotePageTest';
-import {  verifyInFormLoginPageHeader, createAccountInForm, loginInForm } from '../PageTests/LoginPageInTermLifeFormTest';
-import { verifyNonCanadianWarningOnPreAppPage, verifyAddressValidateFailureError, enterAddressManually, acceptAfterHoursMsg, verifyPreApplicationPageHeader, navigateToNeedsAssessmentPage, verifyInvalidDateErrorMsg, verifyInvalidPhoneError, verifyAfterHoursMsg, verifyProductNotAvailableMsg, clickPreAppPageContinueBtn, fillPreApplicationFormPage, answerYesOnPreAppQues, verifyScrollingToErrorMsg } from '../PageTests/PreApplicationPageTest';
-import { verifyNeedsAssessmentPageHeader, navigateToConfirmPremiumPage, verifyCoverageAmountMsg, verifyNoMsgDisplayed, returnTotalValue } from '../PageTests/NeedsAssessmentPageTest';
-import { verifyConfirmPremiumPageHeader, verifyTermOptions, verifyCoverageAmountOptions, verifyQuoteValue, navigateToLifeStyleQuestionsPage, getpremiumAmount, getTermLength, getCoverageAmount } from '../PageTests/ConfirmPremiumPageTest';
-import { verifyLifestyleQuestionsPageHeader, navigateToMedicalQuestion1Page, verifyCompanyDeclinedKnockout, verifyRiskyOccupationKnockout, verifyCriminalOffenceKnockout, verifyExtremeSportsKnockout, verifyMarijuanaKnockout, verifyDrugsUse5YKnockout, verifyDrugsUse10YKnockout, verifyOutsideCaKnockout } from '../PageTests/LifestyleQuestionsPageTest';
-import { verifyMed1PageHeader, navigateToMedicalQuestion2Page, moveToNextPageSleepApneaYes } from '../PageTests/MedicalQuestionnaire1PageTest';
-import { verifyMed2PageHeader, navigateToReviewYourAnswersPage } from '../PageTests/MedicalQuestionnaire2PageTest';
-import { verifyReviewPageHeader, clickMakeAnEditButton, navigateToPersonalStatementPage } from '../PageTests/ReviewYourAnswersPageTest';
-import { verifyPersonalStatementPageHeader, verifyUserName, verifyKnockoutMsg, navigateToBeneficiryPage, getLastStatementText } from '../PageTests/PersonalStatementPageTest';
-import { verifyBenecificaryPageHeader, addBeneficiary, navigateToConfirmIdentityPage, verifyAddedBenDetails, verifyShareErrorMessage, checkWithoutBeneficiryCheckbox, verifyIncorrectDateErrorMessage } from '../PageTests/BeneficiaryPageTest';
-import { verifyConfirmIdentityPageHeader, verifyMonthlyPremiumSelected, verifyAnnualPremiumSelected, verifyPassportInputFieldVisible, verifyHealthInputFieldVisible, verifyLicenseInputFieldVisible, verifyInvalidPassportError, verifyInvalidHealthError, verifyInvalidLicenseError, getIdTypeList, navigateToPaymentPageUsingPassportNumber, navigateToPaymentPageUsingHealthNumber, navigateToPaymentPageUsingLicenseNumber } from '../PageTests/ConfirmIdentityPageTest';
-import { verifyPaymentPageHeader, verifyAmountDue, verifyPurchasePolicyWithCC, verifyPurchasePolicyWithAch, verifyIconTransitNumberIsVisible, verifyIconRoutingNumberIsVisible, verifyIconAccountNumberIsVisible } from '../PageTests/PaymentPageTest';
-import { verifyPolicyInfoColumns, verifyProviderName, verifyEffectiveDate, verifyPolicyNumber, verifyPayment, verifyThankYouMsg } from '../PageTests/CongratulationsPageTest';
-import { verifyMyPoliciesPageHeader, verifyPolicySendingOverEmail, verifyPoliciesDetails } from '../PageTests/MyPoliciesPageTest';
-import { verifyMyApplicationsPageHeader, resumeLatestLeftApplication, verifyMaxOpenApplicationsCount } from '../PageTests/MyApplicationsPageTest';
-import { verifyStep1IsCompleted, verifyStep2IsCompleted, verifyStep4IsInactive, verifyStep5IsInactive, verifyStep6IsInactive, verifyStep7IsInactive } from '../PageTests/ProgressBarTest';
-const { username, password, cookiestext, tagline, date, gender, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+import { test, expect } from '@playwright/test';
+import { InterceptorAPIs } from '../PageObjects/InterceptorAPIs';
+import { LoginPage } from '../PageObjects/LoginPage';
+import { RegisterPage } from '../PageObjects/RegisterPage';
+import { MyPoliciesPage } from '../PageObjects/MyPoliciesPage';
+import { DashboardPage } from '../PageObjects/DashboardPage';
+import { TLProductLandingPage } from '../PageObjects/TLProductLandingPage';
+import { PremiumQuotePage } from '../PageObjects/PremiumQuotePage'
+import { PreApplicationPage } from '../PageObjects/PreApplicationPage'
+import { NeedsAssessmentPage } from '../PageObjects/NeedsAssessmentPage'
+import { ConfirmPremiumPage } from '../PageObjects/ConfirmPremiumPage'
+import { LifestyleQuestionnairePage } from '../PageObjects/LifestyleQuestionnairePage'
+import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Page'
+import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page'
+import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage'
+import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage'
+import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage'
+import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
+import { PaymentPage } from '../PageObjects/PaymentPage'
+import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
+const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
+test.afterEach('Close the browser', async ({ page }) => {
+    await page.close(); 
+});
 test.describe('API status codes handling TCs', async () => {
 
     //Prod parameters = (page, "https://www.blanket.com/pages/login", "tester@blanket.com", "123456");
     test('BL-T186: Application shall throw an error if CA Term Get Premium Quote API response is not 200 or 201', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await page.getByText('Male', { exact: true }).first().click();
-        await page.getByLabel('MM/DD/YYYY').click();
-        await page.getByLabel('MM/DD/YYYY').fill(date);
-        await page.getByText('Yes').first().click();
-        await page.getByText('No').nth(1).click();
+        await page.goto(''); 
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.navigateToCATLProduct();
+
+        const landingpage = new TLProductLandingPage(page);
+        await landingpage.clickApplyNowBtn();
+
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.fillQuotePage(gender, date, feet, inches, weight);
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
-                await sendFakeStatusCodeToApI(page, codes[i]);
-                await page.getByRole('button', { name: ' GET QUOTE ' }).click();  
-                expect(await verifyErrorMessage(page)).toEqual(message);  
-                await page.getByTestId('globalErrorCloseBtn').click();
+            const interceptorAPIs = new InterceptorAPIs(page);
+            await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
+            await premiumQuotePage.clickGetQuoteBtn();  
+            expect(await premiumQuotePage.getErrorPopUp()).toEqual(message);  
+            await premiumQuotePage.closeErrorPopUp();
         }
     });
 
     test('BL-T186(1): Application shall throw an error if CA Term Assessment API response is not 200 or 201', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);
-        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
+        const loginPage = new LoginPage(page);
+        await loginPage.login('/pages/login', username, password);
+
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.navigateToCATLProduct();
+
+        const landingpage = new TLProductLandingPage(page);
+        await landingpage.clickApplyNowBtn();
+
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickConitnueBtn();
+
         const codes = [400, 403, 408, 429, 500, 503, 504];
         const income = ["10000","20000","30000","40000","50000","60000","70000"];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
-            await page.locator("[name = 'annualIncome']").click();
-            await page.locator("[name = 'annualIncome']").fill(income[i]);
-            await sendFakeStatusCodeToApI(page, codes[i]);
-            await page.locator("[name = 'savings']").click();
-            expect(await verifyErrorMessage(page)).toEqual(message);  
-            await page.getByTestId('globalErrorCloseBtn').click();
+            const needsAssessmentPage = new NeedsAssessmentPage(page);
+            await needsAssessmentPage.enterAnnualIncome(income[i]);
+            const interceptorAPIs = new InterceptorAPIs(page);
+            await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
+            await needsAssessmentPage.clickSavings();
+            expect(await needsAssessmentPage.getErrorPopUp()).toEqual(message);  
+            await needsAssessmentPage.closeErrorPopUp();
         }
     });
 
     test('BL-T186(2): Application shall throw an error if CA Term Get Premium API response is not 200 or 201', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);
-        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
-        await page.locator("[name = 'annualIncome']").click();
-        await page.locator("[name = 'annualIncome']").fill(income);
-        await page.locator("[name = 'savings']").click();
-        await page.locator("[name = 'mortgageBalance']").click();
+        const loginPage = new LoginPage(page);
+        await loginPage.login('/pages/login', username, password);
+
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.navigateToCATLProduct();
+
+        const landingpage = new TLProductLandingPage(page);
+        await landingpage.clickApplyNowBtn();
+
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickConitnueBtn();
+
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterAnnualIncome(income);
+        await needsAssessmentPage.clickSavings();
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
-                await sendFakeStatusCodeToApI(page, codes[i]);
-                await page.getByRole('button', { name: ' Continue ' }).click(); 
-                expect(await verifyErrorMessage(page)).toEqual(message);  
-                await page.getByTestId('globalErrorCloseBtn').click();
+            const interceptorAPIs = new InterceptorAPIs(page);
+            await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
+            await needsAssessmentPage.clickContinueBtn();
+            expect(await needsAssessmentPage.getErrorPopUp()).toEqual(message);  
+            await needsAssessmentPage.closeErrorPopUp();
         }
     });
 
     test('BL-T186(3): Application shall throw an error if CA Term Decission API response is not 200 or 201', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await navigateToProductPage(page);
-        await navigateToPolicyForm(page);
-        await navigateToPreApplicationPage(page, gender, date);
-        await navigateToNeedsAssessmentPage(page, firstname, lastname, houseaddress, phonenumber, OptionNo);
-        await navigateToConfirmPremiumPage(page, income, saving, mortgageBal, debt);
-        await navigateToLifeStyleQuestionsPage(page);
-        await navigateToMedicalQuestion1Page(page, OptionNo, feet, inches, weight, drinks);
-        await navigateToMedicalQuestion2Page(page, OptionNo);
-        await navigateToReviewYourAnswersPage(page, OptionNo);
-        await navigateToPersonalStatementPage(page);
-        await page.locator("[name='termCheckbox0'] + div.v-input--selection-controls__ripple").click();
-        await page.locator("[name='termCheckbox1'] + div.v-input--selection-controls__ripple").click();
-        await page.locator("[name='termCheckbox2'] + div.v-input--selection-controls__ripple").click();
-        await page.locator("[name='termCheckbox3'] + div.v-input--selection-controls__ripple").click();
-        await page.locator("[name='termCheckbox4'] + div.v-input--selection-controls__ripple").click();
-        await page.locator("[name='termCheckbox5'] + div.v-input--selection-controls__ripple").click();
-        await page.locator("[name='termCheckbox6'] + div.v-input--selection-controls__ripple").click();
-        await page.locator("[name='termCheckbox7'] + div.v-input--selection-controls__ripple").click();
-        await page.locator("[name='termCheckbox8'] + div.v-input--selection-controls__ripple").click();
+        const loginPage = new LoginPage(page);
+        await loginPage.login('/pages/login', username, password);
+
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.navigateToCATLProduct();
+
+        const landingpage = new TLProductLandingPage(page);
+        await landingpage.clickApplyNowBtn();
+
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickConitnueBtn();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
+        await confirmPremiumPage.clickContinueBtn();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
-                await sendFakeStatusCodeToApI(page, codes[i]);
-                await page.getByRole('button', { name: ' I Agree ' }).click();
-                expect(await verifyErrorMessage(page)).toEqual(message);  
-                await page.getByTestId('globalErrorCloseBtn').click();
+            const interceptorAPIs = new InterceptorAPIs(page);
+            await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
+            await personalStatementPage.agreeBtnClick();
+            expect(await personalStatementPage.getErrorPopUp()).toEqual(message);  
+            await personalStatementPage.closeErrorPopUp();
         }
     });
 
@@ -290,31 +337,33 @@ test.describe('API status codes handling TCs', async () => {
     */
 
     test('BL-T141: Application shall throw an error if send email policy API response is not 200 or 201', async ({ page }) => {
-        await page.goto('/pages/login');
-        await login(page, username, password);
-        await page.getByRole('button', {name: ' Allow all cookies '}).first().click();
-        await page.locator("//div[@class='v-toolbar__content']/button[2]").click();
-        await page.getByRole('menuitem').nth(2).click();
-        await page.locator("//div[@class='v-data-table__wrapper']//tbody/tr/td[5]/button").first().click();
+        const loginPage = new LoginPage(page);
+        await loginPage.login('/pages/login', username, password);
+
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.acceptCookies();
+        await dashboardPage.goToMyPoliciesPage();
+
+        const myPoliciesPage = new MyPoliciesPage(page);
+        await myPoliciesPage.clickEyeBtn();
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
-                await sendFakeStatusCodeToApI(page, codes[i]);
-                await page.getByRole('button', { name: ' Email Policy ' }).click();
-                expect(await verifyErrorMessage(page)).toEqual(message);  
-                await page.locator('.pa-0').filter({ hasText: ' Success! ' }).getByRole('button', { name: ' Close ' }).click();
-                await page.getByTestId('globalErrorCloseBtn').click();
+            const interceptorAPIs = new InterceptorAPIs(page);
+            await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
+            await myPoliciesPage.clickEmailPolicyBtn();
+            expect(await myPoliciesPage.getErrorPopUp()).toEqual(message); 
+            await myPoliciesPage.closeEmailSuccessPopUp();
+            await myPoliciesPage.closeErrorPopUp();
         }
     });
 
     test('BL-T141(1): Application shall throw an error if login API response is not 200 or 201', async ({ page }) => {
-        await page.goto('/pages/login');
-        await page.locator("[name='email']").fill(username);
-        await page.locator("[name='password']").fill(password);
+        const loginPage = new LoginPage(page);
+        await loginPage.fillLoginDetails('/pages/login', username, password);
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
-        //await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=**", (route) => {
         await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=**", (route) => {  
         const fakeResponse = {
                 status: codes[i],
@@ -323,16 +372,16 @@ test.describe('API status codes handling TCs', async () => {
                 status: fakeResponse.status,
             });
         });
-        await page.locator('.login-btn').click();
-        expect(await verifyErrorMessage(page)).toEqual(message);  
-        await page.getByTestId('globalErrorCloseBtn').click();
+        await loginPage.clickLoginBtn();
+        expect(await loginPage.getErrorPopUp()).toEqual(message);  
+        await loginPage.closeErrorPopUp();
     }
     });
 
     test('BL-T141(2): Application shall throw an error if forgot password API response is not 200 or 201', async ({ page }) => {
-        await page.goto('/pages/login');
-        await page.locator(".signup-text").first().click();
-        await page.getByLabel('Email').fill("Test@testaccount.com");
+        const loginPage = new LoginPage(page);
+        await loginPage.goToForgotPasswordPage('/pages/login');
+        await loginPage.fillEmailForgotPassword("Test@testaccount.com");
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
@@ -344,17 +393,16 @@ test.describe('API status codes handling TCs', async () => {
                 status: fakeResponse.status,
             });
         });
-        await page.locator('.login-btn').click();
-        expect(await verifyErrorMessage(page)).toEqual(message);  
-        await page.getByTestId('globalErrorCloseBtn').click();
+        await loginPage.clickLoginBtn();
+        expect(await loginPage.getErrorPopUp()).toEqual(message);  
+        await loginPage.closeErrorPopUp();
     }
     });
 
     test('BL-T141(3): Application shall throw an error if create account API response is not 200 or 201', async ({ page }) => {
-        await page.goto('/pages/register');
-        await page.getByLabel('Email').fill("Test@testaccount.com");
-        await page.locator("[name='password']").fill("Test@1");
-        await page.locator("[type='password']").last().fill("Test@1");
+        const registerPage = new RegisterPage(page);
+        await registerPage.goToRegisterPage('/pages/register');
+        await registerPage.enterUserDetails(username, password);
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
@@ -366,9 +414,9 @@ test.describe('API status codes handling TCs', async () => {
                 status: fakeResponse.status,
             });
         });
-        await page.getByRole('button', { name: ' Create Account ' }).click();
-        expect(await verifyErrorMessage(page)).toEqual(message);  
-        await page.getByTestId('globalErrorCloseBtn').click();
+        await registerPage.clickCreateAccBtn();
+        expect(await registerPage.getErrorPopUp()).toEqual(message);  
+        await registerPage.closeErrorPopUp();
     }
     });
 

@@ -1,6 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-
-class ConfirmPremiumPage {
+export class ConfirmPremiumPage {
 
     constructor(page) {
         this.page = page;
@@ -11,10 +9,25 @@ class ConfirmPremiumPage {
         this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
         this.term = page.locator("//label[text()='Term']");
         this.coverage = page.locator("//label[text()='Coverage Amount']");
+        this.backBtn = page.getByRole('button', { name: ' Back ' });
     }
 
     async getConfirmPremiumPageHeader() {
         retun (await this.header.textContent()).trim();
+    }
+
+    async getQuoteValue() {
+        await this.quoteValue.waitFor();
+        return (await this.quoteValue.textContent()).trim();
+    }
+
+    async getQuoteValueWithFee() {
+        await this.quoteValue.waitFor();
+        const premiumrate_value = await this.quoteValue.textContent();
+        const numericValue = parseFloat(premiumrate_value.replace(/[^0-9.]/g, ''));
+        const addedValue = numericValue + 2.70;
+        const premiumrate = parseFloat(addedValue).toFixed(2);
+        return premiumrate;  
     }
 
     async getTermsOptions() {
@@ -34,17 +47,17 @@ class ConfirmPremiumPage {
         await this.page.locator("//label[text()='Term']").click();
         if (termvalue == 10) {
             await this.page.getByRole('listbox').getByRole('option').first().click();
-            const quotevalue_10 = await this.quoteValue.textContent();
+            const quotevalue_10 = (await this.quoteValue.textContent()).trim();
             return quotevalue_10; 
         }
         if (termvalue == 15) {
             await this.page.getByRole('listbox').getByRole('option').nth(1).click();
-            const quotevalue_15 = await this.quoteValue.textContent();
+            const quotevalue_15 = (await this.quoteValue.textContent()).trim();
             return quotevalue_15; 
         }
         if (termvalue == 20) {
             await this.page.getByRole('listbox').getByRole('option').last().click();
-            const quotevalue_20 = await this.quoteValue.textContent();
+            const quotevalue_20 = (await this.quoteValue.textContent()).trim();
             return quotevalue_20; 
         }
     }
@@ -65,34 +78,19 @@ class ConfirmPremiumPage {
         await this.page.locator("//label[text()='Coverage Amount']").click();
         if (coveragevalue == "$100K") {
             await this.page.getByRole('listbox').getByRole('option').first().click();
-            const quotevalue_100k = await this.quoteValue.textContent();
+            const quotevalue_100k = (await this.quoteValue.textContent()).trim();
             return quotevalue_100k;  
         }
         if (coveragevalue == "$500K") {
             await this.page.getByRole('listbox').getByRole('option').nth(3).click();
-            const quotevalue_500k = await this.quoteValue.textContent();
+            const quotevalue_500k = (await this.quoteValue.textContent()).trim();
             return quotevalue_500k;  
         }
         if (coveragevalue == "$1M") {
             await this.page.getByRole('listbox').getByRole('option').last().click();
-            const quotevalue_1M = await this.quoteValue.textContent();
+            const quotevalue_1M = (await this.quoteValue.textContent()).trim();
             return quotevalue_1M;
         }
-    }
-
-    async getPremiumValueWithoutFee() {
-        await this.quoteValue.waitFor();
-        const premiumrate_value = (await this.quoteValue.textContent()).trim();
-        return premiumrate_value;  
-    }
-
-    async getQuoteValue() {
-        await this.quoteValue.waitFor();
-        const premiumrate_value = await this.quoteValue.textContent();
-        const numericValue = parseFloat(premiumrate_value.replace(/[^0-9.]/g, ''));
-        const addedValue = numericValue + 2.70;
-        const premiumrate = parseFloat(addedValue).toFixed(2);
-        return premiumrate;  
     }
 
     async getPremiumValue() {
@@ -107,14 +105,6 @@ class ConfirmPremiumPage {
         return (await this.policyOptions.last().textContent()).trim();
     }
 
-    async getTermLength() {
-        return await this.policyOptions.nth(1).textContent();
-    }
-
-    async getCoverageAmountValue() {
-        return await this.policyOptions.last().textContent();
-    }
-
     async changeTermLength(length) {
         await this.term.click();
         await this.page.getByRole('listbox').getByRole('option', { name: length }).click();
@@ -126,12 +116,15 @@ class ConfirmPremiumPage {
     }
 
     async clickContinueBtn() {
-        await this.continueBtn.isVisible();
+        await this.quoteValue.waitFor();
         await this.continueBtn.click();     
+    }
+
+    async clickBackBtn() {
+        await this.backBtn.click();     
     }
 
 }
 
-module.exports = { ConfirmPremiumPage };
 
 

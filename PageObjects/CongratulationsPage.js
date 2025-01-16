@@ -1,6 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-
-class CongratulationsPage {
+export class CongratulationsPage {
 
     constructor(page) {
         this.page = page;
@@ -10,6 +8,7 @@ class CongratulationsPage {
     }
 
     async getThanksMsg() {
+        await this.thanksMsg.isVisible();
         return (await this.thanksMsg.textContent()).trim();
     }
 
@@ -40,4 +39,4 @@ class CongratulationsPage {
 
 }
 
-module.exports = { CongratulationsPage };
+

@@ -1,6 +1,4 @@
-const { expect, request } = require("@playwright/test");
-
-class PaymentPage {
+export class PaymentPage {
 
     constructor(page) {
         this.page = page;
@@ -32,16 +30,53 @@ class PaymentPage {
         this.postalCode = page.getByTestId('billing-postalcode');
         this.province = page.getByTestId('billing-province');
         this.selectProvinceON = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Ontario' });
+        this.backBtn = page.locator("//div[@class='v-stepper__items']/div[6]//button");
+        this.radioCreditCard =  page.getByRole('radiogroup').filter({ hasText: 'Credit Card' });
+        this.radioACH = page.getByRole('radiogroup').filter({ hasText: 'Pre-Authorized Debit' });
+        this.dialog = page.locator('.v-dialog__content--active');
+        this.paymentFrequency = page.locator('.payment-frequency');
+    }
+  
+    async getPaymentPageHeader() { 
+        return (await this.header.textContent()).trim();
     }
 
-    async getPaymentPageHeader() {
-        return (await this.header.textContent()).trim();
+    async clickBillingAddressCheckBox() {
+        await this.checkBox.click();
+    }
+
+    async verifyBillingAddressIsEmpty() {
+        return await this.address.inputValue();;   
+    }
+
+    async enterBillingAddress(firstname, lastname, address, city, postal) {
+        await this.firstName.fill(firstname);
+        await this.lastName.fill(lastname); 
+        await this.address.fill(address); 
+        await this.city.fill(city);  
+        await this.postalCode.fill(postal);   
+        await this.province.click();
+        await this.selectProvinceON.click();
     }
 
     async getTotalAmountDue() {
         const premium_value = (await this.amountdue.innerText()).trim();
         const amountdue = premium_value.replace("Amount Due: $", "").trim();
         return amountdue;  
+    }
+
+    async getPaymentFrequency() {
+        return (await this.paymentFrequency.textContent()).trim();
+    }
+
+    async checkCCPaymentOption() {
+        const status_CC = await this.radioCreditCard.isVisible();
+        return status_CC;
+    }
+
+    async checkACHPaymentOption() {
+        const status_ACH = await this.radioACH.isVisible();
+        return status_ACH
     }
 
     async purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv) {
@@ -57,22 +92,29 @@ class PaymentPage {
         await this.payNowBtn.click();
     }
 
+    async selectACHOption() {
+        await this.ach.click();
+    }
+
     async checkIconTransitNumber() {
         await this.ach.click();
         const status_tn = await this.iconTransitNumber.isVisible();
         await this.iconTransitNumber.click();
+        await this.dialog.click();
         return status_tn;
     }
 
     async checkIconRoutingNumber() {
         const status_rn = await this.iconRoutingNumber.isVisible();
         await this.iconRoutingNumber.click();
+        await this.dialog.click();
         return status_rn;
     }
 
     async checkIconAccountNumber() {
         const status_an = await this.iconAccountNumber.isVisible();
         await this.iconAccountNumber.click();
+        await this.dialog.click();
         return status_an;
     }
 
@@ -93,20 +135,7 @@ class PaymentPage {
         await this.confirmAndPayBtn.click();
     }
 
-    async clickBillingAddressCheckBox() {
-        await this.checkBox.click();
+    async goBackToConfirmIdentityPage() {
+        await this.backBtn.click();
     }
-
-    async enterAddressDetails(firstname, lastname, address, city, postal) {
-        await this.firstName.fill(firstname);
-        await this.lastName.fill(lastname); 
-        await this.address.fill(address); 
-        await this.city.fill(city); 
-        await this.postalCode.fill(postal); 
-        await this.province.click();
-        await this.selectProvinceON.click();
-    }
-
 }
-
-module.exports = { PaymentPage };

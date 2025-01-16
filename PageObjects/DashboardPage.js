@@ -1,7 +1,5 @@
-const { expect } = require("@playwright/test");
-
-class DashboardPage{
-
+export class DashboardPage{
+ 
     constructor(page){
         this.page = page;
         this.cookieBanner = page.locator('.v-banner__text .text-content')
@@ -10,8 +8,7 @@ class DashboardPage{
         this.CABtn = page.locator('.v-list-item__icon');
         this.langBtn = page.locator('.v-btn__content .currentLang');
         this.langFR = page.getByRole('menuitem');
-        this.dialogBox =  page.getByRole('dialog');
-        this.warningMsg = this.dialogBox.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//p");
+        this.dialogBox =  page.getByRole('dialog');  
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
         this.partnershipBtn = page.getByRole('menu').getByRole('menuitem', { name: ' Partnerships ' });
@@ -20,6 +17,7 @@ class DashboardPage{
         this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
         this.myProfileBtn = page.locator("//div[@class='v-toolbar__content']/button[2]");
+        this.myApplicationsBtn = page.getByRole('menuitem', { name: 'My Applications' }); 
         this.profileOptions = page.getByRole('menuitem');
         this.openApplicationMsg = page.getByRole('status');
         this.langBtn = page.locator('.v-btn__content .currentLang');
@@ -41,6 +39,18 @@ class DashboardPage{
             await this.acceptCookiesBtn.first().isVisible();
             await this.acceptCookiesBtn.first().click();
         }
+    }
+
+    async navigateToCATLProduct() {
+        if(this.page.getByText(' We value your privacy ').isVisible()) {
+            await this.acceptCookiesBtn.first().isVisible();
+            await this.acceptCookiesBtn.first().click();
+        }
+        await this.countryBtn.click();
+        await this.CABtn.last().click();
+        await this.productsBtn.click();
+        await this.termlifeBtn.click();
+        await this.page.waitForLoadState('domcontentloaded');
     }
 
     async selectCACountry(){
@@ -69,8 +79,8 @@ class DashboardPage{
 
     async getTLProductName() {
         await this.productsBtn.click();
-        const tl_products = (await this.termlifeBtn.textContent()).trim();
-        return tl_products;
+        const list_products = await this.productList.allTextContents();
+        return list_products[0];
     }
 
     async clickLifeBanner() {
@@ -78,58 +88,60 @@ class DashboardPage{
         await this.lifebanner.click();
     }
 
-    async clickPartnershipsBtn() {
+    async goToPartnershipsPage() {
         await this.aboutUsBtn.first().click();
         await this.partnershipBtn.click();
     }
 
-    async clickMyPoliciesBtn() {  
+    async goToMyPoliciesPage() {  
         await this.myProfileBtn.click();
         await this.profileOptions.nth(2).click();
     }
     async selectFRLangInForm() {
         await this.langBtn.click();
         await this.langFR.last().click();
-        return (await this.warningMsg.textContent()).trim();
     }
     async clickMyProfileBtn() {
         await this.myProfileBtn.click();
     }
 
-    async clickMyApplicationsBtn() {
-        await this.profileOptions.nth(1).click();
+    async clickAndVerifyOpenApplicationsMsg() {
+        if(await this.openApplicationMsg.isVisible()) {
+            const msg_openapps = (await this.openApplicationMsg.textContent()).trim();
+            await this.openApplicationMsg.click();
+            return msg_openapps;
+        }
+        else
+        {
+            return "There is no open application";
+        }
+      
     }
 
-    async clickLogoutBtn() {
-        await this.profileOptions.last().click();
-    }
-
-    async getOpenApplicationsMsg() {
-      const msg_openapps = (await this.openApplicationMsg.textContent()).trim();
-      await this.openApplicationMsg.click();
-      return msg_openapps;
-    }
-
-    async clickMyApplicationsPage() {
+    async goToMyApplicationsPage() {
         await this.myProfileBtn.click();
-        await this.profileOptions.nth(1).click();
+        await this.myApplicationsBtn.click();
     }
 
-    async clickAdminPartnershipsBtn() {
+    async goToAdminPartnershipsPage() {
         await this.aboutUsBtn.last().click();
         await this.adminPartnershipsBtn.click();
     }
 
-    async clickAdminReportsBtn() {
+    async goToAdminReportsPage() {
         await this.aboutUsBtn.last().click();
         await this.adminReportsBtn.click();
     }
 
-    async clickManageUserstsBtn() {
+    async goToManageUsersPage() {
         await this.aboutUsBtn.last().click();
         await this.manageUsersBtn.click();
     }
 
+    async clickLogoutBtn() {
+        await this.myProfileBtn.click();
+        await this.profileOptions.last().click();
+    }
+
 }
 
-module.exports = { DashboardPage };

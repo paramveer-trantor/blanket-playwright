@@ -1,6 +1,4 @@
-const { expect, request } = require("@playwright/test");
-
-class ProgressBar {
+export class ProgressBar {
 
     constructor(page) {
         this.page = page;
@@ -12,31 +10,29 @@ class ProgressBar {
         this.inActiveStep7 = page.locator("//div[@class='v-stepper__step cursor-enabled scrollbar-item v-stepper__step--inactive']//div[text()=' Payment ']");
     }
 
-async getCompletedStep1Locator() {
-    return this.completedStep1;
+    async getCompletedStep1Locator() {
+        return this.completedStep1.isVisible();
+    }
+
+    async getCompletedStep2Locator() {
+        return this.competedStep2.isVisible();
+    }
+
+    async getInActiveStep4Locator() {
+        return this.inActiveStep4.isVisible();
+    }
+
+    async getInActiveStep5Locator() {
+        return this.inActiveStep5.isVisible();
+    }
+
+    async getInActiveStep6Locator() {
+        return this.inActiveStep6.isVisible();
+    }
+
+    async getInActiveStep7Locator() {
+        return this.inActiveStep7.isVisible();
+    } 
+    
+
 }
-
-async getCompletedStep2Locator() {
-    return this.competedStep2;
-}
-
-async getInActiveStep4Locator() {
-    return this.inActiveStep4;
-}
-
-async getInActiveStep5Locator() {
-    return this.inActiveStep5;
-}
-
-async getInActiveStep6Locator() {
-    return this.inActiveStep6;
-}
-
-async getInActiveStep7Locator() {
-    return this.inActiveStep7;
-}
-
-
-}
-
-module.exports = { ProgressBar };

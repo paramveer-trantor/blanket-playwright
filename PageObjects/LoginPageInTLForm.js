@@ -1,6 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-
-class LoginPageInTermLifeForm {
+export class LoginPageInTLForm {
 
     constructor(page) {
         this.page = page;
@@ -27,9 +25,8 @@ class LoginPageInTermLifeForm {
         await this.email.fill(username);
         await this.password.fill(password);
         await this.createAccountBtn.click();
-        return this.OTPWindow.textContent();
+        return (await this.OTPWindow.textContent()).trim();
     }
 
 }
 
-module.exports = { LoginPageInTermLifeForm };

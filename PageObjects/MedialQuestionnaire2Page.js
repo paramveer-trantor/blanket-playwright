@@ -1,6 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-
-class MedicalQuestionnaire2Page {
+export class MedicalQuestionnaire2Page {
 
     constructor(page) {
         this.header = page.locator("(//div[text()=' Medical Questionnaire '])[2]");
@@ -27,7 +25,7 @@ class MedicalQuestionnaire2Page {
         return (await this.header.textContent()).trim();
     }
 
-    async medcialQuestionsPage2(option) {
+    async answerMedcialQuestionsPage2(option) {
         if (option == "Yes") {
             await this.questionHepatitisOptionYes.click();
             await this.questionMedicalCondition4WOptionYes.click();
@@ -125,4 +123,4 @@ class MedicalQuestionnaire2Page {
 
 }
 
-module.exports = { MedicalQuestionnaire2Page };
+

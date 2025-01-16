@@ -1,7 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-//const { callAPI } = require('../api');
-//import { needAssessmentApiData, getCaPremiumData } from '../Utils/TestData';
-class NeedsAssessmentPage {
+export class NeedsAssessmentPage {
 
     constructor(page) {
         this.page = page;
@@ -13,10 +10,22 @@ class NeedsAssessmentPage {
         this.message = page.locator("//div[@class='col']//p[1]");
         this.totalvalue = page.locator("//div[@class='col-sm-8 col-md-4 col-11']/p");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.backBtn = page.getByRole('button', { name: ' Back ' });
+        this.errorPopUp = page.getByTestId('globalErrorMessage');
+        this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
 
     async getNeedsAssessmentPageHeader() {
         return (await this.header.textContent()).trim();
+    }
+
+    async enterAnnualIncome(income) {
+        await this.annualIncome.click();
+        await this.annualIncome.fill(income);
+    }
+
+    async clickSavings() {
+        await this.saving.click();
     }
 
     async enterGrossIncome(income, saving, mortgageBal, debt) {
@@ -47,21 +56,25 @@ class NeedsAssessmentPage {
     }
 
     async getCoverageAmountMoreMessage() {
-        return (await this.message.textContent()).trim();
+        return (await this.message.textContent()).trim(); 
+    }
+
+    async getErrorPopUp() {
+        return await this.errorPopUp.textContent();
+    }
+
+    async closeErrorPopUp() {
+        await this.closeBtnPopUp.click();
     }
 
     async clickContinueBtn() {
         await this.continueBtn.isEnabled();
-
-        const promise =  this.page.waitForResponse("**/getCATermPremium", async route => {
-             expect(await route.request().method()).toBe('POST');
-             const response = await this.page.request.fetch(route.request());
-         });
         await this.continueBtn.click();
-        const response = await promise;
-        expect(response.status()).toBe(200);
+    }
+
+    async clickBackBtn() {
+        await this.backBtn.click();     
     }
 
 }
 
-module.exports = { NeedsAssessmentPage };

@@ -1,15 +1,15 @@
-class Api_Interceptor {
+const url_prod = "https://us-central1-blanket-production.cloudfunctions.net/**"
+const url_dev = "https://us-central1-blanket-development.cloudfunctions.net/**";
 
+export class InterceptorAPIs {
+ 
     constructor(page) {
         this.page = page;
         this.error = page.getByTestId('globalErrorMessage');
     }
 
-    //dev api call URL = https://us-central1-blanket-production.cloudfunctions.net/getUSATravelQuote
-    //prod api call URL = https://us-central1-blanket-development.cloudfunctions.net/getCATermPremium
-
     async sendFakeStatusCodeToApiResponse(fakestatus) {
-        await this.page.route("https://us-central1-blanket-development.cloudfunctions.net/**", (route) => {
+        await this.page.route(url_dev, (route) => {
             // Here you can define the fake response
             const fakeResponse = {
                 status: fakestatus,
@@ -22,7 +22,7 @@ class Api_Interceptor {
     }
 
     async readApiResponse() {
-        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/getCATermPremium", async route => {
+        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/**", async route => {
             const res = await this.page.request.fetch(route.request());
         });
         const response = await promise;
@@ -36,7 +36,6 @@ class Api_Interceptor {
 
 }
 
-module.exports = { Api_Interceptor };
 
 
 

@@ -1,6 +1,4 @@
-import { expect } from "@playwright/test";
-
-class PremiumQuotePage {
+export class PremiumQuotePage {
 
     constructor(page) {
         this.page = page;
@@ -8,6 +6,9 @@ class PremiumQuotePage {
         this.genderMale = page.getByText('Male', { exact: true });
         this.genderFemale = page.getByText('Female', { exact: true });
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY');
+        this.heightFeet = page.locator("[name = 'feet']");
+        this.heightInches = page.locator("[name = 'inches']");
+        this.weight = page.getByLabel('Pounds'); 
         this.optionYes = page.getByText('Yes');
         this.optionNo = page.getByText('No');
         this.nonSmoker = page.getByText('No');
@@ -18,13 +19,39 @@ class PremiumQuotePage {
         this.warningMsgText = this.dialogBox.locator("//div[@class='v-card__text justify-center text-center']/div/div");
         this.closeBtn = this.dialogBox.getByRole('button', { name: ' Close '});
         this.premiumValue = page.locator('.estimate-subtitle .font-weight-bold ');
+        this.errorPopUp = page.getByTestId('globalErrorMessage');
+        this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
 
     async getPremiumQuotePageHeader() {
         return (await this.header.textContent()).trim();
     }
 
-    async getQuoteValueNonSmoker(gender, date) {
+    async fillQuotePage(gender, date, feet, inches, weight) {
+        if (gender == "Male") {
+            await this.genderMale.first().click();
+        }
+        else {
+            await this.genderFemale.first().click(); 
+        }
+        await this.dateOfBirth.click();
+        await this.dateOfBirth.clear();
+        await this.dateOfBirth.fill(date);
+        await this.heightFeet.click();
+        await this.heightFeet.fill(feet);
+        await this.heightInches.click();
+        await this.heightInches.fill(inches);
+        await this.weight.click();
+        await this.weight.type(weight.toString());  
+        await this.optionYes.first().click();
+        await this.nonSmoker.nth(1).click();
+    }
+
+    async clickGetQuoteBtn() {
+        await this.getQuoteBtn.click();       
+    }
+
+    async getQuoteValueNonSmoker(gender, date, feet, inches, weight) {
         if (gender == "Male") {
             await this.genderMale.first().click();
         }
@@ -34,12 +61,18 @@ class PremiumQuotePage {
         await this.dateOfBirth.click();
         await this.dateOfBirth.clear();
         await this.dateOfBirth.fill(date);
+        await this.heightFeet.click();
+        await this.heightFeet.fill(feet);
+        await this.heightInches.click();
+        await this.heightInches.fill(inches);
+        await this.weight.click();
+        await this.weight.type(weight.toString());  
         await this.optionYes.first().click();
         await this.nonSmoker.nth(1).click();
         await this.getQuoteBtn.click();       
     }
 
-    async getQuoteValueAsSmoker(gender, date) {
+    async getQuoteValueAsSmoker(gender, date, feet, inches, weight) {
         if (gender == "Male") {
             await this.genderMale.first().click();
         }
@@ -49,6 +82,12 @@ class PremiumQuotePage {
         await this.dateOfBirth.click();
         await this.dateOfBirth.clear();
         await this.dateOfBirth.fill(date);
+        await this.heightFeet.click();
+        await this.heightFeet.fill(feet);
+        await this.heightInches.click();
+        await this.heightInches.fill(inches);
+        await this.weight.click();
+        await this.weight.type(weight.toString()); 
         await this.optionYes.first().click();
         await this.optionYes.last().click();
         await this.getQuoteBtn.click();       
@@ -77,8 +116,15 @@ class PremiumQuotePage {
 
     async getQuotePremiumRateValue() {
         const value_quotepremium = (await this.premiumValue.textContent()).trim();
-        await this.continueBtn.click(); 
         return value_quotepremium;
+    }
+
+    async getErrorPopUp() {
+        return await this.errorPopUp.textContent();
+    }
+
+    async closeErrorPopUp() {
+        await this.closeBtnPopUp.click();
     }
 
     async clickContinueBtn() {
@@ -86,7 +132,6 @@ class PremiumQuotePage {
     }
 }
 
-module.exports = { PremiumQuotePage };
 
 
 

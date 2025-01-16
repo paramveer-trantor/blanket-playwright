@@ -1,30 +1,61 @@
-const{ expect, request } = require("@playwright/test"); 
-
-class LoginPage {
+export class LoginPage {
     
     constructor(page) {
         this.page = page;
         this.email = page.locator("[name='email']");
         this.password = page.locator("[name='password']");
-        this.loginBtn = page.locator('.login-btn')
+        this.loginBtn = page.locator('.login-btn');
+        this.dialogBox = page.getByRole('dialog');
+        this.loginError = this.dialogBox.getByTestId('globalErrorMessage');
+        this.errorPopUp = page.getByTestId('globalErrorMessage');
+        this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
+        this.forgotPassword =  page.locator(".signup-text").first();
+        this.emailForgotPage = page.getByLabel('Email');
     }
 
-    async openURL(url) {
-        await this.page.goto(url);
-    }
-
-    async loginIntoApp(username, password) {
-        await this.email.fill(username);
+    async userLogin(username, password) {
+        await this.email.fill(username);  
         await this.password.fill(password);
-        const promise =  this.page.waitForResponse("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=*", async route => {
-            expect(await route.request().method()).toBe('POST');
-        });
-       await this.loginBtn.click();
-       const response = await promise;
-       expect(response.status()).toBe(200);
+        await this.loginBtn.click();
     }
 
-}
+    async login(url, username, password) {
+        await this.page.goto(url);
+        await this.email.fill(username);  
+        await this.password.fill(password);
+        await this.loginBtn.click();
+    }
 
-module.exports = { LoginPage };
+    async fillLoginDetails(url, username, password) {
+        await this.page.goto(url);
+        await this.email.fill(username);  
+        await this.password.fill(password);
+    }  
+
+    async clickLoginBtn() {
+        await this.loginBtn.click();
+    }
+
+    async goToForgotPasswordPage(url) {
+        await this.page.goto(url);
+        await this.forgotPassword.click();
+    }
+
+    async fillEmailForgotPassword(username) {
+        await this.emailForgotPage.fill(username);
+    }
+
+    async getErrorMessage() {
+        return (await this.loginError.textContent()).trim();
+    } 
+
+    async getErrorPopUp() {
+        return await this.errorPopUp.textContent();
+    }
+
+    async closeErrorPopUp() {
+        await this.closeBtnPopUp.click();
+    }
+    
+}
  

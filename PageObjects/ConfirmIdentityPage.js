@@ -1,6 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-
-class ConfirmIdentityPage {
+export class ConfirmIdentityPage {
 
     constructor(page) { 
         this.header = page.locator(".estimate-title.primary--text.mb-12");
@@ -18,25 +16,45 @@ class ConfirmIdentityPage {
         this.agreeCheckBox = page.locator("//input[@name='payAgree']/following-sibling::div[1]");
         this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' }); 
         this.options = page.getByRole('option');
-        this.monthlyPremium = page.locator("(//div[@class='d-flex align-start']/p//span[2])[1]");
+        this.monthlyPremium = page.locator('.offer-monthly-premium');
+        this.monthlyPremiumWithFee = page.locator("(//div[@class='d-flex align-start']/p//span[2])[1]");
         this.selectAnnualPremium = page.locator("//input[@value='annual']/following-sibling::div[1]");
         this.annualPremium = page.locator("//div[@class='d-flex align-start'][2]/p/span[@class='font-weight-bold']");
+        this.termOffer = page.locator('.offer-term');
+        this.coverageOffer = page.locator('.offer-coverage');
     }
-  
-    async getConfirmIdentityPageHeader() {  
-        return (await this.header.last().textContent()).trim();
+   
+    async getConfirmIdentityPageHeader() {   
+        return (await this.header.last().textContent()).trim();  
+    }
+
+    async getTermOfferValue() {
+        return await this.termOffer.textContent();
+    }
+
+    async getCoverageOfferValue() {
+        return await this.coverageOffer.textContent();
     }
 
     async getMonthlyPremiumValue() {
         return await this.monthlyPremium.textContent();
     }
 
+    async getMonthlyPremiumWithFeeValue() {
+        return await this.monthlyPremiumWithFee.textContent();
+    }
+
     async selectAnnualPremiumOption() {
         await this.selectAnnualPremium.click();
     }
 
-    async getAnnualPremiumValue() {
+    async getAnnualPremiumWithFeeValue() {
         return await this.annualPremium.last().textContent();
+    }
+
+    async getIdTypeList() {
+        await this.openIDType.click();
+        return await this.options.allTextContents();
     }
 
     async checkPassportInputFieldVisible() {  
@@ -61,46 +79,79 @@ class ConfirmIdentityPage {
         return await this.licenseInputField.isVisible();
     }
 
-    async getErrorMsg() {
-        return (await this.errorMsg.textContent()).trim();
-    }
-    
-    async enterIdentificationDetailsWithPassport(passportno) {
+    async selectIdentityAsPassport() {
         await this.openIDType.click();
         await this.selectPassport.click();
-        await this.passportInputField.click();
+    }
+
+    async enterPassportNumber(passportno) {  
         await this.passportInputField.fill(passportno);
     }
 
-    async enterIdentificationDetailsWithHealth(healthno) {
+    async selectIdentityAsHealthCard() {
         await this.openIDType.click();
         await this.selectHealthCard.click();
         await this.provinceList.click();
         await this.selectProvince.click();
-        await this.healthCardInputField.fill(healthno);
     }
 
-    async enterIdentificationDetailsWithLicense(licenseno) {
+    async enterHealthCardNumber(healthno) {
+        await this.healthCardInputField.fill(healthno);
+    }
+  
+    async selectIdentityAsDrivingLicense() {
+        await this.openIDType.click();
+        await this.selectDriverLicense.click();
+        await this.provinceList.click();
+        await this.selectProvince.click();
+    }
+
+    async enterLicenseNumber(licenseno) {
+        await this.licenseInputField.fill(licenseno);
+    }
+
+    async checkErrorIsVisible() {
+        return await this.errorMsg.isVisible();
+    }
+
+    async getErrorMsg() {
+        return (await this.errorMsg.textContent()).trim();
+    }
+
+    async clickAcceptandPayBtn() {
+        await this.acceptAndPayBtn.click();
+    }
+
+    async goToPaymentPageWithPassport(passportno) {
+        await this.openIDType.click();
+        await this.selectPassport.click();
+        await this.passportInputField.fill(passportno);
+        await this.agreeCheckBox.click();
+        await this.acceptAndPayBtn.isVisible();
+        await this.acceptAndPayBtn.click();
+    }
+
+    async goToPaymentPageWithLicense(licenseno) {
         await this.openIDType.click();
         await this.selectDriverLicense.click();
         await this.provinceList.click();
         await this.selectProvince.click();
         await this.licenseInputField.fill(licenseno);
-    }
-
-    async clickCheckBox() {
-        await this.agreeCheckBox.click();  
-    }
-
-    async clickAcceptandPayBtn() {
+        await this.agreeCheckBox.click();
         await this.acceptAndPayBtn.isVisible();
         await this.acceptAndPayBtn.click();
     }
 
-    async getIdTypeList() {
+    async goToPaymentPageWithHealthCard(healthno) {
         await this.openIDType.click();
-        return await this.options.allTextContents();
+        await this.selectHealthCard.click();
+        await this.provinceList.click();
+        await this.selectProvince.click();
+        await this.healthCardInputField.fill(healthno);
+        await this.agreeCheckBox.click();
+        await this.acceptAndPayBtn.isVisible();
+        await this.acceptAndPayBtn.click();
     }
+
 }
 
-module.exports = { ConfirmIdentityPage };  

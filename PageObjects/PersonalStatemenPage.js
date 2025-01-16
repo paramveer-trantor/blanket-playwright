@@ -1,6 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-
-class PersonalStatementPage {
+export class PersonalStatementPage {
 
     constructor(page) {
         this.page = page;
@@ -16,10 +14,12 @@ class PersonalStatementPage {
         this.checkbox8 = page.locator("[name='termCheckbox7'] + div.v-input--selection-controls__ripple");
         this.checkbox9 = page.locator("[name='termCheckbox8'] + div.v-input--selection-controls__ripple");
         this.checkbox10 = page.locator("[name='termCheckbox9'] + div.v-input--selection-controls__ripple");
-        this.textLastOption = page.locator("//div[@class='pa-4 v-card v-sheet theme--light elevation-6']/div[2]//div[10]//label");
+        this.quebecStatement = page.locator("//div[@class='pa-4 v-card v-sheet theme--light elevation-6']/div[2]//div[10]//label");
         this.agreeBtn = page.getByRole('button', { name: ' I Agree ' });
         this.dialogBox = page.getByRole('dialog');
         this.knockOutMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']//span[1]");  
+        this.errorPopUp = page.getByTestId('globalErrorMessage');
+        this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
 
     async getPersonalStatementPageHeader() {
@@ -45,9 +45,12 @@ class PersonalStatementPage {
         }
     }
 
-    async clickAgreeBtn(){
+    async agreeBtnClick() {
+        await this.agreeBtn.click();
+    }
+
+    async clickAgreeBtn() {
         const promise =  this.page.waitForResponse("**/getCATermDecision", async route => {
-             expect(await route.request().method()).toBe('POST');
              const res = await this.page.request.fetch(route.request());
          });
         await this.agreeBtn.click();
@@ -55,7 +58,6 @@ class PersonalStatementPage {
         const responseBody = await response.json();
         const errors = responseBody.result.response.errors;
         const error_string = [errors].toString();
-        //console.log(error_string);
         return error_string; 
      }
 
@@ -63,11 +65,18 @@ class PersonalStatementPage {
        return (await this.knockOutMsg.textContent()).trim();
     }
 
-    async getLastStatementText() {
-        return (await this.textLastOption.textContent()).trim();
+    async getQuebecProvinceStatement() {
+        return (await this.quebecStatement.textContent()).trim();
      }
+
+    async getErrorPopUp() {
+        return await this.errorPopUp.textContent();
+    }
+
+    async closeErrorPopUp() {
+        await this.closeBtnPopUp.click();
+    }
 
 }
 
-module.exports = { PersonalStatementPage};
 

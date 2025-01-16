@@ -1,4 +1,4 @@
-class PartnershipsPage{
+export class PartnershipsPage{
 
     constructor(page){
         this.page = page;
@@ -29,4 +29,3 @@ class PartnershipsPage{
 
 }
 
-module.exports = { PartnershipsPage };

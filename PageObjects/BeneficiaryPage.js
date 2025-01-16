@@ -1,13 +1,11 @@
-const{ expect, request } = require("@playwright/test");
-
-class BeneficiaryPage {
+export class BeneficiaryPage {
 
     constructor(page) {
         this.page = page;
         this.header = page.locator("div[text=' Beneficiaries ']");
         this.addBeneficiryBtn = page.getByRole('button', {name: ' Add beneficiary '}); 
         this.dialogBox =  page.getByRole('dialog');
-        this.openMyBeneficiaries = this.dialogBox.getByLabel('My Beneficiaries', { exact: true });
+        this.openBeneficiariesTypes = this.dialogBox.getByLabel('My Beneficiaries', { exact: true });
         this.selectIndividual = this.dialogBox.getByText('Individual', { exact: true });
         this.benFirstName = this.dialogBox.getByLabel('First name', { exact: true });
         this.benLastName = this.dialogBox.getByLabel('Last name', { exact: true }); 
@@ -29,12 +27,9 @@ class BeneficiaryPage {
         return (await this.header.textContent()).trim();
     }
 
-    async clickAddBeneficiryBtn() {
-        await this.addBeneficiryBtn.click();
-    }
-
     async enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare) {
-        await this.openMyBeneficiaries.click();
+        await this.addBeneficiryBtn.click();
+        await this.openBeneficiariesTypes.click();
         await this.selectIndividual.click();
         await this.benFirstName.click();
         await this.benFirstName.fill(benfirstname);
@@ -75,7 +70,8 @@ class BeneficiaryPage {
     }
 
     async getIncorrectDateError(bendob) {
-        await this.openMyBeneficiaries.click();
+        await this.addBeneficiryBtn.click();
+        await this.openBeneficiariesTypes.click();
         await this.selectIndividual.click();
         await this.dateOfBirth.click();
         await this.dateOfBirth.fill(bendob);
@@ -84,4 +80,3 @@ class BeneficiaryPage {
 
 }
 
-module.exports = { BeneficiaryPage }; 

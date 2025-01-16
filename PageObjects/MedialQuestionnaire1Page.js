@@ -1,6 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-
-class MedicalQuestionnaire1Page {
+export class MedicalQuestionnaire1Page {
 
     constructor(page) {
         this.page = page;
@@ -36,7 +34,7 @@ class MedicalQuestionnaire1Page {
         return (await this.header.textContent()).trim();
     }
 
-    async medicalQuestionsPage1(option) {
+    async answersMedicalQuestionsPage1(option) {
         if (option == "Yes") {
             await this.questionCancerOptionYes.click();
             await this.questionHeartAttackOptionYes.click();
@@ -121,8 +119,8 @@ class MedicalQuestionnaire1Page {
         await this.questionAnxietyOptionNo.click();
     } 
 
-    async answerSleepApneaAsYesandAdditionAsYes() {  
-        await this.questionCancerOptionNo.click();
+    async answerSleepApneaAndAdditionQuesAsYes() {  
+        await this.questionCancerOptionNo.click(); 
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
         await this.questionSleepApneaOptionYes.click();
@@ -237,5 +235,3 @@ class MedicalQuestionnaire1Page {
     }
 
 }
-
-module.exports = { MedicalQuestionnaire1Page };

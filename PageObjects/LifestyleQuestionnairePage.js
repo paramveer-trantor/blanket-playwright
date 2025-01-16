@@ -1,12 +1,7 @@
-const{ expect, request } = require("@playwright/test");
-
-class LifestyleQuestionnairePage {
+export class LifestyleQuestionnairePage {
 
     constructor(page) {
         this.page = page;
-        this.heightFeet = page.locator("[name = 'feet']");
-        this.heightInches = page.locator("[name = 'inches']");
-        this.weight = page.locator("[name = 'lbs']");
         this.header = page.locator("(//div[text()=' Lifestyle Questionnaire '])[2]");
         this.questionCompanyDeclineOptionYes = page.locator("[name = 'declinedOrRescinded0'] + div.v-input--selection-controls__ripple");
         this.questionCompanyDeclineOptionNo = page.locator("[name = 'declinedOrRescinded1'] + div.v-input--selection-controls__ripple");
@@ -34,15 +29,9 @@ class LifestyleQuestionnairePage {
         return (await this.header.textContent()).trim();
     }
 
-    async lifestyleQuestions(option, feet, inches, weight, drinksvalue, marijuanavalue=0) {
+    async answerLifestyleQuestions(option, drinksvalue, marijuanavalue=0) {
         if (option == "Yes") {
             await this.page.waitForLoadState('domcontentloaded');
-            await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
             await this.questionCompanyDeclineOptionYes.click();
             await this.questionCompanyDeclineAddition.click();
             await this.questionRiskOccupationOptionYes.click();
@@ -59,12 +48,6 @@ class LifestyleQuestionnairePage {
         }
         else {
             await this.page.waitForLoadState('domcontentloaded');
-            await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionNo.click();
@@ -78,32 +61,7 @@ class LifestyleQuestionnairePage {
         }
     }
 
-    async answerOutsideBMIRange(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
-            await this.questionCompanyDeclineOptionNo.click();
-            await this.questionRiskOccupationOptionNo.click();
-            await this.questionCriminalOptionNo.click();
-            await this.questionExtremeSportsOptionNo.click();
-            await this.questionMarijuanaUseOptionNo.click();
-            await this.drinksValue.click();
-            await this.drinksValue.fill(drinksvalue);
-            await this.questionDrugsUse5YOptionNo.click();
-            await this.questionDrugsUse10YOptionNo.click();
-            await this.questionOutsideCAOptionNo.click();
-    }
-
-    async answerCompanyDeclinedAsYesandRestNo(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerCompanyDeclinedAsYesandRestNo(drinksvalue) {
             await this.questionCompanyDeclineOptionYes.click();
             await this.questionCompanyDeclineAddition.click();
             await this.questionRiskOccupationOptionNo.click();
@@ -117,13 +75,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionNo.click();
     }
 
-    async answerRiskyOccupationAsYesandRestNo(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerRiskyOccupationAsYesandRestNo(drinksvalue) {
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionYes.click();
             await this.questionCriminalOptionNo.click();
@@ -136,13 +88,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionNo.click();
     }
 
-    async answerCriminalOffenceAsYesandRestNo(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerCriminalOffenceAsYesandRestNo(drinksvalue) {
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionYes.click();
@@ -155,13 +101,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionNo.click();
     }
 
-    async answerExtremeSportsAsYesandRestNo(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerExtremeSportsAsYesandRestNo(drinksvalue) {
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionNo.click();
@@ -174,13 +114,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionNo.click();
     }
 
-    async answerMarijuanaValueAsHighandRestNo(feet, inches, weight, marijuanavalue, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerMarijuanaValueAsHighandRestNo(marijuanavalue, drinksvalue) {
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionNo.click();
@@ -194,13 +128,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionNo.click();
     }
 
-    async answerDrinksValueAsHighandRestNo(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerDrinksValueAsHighandRestNo(drinksvalue) {
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionNo.click();
@@ -213,13 +141,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionNo.click();
     }
 
-    async answerDrugsUse5YAsYesandRestNo(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerDrugsUse5YAsYesandRestNo(drinksvalue) {
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionNo.click();
@@ -232,13 +154,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionNo.click();
     }
 
-    async answerDrugsUse10YAsYesandRestNo(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerDrugsUse10YAsYesandRestNo(drinksvalue) {
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionNo.click();
@@ -251,13 +167,7 @@ class LifestyleQuestionnairePage {
             await this.questionOutsideCAOptionNo.click();
     }
 
-    async answerOutsideCaAsYesandRestNo(feet, inches, weight, drinksvalue) {
-        await this.heightFeet.click();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.type(weight.toString());
+    async answerOutsideCaAsYesandRestNo(drinksvalue) {
             await this.questionCompanyDeclineOptionNo.click();
             await this.questionRiskOccupationOptionNo.click();
             await this.questionCriminalOptionNo.click();
@@ -277,4 +187,4 @@ class LifestyleQuestionnairePage {
 
 }
 
-module.exports = { LifestyleQuestionnairePage };
+

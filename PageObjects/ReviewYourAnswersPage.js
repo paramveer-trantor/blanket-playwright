@@ -1,6 +1,4 @@
-const{ expect, request } = require("@playwright/test");
-
-class ReviewYourAnswersPage {
+export class ReviewYourAnswersPage {
 
     constructor(page) {
         this.header = page.locator("(//div[text()=' Review Your Answers '])[2]");
@@ -37,5 +35,4 @@ class ReviewYourAnswersPage {
 
 }
 
-module.exports = { ReviewYourAnswersPage };
 
