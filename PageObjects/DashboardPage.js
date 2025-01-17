@@ -101,21 +101,16 @@ export class DashboardPage{
         await this.langBtn.click();
         await this.langFR.last().click();
     }
+    
     async clickMyProfileBtn() {
         await this.myProfileBtn.click();
     }
 
     async clickAndVerifyOpenApplicationsMsg() {
-        if(await this.openApplicationMsg.isVisible()) {
-            const msg_openapps = (await this.openApplicationMsg.textContent()).trim();
-            await this.openApplicationMsg.click();
-            return msg_openapps;
-        }
-        else
-        {
-            return "There is no open application";
-        }
-      
+        await this.openApplicationMsg.isVisible();
+        const msg_openapps = (await this.openApplicationMsg.textContent()).trim();
+        await this.openApplicationMsg.click();
+        return msg_openapps;
     }
 
     async goToMyApplicationsPage() {

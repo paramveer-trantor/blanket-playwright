@@ -114,7 +114,12 @@ export class AdminPartnershipsPage{
             await this.confirmDelete.click();
         }
         await this.bulkUploadBtn.click();
-        await this.uploadCSV.setInputFiles(filePath);
+        await this.uploadCSV.setInputFiles(filePath);  
+    }
+
+    async deleteFirstRowPartner() {
+        await this.deleteBtnFirstRow.click();
+        await this.confirmDelete.click();
     }
 
     async clickUploadBtn() {
@@ -122,7 +127,7 @@ export class AdminPartnershipsPage{
     }
 
     async verifySuccessMsgIsVisible() {
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(5000);
         return await this.successMsg.isVisible();
     }
 

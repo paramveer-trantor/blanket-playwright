@@ -178,7 +178,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
 
     test('BL-T7: Application shall throw an error message if user enters invalid phone number.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(gender, date);
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -1133,7 +1133,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
             expect(await preApplicationPage.getAfterHoursMsg()).toEqual('After hours');
         }
         else {
-            expect(await preApplicationPage.checkAfterHoursDialogIsVisible()).not.toBeVisible();
+            expect(await preApplicationPage.checkAfterHoursDialogIsVisible()).toBeFalsy();
         }
     });
 

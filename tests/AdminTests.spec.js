@@ -162,12 +162,13 @@ test.describe('Admin Partnerships Page test cases', async () => {
 
     test('BL-T177: User shall able to upload partners in bulk through csv file using bulk upload.', async ({ page }) => {
         const adminPartnershipsPage = new AdminPartnershipsPage(page);
-        //await adminPartnershipsPage.bulkUploadCSV('C:/Users/gagandeep.singla/Downloads/ValidPartners.csv');
-        await adminPartnershipsPage.bulkUploadCSV('/opt/files/ValidPartners.csv');
+        await adminPartnershipsPage.bulkUploadCSV('C:/Users/gagandeep.singla/Downloads/ValidPartners.csv');
+        //await adminPartnershipsPage.bulkUploadCSV('/opt/files/ValidPartners.csv');
         await adminPartnershipsPage.clickUploadBtn();
         expect(await adminPartnershipsPage.verifySuccessMsgIsVisible()).toBeTruthy();
         expect(await adminPartnershipsPage.getPartnerNameLatest()).toEqual("Bulk Partner 1 Auto");   
         expect(await adminPartnershipsPage.getPartnerStatusLatest()).toEqual(" APPROVED ");
+        await adminPartnershipsPage.deleteFirstRowPartner();
     });
 
 });
@@ -198,7 +199,7 @@ test.describe('Super Admin test cases', async () => {
         await manageUserPage.selectUser();
         expect(await manageUserPage.getSelectedUserEmail()).toEqual('gagandeep.singla+qa2@trantorinc.com');
         await manageUserPage.logoutSelectedUser();
-        expect(await manageUserPage.verifySuperAdminIsLoggedOut()).not.toBeVisible();
+        expect(await manageUserPage.getPageHeader()).toEqual('User Dashboard');
     });
 
 });

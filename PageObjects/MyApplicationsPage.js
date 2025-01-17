@@ -24,8 +24,8 @@ export class MyApplicationsPage{
         return Number(arr_openApp[2]);
     }
 
-    async verifyNoOpenApplicationMsg() {
-        return this.noOpenApplicationMsg;
+    async getNoApplicationMsg() {
+        return (await this.noOpenApplicationMsg.textContent()).trim();
     }
 
     async deleteFirstRowApplication() {

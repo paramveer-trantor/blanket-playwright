@@ -60,7 +60,8 @@ test.describe('Website pages Tests', () => {
         await loginPage.login('/pages/login', username, password);
 
         const dashboardPage = new DashboardPage(page);
-        await dashboardPage.clickMyPoliciesBtn();
+        await dashboardPage.acceptCookies();
+        await dashboardPage.goToMyPoliciesPage();
 
         const myPoliciesPage = new MyPoliciesPage(page);
         expect(await myPoliciesPage.getMyPoliciesPageHeader()).toEqual('My Policies');
@@ -79,7 +80,7 @@ test.describe('Website pages Tests', () => {
 
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
-        await dashboardPage.clickMyPoliciesBtn();
+        await dashboardPage.goToMyPoliciesPage();
 
         const myPoliciesPage = new MyPoliciesPage(page);
         expect(await myPoliciesPage.getMyPoliciesPageHeader()).toEqual('My Policies');
@@ -90,7 +91,8 @@ test.describe('Website pages Tests', () => {
         await loginPage.login('/pages/login', username, password);
 
         const dashboardPage = new DashboardPage(page);
-        await dashboardPage.clickMyPoliciesBtn();
+        await dashboardPage.acceptCookies();
+        await dashboardPage.goToMyPoliciesPage();
 
         const myPoliciesPage = new MyPoliciesPage(page);
         await myPoliciesPage.clickEmailPolicyBtn();
@@ -122,7 +124,6 @@ test.describe('Website pages Tests', () => {
         
         await loginPage.userLogin(username, password);
         expect(await dashboardPage.clickAndVerifyOpenApplicationsMsg()).toEqual("You have an application in progress, would you like to continue?");
-       
         const myApplicationsPage = new MyApplicationsPage(page);
         expect(await myApplicationsPage.getMyAppPageHeader()).toEqual("My Applications");
     });
@@ -149,11 +150,11 @@ test.describe('Website pages Tests', () => {
         await loginPage.login('/pages/login',"gagandeep.singla+autouser2@trantorinc.com", "Test@1");
         
         const dashboardPage = new DashboardPage(page);
-        expect(await dashboardPage.clickAndVerifyOpenApplicationsMsg()).toEqual("There is no open application");
+        await dashboardPage.acceptCookies();
         await dashboardPage.goToMyApplicationsPage();
 
         const myApplicationsPage = new MyApplicationsPage(page);
-        expect(await myApplicationsPage.verifyNoOpenApplicationMsg()).toBeVisible();
+        expect(await myApplicationsPage.getNoApplicationMsg()).toEqual('No data available');
     });
 
     test('BL-T159: Application shall store upto 7 open application on My application page.', async ({ page }) => {

@@ -2,12 +2,17 @@ export class ManageUserPage{
 
     constructor(page){
         this.page = page;
+        this.headerText = page.getByText('User Dashboard');
         this.searchBtn = page.getByTestId('userSearch');
         this.selectUserBtn = page.getByRole('button', { name: ' Select User ' });
         this.selectedUserEmail = page.locator('.row.activeUser .col');
         this.selectedUserLogoutBtn = page.getByRole('button', { name: ' Log Out ' });
         this.pageHeader = page.getByText('My Applications');
         this.editBtnFirstRow = page.locator("//div[@class='v-data-table__wrapper']/table/tbody/tr[1]/td[5]/button[1]");
+    }
+
+    async getPageHeader() {
+        return (await this.headerText.textContent()).trim();
     }
 
     async searchUser(useremail) {    
@@ -33,10 +38,6 @@ export class ManageUserPage{
     async logoutSelectedUser() {
         await this.selectedUserLogoutBtn.click();
     }    
-
-    async verifySuperAdminIsLoggedOut() {
-        return this.selectedUserEmail;
-    }
 
 }
 
