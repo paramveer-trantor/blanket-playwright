@@ -109,7 +109,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
     
     test('Verify knockout with BMI > 35 Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, "5", "8", 235);
+        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, "5", "8", "235");
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -146,7 +146,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
     
     test('Verify knockout with BMI < 17.5 Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, "5", "1", 83);
+        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, "5", "1", "83");
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);

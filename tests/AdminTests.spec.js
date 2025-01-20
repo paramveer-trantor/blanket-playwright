@@ -91,6 +91,13 @@ test.describe('Admin Reports Page test cases', async () => {
         expect(await adminReportsPage.getPopUpMessageText()).toMatch(/File downloaded successfully|No data found for selected date/);
     });
 
+    test('BL-T197: Admin shall have ability to generate and download the "Humania data feed" report. ', async ({ page }) => {
+        const adminReportsPage = new AdminReportsPage(page);
+        await adminReportsPage.goToHumaniaDataFeedTab();
+        await adminReportsPage.generateHumaniaReport();
+        expect(await adminReportsPage.getHumaniaReportGeneratedSuccessMsg()).toEqual('Report Generated Successfully!');
+    });
+
 });
 
 test.describe('Admin Partnerships Page test cases', async () => {

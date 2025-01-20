@@ -1763,5 +1763,52 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await preApplicationPage.clickBackToQuoteBtn();
         expect(page.url()).not.toEqual(preapp_url);
     });
+
+    test("BL-T198: Premium rate shall be increased by 1.5 times if user's bmi is in between 32.1 and 35.", async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
+        const premiumrate_bmi_less32 = await premiumQuotePage.getNumericPremiumRateValue();
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, "5", "8", "220");
+        await page.waitForTimeout(2000);
+        const new_premiumrate_bmi_more32 = await premiumQuotePage.getNumericPremiumRateValue();
+        const exp_premiumrate_bmi_more32 = premiumrate_bmi_less32 * 1.5;
+        expect(new_premiumrate_bmi_more32).toBe(exp_premiumrate_bmi_more32);
+        const premiumrate_bmi_more32 = await premiumQuotePage.getQuotePremiumRateValue();
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickConitnueBtn();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        expect(await confirmPremiumPage.getQuoteValue()).toEqual(premiumrate_bmi_more32);
+    });
+
+    test("BL-T198: Premium rate shall not be increased by 1.5 if user's bmi is 32.", async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
+        const premiumrate_bmi_less32 = await premiumQuotePage.getNumericPremiumRateValue();
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, "5", "8", "210.5");
+        await page.waitForTimeout(2000);
+        const new_premiumrate_bmi_32 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(new_premiumrate_bmi_32).toBe(premiumrate_bmi_less32);
+        const premiumrate_bmi_32 = await premiumQuotePage.getQuotePremiumRateValue();
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickConitnueBtn();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        expect(await confirmPremiumPage.getQuoteValue()).toEqual(premiumrate_bmi_32);
+    });
  
 }); 

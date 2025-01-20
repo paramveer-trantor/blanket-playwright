@@ -127,7 +127,7 @@ export class AdminPartnershipsPage{
     }
 
     async verifySuccessMsgIsVisible() {
-        await this.page.waitForTimeout(5000);
+        await this.page.waitForTimeout(1000);
         return await this.successMsg.isVisible();
     }
 

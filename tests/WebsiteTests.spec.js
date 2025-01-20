@@ -137,7 +137,7 @@ test.describe('Website pages Tests', () => {
         await dashboardPage.goToMyApplicationsPage();
         
         const myApplicationsPage = new MyApplicationsPage(page);
-        expect(await myApplicationsPage.verifyNoOpenApplicationMsg()).not.toBeVisible();
+        expect(await myApplicationsPage.verifyNoApplicationMsgIsVisisble()).not.toBeVisible();
         const count_apps = await myApplicationsPage.getOpenApplicationsCount();
         expect(await myApplicationsPage.getOpenApplicationsCount()).toBeLessThanOrEqual(7);
         await myApplicationsPage.deleteFirstRowApplication();

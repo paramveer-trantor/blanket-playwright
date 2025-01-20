@@ -4,6 +4,8 @@ export class AdminReportsPage {
         this.page = page;
         this.dialogBox =  page.getByRole('dialog');
         this.reportsTab = page.locator("[name='Reports']");
+        this.HumaniaDataFeeTab = page.locator("[name='Humania Data Feed']");
+        this.generateReport = page.getByRole('button', { name: ' Generate ' });
         this.reportType = page.locator('.v-select__selection').filter({ hasText: 'Ca Term Life Sales Report' });
         this.reportType1 = page.locator('.v-select__selection').filter({ hasText: 'CST Partner Report' });
         this.reportType2 = page.locator('.v-select__selection').filter({ hasText: 'GGA Partner Report' });
@@ -16,10 +18,28 @@ export class AdminReportsPage {
         this.downloadBtn = page.getByRole('button', { name: ' Download csv ' });
         this.popUpMsg = this.dialogBox.getByTestId('globalErrorMessage');
         this.dialogCloseBtn = page.getByTestId('globalErrorCloseBtn');
+        this.humaniaDownloadBtn = page.locator('.v-btn__content').filter({ hasText: ' Download ' });
+        this.humaniaSuccessMsg = this.dialogBox.getByTestId('successMessage');
     }
     
     async goToReportsTab() {
         await this.reportsTab.click();
+    }
+
+    async goToHumaniaDataFeedTab() {
+        await this.HumaniaDataFeeTab.click();
+    }
+
+    async generateHumaniaReport() {
+        await this.generateReport.click();
+    }
+
+    async getHumaniaSuccessMsg() {
+        return (await this.humaniaSuccessMsg.textContent()).trim();
+    }
+
+    async clickHumaniaDownloadBtn() {
+        await this.humaniaDownloadBtn.first().click();
     }
 
     async getReportTypeOptionsList() {  
