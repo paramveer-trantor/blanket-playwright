@@ -34,7 +34,7 @@ export class AdminReportsPage {
         await this.generateReport.click();
     }
 
-    async getHumaniaSuccessMsg() {
+    async getHumaniaReportGeneratedSuccessMsg() {
         return (await this.humaniaSuccessMsg.textContent()).trim();
     }
 
