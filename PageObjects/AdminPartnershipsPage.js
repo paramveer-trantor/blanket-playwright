@@ -127,8 +127,8 @@ export class AdminPartnershipsPage{
     }
 
     async verifySuccessMsgIsVisible() {
-        await this.page.waitForTimeout(1000);
-        return await this.successMsg.isVisible();
+        await this.page.waitForTimeout(4000);
+        return  await this.successMsg.isVisible();
     }
 
     async closebulkUploadWindow() {

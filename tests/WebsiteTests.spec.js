@@ -95,6 +95,7 @@ test.describe('Website pages Tests', () => {
         await dashboardPage.goToMyPoliciesPage();
 
         const myPoliciesPage = new MyPoliciesPage(page);
+        await myPoliciesPage.clickEyeBtn();
         await myPoliciesPage.clickEmailPolicyBtn();
         expect(await myPoliciesPage.getSuccessMsg()).toEqual('Success!');
     });
