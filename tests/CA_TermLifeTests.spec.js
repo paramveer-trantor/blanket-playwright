@@ -1073,6 +1073,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await confirmIdentityPage.goToPaymentPageWithLicense(licenseno);
 
         const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox();
         await paymentPage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
         
         const congratulationsPage = new CongratulationsPage(page);
