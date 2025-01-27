@@ -162,10 +162,11 @@ test.describe('Admin Partnerships Page test cases', async () => {
         const adminPartnershipsPage = new AdminPartnershipsPage(page);
         const totalPartners_beforeDelete = await adminPartnershipsPage.getTotalPartnersCount();
         await adminPartnershipsPage.bulkDeletePartners();
+        await page.waitForTimeout(4000);
         expect(await adminPartnershipsPage.verifySuccessMsgIsVisible()).toBeTruthy();
         const totalPartners_afterDelete = await adminPartnershipsPage.getTotalPartnersCount();
         expect(totalPartners_beforeDelete).not.toBe(totalPartners_afterDelete);
-    });
+    }); 
 
     test('BL-T177: User shall able to upload partners in bulk through csv file using bulk upload.', async ({ page }) => {
         const adminPartnershipsPage = new AdminPartnershipsPage(page);

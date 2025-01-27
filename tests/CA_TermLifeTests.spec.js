@@ -321,7 +321,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await needsAssessmentPage.enterGrossIncome("40000", saving, mortgageBal, debt);
         const total = await needsAssessmentPage.getTotalValue();
         const message = await needsAssessmentPage.getCoverageAmountMoreMessage();
-        expect(message).toEqual('Based on the information provided, your life insurance need appears to be ' + total + ' . You can apply for up to $1,000,000 now.');
+        expect(message).toEqual(`Based on the information provided, your life insurance need appears to be ${total} . You can apply for up to $1,000,000 now.`);
     });
 
     test('BL-T19: App shall not display a message if recommended coverage amount is less than maximum face amount.', async ({ page }) => {
@@ -388,7 +388,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await reviewYourAnswersPage.clickConitnueBtn();
 
         const personalStatementPage = new PersonalStatementPage(page);
-        expect(await personalStatementPage.getUsername()).toEqual('I, ' + firstname + ' ' + lastname + '');
+        expect(await personalStatementPage.getUsername()).toEqual(`I, ${firstname} ${lastname}`);
     });
 
     test('BL-T24: User shall be able to add beneficiaries.', async ({ page }) => {
@@ -1068,8 +1068,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await beneficiaryPage.clickConitnueBtn();
         
         const confirmIdentityPage = new ConfirmIdentityPage(page);
-        const monthly = await confirmIdentityPage.getMonthlyPremiumValue();
-        const myArray_monthly = monthly.split(" ");
+        const totalPremiumDue = await confirmIdentityPage.getMonthlyPremiumWithFeeValue();        
         await confirmIdentityPage.goToPaymentPageWithLicense(licenseno);
 
         const paymentPage = new PaymentPage(page);
@@ -1081,7 +1080,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         expect(await congratulationsPage.getProviderName()).toEqual('Blanket Life underwritten by Humania Assurance Inc.');
         const todays_date = new Date().toISOString().slice(0, 10);
         expect (await congratulationsPage.getEffectiveDate()).toEqual(todays_date);
-        expect(await congratulationsPage.getPaymentValue()).toContain(myArray_monthly[3]);
+        expect(await congratulationsPage.getPaymentValue()).toContain(totalPremiumDue);
     });
 
     test('BL-T43: Premium rates should be different for smoker & non smokers users.', async ({ page }) => {

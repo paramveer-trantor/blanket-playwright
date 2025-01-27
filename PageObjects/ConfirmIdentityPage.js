@@ -35,13 +35,15 @@ export class ConfirmIdentityPage {
     async getCoverageOfferValue() {
         return await this.coverageOffer.textContent();
     }
-
+  
     async getMonthlyPremiumValue() {
-        return await this.monthlyPremium.textContent();
+        return await this.monthlyPremium.textContent(); 
     }
 
     async getMonthlyPremiumWithFeeValue() {
-        return await this.monthlyPremiumWithFee.textContent();
+        const monthly_due = await this.monthlyPremiumWithFee.textContent();
+        const monthly_amountdue = (monthly_due.replace("Total Monthly Payment:", "")).trim();
+        return monthly_amountdue; 
     }
 
     async selectAnnualPremiumOption() {
