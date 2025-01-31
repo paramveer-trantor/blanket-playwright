@@ -11,7 +11,7 @@ test.afterEach('Close the browser', async ({ page }) => {
     await page.close(); 
 });
 
-test.describe('Login page Tests', () => {
+test.describe('Login & Register page Tests', () => {
 
     test('User should be able to login with valid credentials', async ({ page }) => {
         const loginPage = new LoginPage(page);
@@ -31,6 +31,14 @@ test.describe('Login page Tests', () => {
         const loginPage = new LoginPage(page);
         await loginPage.login('/pages/login',invalidusername, password);     
         expect(await loginPage.getErrorMessage()).toEqual('There is no user record corresponding to this identifier. The user may have been deleted.');
+    });
+
+    test('Application should ask user to enter OTP while creating an account', async ({ page }) => {
+        const registerPage = new RegisterPage(page);
+        await registerPage.goToRegisterPage('/pages/register');
+        await registerPage.enterUserDetails("gagandeep.singla+createaccount@trantorinc.com", "123456");
+        expect(await registerPage.clickCreateAccBtn()).toBe(200);
+        expect(await registerPage.getOTPSentMsg()).toEqual("Please enter the 6 digit One time password sent to");  
     });
 
 });

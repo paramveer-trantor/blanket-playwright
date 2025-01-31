@@ -9,7 +9,8 @@ export class RegisterPage {
         this.errorMessage = page.locator('.v-messages__message');
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
-
+        this.dialogBox =  page.getByRole('dialog');
+        this.OTPWindow = this.dialogBox.locator(".v-card__title"); 
     }
 
     async goToRegisterPage(url) {
@@ -27,7 +28,13 @@ export class RegisterPage {
     }
 
     async clickCreateAccBtn() {
+        const promise = this.page.waitForResponse("**/sendOtp", async route => {
+            const res = await this.page.request.fetch(route.request());
+        });
         await this.createAccountBtn.click();
+        const response = await promise;
+        const responseStatus = await response.status();
+        return responseStatus;  
     }
  
     async createAccount(url, username, password) {
@@ -44,6 +51,10 @@ export class RegisterPage {
 
     async getErrorPopUp() {
         return await this.errorPopUp.textContent();
+    }
+
+    async getOTPSentMsg() {
+        return (await this.OTPWindow.textContent()).trim();
     }
 
     async closeErrorPopUp() {

@@ -12,7 +12,7 @@ export class LoginPageInTLForm {
     }
 
     async getInFormLoginPageHeder() {
-        return (await this.header.innerText()).trim();  
+        return (await this.header.innerText()).trim();   
     }
 
     async loginIntoAccount(username,password) {
@@ -21,12 +21,22 @@ export class LoginPageInTLForm {
         await this.loginBtn.click();  
     }
 
-    async createAccount(username,password) {
+    async createAccount(username,password) { 
         await this.email.fill(username);
         await this.password.fill(password);
+        const promise = this.page.waitForResponse("**/sendOtp", async route => {
+            const res = await this.page.request.fetch(route.request());
+        });
         await this.createAccountBtn.click();
+        const response = await promise;
+        const responseStatus = await response.status();
+        return responseStatus; 
+    }
+
+    async getOTPSentMsg() {
         return (await this.OTPWindow.textContent()).trim();
     }
+
 
 }
 
