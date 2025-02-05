@@ -69,7 +69,7 @@ test.describe('CA Term Life Test Cases without Login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const loginPageInTLForm = new LoginPageInTLForm(page);
-        expect(await loginPageInTLForm.createAccount("test+qa1@mailnator.com","Test@1")).toBe(200);
+        expect(await loginPageInTLForm.createAccount("gagandeep.singla+createaccount1@trantorinc.com","Test@1")).toBe(200);
         expect(await loginPageInTLForm.getOTPSentMsg()).toEqual("Please enter the 6 digit One time password sent to");
     });
 
@@ -115,7 +115,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre Application');
     });
 
-    test('BL-T4: User shall be able to buy the term life policy successfully.', async ({ page }) => {
+    test('BL-T4: User shall able to purchase policy using CC payment method successfully.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
         await premiumQuotePage.clickContinueBtn();
@@ -1138,7 +1138,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         }
     });
 
-    test('BL-T55: User shall able to do premium payment successfully.', async ({ page }) => {
+    test('BL-T55: User shall able to purchase policy using ACH payment method successfully.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(gender, "01/01/1990", "5", "8", "220");
         await premiumQuotePage.clickContinueBtn();
@@ -1152,7 +1152,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.changeTermLength("10");
+        await confirmPremiumPage.changeTermLength("15");
         const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
         await confirmPremiumPage.clickContinueBtn();
         
@@ -1176,7 +1176,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await personalStatementPage.clickAgreeBtn();
 
         const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
+        await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
 
         const confirmIdentityPage = new ConfirmIdentityPage(page);
