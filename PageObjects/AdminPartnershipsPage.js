@@ -109,7 +109,7 @@ export class AdminPartnershipsPage{
     
     async bulkUploadCSV(filePath) {
         const emailfirstrow = await this.firstRowEmailId.textContent();
-        if (emailfirstrow == "partnerbulkauto@test.com") {
+        if (emailfirstrow === "partnerbulkauto@test.com") {
             await this.deleteBtnFirstRow.click();
             await this.confirmDelete.click();
         }
@@ -127,7 +127,7 @@ export class AdminPartnershipsPage{
     }
 
     async verifySuccessMsgIsVisible() {
-        return  await this.successMsg.isVisible();
+        return await this.successMsg;
     }
 
     async closebulkUploadWindow() {

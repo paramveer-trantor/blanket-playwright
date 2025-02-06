@@ -28,6 +28,10 @@ export class RegisterPage {
     }
 
     async clickCreateAccBtn() {
+        await this.createAccountBtn.click();  
+    }
+
+    async clickCreateAccBtnAndGetAPIStatus() {
         const promise = this.page.waitForResponse("**/sendOtp", async route => {
             const res = await this.page.request.fetch(route.request());
         });

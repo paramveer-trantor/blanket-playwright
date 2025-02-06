@@ -162,8 +162,7 @@ test.describe('Admin Partnerships Page test cases', async () => {
         const adminPartnershipsPage = new AdminPartnershipsPage(page);
         const totalPartners_beforeDelete = await adminPartnershipsPage.getTotalPartnersCount();
         await adminPartnershipsPage.bulkDeletePartners();
-        await page.waitForTimeout(4000);
-        expect(await adminPartnershipsPage.verifySuccessMsgIsVisible()).toBeTruthy();
+        expect(await adminPartnershipsPage.verifySuccessMsgIsVisible()).toBeVisible();
         const totalPartners_afterDelete = await adminPartnershipsPage.getTotalPartnersCount();
         expect(totalPartners_beforeDelete).not.toBe(totalPartners_afterDelete);
     }); 
@@ -173,7 +172,8 @@ test.describe('Admin Partnerships Page test cases', async () => {
         //await adminPartnershipsPage.bulkUploadCSV('C:/Users/gagandeep.singla/Downloads/ValidPartners.csv');
         await adminPartnershipsPage.bulkUploadCSV('/opt/files/ValidPartners.csv');
         await adminPartnershipsPage.clickUploadBtn();
-        expect(await adminPartnershipsPage.verifySuccessMsgIsVisible()).toBeTruthy();
+        await page.waitForTimeout(5000);
+        expect(await adminPartnershipsPage.verifySuccessMsgIsVisible()).toBeVisible();
         expect(await adminPartnershipsPage.getPartnerNameLatest()).toEqual("Bulk Partner 1 Auto");   
         expect(await adminPartnershipsPage.getPartnerStatusLatest()).toEqual(" APPROVED ");
         await adminPartnershipsPage.deleteFirstRowPartner();
@@ -230,4 +230,5 @@ test('BL-T160: Request for partnership shall be visible to admin on partner port
     expect(await adminPartnershipsPage.getPartnerStatusLatest()).toEqual(" NEW ");
     await adminPartnershipsPage.approveNewPartner("CST");
     expect(await adminPartnershipsPage.getPartnerStatusLatest()).toEqual(" APPROVED ");
+    await adminPartnershipsPage.deleteFirstRowPartner();
 });

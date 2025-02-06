@@ -402,7 +402,7 @@ test.describe('API status codes handling TCs', async () => {
     test('BL-T141(3): Application shall throw an error if create account API response is not 200 or 201', async ({ page }) => {
         const registerPage = new RegisterPage(page);
         await registerPage.goToRegisterPage('/pages/register');
-        await registerPage.enterUserDetails(username, password);
+        await registerPage.enterUserDetails("gagandeep.singla+createaccount@trantorinc.com", "123456");
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
@@ -410,7 +410,7 @@ test.describe('API status codes handling TCs', async () => {
         const fakeResponse = {
                 status: codes[i],
             }
-            route.fulfill({
+            route.fulfill({ 
                 status: fakeResponse.status,
             });
         });

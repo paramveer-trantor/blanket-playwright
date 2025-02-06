@@ -37,7 +37,7 @@ test.describe('Login & Register page Tests', () => {
         const registerPage = new RegisterPage(page);
         await registerPage.goToRegisterPage('/pages/register');
         await registerPage.enterUserDetails("gagandeep.singla+createaccount@trantorinc.com", "123456");
-        expect(await registerPage.clickCreateAccBtn()).toBe(200);
+        expect(await registerPage.clickCreateAccBtnAndGetAPIStatus()).toBe(200);
         expect(await registerPage.getOTPSentMsg()).toEqual("Please enter the 6 digit One time password sent to");  
     });
 

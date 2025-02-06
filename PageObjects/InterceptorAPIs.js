@@ -10,11 +10,9 @@ export class InterceptorAPIs {
 
     async sendFakeStatusCodeToApiResponse(fakestatus) {
         await this.page.route(url_dev, (route) => {
-            // Here you can define the fake response
             const fakeResponse = {
                 status: fakestatus,
             }
-            // Respond with the fake status code
             route.fulfill({
                 status: fakeResponse.status,
             });
