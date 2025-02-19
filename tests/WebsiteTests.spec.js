@@ -33,7 +33,7 @@ test.describe('Login & Register page Tests', () => {
         expect(await loginPage.getErrorMessage()).toEqual('There is no user record corresponding to this identifier. The user may have been deleted.');
     });
 
-    test('Application should ask user to enter OTP while creating an account', async ({ page }) => {
+    test('BL-T85 - Application should ask user to enter OTP while creating an account', async ({ page }) => {
         const registerPage = new RegisterPage(page);
         await registerPage.goToRegisterPage('/pages/register');
         await registerPage.enterUserDetails("gagandeep.singla+createaccount@trantorinc.com", "123456");

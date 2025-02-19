@@ -232,3 +232,4 @@ test('BL-T160: Request for partnership shall be visible to admin on partner port
     expect(await adminPartnershipsPage.getPartnerStatusLatest()).toEqual(" APPROVED ");
     await adminPartnershipsPage.deleteFirstRowPartner();
 });
+
