@@ -41,6 +41,9 @@ export class PreApplicationPage {
         this.dobValue = page.locator("[name='dob']");
         this.canadianValue = page.locator("[name='isCanadian0']");
         this.nonSmokerValue = page.locator("[name='tobaccoFor12Month1']");
+        this.langBtn = page.locator('.v-btn__content .currentLang');
+        this.langFR = page.getByRole('menuitem');
+        this.langChangeMsg = page.locator("//div[@class='v-dialog__content v-dialog__content--active']//p");
     }
 
     async getPreApplicationPageHeader() {
@@ -275,6 +278,15 @@ export class PreApplicationPage {
         await this.page.waitForTimeout(1000);
         await this.backToQuoteBtn.isVisible();
         await this.backToQuoteBtn.click();
+    }
+
+    async selectFRLangInForm() {
+        await this.langBtn.click();
+        await this.langFR.last().click();
+    }
+
+    async getLangChangeMsg() {
+        return (await this.langChangeMsg.textContent()).trim();
     }
 
 }

@@ -13,7 +13,7 @@ test.afterEach('Close the browser', async ({ page }) => {
 
 test.describe('Login & Register page Tests', () => {
 
-    test('User should be able to login with valid credentials', async ({ page }) => {
+    test('BL-T114 - User should be able to login with valid credentials', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.login('/pages/login',username, password);       
         
@@ -39,6 +39,14 @@ test.describe('Login & Register page Tests', () => {
         await registerPage.enterUserDetails("gagandeep.singla+createaccount@trantorinc.com", "123456");
         expect(await registerPage.clickCreateAccBtnAndGetAPIStatus()).toBe(200);
         expect(await registerPage.getOTPSentMsg()).toEqual("Please enter the 6 digit One time password sent to");  
+    });
+
+    test('BL-T88 - Application shall throw an error message if user enters incorrect OTP.', async ({ page }) => {
+        const registerPage = new RegisterPage(page);
+        await registerPage.goToRegisterPage('/pages/register');
+        await registerPage.enterUserDetails("gagandeep.singla+createaccount@trantorinc.com", "123456");
+        expect(await registerPage.clickCreateAccBtnAndGetAPIStatus()).toBe(200); 
+        expect(await registerPage.getIncorrectOTPMsg()).toEqual("Invalid One time password. Please enter the correct One time password.");  
     });
 
 });
@@ -130,7 +138,7 @@ test.describe('Website pages Tests', () => {
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         await dashboardPage.clickLogoutBtn();
-        
+          
         await loginPage.userLogin(username, password);
         expect(await dashboardPage.clickAndVerifyOpenApplicationsMsg()).toEqual("You have an application in progress, would you like to continue?");
         const myApplicationsPage = new MyApplicationsPage(page);
@@ -176,6 +184,26 @@ test.describe('Website pages Tests', () => {
         
         const myApplicationsPage = new MyApplicationsPage(page);
         expect(await myApplicationsPage.getOpenApplicationsCount()).toBeLessThanOrEqual(7);
+    });
+
+    test('BL-T190: User shall land on same page after refreshing any page of Blanket application.', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.login('/pages/login',username, password);
+        
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.acceptCookies();
+        await dashboardPage.goToMyApplicationsPage();
+        const url_current = await page.url();
+        await page.reload();
+        expect(await page.url()).toEqual(url_current);
+        await dashboardPage.goToMyPoliciesPage();
+        const url_current1 = await page.url();
+        await page.reload();
+        expect(await page.url()).toEqual(url_current1);
+        await dashboardPage.goToMyProfilePage();
+        const url_current2 = await page.url();
+        await page.reload();
+        expect(await page.url()).toEqual(url_current2);
     });
 
 

@@ -1,3 +1,5 @@
+import { waitForDebugger } from "inspector";
+
 export class PaymentPage {
 
     constructor(page) {

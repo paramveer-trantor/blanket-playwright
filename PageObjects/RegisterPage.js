@@ -10,7 +10,10 @@ export class RegisterPage {
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
         this.dialogBox =  page.getByRole('dialog');
-        this.OTPWindow = this.dialogBox.locator(".v-card__title"); 
+        this.OTPWindowTitle = this.dialogBox.locator(".v-card__title"); 
+        this.OTPWindowEnterOTP = this.dialogBox.getByLabel('Enter OTP', { exact: true });
+        this.OTPWindowVerifyBtn = this.dialogBox.getByRole('button', { name: ' Verify ' });
+        this.OTPWindowIncorrectOTPMsg = this.dialogBox.locator(".col")
     }
 
     async goToRegisterPage(url) {
@@ -58,7 +61,13 @@ export class RegisterPage {
     }
 
     async getOTPSentMsg() {
-        return (await this.OTPWindow.textContent()).trim();
+        return (await this.OTPWindowTitle.textContent()).trim();
+    }
+
+    async getIncorrectOTPMsg() {
+        await this.OTPWindowEnterOTP.fill("111111");
+        await this.OTPWindowVerifyBtn.click();
+        return (await this.OTPWindowIncorrectOTPMsg.first().textContent()).trim();
     }
 
     async closeErrorPopUp() {

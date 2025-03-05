@@ -162,7 +162,6 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await paymentPage.clickBillingAddressCheckBox();
         expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
         await paymentPage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
-
         const congratulationsPage = new CongratulationsPage(page);
         expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
@@ -176,7 +175,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         const premiumQuotePage = new PremiumQuotePage(page);
         expect(await premiumQuotePage.getIncorrectDateErrorMsg(gender, "02/02/2029")).toEqual(expectedErrorMessage);
     });
-
+    
     test('BL-T7: Application shall throw an error message if user enters invalid phone number.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
@@ -1239,6 +1238,17 @@ test.describe('CA Term Life Test Cases with Login', () => {
         expect(await paymentPage.checkIconTransitNumber()).toBeTruthy;
         expect(await paymentPage.checkIconRoutingNumber()).toBeTruthy;
         expect(await paymentPage.checkIconAccountNumber()).toBeTruthy;
+    });
+
+    test('BL-T97: Application shall display a warning message on changing language if user is on term life policy form.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, "01/01/1990", "5", "8", "220");
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.acceptPopWindow();
+        await preApplicationPage.selectFRLangInForm();
+        expect(await preApplicationPage.getLangChangeMsg()).toEqual("Please note that changing the language will reload the page and your information will be lost.");
     });
 
     test('BL-T103: Application shall display a special statement for Quebec residents on personal statement page if user is filling form in EN.', async ({ page }) => {

@@ -7,7 +7,6 @@ export class DashboardPage{
         this.countryBtn = page.locator('.v-btn__content .mr-3');
         this.CABtn = page.locator('.v-list-item__icon');
         this.langBtn = page.locator('.v-btn__content .currentLang');
-        this.langFR = page.getByRole('menuitem');
         this.dialogBox =  page.getByRole('dialog');  
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
@@ -97,6 +96,12 @@ export class DashboardPage{
         await this.myProfileBtn.click();
         await this.profileOptions.nth(2).click();
     }
+
+    async goToMyProfilePage() {  
+        await this.myProfileBtn.click();
+        await this.profileOptions.first().click();
+    }
+    
     async selectFRLangInForm() {
         await this.langBtn.click();
         await this.langFR.last().click();
