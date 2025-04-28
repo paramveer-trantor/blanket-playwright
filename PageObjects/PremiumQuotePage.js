@@ -4,17 +4,26 @@ export class PremiumQuotePage {
         this.page = page;
         this.header = page.locator("//div[text()=' Term Life Insurance Premium Quote ']");
         this.genderMale = page.getByText('Male', { exact: true });
+        this.genderMale_Fr = page.getByText('Homme', { exact: true });
         this.genderFemale = page.getByText('Female', { exact: true });
+        this.genderFemale_Fr = page.getByText('Femme', { exact: true });
         this.dateOfBirth = page.getByLabel('MM/DD/YYYY', { exact: true });
+        this.dateOfBirth_Fr = page.getByLabel('MM/JJ/AAAA', { exact: true });
         this.heightFeet = page.locator("[name = 'feet']");
         this.heightInches = page.locator("[name = 'inches']");
         this.weight = page.getByLabel('Pounds'); 
+        this.weight_Fr = page.getByLabel('Livres');
         this.optionYes = page.getByText('Yes');
+        this.optionYes_Fr = page.getByText('Oui');
         this.optionNo = page.getByText('No');
+        this.optionNo_Fr = page.getByText('Non');
         this.nonSmoker = page.getByText('No');
+        this.nonSmoker_Fr = page.getByText('Non');
         this.dateErrorMsg = page.locator('.v-messages__message');
         this.getQuoteBtn = page.getByRole('button', { name: ' GET QUOTE ' });
+        this.getQuoteBtn_Fr = page.getByRole('button', { name: ' OBTENIR UN DEVIS ' });
         this.continueBtn = page.getByRole('button', { name: 'Continue' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' }); 
         this.dialogBox = page.getByRole('dialog');
         this.warningMsgText = this.dialogBox.locator("//div[@class='v-card__text justify-center text-center']/div/div");
         this.closeBtn = this.dialogBox.getByRole('button', { name: ' Close '});
@@ -73,6 +82,30 @@ export class PremiumQuotePage {
         await this.optionYes.first().click();
         await this.nonSmoker.nth(1).click();
         await this.getQuoteBtn.click();       
+    }
+
+    async getQuoteValueNonSmoker_Fr(gender, date, feet, inches, weight) {
+        if (gender == "Male") {
+            await this.genderMale_Fr.first().click();
+        }
+        else {
+            await this.genderFemale_Fr.first().click();
+        }
+        await this.dateOfBirth_Fr.click();
+        await this.dateOfBirth_Fr.clear();
+        await this.dateOfBirth_Fr.fill(date);
+        await this.heightFeet.click();
+        await this.heightFeet.clear();
+        await this.heightFeet.fill(feet);
+        await this.heightInches.click();
+        await this.heightInches.clear();
+        await this.heightInches.fill(inches);
+        await this.weight_Fr.click();
+        await this.weight_Fr.clear();
+        await this.weight_Fr.fill(weight);  
+        await this.optionYes_Fr.first().click();
+        await this.nonSmoker_Fr.nth(1).click();
+        await this.getQuoteBtn_Fr.click();       
     }
 
     async getQuoteValueAsSmoker(gender, date, feet, inches, weight) {
@@ -146,6 +179,10 @@ export class PremiumQuotePage {
 
     async clickContinueBtn() {
         await this.continueBtn.click();          
+    }
+
+    async clickContinueBtn_Fr() {
+        await this.continueBtn_Fr.click();          
     }
 }
 

@@ -23,6 +23,7 @@ export class LifestyleQuestionnairePage {
         this.questionOutsideCAOptionYes = page.locator("[name = 'outsideCa0'] + div.v-input--selection-controls__ripple");
         this.questionOutsideCAOptionNo = page.locator("[name = 'outsideCa1'] + div.v-input--selection-controls__ripple");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
     }
 
     async getLifestylePageHeader() {
@@ -185,6 +186,10 @@ export class LifestyleQuestionnairePage {
         await this.continueBtn.click();
     }
 
+    async clickContinueBtn_Fr() {
+        await this.continueBtn_Fr.click();
+    }
+  
 }
 
 

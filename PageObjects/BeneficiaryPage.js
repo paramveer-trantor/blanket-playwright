@@ -18,7 +18,9 @@ export class BeneficiaryPage {
         this.saveBtn = this.dialogBox.getByRole('button', { name: ' Save ' });
         this.errorMsg = page.locator('.red--text.font-weight-bold');
         this.noBen = page.getByText('Proceed without adding a beneficiary');
+        this.noBen_Fr = page.getByText('Poursuivre sans nommer de bénéficiaire');
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.addedbendetails = page.locator("//div[@class ='v-data-table__wrapper']/table/tbody/tr/td");
         this.errorMsgs = this.dialogBox.locator('.v-messages__message');
     }
@@ -69,6 +71,10 @@ export class BeneficiaryPage {
         await this.noBen.click();
     }
 
+    async checkWithoutBenCheckbox_Fr() {
+        await this.noBen_Fr.click();
+    }
+
     async getIncorrectDateError(bendob) {
         await this.addBeneficiryBtn.click();
         await this.openBeneficiariesTypes.click();
@@ -76,6 +82,10 @@ export class BeneficiaryPage {
         await this.dateOfBirth.click();
         await this.dateOfBirth.fill(bendob);
         return (await this.errorMsgs.textContent()).trim();
+    }
+
+    async clickContinueBtn_Fr() {
+        await this.continueBtn_Fr.click();
     }
 
 }

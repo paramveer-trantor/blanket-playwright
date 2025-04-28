@@ -19,6 +19,7 @@ export class MedicalQuestionnaire2Page {
         this.question1orMoreParentsDiagnosedOptionYes = page.locator("//input[@name='oneDiagnosed0']/following-sibling::div[1]");
         this.question1orMoreParentsDiagnosedOptionNo = page.locator("//input[@name='oneDiagnosed1']/following-sibling::div[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
     }
     
     async getMedicalQuestionsPageHeader() {
@@ -38,6 +39,25 @@ export class MedicalQuestionnaire2Page {
         else {
             await this.questionHepatitisOptionNo.click();
             await this.questionMedicalCondition4WOptionNo.click();
+            await this.questionMamogramOptionNo.click();
+            await this.questionMedicalFollowupsOptionNo.click();
+            await this.questionLast3MonthSymptomsOptionNo.click();
+            await this.question2orMoreParentsDiagnosedOptionNo.click();
+            await this.question1orMoreParentsDiagnosedOptionNo.click();
+        }  
+    }
+
+    async answerMedcialQuestionsPage2_Fr(option) {
+        if (option == "Yes") {
+            await this.questionHepatitisOptionYes.click();
+            await this.questionMamogramOptionYes.click();
+            await this.questionMedicalFollowupsOptionYes.click();
+            await this.questionLast3MonthSymptomsOptionYes.click();
+            await this.question2orMoreParentsDiagnosedOptionYes.click();
+            await this.question1orMoreParentsDiagnosedOptionYes.click();
+        }
+        else {
+            await this.questionHepatitisOptionNo.click();
             await this.questionMamogramOptionNo.click();
             await this.questionMedicalFollowupsOptionNo.click();
             await this.questionLast3MonthSymptomsOptionNo.click();
@@ -119,6 +139,10 @@ export class MedicalQuestionnaire2Page {
     async clickConitnueBtn() {
         await this.continueBtn.isEnabled();
         await this.continueBtn.click();
+    }
+
+    async clickContinueBtn_Fr() {
+        await this.continueBtn_Fr.click();
     }
 
 }

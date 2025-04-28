@@ -4,6 +4,7 @@ export class ReviewYourAnswersPage {
         this.header = page.locator("(//div[text()=' Review Your Answers '])[2]");
         this.makeAnEditBtn = page.getByRole('button', {name: ' Make an edit '});   
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
     }
 
     async getReviewPageHeader() {
@@ -32,6 +33,11 @@ export class ReviewYourAnswersPage {
     async clickConitnueBtn() {
         await this.continueBtn.click();
     }
+
+    async clickContinueBtn_Fr() {
+        await this.continueBtn_Fr.click();
+    }
+  
 
 }
 

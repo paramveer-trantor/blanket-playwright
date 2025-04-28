@@ -99,7 +99,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         const loginPage = new LoginPage(page);
         await loginPage.login('/pages/login', username, password);
 
-        const dashboardPage = new DashboardPage(page);
+        const dashboardPage = new DashboardPage(page); 
         await dashboardPage.navigateToCATLProduct();
 
         const landingpage = new TLProductLandingPage(page);
@@ -162,6 +162,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await paymentPage.clickBillingAddressCheckBox();
         expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
         await paymentPage.purchasePolicyWithCC(cardname, cardnumber, expirydate, cvv);
+        
         const congratulationsPage = new CongratulationsPage(page);
         expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
@@ -1371,7 +1372,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await preApplicationPage.acceptPopWindow();
         expect(await preApplicationPage.verifyDOBHasValue()).toEqual(date);
         expect(await preApplicationPage.verifyIsCanadianTrue()).toBeTruthy();
-        expect(await preApplicationPage.verifyIsNonSmokerTrue()).toBeTruthy();
+        expect(await preApplicationPage.verifyIsNonSmokerTrue()).toBeTruthy(); 
     });
 
     test('BL-T119: User shall be directed to Pre application page directly from quote page if user is logged in already.', async ({ page }) => {

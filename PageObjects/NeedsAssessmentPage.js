@@ -10,7 +10,8 @@ export class NeedsAssessmentPage {
         this.message = page.locator("//div[@class='col']//p[1]");
         this.totalvalue = page.locator("//div[@class='col-sm-8 col-md-4 col-11']/p");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
-        this.backBtn = page.getByRole('button', { name: ' Back ' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
+        this.backBtn = page.getByRole('button', { name: ' Back ' }); 
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
@@ -70,6 +71,11 @@ export class NeedsAssessmentPage {
     async clickContinueBtn() {
         await this.continueBtn.isEnabled();
         await this.continueBtn.click();
+    }
+
+    async clickContinueBtn_Fr() {
+        await this.continueBtn_Fr.isEnabled();
+        await this.continueBtn_Fr.click();
     }
 
     async clickBackBtn() {

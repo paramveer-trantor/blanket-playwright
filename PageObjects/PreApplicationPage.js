@@ -5,6 +5,7 @@ export class PreApplicationPage {
         this.header = page.getByText(' Pre Application ', { exact: true });
         this.dialogBox = page.getByRole('dialog');
         this.dialogContinueBtn = this.dialogBox.getByRole('button', { name: 'Continue' });
+        this.dialogContinueBtn_Fr = this.dialogBox.getByRole('button', { name: 'Continuer' });
         this.dialogCloseBtn = this.dialogBox.getByRole('button', { name: ' Close ' });
         this.afterHoursMsg = this.dialogBox.locator('.v-card__title');
         this.firstName = page.getByTestId('firstname');
@@ -14,6 +15,7 @@ export class PreApplicationPage {
         this.dob = page.locator("[name='dob']");
         this.errorMsgs = page.getByTestId('preApplicationForm').locator('.v-messages__message');
         this.address = page.getByTestId('preApplicationForm').getByLabel('Address', { exact: true });
+        this.address_Fr = page.getByTestId('preApplicationForm').getByLabel('Adresse', { exact: true });
         this.addressList = page.locator(".address-list");
         this.selectAddress = page.locator(".address-item");
         this.city = page.getByTestId('preApplicationForm').getByLabel('City', { exact: true });
@@ -29,11 +31,14 @@ export class PreApplicationPage {
         this.zipcode = page.getByTestId('preApplicationForm').getByLabel('Postal code', { exact: true });
         this.notAvailableMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']");
         this.email = page.locator("[name='emailAddress']");
-        this.phoneNumber = page.getByTestId('preApplicationForm').getByLabel('Phone number', { exact: true });
+        this.phoneNumber = page.locator("[name = 'phoneNumber']");
         this.optionYes = page.getByText('Yes', { exact: true });
+        this.optionYes_Fr = page.getByText('Oui', { exact: true });
         this.optionNo = page.getByText('No', { exact: true });
+        this.optionNo_Fr = page.getByText('Non', { exact: true });
         this.questionSurvey = page.locator("//input[@name='survey 0']/following-sibling::div[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.warningMsgText = page.locator("//div[@class='v-dialog v-dialog--active']/div/div/div/div[@class='col']");
         this.closeBtn = page.getByRole('button', { name: ' Close '});
         this.addressvalidate = this.dialogBox.locator('.col');
@@ -118,6 +123,32 @@ export class PreApplicationPage {
             await this.optionNo.nth(2).click();
             await this.optionNo.nth(3).click();
             await this.optionNo.nth(4).click();
+        }
+    }
+
+    async fillPreApplicationFormPage_Fr(firstname, lastname, houseaddress, phonenumber, option) {
+        if (await this.dialogBox.isVisible()) {
+            await this.dialogContinueBtn_Fr.click();
+        }  
+        await this.firstName.click();
+        await this.firstName.fill(firstname);
+        await this.lastName.click();
+        await this.lastName.fill(lastname);
+        await this.address_Fr.pressSequentially(houseaddress);
+        await this.addressList.waitFor();
+        await this.selectAddress.first().click();
+        await this.phoneNumber.click();
+        await this.phoneNumber.fill(phonenumber);
+        if (option == 'Yes') {
+            await this.optionYes_Fr.nth(2).click();
+            await this.optionYes_Fr.nth(3).click();
+            await this.optionYes_Fr.nth(4).click();
+            await this.questionSurvey.click();
+        }
+        else {
+            await this.optionNo_Fr.nth(2).click();
+            await this.optionNo_Fr.nth(3).click();
+            await this.optionNo_Fr.nth(4).click();
         }
     }
 
@@ -272,6 +303,10 @@ export class PreApplicationPage {
 
     async clickConitnueBtn() {
         await this.continueBtn.click();
+    }
+
+    async clickContinueBtn_Fr() {
+        await this.continueBtn_Fr.click();
     }
 
     async clickBackToQuoteBtn() {

@@ -4,16 +4,19 @@ export class DashboardPage{
         this.page = page;
         this.cookieBanner = page.locator('.v-banner__text .text-content')
         this.acceptCookiesBtn = page.getByRole('button', {name: ' Allow all cookies '});    
+        this.acceptCookiesBtn_Fr = page.getByRole('button', {name: ' Accepter tout '});   
         this.countryBtn = page.locator('.v-btn__content .mr-3');
         this.CABtn = page.locator('.v-list-item__icon');
         this.langBtn = page.locator('.v-btn__content .currentLang');
         this.dialogBox =  page.getByRole('dialog');  
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
+        this.productsBtn_Fr = page.getByRole('button', {name: ' Produits '});
         this.partnershipBtn = page.getByRole('menu').getByRole('menuitem', { name: ' Partnerships ' });
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
         this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
+        this.termlifeBtn_Fr = page.getByRole('menu').getByRole('option', { name: 'Assurance vie temporaire' });
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
         this.myProfileBtn = page.locator("//div[@class='v-toolbar__content']/button[2]");
         this.myApplicationsBtn = page.getByRole('menuitem', { name: 'My Applications' }); 
@@ -49,6 +52,21 @@ export class DashboardPage{
         await this.CABtn.last().click();
         await this.productsBtn.click();
         await this.termlifeBtn.click();
+        await this.page.waitForLoadState('domcontentloaded');
+    }
+
+    async navigateToCATLProduct_FR() {
+        await this.countryBtn.click(); 
+        await this.CABtn.last().click();
+        await this.langBtn.click();
+        await this.langFR.last().click();
+        await this.page.waitForLoadState('domcontentloaded');
+        if(this.page.getByText(' Respect de votre vie privée ').isVisible()) {
+            await this.acceptCookiesBtn_Fr.first().isVisible();
+            await this.acceptCookiesBtn_Fr.first().click();
+        }
+        await this.productsBtn_Fr.click();
+        await this.termlifeBtn_Fr.click();
         await this.page.waitForLoadState('domcontentloaded');
     }
 

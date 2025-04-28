@@ -193,17 +193,17 @@ test.describe('Website pages Tests', () => {
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         await dashboardPage.goToMyApplicationsPage();
-        const url_current = await page.url();
+        const url_current = page.url();
         await page.reload();
-        expect(await page.url()).toEqual(url_current);
+        expect(page.url()).toEqual(url_current);
         await dashboardPage.goToMyPoliciesPage();
-        const url_current1 = await page.url();
+        const url_current1 = page.url();
         await page.reload();
-        expect(await page.url()).toEqual(url_current1);
+        expect(page.url()).toEqual(url_current1);
         await dashboardPage.goToMyProfilePage();
-        const url_current2 = await page.url();
+        const url_current2 = page.url();
         await page.reload();
-        expect(await page.url()).toEqual(url_current2);
+        expect(page.url()).toEqual(url_current2);
     });
 
 

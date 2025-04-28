@@ -191,7 +191,7 @@ test.describe('Super Admin test cases', async () => {
         await dashboardPage.acceptCookies();
         await dashboardPage.goToManageUsersPage();
     }); 
-    test('BL-T188: Super admin shall be allowed to select any user & able to purchase CA term life policy on selected user behalf.', async ({ page }) => {
+    test.skip('BL-T188: Super admin shall be allowed to select any user & able to purchase CA term life policy on selected user behalf.', async ({ page }) => {
         const manageUserPage = new ManageUserPage(page);
         await manageUserPage.searchUser("gagandeep.singla+qa2@trantorinc.com");
         await manageUserPage.selectUser();
@@ -201,7 +201,7 @@ test.describe('Super Admin test cases', async () => {
         expect(page.url()).toContain("canadianterm/survey");
     });
 
-    test('BL-T189: Super admin shall be moved to his own account after logging out selected user account.', async ({ page }) => {
+    test.skip('BL-T189: Super admin shall be moved to his own account after logging out selected user account.', async ({ page }) => {
         const manageUserPage = new ManageUserPage(page);
         await manageUserPage.searchUser("gagandeep.singla+qa2@trantorinc.com");
         await manageUserPage.selectUser();

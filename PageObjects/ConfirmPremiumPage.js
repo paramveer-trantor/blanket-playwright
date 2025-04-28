@@ -4,6 +4,7 @@ export class ConfirmPremiumPage {
         this.page = page;
         this.header = page.locator("//div[text()=' Premium Quote ']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.quoteValue = page.locator('.estimate-subtitle .font-weight-bold');
         this.policyOptions = page.locator('.chip-text');
         this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
@@ -118,6 +119,11 @@ export class ConfirmPremiumPage {
     async clickContinueBtn() {
         await this.quoteValue.waitFor();
         await this.continueBtn.click();     
+    }
+
+    async clickContinueBtn_Fr() {
+        await this.quoteValue.waitFor();
+        await this.continueBtn_Fr.click();
     }
 
     async clickBackBtn() {

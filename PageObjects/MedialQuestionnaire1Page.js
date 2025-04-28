@@ -28,6 +28,7 @@ export class MedicalQuestionnaire1Page {
         this.questionAnxietyOptionYes = page.locator("//input[@name='anxiety0']/following-sibling::div[1]");
         this.questionAnxietyOptionNo = page.locator("//input[@name='anxiety1']/following-sibling::div[1]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
+        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
     }
     
     async getMedicalQuestionsPageHeader() {
@@ -232,6 +233,10 @@ export class MedicalQuestionnaire1Page {
     async clickConitnueBtn() {
         await this.continueBtn.isEnabled();
         await this.continueBtn.click();
+    }
+
+    async clickContinueBtn_Fr() {
+        await this.continueBtn_Fr.click();
     }
 
 }

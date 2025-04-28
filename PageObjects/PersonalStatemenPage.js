@@ -16,6 +16,7 @@ export class PersonalStatementPage {
         this.checkbox10 = page.locator("[name='termCheckbox9'] + div.v-input--selection-controls__ripple");
         this.quebecStatement = page.locator("//div[@class='pa-4 v-card v-sheet theme--light elevation-6']/div[2]//div[10]//label");
         this.agreeBtn = page.getByRole('button', { name: ' I Agree ' });
+        this.agreeBtn_Fr = page.getByRole('button', { name: " Je suis d'accord " });
         this.dialogBox = page.getByRole('dialog');
         this.knockOutMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']//span[1]");  
         this.errorPopUp = page.getByTestId('globalErrorMessage');
@@ -39,7 +40,9 @@ export class PersonalStatementPage {
         await this.checkbox6.click();
         await this.checkbox7.click();
         await this.checkbox8.click();
+        if (await this.checkbox9.isVisible()) {
         await this.checkbox9.click();
+        }
         if (await this.checkbox10.isVisible()) {
             await this.checkbox10.click();
         }
@@ -54,6 +57,18 @@ export class PersonalStatementPage {
              const res = await this.page.request.fetch(route.request());
          });
         await this.agreeBtn.click();
+        const response = await promise;
+        const responseBody = await response.json();
+        const errors = responseBody.result.response.errors;
+        const error_string = [errors].toString();
+        return error_string; 
+     }
+
+     async clickAgreeBtn_Fr() {
+        const promise =  this.page.waitForResponse("**/getCATermDecision", async route => {
+             const res = await this.page.request.fetch(route.request());
+         });
+        await this.agreeBtn_Fr.click();
         const response = await promise;
         const responseBody = await response.json();
         const errors = responseBody.result.response.errors;

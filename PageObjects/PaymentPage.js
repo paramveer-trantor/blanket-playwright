@@ -8,10 +8,14 @@ export class PaymentPage {
         this.amountdue = page.locator('.final-premium');
         this.creditCard = page.locator("[name='creditcard']");
         this.cardName = page.getByLabel('Name on Card', { exact: true });
+        this.cardName_Fr = page.getByLabel('Titulaire de la carte', { exact: true });
         this.cardNumber = page.getByLabel('Card Number', { exact: true });
+        this.cardNumber_Fr = page.getByLabel('Numéro de carte', { exact: true });
         this.expiryDate = page.getByLabel('Expiration Date (MM/YYYY)', { exact: true });
+        this.expiryDate_Fr = page.getByLabel("Date d'expiration (MM/AAAA)", { exact: true });
         this.cvv = page.getByLabel('CVV', { exact: true });
         this.payNowBtn = page.getByRole('button', { name: ' Pay now ' });
+        this.payNowBtn_Fr = page.getByRole('button', { name: ' Payer maintenant ' });
         this.ach = page.getByText('Pre-Authorized Debit');
         this.accountHoldername = page.getByLabel('Account Holder', { exact: true });
         this.accountType = page.getByLabel('Account Type', { exact: true });
@@ -24,7 +28,8 @@ export class PaymentPage {
         this.iconTransitNumber = page.locator("//button[@aria-label='Transit Number appended action']");
         this.iconRoutingNumber = page.locator("//button[@aria-label='Institution Number appended action']");
         this.iconAccountNumber = page.locator("//button[@aria-label='Account Number appended action']");
-        this.checkBox = page.getByText('Billing Info Same as Mailing Info', { exact: true });
+        this.billingCheckBox = page.getByText('Billing Info Same as Mailing Info', { exact: true });
+        this.billingCheckBox_Fr = page.getByText("Informations de facturation identiques aux informations d'envoi", { exact: true });
         this.firstName = page.getByTestId('billing-firstname');
         this.lastName = page.getByTestId('billing-lastname');
         this.address = page.getByTestId('billing-address');
@@ -44,7 +49,11 @@ export class PaymentPage {
     }
 
     async clickBillingAddressCheckBox() {
-        await this.checkBox.click();
+        await this.billingCheckBox.click();
+    }
+
+    async clickBillingAddressCheckBox_Fr() {
+        await this.billingCheckBox_Fr.click();
     }
 
     async verifyBillingAddressIsEmpty() {
@@ -92,6 +101,19 @@ export class PaymentPage {
         await this.cvv.fill(cvv);
         await this.payNowBtn.isVisible();  
         await this.payNowBtn.click();
+    }
+
+    async purchasePolicyWithCC_Fr(cardname, cardnumber, expirydate, cvv) {
+        await this.cardName_Fr.click();
+        await this.cardName_Fr.fill(cardname);
+        await this.cardNumber_Fr.click();
+        await this.cardNumber_Fr.fill(cardnumber);
+        await this.expiryDate_Fr.click();
+        await this.expiryDate_Fr.fill(expirydate);
+        await this.cvv.click();
+        await this.cvv.fill(cvv);
+        await this.payNowBtn_Fr.isVisible();  
+        await this.payNowBtn_Fr.click();
     }
 
     async selectACHOption() {

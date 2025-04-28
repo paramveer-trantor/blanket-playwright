@@ -3,11 +3,14 @@ export class ConfirmIdentityPage {
     constructor(page) { 
         this.header = page.locator(".estimate-title.primary--text.mb-12");
         this.openIDType = page.getByLabel('Please select an ID type', { exact: true });
+        this.openIDType_Fr = page.getByLabel('Veuillez choisir un type de document', { exact: true });
         this.listBox = page.getByRole('listbox');
         this.selectPassport = this.listBox.getByText('Passport', { exact: true });
+        this.selectPassport_Fr = this.listBox.getByText('Passeport', { exact: true });
         this.selectHealthCard = this.listBox.getByText('Provincial health card', { exact: true }); 
         this.selectDriverLicense = this.listBox.getByText("Driver's licence", { exact: true });
         this.passportInputField = page.getByLabel('Passport number', { exact: true });
+        this.passportInputField_Fr = page.getByLabel('Numéro de passeport', { exact: true });
         this.provinceList = page.getByLabel('Select province', { exact: true });
         this.selectProvince = page.getByRole('listbox').getByText('Alberta', { exact: true }); 
         this.healthCardInputField = page.getByLabel('Health number', { exact: true });
@@ -15,6 +18,7 @@ export class ConfirmIdentityPage {
         this.errorMsg = page.getByRole('alert').locator('.v-messages__message');
         this.agreeCheckBox = page.locator("//input[@name='payAgree']/following-sibling::div[1]");
         this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' }); 
+        this.acceptAndPayBtn_Fr = page.getByRole('button', { name: ' Accepter et payer ' }); 
         this.options = page.getByRole('option');
         this.monthlyPremium = page.locator('.offer-monthly-premium');
         this.monthlyPremiumWithFee = page.locator("(//div[@class='d-flex align-start']/p//span[2])[1]");
@@ -131,6 +135,15 @@ export class ConfirmIdentityPage {
         await this.agreeCheckBox.click();
         await this.acceptAndPayBtn.isVisible();
         await this.acceptAndPayBtn.click();
+    }
+
+    async goToPaymentPageWithPassport_Fr(passportno) {
+        await this.openIDType_Fr.click();
+        await this.selectPassport_Fr.click();
+        await this.passportInputField_Fr.fill(passportno);
+        await this.agreeCheckBox.click();
+        await this.acceptAndPayBtn_Fr.isVisible();
+        await this.acceptAndPayBtn_Fr.click();
     }
 
     async goToPaymentPageWithLicense(licenseno) {
