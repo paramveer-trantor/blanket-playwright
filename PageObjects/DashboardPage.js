@@ -100,6 +100,12 @@ export class DashboardPage{
         return list_products[0];
     }
 
+    async getTLProductName_Fr() {
+        await this.productsBtn_Fr.click();
+        const list_products = await this.productList.allTextContents();
+        return list_products[0];
+    }
+
     async clickLifeBanner() {
         await this.lifebanner.isVisible();    
         await this.lifebanner.click();

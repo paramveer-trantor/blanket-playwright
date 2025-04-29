@@ -242,6 +242,14 @@ export class PreApplicationPage {
         return (await this.errorMsgs.textContent()).trim();
     }
 
+    async getIncorrectPhoneErrorMsg_Fr(phonenumber) {
+        if (await this.dialogBox.isVisible()) {
+            await this.dialogContinueBtn_Fr.click();
+        }
+        await this.phoneNumber.fill(phonenumber);
+        return (await this.errorMsgs.textContent()).trim();
+    }
+
     async getAddressValidateFailureErrorMsg() {
         return (await this.addressvalidate.first().textContent()).trim();
     }

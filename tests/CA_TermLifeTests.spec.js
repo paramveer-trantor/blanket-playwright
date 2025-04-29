@@ -295,7 +295,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
     test('BL-T16: Application shall allow user with age 60 or less to purchase plan with any term length.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(gender, "01/01/1980", feet, inches, weight);
-        await premiumQuotePage.clickContinueBtn();
+        await premiumQuotePage.clickContinueBtn(); 
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
@@ -1800,11 +1800,11 @@ test.describe('CA Term Life Test Cases with Login', () => {
         expect(await confirmPremiumPage.getQuoteValue()).toEqual(premiumrate_bmi_more32);
     });
 
-    test("BL-T198: Premium rate shall not be increased by 1.5 if user's bmi is 32.", async ({ page }) => {
+    test("BL-T199: Premium rate shall not be increased by 1.5 if user's bmi is 32.", async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
         const premiumrate_bmi_less32 = await premiumQuotePage.getNumericPremiumRateValue();
-        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, "5", "8", "210.5");
+        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, "5", "7", "204");
         await page.waitForTimeout(2000);
         const new_premiumrate_bmi_32 = await premiumQuotePage.getNumericPremiumRateValue();
         expect(new_premiumrate_bmi_32).toBe(premiumrate_bmi_less32);

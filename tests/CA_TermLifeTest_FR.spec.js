@@ -20,6 +20,14 @@ import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
 import { MyApplicationsPage } from '../PageObjects/MyApplicationsPage'
 const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
+    test('BL-T1_FR: Product Term life shall be visible under CA products list.', async ({ page }) => {
+        await page.goto('');
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.selectCACountry();
+        await dashboardPage.selectFRLang();
+        expect(await dashboardPage.getTLProductName_Fr()).toEqual('Assurance vie temporaire');
+    });  
+    
 test.describe('CA Term Life Test Cases in FR Language', () => { 
     
     test.beforeEach('Run flow till TL landing page', async ({ page }) => {
@@ -33,7 +41,7 @@ test.describe('CA Term Life Test Cases in FR Language', () => {
         await landingpage.clickApplyNowBtn();
     }); 
 
-    test('User shall able to purchase policy using CC payment method successfully in FR language.', async ({ page }) => {
+    test('BL-T4_FR: User shall able to purchase policy using CC payment method successfully in FR language.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
         await premiumQuotePage.clickContinueBtn_Fr();
@@ -83,7 +91,64 @@ test.describe('CA Term Life Test Cases in FR Language', () => {
         expect(await congratulationsPage.getThanksMsg()).toEqual("Nous vous remercions de votre achat! Votre police d'assurance vous seront envoyés par courrier électronique. Vous pouvez consulter votre police  ici.");
     });
 
+    test('BL-T4_FR: User shall able to purchase policy using ACH payment method successfully in FR language.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn_Fr();
+        
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage_Fr(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickContinueBtn_Fr();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn_Fr();
 
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.clickContinueBtn_Fr();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn_Fr();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.clickContinueBtn_Fr();
 
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2_Fr(OptionNo);
+        await medicalQuestionnaire2Page.clickContinueBtn_Fr(); 
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickContinueBtn_Fr();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn_Fr();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.checkWithoutBenCheckbox_Fr();
+        await beneficiaryPage.clickContinueBtn_Fr();
+
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.goToPaymentPageWithPassport_Fr(passportno);
+
+        const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox_Fr();
+        await paymentPage.purchasePolicyWithACH_Fr(accountholdername, transitnumber, institutionnumber, accountnumber, bankname);
+        
+        const congratulationsPage = new CongratulationsPage(page);
+        expect(await congratulationsPage.getThanksMsg()).toEqual("Nous vous remercions de votre achat! Votre police d'assurance vous seront envoyés par courrier électronique. Vous pouvez consulter votre police  ici.");
+    });
+
+    test('BL-T7_FR: Application shall throw an error message if user enters invalid phone number.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn_Fr();
+        
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.acceptPopWindow();
+        expect(await preApplicationPage.getIncorrectPhoneErrorMsg("33333")).toEqual('Le format du champ est invalide.');
+    });
 
 });

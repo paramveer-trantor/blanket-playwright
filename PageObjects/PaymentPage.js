@@ -17,14 +17,23 @@ export class PaymentPage {
         this.payNowBtn = page.getByRole('button', { name: ' Pay now ' });
         this.payNowBtn_Fr = page.getByRole('button', { name: ' Payer maintenant ' });
         this.ach = page.getByText('Pre-Authorized Debit');
+        this.ach_Fr = page.getByText('Débit préautorrisé');
         this.accountHoldername = page.getByLabel('Account Holder', { exact: true });
+        this.accountHoldername_Fr = page.getByLabel('Titulaire du compte', { exact: true });
         this.accountType = page.getByLabel('Account Type', { exact: true });
+        this.accountType_Fr = page.getByLabel('Type de compte', { exact: true });
         this.selectAccountType = page.getByText('Savings', { exact: true });
+        this.selectAccountType_Fr = page.getByText('Épargne', { exact: true });
         this.transitNumber = page.getByLabel('Transit Number', { exact: true }); 
+        this.transitNumber_Fr = page.getByLabel('Numéro de transit', { exact: true }); 
         this.institutionNumber = page.getByLabel('Institution Number', { exact: true }); 
+        this.institutionNumber_Fr = page.getByLabel("Numéro d'institution", { exact: true }); 
         this.accountNumber = page.getByLabel('Account Number', { exact: true });
+        this.accountNumber_Fr = page.getByLabel('Numéro de compte', { exact: true });
         this.bankName = page.getByLabel('Bank Name', { exact: true });
+        this.bankName_Fr = page.getByLabel("Nom de l'institution financiere", { exact: true });
         this.confirmAndPayBtn = page.getByRole('button', { name: ' Confirm and submit payment ' });
+        this.confirmAndPayBtn_Fr = page.getByRole('button', { name: ' Confirmer et soumettre le paiement ' });
         this.iconTransitNumber = page.locator("//button[@aria-label='Transit Number appended action']");
         this.iconRoutingNumber = page.locator("//button[@aria-label='Institution Number appended action']");
         this.iconAccountNumber = page.locator("//button[@aria-label='Account Number appended action']");
@@ -157,6 +166,23 @@ export class PaymentPage {
         await this.bankName.click();
         await this.bankName.fill(bankname);
         await this.confirmAndPayBtn.click();
+    }
+
+    async purchasePolicyWithACH_Fr(accountholdername, transitnumber, institutionnumber, accountnumber, bankname) {
+        await this.ach_Fr.click();
+        await this.accountHoldername_Fr.click();
+        await this.accountHoldername_Fr.fill(accountholdername);
+        await this.accountType_Fr.click();
+        await this.selectAccountType_Fr.click();
+        await this.transitNumber_Fr.click();
+        await this.transitNumber_Fr.fill(transitnumber);
+        await this.institutionNumber_Fr.click();
+        await this.institutionNumber_Fr.fill(institutionnumber);
+        await this.accountNumber_Fr.click();
+        await this.accountNumber_Fr.fill(accountnumber);
+        await this.bankName_Fr.click();
+        await this.bankName_Fr.fill(bankname);
+        await this.confirmAndPayBtn_Fr.click();
     }
 
     async goBackToConfirmIdentityPage() {
