@@ -56,11 +56,11 @@ export class DashboardPage{
     }
 
     async navigateToCATLProduct_FR() {
-        await this.countryBtn.click(); 
-        await this.CABtn.last().click();
-        await this.langBtn.click();
-        await this.langFR.last().click();
-        await this.page.waitForLoadState('domcontentloaded');
+        // await this.countryBtn.click(); 
+        // await this.CABtn.last().click();
+        // await this.langBtn.click();
+        // await this.langFR.last().click();
+        // await this.page.waitForLoadState('domcontentloaded');
         if(this.page.getByText(' Respect de votre vie privée ').isVisible()) {
             await this.acceptCookiesBtn_Fr.first().isVisible();
             await this.acceptCookiesBtn_Fr.first().click();
