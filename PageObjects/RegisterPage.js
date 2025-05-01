@@ -5,6 +5,9 @@ export class RegisterPage {
         this.email = page.getByLabel('Email', { exact: true });
         this.password = page.getByLabel('Password', { exact: true });
         this.confirmPassword = page.getByLabel('Confirm Password', { exact: true });
+        this.preferredLanguage = page.getByLabel('Preferred Language', { exact: true });
+        this.languageEn = page.getByRole('listbox').getByText('EN', { exact: true });
+        this.languageFR = page.getByRole('listbox').getByText('FR', { exact: true });
         this.createAccountBtn = page.getByRole('button', { name: ' Create Account ' });
         this.errorMessage = page.locator('.v-messages__message');
         this.errorPopUp = page.getByTestId('globalErrorMessage');
@@ -28,6 +31,8 @@ export class RegisterPage {
         await this.email.fill(username);  
         await this.password.fill(password);
         await this.confirmPassword.fill(password)
+        await this.preferredLanguage.click();
+        await this.languageEn.click();
     }
 
     async clickCreateAccBtn() {
@@ -48,7 +53,9 @@ export class RegisterPage {
         await this.page.goto(url);
         await this.email.fill(username);  
         await this.password.fill(password);
-        await this.confirmPassword.fill(password)
+        await this.confirmPassword.fill(password);
+        await this.preferredLanguage.click();
+        await this.languageEn.click();
         await this.createAccountBtn.click();
     }
 

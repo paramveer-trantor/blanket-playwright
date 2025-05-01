@@ -18,7 +18,7 @@ import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
 import { PaymentPage } from '../PageObjects/PaymentPage'
 import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
 import { MyApplicationsPage } from '../PageObjects/MyApplicationsPage'
-const { username, username_Fr, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+const { username_Fr, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
     test('BL-T1_FR: Product Term life shall be visible under CA products list.', async ({ page }) => {
         await page.goto('');

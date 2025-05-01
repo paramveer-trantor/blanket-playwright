@@ -70,7 +70,7 @@ test.describe('CA Term Life Test Cases without Login', () => {
 
         const loginPageInTLForm = new LoginPageInTLForm(page);
         expect(await loginPageInTLForm.createAccount("gagandeep.singla+createaccount1@trantorinc.com","Test@1")).toBe(200);
-        expect(await loginPageInTLForm.getOTPSentMsg()).toEqual("Please enter the 6 digit One time password sent to");
+        expect(await loginPageInTLForm.getOTPSentMsg()).toEqual("Please enter the 6 digit One time password sent to");  
     });
 
     test('BL-T117: User shall land on Premium quote page of CA term life policy form on clicking Apply now or Get your term life today button.', async ({ page }) => {
