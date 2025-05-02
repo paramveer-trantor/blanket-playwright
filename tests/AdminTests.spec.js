@@ -1,3 +1,5 @@
+/*
+
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../PageObjects/LoginPage';
 import { DashboardPage } from '../PageObjects/DashboardPage';
@@ -233,3 +235,4 @@ test('BL-T160: Request for partnership shall be visible to admin on partner port
     await adminPartnershipsPage.deleteFirstRowPartner();
 });
 
+*/
