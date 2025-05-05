@@ -7,6 +7,7 @@ export class PreApplicationPage {
         this.dialogContinueBtn = this.dialogBox.getByRole('button', { name: 'Continue' });
         this.dialogContinueBtn_Fr = this.dialogBox.getByRole('button', { name: 'Continuer' });
         this.dialogCloseBtn = this.dialogBox.getByRole('button', { name: ' Close ' });
+        this.dialogCancelBtn = this.dialogBox.getByRole('button', { name: ' Cancel ' });
         this.afterHoursMsg = this.dialogBox.locator('.v-card__title');
         this.firstName = page.getByTestId('firstname');
         this.lastName = page.getByTestId('lastname');
@@ -49,6 +50,7 @@ export class PreApplicationPage {
         this.langBtn = page.locator('.v-btn__content .currentLang');
         this.langFR = page.getByRole('menuitem');
         this.langChangeMsg = page.locator("//div[@class='v-dialog__content v-dialog__content--active']//p");
+        this.currentLang = page.locator('.currentLang');
     }
 
     async getPreApplicationPageHeader() {
@@ -329,7 +331,14 @@ export class PreApplicationPage {
     }
 
     async getLangChangeMsg() {
-        return (await this.langChangeMsg.textContent()).trim();
+        const langChangeText = (await this.langChangeMsg.textContent()).trim();
+        await  this.dialogCancelBtn.click();
+        return langChangeText;
+    }
+
+    async getCurrentLangSelected() {
+        await this.page.waitForTimeout(2000);
+        return (await this.currentLang.textContent()).trim();
     }
 
 }

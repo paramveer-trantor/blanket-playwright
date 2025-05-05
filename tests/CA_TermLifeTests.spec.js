@@ -1245,11 +1245,12 @@ test.describe('CA Term Life Test Cases with Login', () => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(gender, "01/01/1990", "5", "8", "220");
         await premiumQuotePage.clickContinueBtn();
-
+      
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
         await preApplicationPage.selectFRLangInForm();
         expect(await preApplicationPage.getLangChangeMsg()).toEqual("Please note that changing the language will reload the page and your information will be lost.");
+        expect(await preApplicationPage.getCurrentLangSelected()).toEqual('en');
     });
 
     test('BL-T103: Application shall display a special statement for Quebec residents on personal statement page if user is filling form in EN.', async ({ page }) => {
