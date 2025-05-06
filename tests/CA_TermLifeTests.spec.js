@@ -1248,9 +1248,13 @@ test.describe('CA Term Life Test Cases with Login', () => {
       
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
-        await preApplicationPage.selectFRLangInForm();
-        expect(await preApplicationPage.getLangChangeMsg()).toEqual("Please note that changing the language will reload the page and your information will be lost.");
-        expect(await preApplicationPage.getCurrentLangSelected()).toEqual('en');
+        await preApplicationPage.selectLanguage("FR");
+        expect(await preApplicationPage.getLanguageChangeWarningMsg()).toEqual("Please note that changing the language will reload the page and your information will be lost.");
+        await preApplicationPage.clickDialogOkayBtn();
+        expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('fr');  
+        await premiumQuotePage.selectLanguage("EN");
+        await page.waitForTimeout(2000);
+        expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('en');  
     });
 
     test('BL-T103: Application shall display a special statement for Quebec residents on personal statement page if user is filling form in EN.', async ({ page }) => {
@@ -1383,27 +1387,6 @@ test.describe('CA Term Life Test Cases with Login', () => {
 
         const preApplicationPage = new PreApplicationPage(page);
         expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre Application');
-    });
-
-    test('BL-T122: Application shall show user a warning message if user tries to change the language while filling CA term form.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
-        await premiumQuotePage.clickContinueBtn();
-
-        const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
-        await preApplicationPage.clickConitnueBtn();
-        
-        const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
-        await needsAssessmentPage.clickContinueBtn();
-
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn();
-
-        const dashboardPage = new DashboardPage(page);
-        await dashboardPage.selectFRLang();
-        expect(await dashboardPage.getLangChangeWarningMsg()).toEqual("Please note that changing the language will reload the page and your information will be lost.");
     });
 
     test('BL-T127: DOB field shall not accept invalid date on quote & beneficiary page.', async ({ page }) => {

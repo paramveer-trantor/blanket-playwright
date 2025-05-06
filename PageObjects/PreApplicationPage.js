@@ -1,13 +1,14 @@
-export class PreApplicationPage {
+import { BasePage } from "./BasePage";
+
+export class PreApplicationPage extends BasePage {
 
     constructor(page) {
-        this.page = page;
+        super(page);
         this.header = page.getByText(' Pre Application ', { exact: true });
         this.dialogBox = page.getByRole('dialog');
         this.dialogContinueBtn = this.dialogBox.getByRole('button', { name: 'Continue' });
         this.dialogContinueBtn_Fr = this.dialogBox.getByRole('button', { name: 'Continuer' });
         this.dialogCloseBtn = this.dialogBox.getByRole('button', { name: ' Close ' });
-        this.dialogCancelBtn = this.dialogBox.getByRole('button', { name: ' Cancel ' });
         this.afterHoursMsg = this.dialogBox.locator('.v-card__title');
         this.firstName = page.getByTestId('firstname');
         this.lastName = page.getByTestId('lastname');
@@ -47,10 +48,6 @@ export class PreApplicationPage {
         this.dobValue = page.locator("[name='dob']");
         this.canadianValue = page.locator("[name='isCanadian0']");
         this.nonSmokerValue = page.locator("[name='tobaccoFor12Month1']");
-        this.langBtn = page.locator('.v-btn__content .currentLang');
-        this.langFR = page.getByRole('menuitem');
-        this.langChangeMsg = page.locator("//div[@class='v-dialog__content v-dialog__content--active']//p");
-        this.currentLang = page.locator('.currentLang');
     }
 
     async getPreApplicationPageHeader() {
@@ -323,22 +320,6 @@ export class PreApplicationPage {
         await this.page.waitForTimeout(1000);
         await this.backToQuoteBtn.isVisible();
         await this.backToQuoteBtn.click();
-    }
-
-    async selectFRLangInForm() {
-        await this.langBtn.click();
-        await this.langFR.last().click();
-    }
-
-    async getLangChangeMsg() {
-        const langChangeText = (await this.langChangeMsg.textContent()).trim();
-        await  this.dialogCancelBtn.click();
-        return langChangeText;
-    }
-
-    async getCurrentLangSelected() {
-        await this.page.waitForTimeout(2000);
-        return (await this.currentLang.textContent()).trim();
     }
 
 }

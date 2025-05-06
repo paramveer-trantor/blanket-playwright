@@ -1,8 +1,10 @@
-export class PremiumQuotePage {
+import { BasePage } from "./BasePage";
+
+export class PremiumQuotePage extends BasePage {
 
     constructor(page) {
-        this.page = page;
-        this.header = page.locator("//div[text()=' Term Life Insurance Premium Quote ']");
+        super(page);
+        this.header = page.locator('.v-card__text .row .text-h2');
         this.genderMale = page.getByText('Male', { exact: true });
         this.genderMale_Fr = page.getByText('Homme', { exact: true });
         this.genderFemale = page.getByText('Female', { exact: true });
@@ -30,6 +32,7 @@ export class PremiumQuotePage {
         this.premiumValue = page.locator('.estimate-subtitle .font-weight-bold ');
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
+        
     }
 
     async getPremiumQuotePageHeader() {
@@ -184,6 +187,7 @@ export class PremiumQuotePage {
     async clickContinueBtn_Fr() {
         await this.continueBtn_Fr.click();          
     }
+
 }
 
 
