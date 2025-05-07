@@ -151,4 +151,57 @@ test.describe('CA Term Life Test Cases in FR Language', () => {
         expect(await preApplicationPage.getIncorrectPhoneErrorMsg("33333")).toEqual('Le format du champ est invalide.');
     });
 
-});
+    test('BL-T18_FR: App shall display a message if recommended coverage amount is more than maximum face amount.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn_Fr();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage_Fr(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickContinueBtn_Fr();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome("40000", saving, mortgageBal, debt);
+        const total = await needsAssessmentPage.getTotalValue();
+        const message = await needsAssessmentPage.getCoverageAmountMoreMessage();
+        expect(message).toMatch(`D'après les informations fournies, votre besoin en assurance vie semble être de ${total}. Vous pouvez demander jusqu'à 1,000,000 $ maintenant.`);
+    });
+
+    test('Verify knockout with Company Declined lifestyle question.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn_Fr();
+        
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage_Fr(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickContinueBtn_Fr();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn_Fr();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.clickContinueBtn_Fr();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerCompanyDeclinedAsYesandRestNo(drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn_Fr();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.clickContinueBtn_Fr();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2_Fr(OptionNo);
+        await medicalQuestionnaire2Page.clickContinueBtn_Fr(); 
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickContinueBtn_Fr();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        expect(await personalStatementPage.clickAgreeBtn_Fr()).toContain('Candidates whose policies have been declined / rescinded are not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("Un agent d'assurance vous contactera sous peu.")
+    });
+
+});  

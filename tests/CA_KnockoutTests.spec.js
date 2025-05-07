@@ -178,7 +178,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('BMI < 17.5 is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Company Declined lifestyle question.', async ({ page }) => {
@@ -215,7 +215,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates whose policies have been declined / rescinded are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Risky Occupation lifestyle question.', async ({ page }) => {
@@ -252,7 +252,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates with risky occupations are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
         
     test('Verify knockout with Criminal Offence lifestyle question.', async ({ page }) => {
@@ -289,7 +289,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates with a criminal history are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Extreme Sports lifestyle question.', async ({ page }) => {
@@ -326,7 +326,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Customers which engage in extreme sports are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Marijuana lifestyle question.', async ({ page }) => {
@@ -363,7 +363,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates who use marijuana 7 or more times a week are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Drinks lifestyle question.', async ({ page }) => {
@@ -400,7 +400,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates which consume alcohol 15 times or more per week are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Drugs Use 5Y lifestyle question.', async ({ page }) => {
@@ -437,7 +437,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Use of recreational drugs in the last 5 years is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Drugs Use 10Y lifestyle question.', async ({ page }) => {
@@ -474,7 +474,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates with substance history in the last 10 years are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Outside CA lifestyle question.', async ({ page }) => {
@@ -511,7 +511,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('You have lived outside for more then 30+ days consecutive');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
 });
@@ -552,7 +552,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Cancer is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Heart Attack medical page 1 question.', async ({ page }) => {
@@ -589,7 +589,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Heart issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Fibrosis medical page 1 question.', async ({ page }) => {
@@ -626,7 +626,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Fibrosis is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Sleep Apnea medical page 1 question.', async ({ page }) => {
@@ -663,7 +663,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Sleep Apnea is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('BL-T153: User shall be knocked out if selects an inappropriate answer for Sleep Apnea or related medical questions.', async ({ page }) => {
@@ -700,7 +700,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Sleep apnea with more than 7 drinks is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with AIDS HIV medical page 1 question.', async ({ page }) => {
@@ -737,7 +737,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Immunity issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Brain Disorder medical page 1 question.', async ({ page }) => {
@@ -774,7 +774,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Brain disorders are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Memory Disorder medical page 1 question.', async ({ page }) => {
@@ -811,7 +811,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Cognitive issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Rheumatoid Arthritis medical page 1 question.', async ({ page }) => {
@@ -848,7 +848,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Musculoskeletal issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Schizophrenia medical page 1 question.', async ({ page }) => {
@@ -885,7 +885,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Psychological issues like schizophrenia are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Depression medical page 1 question.', async ({ page }) => {
@@ -922,7 +922,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Time off work due to psychological issues like depression is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Anxiety medical page 1 question.', async ({ page }) => {
@@ -959,7 +959,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Anxiety issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Hepatitis medical page 2 question.', async ({ page }) => {  
@@ -996,7 +996,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('General health issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Medical Condition 4 W medical page 2 question.', async ({ page }) => {
@@ -1033,7 +1033,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Injuries/illness leading to extended time off work are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Mamogram medical page 2 question.', async ({ page }) => {
@@ -1070,7 +1070,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Abnormal mamograms in the last 2 years are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Medical Followups medical page 2 question.', async ({ page }) => {
@@ -1107,7 +1107,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Uncompleted follow-ups are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with Last 3 Months Symptoms medical page 2 question.', async ({ page }) => {
@@ -1144,7 +1144,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Unconsulted symptoms are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with 2 or More Parents Diagnosed medical page 2 question.', async ({ page }) => {
@@ -1181,7 +1181,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('2 or more family members diagnosed with these conditions is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
     test('Verify knockout with 1 or More Parents Diagnosed medical page 2 question.', async ({ page }) => {
@@ -1218,7 +1218,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('1 or more family members diagnosed with these conditions is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");await page.goto('/pages/login');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
     });
 
 

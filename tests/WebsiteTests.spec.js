@@ -164,7 +164,7 @@ test.describe('Website pages Tests', () => {
 
     test("BL-T130: Application shall not display notification message to user if user has no open application", async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login',"gagandeep.singla+autouser2@trantorinc.com", "Test@1");
+        await loginPage.login('/pages/login',"gagandeep.singla+autoqa_nouse@trantorinc.com", "123456");
         
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
