@@ -38,6 +38,7 @@ module.exports = {
     benfirstname : "Test", 
     benlastname : "Beneficiary", 
     bendob : "01/01/2010", 
+    bencompany : "Test Software Pvt Ltd.",
     benshare : "100",
     passportno : "AB123456",
     healthno: "123456789",

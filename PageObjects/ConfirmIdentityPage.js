@@ -90,8 +90,17 @@ export class ConfirmIdentityPage {
         await this.selectPassport.click();
     }
 
+    async selectIdentityAsPassport_Fr() {
+        await this.openIDType_Fr.click();
+        await this.selectPassport_Fr.click();
+    }
+
     async enterPassportNumber(passportno) {  
         await this.passportInputField.fill(passportno);
+    }
+
+    async enterPassportNumber_Fr(passportno) {  
+        await this.passportInputField_Fr.fill(passportno);
     }
 
     async selectIdentityAsHealthCard() {
