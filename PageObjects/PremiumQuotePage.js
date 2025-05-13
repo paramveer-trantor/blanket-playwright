@@ -59,8 +59,32 @@ export class PremiumQuotePage extends BasePage {
         await this.nonSmoker.nth(1).click();
     }
 
+    async fillQuotePage_Fr(gender, date, feet, inches, weight) {
+        if (gender == "Male") {
+            await this.genderMale_Fr.first().click();
+        }
+        else {
+            await this.genderFemale_Fr.first().click(); 
+        }
+        await this.dateOfBirth_Fr.click();
+        await this.dateOfBirth_Fr.clear();
+        await this.dateOfBirth_Fr.fill(date);
+        await this.heightFeet.click();
+        await this.heightFeet.fill(feet);
+        await this.heightInches.click();
+        await this.heightInches.fill(inches);
+        await this.weight_Fr.click();
+        await this.weight_Fr.type(weight.toString());  
+        await this.optionYes_Fr.first().click();
+        await this.nonSmoker_Fr.nth(1).click();
+    }
+
     async clickGetQuoteBtn() {
         await this.getQuoteBtn.click();       
+    }
+
+    async clickGetQuoteBtn_Fr() {
+        await this.getQuoteBtn_Fr.click();       
     }
 
     async getQuoteValueNonSmoker(gender, date, feet, inches, weight) {

@@ -9,7 +9,9 @@ export class PreApplicationPage extends BasePage {
         this.dialogContinueBtn = this.dialogBox.getByRole('button', { name: 'Continue' });
         this.dialogContinueBtn_Fr = this.dialogBox.getByRole('button', { name: 'Continuer' });
         this.dialogCloseBtn = this.dialogBox.getByRole('button', { name: ' Close ' });
-        this.afterHoursMsg = this.dialogBox.locator('.v-card__title');
+        this.dialogCloseBtn_Fr = this.dialogBox.getByRole('button', { name: ' Fermer ' });
+        this.afterHoursTitle = this.dialogBox.locator('.v-card__title');
+        this.afterHoursMsg = this.dialogBox.locator("//div[@class='v-card__text']//p"); 
         this.firstName = page.getByTestId('firstname');
         this.lastName = page.getByTestId('lastname');
         this.genderFemale = page.getByLabel('Female');
@@ -23,13 +25,7 @@ export class PreApplicationPage extends BasePage {
         this.city = page.getByTestId('preApplicationForm').getByLabel('City', { exact: true });
         this.province = page.getByTestId('preApplicationForm').getByLabel('Province', { exact: true });
         this.selectProvinceBC = page.getByRole('listbox').getByRole('option').filter({ hasText: 'British Columbia' });
-        this.selectProvinceMN = page.getByRole('listbox').getByRole('option');
-        this.selectProvinceNB = page.getByRole('listbox').getByRole('option');
-        this.selectProvinceNL = page.getByRole('listbox').getByRole('option');
-        this.selectProvinceNS = page.getByRole('listbox').getByRole('option');
-        this.selectProvinceON = page.getByRole('listbox').getByRole('option');
-        this.selectProvincePE = page.getByRole('listbox').getByRole('option');
-        this.selectProvinceSW = page.getByRole('listbox').getByRole('option');
+        this.selectProvinceList = page.getByRole('listbox').getByRole('option');
         this.zipcode = page.getByTestId('preApplicationForm').getByLabel('Postal code', { exact: true });
         this.notAvailableMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']");
         this.email = page.locator("[name='emailAddress']");
@@ -59,10 +55,20 @@ export class PreApplicationPage extends BasePage {
             await this.dialogContinueBtn.click();
         }
     }
+
+    async acceptPopWindow_Fr() {
+        if (await this.dialogBox.isVisible()) {
+            await this.dialogContinueBtn_Fr.click();
+        }
+    }
     
     async checkAfterHoursDialogIsVisible() {
         const status_afterhours = await this.dialogBox.isVisible();
         return status_afterhours;
+    }
+
+    async getAfterHoursTitle() {
+        return (await this.afterHoursTitle.textContent()).trim();  
     }
 
     async getAfterHoursMsg() {
@@ -184,52 +190,91 @@ export class PreApplicationPage extends BasePage {
     async getProductNotAvailableMsg(province) {  
         if(province = "Manitoba"){
             await this.province.click();
-            await this.selectProvinceMN.nth(2).click();  
+            await this.selectProvinceList.nth(2).click();  
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-
         if(province = "New Brunswick"){
             await this.province.click();
-            await this.selectProvinceNB.nth(3).click();  
+            await this.selectProvinceList.nth(3).click();  
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-
         if(province = "Newfoundland and Labrador"){
             await this.province.click();
-            await this.selectProvinceNL.nth(4).click();  
+            await this.selectProvinceList.nth(4).click();  
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-
         if(province = "Nova Scotia"){
             await this.province.click();
-            await this.selectProvinceNS.nth(5).click();  
+            await this.selectProvinceList.nth(5).click();  
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-
         if(province = "Prince Edward Island"){
             await this.province.click();
-            await this.selectProvincePE.nth(7).click();  
+            await this.selectProvinceList.nth(7).click();  
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-
         if(province = "Saskatchewan"){
             await this.province.click();
-            await this.selectProvinceSW.last().click();  
+            await this.selectProvinceList.last().click();  
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
+    }
 
+    async getProductNotAvailableMsg_Fr(province) {  
+        if(province = "Manitoba"){
+            await this.province.click();
+            await this.selectProvinceList.nth(2).click();  
+            const message_product = (await this.notAvailableMsg.last().textContent()).trim();
+            await this.dialogCloseBtn_Fr.click();
+            return message_product;
+        }
+        if(province = "New Brunswick"){
+            await this.province.click();
+            await this.selectProvinceList.nth(3).click();  
+            const message_product = (await this.notAvailableMsg.last().textContent()).trim();
+            await this.dialogCloseBtn_Fr.click();
+            return message_product;
+        }
+        if(province = "Newfoundland and Labrador"){
+            await this.province.click();
+            await this.selectProvinceList.nth(4).click();  
+            const message_product = (await this.notAvailableMsg.last().textContent()).trim();
+            await this.dialogCloseBtn_Fr.click();
+            return message_product;
+        }
+        if(province = "Nova Scotia"){
+            await this.province.click();
+            await this.selectProvinceList.nth(5).click();  
+            const message_product = (await this.notAvailableMsg.last().textContent()).trim();
+            await this.dialogCloseBtn_Fr.click();
+            return message_product;
+        }
+        if(province = "Prince Edward Island"){
+            await this.province.click();
+            await this.selectProvinceList.nth(7).click();  
+            const message_product = (await this.notAvailableMsg.last().textContent()).trim();
+            await this.dialogCloseBtn_Fr.click();
+            return message_product;
+        }
+        if(province = "Saskatchewan"){
+            await this.province.click();
+            await this.selectProvinceList.last().click();  
+            const message_product = (await this.notAvailableMsg.last().textContent()).trim();
+            await this.dialogCloseBtn_Fr.click();
+            return message_product;
+        }
     }
 
     async verifyEmailValue() {

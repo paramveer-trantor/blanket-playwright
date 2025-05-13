@@ -8,13 +8,19 @@ export class ConfirmIdentityPage {
         this.selectPassport = this.listBox.getByText('Passport', { exact: true });
         this.selectPassport_Fr = this.listBox.getByText('Passeport', { exact: true });
         this.selectHealthCard = this.listBox.getByText('Provincial health card', { exact: true }); 
+        this.selectHealthCard_Fr = this.listBox.getByText('Assurance maladie', { exact: true }); 
         this.selectDriverLicense = this.listBox.getByText("Driver's licence", { exact: true });
+        this.selectDriverLicense_Fr = this.listBox.getByText("Permis de conduire", { exact: true });
         this.passportInputField = page.getByLabel('Passport number', { exact: true });
         this.passportInputField_Fr = page.getByLabel('Numéro de passeport', { exact: true });
         this.provinceList = page.getByLabel('Select province', { exact: true });
+        this.provinceList_Fr = page.getByLabel('Choisir une province', { exact: true });
         this.selectProvince = page.getByRole('listbox').getByText('Alberta', { exact: true }); 
+        this.selectProvince_Fr = page.getByRole('listbox').getByText('Alberta', { exact: true }); 
         this.healthCardInputField = page.getByLabel('Health number', { exact: true });
+        this.healthCardInputField_Fr = page.getByLabel("Numéro d'assurance maladie", { exact: true });
         this.licenseInputField = page.getByLabel("Driver's licence  number", { exact: true });
+        this.licenseInputField_Fr = page.getByLabel("Numéro de permis de conduire", { exact: true });
         this.errorMsg = page.getByRole('alert').locator('.v-messages__message');
         this.agreeCheckBox = page.locator("//input[@name='payAgree']/following-sibling::div[1]");
         this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' }); 
@@ -110,8 +116,20 @@ export class ConfirmIdentityPage {
         await this.selectProvince.click();
     }
 
+    async selectIdentityAsHealthCard_Fr() {
+        await this.openIDType_Fr.click();
+        await this.selectHealthCard_Fr.click();
+        await this.provinceList_Fr.click();
+        await this.selectProvince_Fr.click();
+    }
+
     async enterHealthCardNumber(healthno) {
         await this.healthCardInputField.fill(healthno);
+    }
+
+    
+    async enterHealthCardNumber_Fr(healthno) {
+        await this.healthCardInputField_Fr.fill(healthno);
     }
   
     async selectIdentityAsDrivingLicense() {
@@ -121,8 +139,19 @@ export class ConfirmIdentityPage {
         await this.selectProvince.click();
     }
 
+    async selectIdentityAsDrivingLicense_Fr() {
+        await this.openIDType_Fr.click();
+        await this.selectDriverLicense_Fr.click();
+        await this.provinceList_Fr.click();
+        await this.selectProvince_Fr.click();
+    }
+
     async enterLicenseNumber(licenseno) {
         await this.licenseInputField.fill(licenseno);
+    }
+
+    async enterLicenseNumber_Fr(licenseno) {
+        await this.licenseInputField_Fr.fill(licenseno);
     }
 
     async checkErrorIsVisible() {

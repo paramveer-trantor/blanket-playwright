@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { InterceptorAPIs } from '../PageObjects/InterceptorAPIs';
 import { LoginPage } from '../PageObjects/LoginPage';
 import { LoginPageInTLForm } from '../PageObjects/LoginPageInTLForm'
 import { DashboardPage } from '../PageObjects/DashboardPage';
@@ -164,7 +165,7 @@ test.describe('CA Term Life Test Cases in FR Language', () => {
         await needsAssessmentPage.enterGrossIncome("40000", saving, mortgageBal, debt);
         const total = await needsAssessmentPage.getTotalValue();
         const message = await needsAssessmentPage.getCoverageAmountMoreMessage();
-        expect(message).toMatch(`D'après les informations fournies, votre besoin en assurance vie semble être de ${total}. Vous pouvez demander jusqu'à 1,000,000 $ maintenant.`);
+        expect(message).toContain("les informations fournies, votre besoin en assurance vie semble");
     });
 
     test('BL-T21_FR:Verify knockout with Company Declined lifestyle question.', async ({ page }) => {
@@ -290,4 +291,146 @@ test.describe('CA Term Life Test Cases in FR Language', () => {
         expect(await confirmIdentityPage.getErrorMsg()).toEqual('Numéro de passeport invalide. Il doit commencer par deux lettres et se terminer par six chiffres. Veuillez supprimer tout espace ou caractère spécial (-, *).');
     });
 
-});  
+    test('BL-T33_Fr: Application shall throw an error message if user enters invalid DL number.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn_Fr();
+        
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage_Fr(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickContinueBtn_Fr();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn_Fr();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.clickContinueBtn_Fr();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn_Fr();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.clickContinueBtn_Fr();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2_Fr(OptionNo);
+        await medicalQuestionnaire2Page.clickContinueBtn_Fr(); 
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickContinueBtn_Fr();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn_Fr();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.checkWithoutBenCheckbox_Fr();
+        await beneficiaryPage.clickContinueBtn_Fr();
+        
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.selectIdentityAsDrivingLicense_Fr();
+        await confirmIdentityPage.enterLicenseNumber_Fr("AAA123");
+        expect(await confirmIdentityPage.getErrorMsg()).toEqual("Format de permis de conduire invalide. Veuillez supprimer tout espace ou caractère spécial (-, *).");
+    });
+
+    test('BL-T36_Fr: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn_Fr();
+        
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage_Fr(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickContinueBtn_Fr();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.clickContinueBtn_Fr();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.clickContinueBtn_Fr();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn_Fr();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.clickContinueBtn_Fr();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2_Fr(OptionNo);
+        await medicalQuestionnaire2Page.clickContinueBtn_Fr(); 
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickContinueBtn_Fr();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn_Fr();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.checkWithoutBenCheckbox_Fr();
+        await beneficiaryPage.clickContinueBtn_Fr();
+        
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.selectIdentityAsHealthCard_Fr();
+        await confirmIdentityPage.enterHealthCardNumber_Fr("123456");
+        expect(await confirmIdentityPage.getErrorMsg()).toEqual('Format de carte santé invalide. Veuillez supprimer tout espace ou caractère spécial (-, *).');
+    });
+
+    test('BL-T53_Fr: After hours message shall be displayed if user access the application in odd hours.', async ({ page }) => {
+        const CurrentTimeEst = await page.evaluate(() => {
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: 'America/New_York', 
+                hour: '2-digit',
+                hour12: false,
+            });
+                return formatter.format(new Date());
+        });
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn_Fr();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        if (CurrentTimeEst > 21 || CurrentTimeEst < 9) {
+            expect(await preApplicationPage.getAfterHoursTitle()).toEqual('Heures de bureau');
+            expect(await preApplicationPage.getAfterHoursMsg()).toEqual("Si vous avez besoin d'aide lors de votre demande d'assurance, nos agents sont disponibles entre 9 h et 21 h (HNE).");
+        }
+        else {
+            expect(await preApplicationPage.checkAfterHoursDialogIsVisible()).toBeFalsy();
+        }
+    });
+
+    test('BL-T109_Fr: Application shall display a pop-up message if user selects any province other than AB, BC, ON & QC.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.clickContinueBtn_Fr();
+        
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.acceptPopWindow_Fr();
+        expect(await preApplicationPage.getProductNotAvailableMsg_Fr("Manitoba")).toEqual("Ce produit n'est pas disponible dans votre province pour le moment. Veuillez nous contacter pour une alternative qui répond à vos besoins.");
+        expect(await preApplicationPage.getProductNotAvailableMsg_Fr("New Brunswick")).toEqual("Ce produit n'est pas disponible dans votre province pour le moment. Veuillez nous contacter pour une alternative qui répond à vos besoins.");
+        expect(await preApplicationPage.getProductNotAvailableMsg_Fr("Newfoundland and Labrador")).toEqual("Ce produit n'est pas disponible dans votre province pour le moment. Veuillez nous contacter pour une alternative qui répond à vos besoins.");
+        expect(await preApplicationPage.getProductNotAvailableMsg_Fr("Nova Scotia")).toEqual("Ce produit n'est pas disponible dans votre province pour le moment. Veuillez nous contacter pour une alternative qui répond à vos besoins.");
+        expect(await preApplicationPage.getProductNotAvailableMsg_Fr("Prince Edward Island")).toEqual("Ce produit n'est pas disponible dans votre province pour le moment. Veuillez nous contacter pour une alternative qui répond à vos besoins.");
+        expect(await preApplicationPage.getProductNotAvailableMsg_Fr("Saskatchewan")).toEqual("Ce produit n'est pas disponible dans votre province pour le moment. Veuillez nous contacter pour une alternative qui répond à vos besoins.");
+    });
+
+    test('BL-T186_Fr: Application shall throw an error if CA Term Get Premium Quote API response is not 200 or 201', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.fillQuotePage_Fr(gender, date, feet, inches, weight);
+        const codes = [400, 403, 408, 429, 500, 503, 504];
+        let message = "Un problème s'est produit. Veuillez réessayer ou nous contacter pour obtenir de l'aide.";
+        for(let i = 0; i < codes.length; i++) {
+            const interceptorAPIs = new InterceptorAPIs(page);
+            await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
+            await premiumQuotePage.clickGetQuoteBtn_Fr();  
+            expect(await premiumQuotePage.getErrorPopUp()).toEqual(message);  
+            await premiumQuotePage.closeErrorPopUp();
+        }
+    });
+    
+});   

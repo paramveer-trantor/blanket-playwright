@@ -1131,7 +1131,8 @@ test.describe('CA Term Life Test Cases with Login', () => {
 
         const preApplicationPage = new PreApplicationPage(page);
         if (CurrentTimeEst > 21 || CurrentTimeEst < 9) {
-            expect(await preApplicationPage.getAfterHoursMsg()).toEqual('After hours');
+            expect(await preApplicationPage.getAfterHoursTitle()).toEqual('After hours');
+            expect(await preApplicationPage.getAfterHoursMsg()).toEqual("Should you require assistance during your application, our agents are available between 9:00 AM and 9:00 PM EST.");
         }
         else {
             expect(await preApplicationPage.checkAfterHoursDialogIsVisible()).toBeFalsy();
