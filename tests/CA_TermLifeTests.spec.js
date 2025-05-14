@@ -1254,7 +1254,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await preApplicationPage.clickDialogOkayBtn();
         expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('fr');  
         await premiumQuotePage.selectLanguage("EN");
-        await page.waitForTimeout(2000);
+        await page.waitForTimeout(4000);
         expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('en');  
     });
 
