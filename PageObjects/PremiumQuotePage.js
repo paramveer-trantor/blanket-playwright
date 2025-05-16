@@ -212,6 +212,28 @@ export class PremiumQuotePage extends BasePage {
         await this.continueBtn_Fr.click();          
     }
 
+    async verifyDOBFieldValue(){  
+        return await this.dateOfBirth.inputValue();
+    }
+
+    async verifyHeightFieldValue(){  
+        const height_feet = await this.heightFeet.inputValue();
+        const height_inches = await this.heightInches.inputValue();
+        const height_value = height_feet + "." + height_inches;
+        return height_value;
+    }
+
+    async verifyWeightFieldValue(){  
+        return await this.weight.inputValue();
+    }
+
+    async navigateToPreAppPageWithPreFilledValues() {
+        await this.optionYes.first().click();
+        await this.optionYes.last().click();
+        await this.getQuoteBtn.click();
+        await this.continueBtn.click();          
+    }
+
 }
 
 

@@ -1448,7 +1448,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillformAndEnterAddressManually("Test", "Manual Address", "Dummy Address", "Dummy", "A1A 1A1", phonenumber, OptionNo); 
-        await preApplicationPage.clickConitnueBtn();
+        await preApplicationPage.clickConitnueBtn();  
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
@@ -1809,3 +1809,20 @@ test.describe('CA Term Life Test Cases with Login', () => {
     });
  
 }); 
+
+    test("BL-T238: Application shall fetch info like DOB, height, weight & address from user profile and pre populate in CA TL form." , async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.login('/pages/login', "gagandeep.singla+autoqa_nouse@trantorinc.com", "123456");
+
+        const dashboardPage = new DashboardPage(page); 
+        await dashboardPage.navigateToCATLProduct();
+
+        const landingpage = new TLProductLandingPage(page);
+        await landingpage.clickApplyNowBtn();
+        
+        const premiumQuotePage = new PremiumQuotePage(page);
+        expect(await premiumQuotePage.verifyDOBFieldValue()).toEqual("01/10/2000");
+        expect(await premiumQuotePage.verifyHeightFieldValue()).toEqual("5.8");
+        expect(await premiumQuotePage.verifyWeightFieldValue()).toEqual("190");
+        await premiumQuotePage.navigateToPreAppPageWithPreFilledValues();
+    }); 

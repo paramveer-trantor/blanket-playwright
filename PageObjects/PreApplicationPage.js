@@ -41,7 +41,6 @@ export class PreApplicationPage extends BasePage {
         this.closeBtn = page.getByRole('button', { name: ' Close '});
         this.addressvalidate = this.dialogBox.locator('.col');
         this.backToQuoteBtn = page.getByRole('button', { name: ' Back to quote ' }); 
-        this.dobValue = page.locator("[name='dob']");
         this.canadianValue = page.locator("[name='isCanadian0']");
         this.nonSmokerValue = page.locator("[name='tobaccoFor12Month1']");
     }
@@ -88,7 +87,7 @@ export class PreApplicationPage extends BasePage {
     }
 
     async verifyDOBHasValue() {
-        return await this.dobValue.inputValue();   
+        return await this.dob.inputValue();   
     }
 
     async verifyIsCanadianTrue() {
@@ -161,7 +160,7 @@ export class PreApplicationPage extends BasePage {
         if (await this.dialogBox.isVisible()) {
             await this.dialogContinueBtn.click();
         }
-        await this.firstName.click();
+        await this.firstName.click();  
         await this.firstName.fill(firstname);
         await this.lastName.click();
         await this.lastName.fill(lastname);
@@ -169,7 +168,7 @@ export class PreApplicationPage extends BasePage {
         await this.city.click();
         await this.city.fill(city);
         await  this.province.click();
-        await this.selectProvinceON.nth(6).click();
+        await this.selectProvinceList.nth(6).click();
         await this.zipcode.click();
         await this.zipcode.fill(zipcode);
         await this.phoneNumber.click();
