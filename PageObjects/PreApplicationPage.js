@@ -43,6 +43,7 @@ export class PreApplicationPage extends BasePage {
         this.backToQuoteBtn = page.getByRole('button', { name: ' Back to quote ' }); 
         this.canadianValue = page.locator("[name='isCanadian0']");
         this.nonSmokerValue = page.locator("[name='tobaccoFor12Month1']");
+        this.proviceSelectedValue = page.locator(".v-select__selection")
     }
 
     async getPreApplicationPageHeader() {
@@ -88,6 +89,18 @@ export class PreApplicationPage extends BasePage {
 
     async verifyDOBHasValue() {
         return await this.dob.inputValue();   
+    }
+
+    async verifyAddressValue() {
+        return await this.address.inputValue();   
+    }
+
+    async verifyCityValue() {
+        return await this.city.inputValue();   
+    }
+
+    async verifyProvinceValue() {
+        return await this.proviceSelectedValue.textContent();   
     }
 
     async verifyIsCanadianTrue() {

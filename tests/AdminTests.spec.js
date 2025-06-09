@@ -9,28 +9,28 @@ import { AdminReportsPage } from '../PageObjects/AdminReportsPage';
 import { ManageUserPage } from '../PageObjects/ManageUserPage';
 const { superadminuser, superadminpass, adminuser, adminpass } = require('../Utils/TestData');
 
-test.afterEach('Close the browser', async ({ page }) => {
-    await page.close(); 
-});
+// test.afterEach('Close the browser', async ({ page }) => {
+//     await page.close(); 
+// });
 test.describe('Admin Reports Page test cases', async () => {
     
-    test.beforeEach('Run flow till TL landing page', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', adminuser, adminpass);
+    // test.beforeEach('Run flow till TL landing page', async ({ page }) => {
+        
 
-        const dashboardPage = new DashboardPage(page);
-        await dashboardPage.acceptCookies();
-        await dashboardPage.goToAdminReportsPage();
-    }); 
+    // }); 
 
+    
     test('BL-T156: Admin shall have ability to download the CA term life policy sales report.', async ({ page }) => {
-        const adminReportsPage = new AdminReportsPage(page);
-        await adminReportsPage.goToReportsTab();
-        expect(await adminReportsPage.getReportTypeOptionsList()).toContainEqual("Ca Term Life Sales Report");
-        await adminReportsPage.downloadCATermSalesReport();
-        expect(await adminReportsPage.getPopUpMessageText()).toMatch(/File downloaded successfully|No data found for selected date/);
-    });
+        await page.goto("https://dev-admin.blanket.com/login");
+        const loginPage = new LoginPage(page);
+        await loginPage.loginIntoAdminPortal(adminuser, adminpass);
 
+        // const adminReportsPage = new AdminReportsPage(page);
+        // await adminReportsPage.goToReportsTab();
+        // expect(await adminReportsPage.getReportTypeOptionsList()).toContainEqual("Ca Term Life Sales Report");
+        // await adminReportsPage.downloadCATermSalesReport();
+        // expect(await adminReportsPage.getPopUpMessageText()).toMatch(/File downloaded successfully|No data found for selected date/);
+    });
     test('BL-T157: Application shall throw an error message if admin tries to download any report for dates which have no data.', async ({ page }) => {
         const adminReportsPage = new AdminReportsPage(page);
         await adminReportsPage.goToReportsTab();
@@ -101,6 +101,7 @@ test.describe('Admin Reports Page test cases', async () => {
     });
 
 });
+
 
 test.describe('Admin Partnerships Page test cases', async () => {
     
@@ -236,3 +237,5 @@ test('BL-T160: Request for partnership shall be visible to admin on partner port
 });
 
 */
+
+

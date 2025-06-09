@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "scripts": {
+    "qa" : "npx playwright test --project=chromium --headed",
+    "admin" : "npx playwright test --project=admin --headed",
+    "production" : "npx playwright test --project=production --headed"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

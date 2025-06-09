@@ -30,7 +30,6 @@ module.exports = defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
-    baseURL: 'https://dev.blanket.com/',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
@@ -42,6 +41,15 @@ module.exports = defineConfig({
   projects: [
     {
       name: 'chromium',
+      use: { 
+        baseURL: 'https://dev.blanket.com/',
+        browserName: 'chromium',
+        trace: 'retain-on-failure'
+    },
+    },
+
+    {
+      name: 'admin',
       use: { 
         browserName: 'chromium',
         trace: 'retain-on-failure'

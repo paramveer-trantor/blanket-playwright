@@ -1809,7 +1809,6 @@ test.describe('CA Term Life Test Cases with Login', () => {
     });
  
 }); 
-
     test("BL-T238: Application shall fetch info like DOB, height, weight & address from user profile and pre populate in CA TL form." , async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.login('/pages/login', "gagandeep.singla+autoqa_nouse@trantorinc.com", "123456");
@@ -1825,4 +1824,11 @@ test.describe('CA Term Life Test Cases with Login', () => {
         expect(await premiumQuotePage.verifyHeightFieldValue()).toEqual("5.8");
         expect(await premiumQuotePage.verifyWeightFieldValue()).toEqual("190");
         await premiumQuotePage.navigateToPreAppPageWithPreFilledValues();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.acceptPopWindow();
+        expect(await preApplicationPage.verifyDOBHasValue()).toEqual("01/10/2000");
+        expect(await preApplicationPage.verifyAddressValue()).toEqual("Test Address");
+        expect(await preApplicationPage.verifyCityValue()).toEqual("Test City");
+        expect(await preApplicationPage.verifyProvinceValue()).toEqual("Ontario");
     }); 
