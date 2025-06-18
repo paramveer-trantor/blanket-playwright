@@ -49,14 +49,6 @@ module.exports = defineConfig({
     },
 
     {
-      name: 'admin',
-      use: { 
-        browserName: 'chromium',
-        trace: 'retain-on-failure'
-    },
-    },
-
-    {
       name: 'production',
       use: { 
         baseURL: 'https://www.blanket.com/',

@@ -14,22 +14,21 @@ test.afterEach('Close the browser', async ({ page }) => {
 test.describe('Login & Register page Tests', () => {
 
     test('BL-T114 - User should be able to login with valid credentials', async ({ page }) => {
+        await page.goto('/pages/login'); 
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login',username, password);       
+        await loginPage.userLogin(username, password);       
         
         const dashboardPage = new DashboardPage(page);
         expect(await dashboardPage.getCookieBannerHeading()).toEqual(cookiestext);
     });
 
-    test('User should not be able to login with invalid credentials', async ({ page }) => {
+    test('BL-T251 - User should not be able to login with invalid credentials', async ({ page }) => {
+        await page.goto('/pages/login'); 
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login',username, invalidpassword);  
+        await loginPage.userLogin(username, invalidpassword);  
         expect(await loginPage.getErrorMessage()).toEqual('The password is invalid or the user does not have a password.');
-    });
-
-    test('User should not be able to login with non registered user', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login',invalidusername, password);     
+        await loginPage.closeErrorPopUp();
+        await loginPage.userLogin(invalidusername, password);     
         expect(await loginPage.getErrorMessage()).toEqual('There is no user record corresponding to this identifier. The user may have been deleted.');
     });
 

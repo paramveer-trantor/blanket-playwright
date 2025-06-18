@@ -11,9 +11,6 @@ export class LoginPage {
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
         this.forgotPassword =  page.locator(".signup-text").first();
         this.emailForgotPage = page.getByLabel('Email');
-        this.adminEmail = page.locator('input[type="email"]');
-        this.adminPassword = page.getByLabel('Password');
-        this.adminLoginBtn = page.getByRole('button', { name: ' Log in ' });
     }
 
     async userLogin(username, password) {
@@ -27,14 +24,6 @@ export class LoginPage {
         await this.email.fill(username);  
         await this.password.fill(password);
         await this.loginBtn.click();
-    }
-
-    async loginIntoAdminPortal(adminusername, adminpassword) {
-        await this.adminEmail.click();
-        await this.adminEmail.fill(adminusername);  
-        await this.adminPassword.click();
-        await this.adminPassword.fill(adminpassword);
-        await this.adminLoginBtn.click();
     }
 
     async fillLoginDetails(url, username, password) {
