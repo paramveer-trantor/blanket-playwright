@@ -241,8 +241,8 @@ test.describe('CA Term Life Test Cases in FR Language', () => {
         await personalStatementPage.clickAgreeBtn_Fr();
 
         const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.enterBeneficiaryDetails_Fr(benfirstname, benlastname, bencompany, benshare);
-        await beneficiaryPage.enterBeneficiaryDetails_Fr(benfirstname, benlastname, bencompany, benshare);
+        await beneficiaryPage.enterIndividualBeneficiaryDetails_Fr(benfirstname, benlastname, bendob, benshare) 
+        await beneficiaryPage.enterLegalBeneficiaryDetails_Fr(benfirstname, benlastname, bencompany, benshare);
         expect(await beneficiaryPage.getErrorMessage()).toEqual("Le pourcentage total des bénéficiaires doit être de 100.");
     });
 

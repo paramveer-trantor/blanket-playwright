@@ -18,7 +18,7 @@ import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
 import { PaymentPage } from '../PageObjects/PaymentPage'
 import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
 import { MyApplicationsPage } from '../PageObjects/MyApplicationsPage'
-const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, bencompany, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
 
 test.afterEach('Close the browser', async ({ page }) => {
     await page.close(); 
@@ -152,8 +152,8 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await personalStatementPage.clickAgreeBtn();
 
         const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
-        await beneficiaryPage.clickConitnueBtn();
+        await beneficiaryPage.enterIndividualBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
+        await beneficiaryPage.clickConitnueBtn();  
 
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.goToPaymentPageWithPassport(passportno);
@@ -428,7 +428,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await personalStatementPage.clickAgreeBtn();
 
         const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
+        await beneficiaryPage.enterIndividualBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
         expect(await beneficiaryPage.getAddedBenDetails()).toContainEqual('Individual', 'Revocable', 'Brother', '100', 'Test', 'Beneficiary', '01/01/2010');
     });
 
@@ -468,8 +468,8 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await personalStatementPage.clickAgreeBtn();
 
         const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
-        await beneficiaryPage.enterBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
+        await beneficiaryPage.enterIndividualBeneficiaryDetails(benfirstname, benlastname, bendob, benshare);
+        await beneficiaryPage.enterLegalBeneficiaryDetails(benfirstname, benlastname, bencompany, benshare);
         expect(await beneficiaryPage.getErrorMessage()).toEqual("Total Percentage of Beneficiaries must be 100");
     });
     
@@ -1177,9 +1177,9 @@ test.describe('CA Term Life Test Cases with Login', () => {
         await personalStatementPage.clickAgreeBtn();
 
         const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.checkWithoutBenCheckbox();
+        await beneficiaryPage.enterLegalBeneficiaryDetails(benfirstname, benlastname, bencompany, benshare);
         await beneficiaryPage.clickConitnueBtn();
-
+        
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.goToPaymentPageWithPassport(passportno);
 
