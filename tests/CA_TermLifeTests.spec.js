@@ -1438,7 +1438,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
         expect(await preApplicationPage.verifyAddressOptionsAreVisible("12")).toBeFalsy();
-        expect(await preApplicationPage.verifyAddressOptionsAreVisible("3")).toBeTruthy();
+        expect(await preApplicationPage.verifyAddressOptionsAreVisible("123")).toBeTruthy();
     });
 
     test('BL-T140: User shall be allowed to enter address manually and application shall not validate address on continue button of pre application page.', async ({ page }) => {

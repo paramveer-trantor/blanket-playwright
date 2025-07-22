@@ -112,6 +112,7 @@ export class PreApplicationPage extends BasePage {
     }
 
     async verifyAddressOptionsAreVisible(houseaddress) {
+        await this.address.clear();
         await this.address.pressSequentially(houseaddress);
         await this.page.waitForTimeout(4000);
         return await this.addressList.isVisible();
