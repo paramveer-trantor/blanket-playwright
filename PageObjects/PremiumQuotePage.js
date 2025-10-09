@@ -14,6 +14,9 @@ export class PremiumQuotePage extends BasePage {
         this.heightFeet = page.locator("[name = 'feet']");
         this.heightInches = page.locator("[name = 'inches']");
         this.weight = page.getByLabel('Pounds'); 
+        this.metricUnits = page.getByText('Metric');
+        this.heightCenti = page.locator("[name = 'centimeters']");
+        this.weightKg = page.getByLabel('Kilograms'); 
         this.weight_Fr = page.getByLabel('Livres');
         this.optionYes = page.getByText('Yes');
         this.optionYes_Fr = page.getByText('Oui');
@@ -154,6 +157,28 @@ export class PremiumQuotePage extends BasePage {
         await this.weight.click();
         await this.weight.clear();
         await this.weight.fill(weight); 
+        await this.optionYes.first().click();
+        await this.optionYes.last().click();
+        await this.getQuoteBtn.click();       
+    }
+
+    async getQuoteValueWithMetric(gender, date, centi, weight_kg) {
+        if (gender == "Male") {
+            await this.genderMale.first().click();
+        }
+        else {
+            await this.genderFemale.first().click();
+        }
+        await this.dateOfBirth.click();
+        await this.dateOfBirth.clear();
+        await this.dateOfBirth.fill(date);
+        await this.metricUnits.click();
+        await this.heightCenti.click();
+        await this.heightCenti.clear();
+        await this.heightCenti.fill(centi);
+        await this.weightKg.click();
+        await this.weightKg.clear();
+        await this.weightKg.fill(weight_kg); 
         await this.optionYes.first().click();
         await this.optionYes.last().click();
         await this.getQuoteBtn.click();       

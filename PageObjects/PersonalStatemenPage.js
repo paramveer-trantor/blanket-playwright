@@ -40,9 +40,7 @@ export class PersonalStatementPage {
         await this.checkbox6.click();
         await this.checkbox7.click();
         await this.checkbox8.click();
-        if (await this.checkbox9.isVisible()) {
         await this.checkbox9.click();
-        }
         if (await this.checkbox10.isVisible()) {
             await this.checkbox10.click();
         }
@@ -53,25 +51,31 @@ export class PersonalStatementPage {
     }
 
     async clickAgreeBtn() {
-        const promise =  this.page.waitForResponse("**/getCATermDecision", async route => {
+        const promise =  this.page.waitForResponse("**/decision", async route => {
              const res = await this.page.request.fetch(route.request());
          });
         await this.agreeBtn.click();
         const response = await promise;
         const responseBody = await response.json();
-        const errors = responseBody.result.response.errors;
+        const errors = responseBody.reasons;
         const error_string = [errors].toString();
         return error_string; 
      }
 
+     async getDecissionAPIResponseStatus() {
+        const response = await this.page.waitForResponse("**/decision");
+        const statusCode = response.status();
+        return statusCode; 
+     }
+
      async clickAgreeBtn_Fr() {
-        const promise =  this.page.waitForResponse("**/getCATermDecision", async route => {
+        const promise =  this.page.waitForResponse("**/decision", async route => {
              const res = await this.page.request.fetch(route.request());
          });
         await this.agreeBtn_Fr.click();
         const response = await promise;
         const responseBody = await response.json();
-        const errors = responseBody.result.response.errors;
+        const errors = responseBody.reasons;
         const error_string = [errors].toString();
         return error_string; 
      }

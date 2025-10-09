@@ -1,79 +1,98 @@
-module.exports = {   
-    url : "https://blanket-development.web.app",
-    urlLogin : "https://blanket-development.web.app/pages/login",
-    urlRegister : "https://blanket-development.web.app/pages/register",
-    username : "gagandeep.singla+autoqa1_en@trantorinc.com",
-    password : "123456",
-    username_Fr : "gagandeep.singla+autoqa1_fr@trantorinc.com",
-    invalidusername : "gagandeep.singla+invaliduser@trantorinc.com",
-    invalidpassword : "123123",
-    //username : "qa_test+prod3@blanket.com",
-    // username : "gagandeep.singla+prod1@trantorinc.com",
-    // password : "123456",
-    adminuser : "gagandeep.singla+admin@trantorinc.com",
-    adminpass : "l00k0ic6vw",
-    superadminuser : "gagandeep.singla+qa1@trantorinc.com",
-    superadminpass : "123456",  
-    cookiestext : "We value your privacy  For us, cookies are more than just a sweet treat. They are essential to providing you with an optimal and customized online experience. These little bits of data let us adapt the content and ads you see, while analyzing our traffic to better meet your needs. Enjoy our website, knowing that we do our utmost to offer you a tasty online experience. Check out our privacy policy  for more information.",
-    tagline : "We’ve got what matters most covered.",
-    date : "01/01/2000",
-    gender : "Female",
-    genderMale : "Male",
-    firstname : "Test",
-    lastname : "Auto user",
-    houseaddress : "110",
-    phonenumber : "2222222222",
-    income : "20000",
-    saving : "0",
-    mortgageBal : "0",
-    debt : "0",
-    quotevalue : "50.58",
-    feet : "5",
-    inches : "9",
-    weight : "180",
-    marijuana : "7",
-    drinks : "2",
-    drinksKnock : "15",
-    OptionYes : "Yes",
-    OptionNo : "No",
-    benfirstname : "Test", 
-    benlastname : "Beneficiary", 
-    bendob : "01/01/2010", 
-    bencompany : "Test Software Pvt Ltd.",
-    benshare : "100",
-    passportno : "AB123456",
-    healthno: "123456789",
-    licenseno: "AA1234",
-    cardname : "Teser User", 
-    cardnumber : "4111 1111 1111 1111", 
-    expirydate : "01/2027",
-    cvv : "213",
-    accountholdername : "Test User", 
-    transitnumber : "001", 
-    institutionnumber : "030800", 
-    accountnumber : "1234567", 
-    bankname : "CNB",
-    needAssessmentApiData : {
-        "data": {
-            "userKey": "cUikvtqcHENWpy26Jlp7Qg5WBLi2",
-            "grossIncome": 50004,
-            "grossHouseholdIncome": 0,
-            "savings": 0,
-            "mortgageBalance": 0,
-            "loanDebts": 0,
-            "dob": "2001-01-01",
-            "locale": "en"
-        }
-    },
-    getCaPremiumData : {
-        "data": {
-        "gender": "M",
-        "smoker": false,
-        "age": 23,
-        "product": 10,
-        "amount": 1000000,
-        "locale": "en"
-        }
-    }
+const { faker } = require('@faker-js/faker');
 
-}
+const userData = {
+  firstName : "Tester",
+  lastName : "QA",
+  genderFemale : "Female",
+  genderMale : "Male",
+  date : (() => {
+    const date = faker.date.birthdate({ min: 18, max: 60, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${
+      String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_18_50 : (() => {
+    const date = faker.date.birthdate({ min: 18, max: 50, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${
+      String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_50_60 : (() => {
+    const date = faker.date.birthdate({ min: 50, max: 60, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${
+      String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_61_65 : (() => {
+    const date = faker.date.birthdate({ min: 61, max: 65, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${
+      String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_66_70 : (() => {
+    const date = faker.date.birthdate({ min: 66, max: 70, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${
+      String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  feet : faker.number.int({ min: 5, max: 6 }).toString(),
+  inches : faker.number.int({ min: 5, max: 11 }).toString(),
+  weight : faker.number.int({ min: 165, max: 200 }).toString(),
+  centi: faker.number.int({ min: 165, max: 190 }).toString(),
+  weightKG : faker.number.int({ min: 65, max: 90 }).toString(),
+  houseAddress : faker.number.int({ min: 100, max: 999 }).toString(),
+  phoneNumber: '(222)-222-2222',
+  income : faker.number.int({ min: 10000, max: 50000 }).toString(),
+  saving : "0",
+  mortgageBal : "0",
+  debt : "0",
+  quotevalue : "50.58",
+  marijuana : faker.number.int({ min: 0, max: 7 }).toString(),
+  marijuanaKnock : faker.number.int({ min: 8, max: 12 }).toString(),
+  drinks : faker.number.int({ min: 0, max: 14 }).toString(),
+  drinks_7_P : faker.number.int({ min: 8, max: 14 }).toString(),
+  drinksKnock : faker.number.int({ min: 15, max: 20 }).toString(),
+  optionYes : "Yes",
+  optionNo : "No",
+  benFirstName : faker.person.firstName(), 
+  benLastName : "Beneficiary", 
+  benDob : (() => {
+    const date = faker.date.birthdate({ min: 10, max: 25, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${
+      String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  benCompany : faker.company.name(),
+  benShare : "100",
+  passportNo : "AB123456",
+  healthNo: "123456789",
+  licenseNo: "AA1234",
+  cardName : "Test Card", 
+  cardNo : "4111 1111 1111 1111", 
+  expiryDate : "01/2027",
+  cvv : "213",
+  accountHolderName : "Test Account", 
+  transitNo : "001", 
+  institutionNo : "030800", 
+  accountNo : "1234567", 
+  bankName : "Test Bank"
+};
+
+const loginData = {
+  validUser : {
+    username : "gagandeep.singla+sqlqa1@trantorinc.com",
+    password : "Test@123",
+    username_Fr : "gagandeep.singla+sqlqa_fr@trantorinc.com"
+  },
+  invalidUser : {
+    invalidUsername : "gagandeep.singla+invaliduser@trantorinc.com",
+    invalidPassword : "123123"
+  },
+  adminUsers : {
+  adminUser : "gagandeep.singla+admin@trantorinc.com",
+  adminPass : "Test@123",
+  },
+  prodUser : {
+    username : "gagandeep.singla+qaprod1@trantorinc.com",
+    password : "Test@123",
+  }
+};
+
+module.exports = {
+  userData,
+  loginData
+};

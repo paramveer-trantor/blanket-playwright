@@ -15,12 +15,15 @@ export class DashboardPage{
         this.partnershipBtn = page.getByRole('menu').getByRole('menuitem', { name: ' Partnerships ' });
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
-        this.termlifeBtn = page.getByRole('menu').getByRole('option', { name: 'Term Life' });
-        this.termlifeBtn_Fr = page.getByRole('menu').getByRole('option', { name: 'Assurance vie temporaire' });
+        this.termlifeBtn = page.getByText('Term Life');
+        this.termlifeBtn_Fr = page.getByText('Assurance vie temporaire');
+        //this.termlifeBtn = page.getByRole('listbox').getByRole('option', { name: 'Term Life' });
+        //this.termlifeBtn_Fr = page.getByRole('listbox').getByRole('option', { name: 'Assurance vie temporaire' });
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
         this.myProfileBtn = page.locator("//div[@class='v-toolbar__content']/button[2]");
         this.myApplicationsBtn = page.getByRole('menuitem', { name: 'My Applications' }); 
         this.profileOptions = page.getByRole('menuitem');
+        this.myPolicies = page.getByText('My Policies');
         this.openApplicationMsg = page.getByRole('status');
         this.langBtn = page.locator('.v-btn__content .currentLang');
         this.langFR = page.getByRole('menuitem');
@@ -44,12 +47,9 @@ export class DashboardPage{
     }
 
     async navigateToCATLProduct() {
-        if(this.page.getByText(' We value your privacy ').isVisible()) {
-            await this.acceptCookiesBtn.first().isVisible();
-            await this.acceptCookiesBtn.first().click();
-        }
-        await this.countryBtn.click();
-        await this.CABtn.last().click();
+        await this.page.waitForLoadState('domcontentloaded');
+        // await this.countryBtn.click();
+        // await this.CABtn.last().click();
         await this.productsBtn.click();
         await this.termlifeBtn.click();
         await this.page.waitForLoadState('domcontentloaded');
@@ -118,7 +118,7 @@ export class DashboardPage{
 
     async goToMyPoliciesPage() {  
         await this.myProfileBtn.click();
-        await this.profileOptions.nth(2).click();
+        await this.myPolicies.click();
     }
 
     async goToMyProfilePage() {  

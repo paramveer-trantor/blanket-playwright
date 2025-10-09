@@ -30,7 +30,7 @@ export class NeedsAssessmentPage {
     }
 
     async enterGrossIncome(income, saving, mortgageBal, debt) {
-        //await this.page.waitForTimeout(2500);
+        await this.page.waitForURL(/\/canadianterm\/survey\/policy-options\/BK-\d+/);
         await this.annualIncome.click();
         await this.annualIncome.fill(income);
         await this.saving.click();
@@ -40,11 +40,11 @@ export class NeedsAssessmentPage {
         //  });
         // const response = await promise;
         // expect(response.status()).toBe(200);
-        await this.saving.fill(saving);
-        await this.mortgageBalance.click();
-        await this.mortgageBalance.fill(mortgageBal);
-        await this.loansAndDebts.click();
-        await this.loansAndDebts.fill(debt);
+        // await this.saving.fill(saving);
+        // await this.mortgageBalance.click();
+        // await this.mortgageBalance.fill(mortgageBal);
+        // await this.loansAndDebts.click();
+        // await this.loansAndDebts.fill(debt);
     }
 
     async checkIfAnyMessageAppears() {
@@ -69,8 +69,11 @@ export class NeedsAssessmentPage {
     }
 
     async clickContinueBtn() {
-        await this.continueBtn.isEnabled();
-        await this.continueBtn.click();
+        const promise =  this.page.waitForResponse("**/assessment", async route => {
+            const res = await this.page.request.fetch(route.request());
+        });
+          await this.continueBtn.click();
+          const response = await promise;
     }
 
     async clickContinueBtn_Fr() {

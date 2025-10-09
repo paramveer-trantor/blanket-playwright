@@ -11,13 +11,14 @@ import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Pa
 import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page'
 import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage'
 import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage'
-const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo } = require('../Utils/TestData');
+import { userData, loginData } from '../Utils/TestData'
 
 test.beforeEach('Run flow till TL landing page', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.login('/pages/login', username, password);
+    await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
 
     const dashboardPage = new DashboardPage(page);
+    await dashboardPage.acceptCookies();
     await dashboardPage.navigateToCATLProduct();
 
     const landingpage = new TLProductLandingPage(page);
@@ -29,32 +30,33 @@ test.afterEach('Close the browser', async ({ page }) => {
 });
 
 test.describe('BL-T10: Pre Application Questions knockout scenarios', async () => {
+    
     test('BL-T10(1): Verify knockout with currently absent from work question', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillUserInfoWithCurrentlyAbsentFromWorkAsYes(firstname, lastname, houseaddress, phonenumber);
+        await preApplicationPage.fillUserInfoWithCurrentlyAbsentFromWorkAsYes(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -62,36 +64,36 @@ test.describe('BL-T10: Pre Application Questions knockout scenarios', async () =
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates who have been absent from work for more than 14 consecutive days are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidate is currently absent from work for more than 14 days');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('BL-T10(2): Verify knockout with past absent from work question', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillUserInfoWithPastAbsentFromWorkAsYes(firstname, lastname, houseaddress, phonenumber);
+        await preApplicationPage.fillUserInfoWithPastAbsentFromWorkAsYes(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -99,8 +101,8 @@ test.describe('BL-T10: Pre Application Questions knockout scenarios', async () =
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates who have been absent from work for more than 14 consecutive days in the last 2 years are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates absent for more than 14 days in last 2 years are not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
 });
@@ -109,30 +111,30 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
     
     test('Verify knockout with BMI > 35 Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, "5", "8", "235");
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, "5", "8", "235");
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn(); 
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -140,36 +142,36 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('BMI > 35 is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('>35');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
     
     test('Verify knockout with BMI < 17.5 Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, "5", "1", "83");
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, "5", "1", "83");
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -177,36 +179,36 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('BMI < 17.5 is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('<17.5');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Company Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerCompanyDeclinedAsYesandRestNo(drinks);
+        await lifestyleQuestionnairePage.answerCompanyDeclinedAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -214,36 +216,36 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates whose policies have been declined / rescinded are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates whose policies were declined or rescinded are not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Risky Occupation lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerRiskyOccupationAsYesandRestNo(drinks);
+        await lifestyleQuestionnairePage.answerRiskyOccupationAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -252,35 +254,35 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates with risky occupations are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
         
     test('Verify knockout with Criminal Offence lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerCriminalOffenceAsYesandRestNo(drinks);
+        await lifestyleQuestionnairePage.answerCriminalOffenceAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -289,35 +291,35 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates with a criminal history are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Extreme Sports lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerExtremeSportsAsYesandRestNo(drinks);
+        await lifestyleQuestionnairePage.answerExtremeSportsAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -325,36 +327,36 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Customers which engage in extreme sports are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates who engage in extreme sports are not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Marijuana lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerMarijuanaValueAsHighandRestNo("8",drinks);
+        await lifestyleQuestionnairePage.answerMarijuanaValueAsHighandRestNo(userData.marijuanaKnock,userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -362,36 +364,36 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates who use marijuana 7 or more times a week are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates who use marijuana 7+ times a week are not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Drinks lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerDrinksValueAsHighandRestNo(drinksKnock);
+        await lifestyleQuestionnairePage.answerDrinksValueAsHighandRestNo(userData.drinksKnock);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);  
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -399,36 +401,36 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates which consume alcohol 15 times or more per week are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates consuming 15 or more alcoholic drinks per week are not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Drugs Use 5Y lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerDrugsUse5YAsYesandRestNo(drinks);
+        await lifestyleQuestionnairePage.answerDrugsUse5YAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -436,36 +438,36 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Use of recreational drugs in the last 5 years is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Use of recreational drugs in the past 5 years is not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Drugs Use 10Y lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerDrugsUse10YAsYesandRestNo(drinks);
+        await lifestyleQuestionnairePage.answerDrugsUse10YAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -473,36 +475,36 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates with substance history in the last 10 years are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Substance history in the last 10 years is not allowed');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Outside CA lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerOutsideCaAsYesandRestNo(drinks);
+        await lifestyleQuestionnairePage.answerOutsideCaAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -510,8 +512,8 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('You have lived outside for more then 30+ days consecutive');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Applicant has resided outside Canada for 30+ consecutive days in past year or plans to');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
 });
@@ -520,22 +522,22 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
     
     test('Verify knockout with Cancer medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -543,7 +545,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -551,28 +553,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Cancer is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Cancer');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Heart Attack medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -580,7 +582,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -588,28 +590,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Heart issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Heart Disease');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Fibrosis medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -617,7 +619,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -625,28 +627,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Fibrosis is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Fibrosis');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
-    test('Verify knockout with Sleep Apnea medical page 1 question.', async ({ page }) => {
+    test('Verify knockout with No for Sleep Apnea additional medical question', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -654,7 +656,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -662,28 +664,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Sleep Apnea is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Unmanaged Sleep Apnea');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
-    test('BL-T153: User shall be knocked out if selects an inappropriate answer for Sleep Apnea or related medical questions.', async ({ page }) => {
+    test('Verify knockout with drink value > 7 & selects Yes for Sleep Apnea additional medical question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(gender, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, "8");
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks_7_P);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -691,7 +693,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -699,28 +701,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Sleep apnea with more than 7 drinks is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Sleep Apnea with > 7 drinks');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with AIDS HIV medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -728,7 +730,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -736,28 +738,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Immunity issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Autoimmune Conditions');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Brain Disorder medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -765,7 +767,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -773,28 +775,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Brain disorders are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Brain Disorder');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Memory Disorder medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -802,7 +804,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -810,28 +812,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Cognitive issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Cognitive Impairment');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Rheumatoid Arthritis medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -839,7 +841,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -847,28 +849,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Musculoskeletal issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Musculoskeletal Issues');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Schizophrenia medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -876,7 +878,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -884,28 +886,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Psychological issues like schizophrenia are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Schizophrenia');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Depression medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -913,7 +915,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -921,28 +923,28 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Time off work due to psychological issues like depression is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Depression with time off work');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
-
+    
     test('Verify knockout with Anxiety medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -950,7 +952,7 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -958,32 +960,32 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Anxiety issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Anxiety with hospitalization');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Hepatitis medical page 2 question.', async ({ page }) => {  
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
@@ -995,32 +997,32 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('General health issues are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Unspecified general health condition');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Medical Condition 4 W medical page 2 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
@@ -1032,32 +1034,32 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Injuries/illness leading to extended time off work are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Extended treatment in last 12 months');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Mamogram medical page 2 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
@@ -1069,32 +1071,32 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Abnormal mamograms in the last 2 years are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Abnormal mammograms');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Medical Followups medical page 2 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
@@ -1106,32 +1108,32 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Uncompleted follow-ups are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Uncompleted follow-ups');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with Last 3 Months Symptoms medical page 2 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
@@ -1143,32 +1145,32 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('Unconsulted symptoms are not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Recent unexplored symptoms');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with 2 or More Parents Diagnosed medical page 2 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
@@ -1180,32 +1182,32 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('2 or more family members diagnosed with these conditions is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Significant family history of critical illness before age 60');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
     test('Verify knockout with 1 or More Parents Diagnosed medical page 2 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
@@ -1217,8 +1219,8 @@ test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
 
         const personalStatementPage = new PersonalStatementPage(page);
         await personalStatementPage.clickCheckboxes();
-        expect(await personalStatementPage.clickAgreeBtn()).toContain('1 or more family members diagnosed with these conditions is not allowed');
-        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or customerservice@blanket.com");
+        expect(await personalStatementPage.clickAgreeBtn()).toContain('Significant family history of critical illness before age 60');
+        expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
 

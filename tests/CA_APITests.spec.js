@@ -1,3 +1,4 @@
+/*
 import { test, expect } from '@playwright/test';
 import { InterceptorAPIs } from '../PageObjects/InterceptorAPIs';
 import { LoginPage } from '../PageObjects/LoginPage';
@@ -18,7 +19,7 @@ import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage'
 import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
 import { PaymentPage } from '../PageObjects/PaymentPage'
 import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
-const { username, password, cookiestext, tagline, date, gender, genderMale, firstname, lastname, houseaddress, phonenumber, income, saving, mortgageBal, debt, quotevalue, feet, inches, weight, marijuana, drinks, drinksKnock, OptionYes, OptionNo, benfirstname, benlastname, bendob, benshare, passportno, healthno, licenseno, cardname, cardnumber, expirydate, cvv, accountholdername, transitnumber, institutionnumber, accountnumber, bankname } = require('../Utils/TestData');
+import { userData, loginData } from '../Utils/TestData'
 
 test.afterEach('Close the browser', async ({ page }) => {
     await page.close(); 
@@ -35,7 +36,7 @@ test.describe('API status codes handling TCs', async () => {
         await landingpage.clickApplyNowBtn();
 
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.fillQuotePage(gender, date, feet, inches, weight);
+        await premiumQuotePage.fillQuotePage(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
@@ -49,7 +50,7 @@ test.describe('API status codes handling TCs', async () => {
 
     test('BL-T186(1): Application shall throw an error if CA Term Assessment API response is not 200 or 201', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', username, password);
+        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
 
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.navigateToCATLProduct();
@@ -58,11 +59,11 @@ test.describe('API status codes handling TCs', async () => {
         await landingpage.clickApplyNowBtn();
 
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
 
         const codes = [400, 403, 408, 429, 500, 503, 504];
@@ -81,7 +82,7 @@ test.describe('API status codes handling TCs', async () => {
 
     test('BL-T186(2): Application shall throw an error if CA Term Get Premium API response is not 200 or 201', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', username, password);
+        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
 
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.navigateToCATLProduct();
@@ -90,11 +91,11 @@ test.describe('API status codes handling TCs', async () => {
         await landingpage.clickApplyNowBtn();
 
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
 
         const needsAssessmentPage = new NeedsAssessmentPage(page);
@@ -113,7 +114,7 @@ test.describe('API status codes handling TCs', async () => {
 
     test('BL-T186(3): Application shall throw an error if CA Term Decission API response is not 200 or 201', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', username, password);
+        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
 
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.navigateToCATLProduct();
@@ -122,15 +123,15 @@ test.describe('API status codes handling TCs', async () => {
         await landingpage.clickApplyNowBtn();
 
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(genderMale, date, feet, inches, weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
         
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(income, saving, mortgageBal, debt);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
@@ -138,15 +139,15 @@ test.describe('API status codes handling TCs', async () => {
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(OptionNo, drinks);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
         
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(OptionNo);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(OptionNo);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
@@ -165,10 +166,9 @@ test.describe('API status codes handling TCs', async () => {
         }
     });
 
-    /*
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Create Customer API ', async ({ page }) => {
         await page.goto('/pages/login');
-        await login(page, username, password);
+        await login(page, loginData.validUser.username, loginData.validUser.password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -204,7 +204,7 @@ test.describe('API status codes handling TCs', async () => {
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Store Credit Card API ', async ({ page }) => {
         await page.goto('/pages/login');
-        await login(page, username, password);
+        await login(page, loginData.validUser.username, loginData.validUser.password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -237,7 +237,7 @@ test.describe('API status codes handling TCs', async () => {
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Subscribe API ', async ({ page }) => {
         await page.goto('/pages/login');
-        await login(page, username, password);
+        await login(page, loginData.validUser.username, loginData.validUser.password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -270,7 +270,7 @@ test.describe('API status codes handling TCs', async () => {
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Bind Policy API ', async ({ page }) => {
         await page.goto('/pages/login');
-        await login(page, username, password);
+        await login(page, loginData.validUser.username, loginData.validUser.password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -303,7 +303,7 @@ test.describe('API status codes handling TCs', async () => {
 
     test('Application shall throw an error if api response is not 200 or 201 in CA Term Send Policy Pdf API ', async ({ page }) => {
         await page.goto('/pages/login');
-        await login(page, username, password);
+        await login(page, loginData.validUser.username, loginData.validUser.password);
         await navigateToProductPage(page);
         await navigateToPolicyForm(page);
         await navigateToPreApplicationPage(page, gender, date);
@@ -334,11 +334,9 @@ test.describe('API status codes handling TCs', async () => {
         //expect(page.getByRole('dialog')).toBeVisible();
     });
 
-    */
-
     test('BL-T141: Application shall throw an error if send email policy API response is not 200 or 201', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', username, password);
+        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
 
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
@@ -360,7 +358,7 @@ test.describe('API status codes handling TCs', async () => {
 
     test('BL-T141(1): Application shall throw an error if login API response is not 200 or 201', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.fillLoginDetails('/pages/login', username, password);
+        await loginPage.fillLoginDetails('/pages/login', loginData.validUser.username, loginData.validUser.password);
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
@@ -422,3 +420,75 @@ test.describe('API status codes handling TCs', async () => {
 
 });
 
+test.describe('Standalone test case', () => { 
+
+    test.skip('Purchase policy for any partner', async ({ page }) => {
+        test.setTimeout(100000);
+        await page.goto('https://blanket.com/canadianterm/partner/461b6ea5-393d-462d-bb42-4b4afc8781d6'); 
+    
+        const dashboardPage = new DashboardPage(page); 
+        await dashboardPage.acceptCookies();
+
+        const landingpage = new TLProductLandingPage(page);
+        await landingpage.clickApplyNowBtn();
+
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, "5", "1", "160");
+        //await premiumQuotePage.getQuoteValueWithMetric(userData.genderFemale, userData.date, centi, weight_kg);
+        await premiumQuotePage.clickContinueBtn();
+
+        const loginPageInTLForm = new LoginPageInTLForm(page);
+        await loginPageInTLForm.loginIntoAccount(username, password);
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.acceptPopWindow();
+        await preApplicationPage.fillPreApplicationFormPage("Test", "ULInd", houseaddress, phonenumber, OptionNo); 
+        await preApplicationPage.clickConitnueBtn();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
+        await confirmPremiumPage.clickContinueBtn();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.checkWithoutBenCheckbox();
+        await beneficiaryPage.clickConitnueBtn();  
+
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
+
+        const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox();
+        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
+        await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
+        
+        const congratulationsPage = new CongratulationsPage(page);
+        page.waitForTimeout(3000);
+        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+        }); 
+
+    });
+
+*/

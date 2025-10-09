@@ -2,7 +2,7 @@ export class MyPoliciesPage {
 
     constructor(page){
         this.page = page;
-        this.header = page.locator("//div[@class='d-flex justify-center col']/div[1]");
+        this.header = page.locator(".mt-2.mb-4");
         this.eyeBtn = page.locator("//div[@class='v-data-table__wrapper']//tbody/tr/td[5]/button");
         this.emailPolicyBtn = page.getByRole('button', { name: ' Email Policy ' }); 
         this.policyDetails = page.locator("//ul[@class='text-h4 pa-2']/li");

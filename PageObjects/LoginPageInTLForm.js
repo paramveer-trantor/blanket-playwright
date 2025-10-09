@@ -31,7 +31,7 @@ export class LoginPageInTLForm {
         await this.password.fill(password);
         await this.preferredLanguage.click();
         await this.languageEn.click();
-        const promise = this.page.waitForResponse("**/sendOtp", async route => {
+        const promise = this.page.waitForResponse("**/auth/register", async route => {
             const res = await this.page.request.fetch(route.request());
         });
         await this.createAccountBtn.click();

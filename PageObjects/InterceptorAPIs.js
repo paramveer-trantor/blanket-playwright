@@ -1,5 +1,6 @@
 const url_prod = "https://us-central1-blanket-production.cloudfunctions.net/**"
-const url_dev = "https://us-central1-blanket-development.cloudfunctions.net/**";
+//const url_dev = "https://us-central1-blanket-development.cloudfunctions.net/**";
+const url_dev = "https://api-staging.blanket.com/api/**";
 
 export class InterceptorAPIs {
  
@@ -20,7 +21,7 @@ export class InterceptorAPIs {
     }
 
     async readApiResponse() {
-        const promise =  this.page.waitForResponse("https://us-central1-blanket-development.cloudfunctions.net/**", async route => {
+        const promise =  this.page.waitForResponse("url_dev", async route => {
             const res = await this.page.request.fetch(route.request());
         });
         const response = await promise;

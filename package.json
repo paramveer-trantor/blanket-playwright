@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "qa" : "npx playwright test --project=chromium --headed",
-    "admin" : "npx playwright test --project=admin --headed",
-    "production" : "npx playwright test --project=production --headed"
+    "qa": "npx playwright test --project=chromium --headed",
+    "admin": "npx playwright test --project=admin --headed",
+    "production": "npx playwright test --project=production --headed"
   },
   "keywords": [],
   "author": "",
@@ -19,5 +19,8 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.9.0"
   }
 }
