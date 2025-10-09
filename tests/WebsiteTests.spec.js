@@ -16,18 +16,22 @@ test.describe('Login & Register page Tests', () => {
     test('BL-T114 - User should be able to login with valid credentials', async ({ page }) => {
         await page.goto('/pages/login'); 
         const loginPage = new LoginPage(page);
-        await loginPage.userLogin(loginData.validUser.username, loginData.validUser.password);       
+        await loginPage.enterLoginCredentials(loginData.validUser.username, loginData.validUser.password);   
+        await loginPage.clickLoginBtn();    
         
-        expect(await page.url).toBe('https://staging.blanket.com/')
+        await page.waitForTimeout(5000);
+        await expect(page).toHaveURL('https://staging.blanket.com/');
     });
 
     test('BL-T251 - User should not be able to login with invalid credentials', async ({ page }) => {
         await page.goto('/pages/login'); 
         const loginPage = new LoginPage(page);
-        await loginPage.userLogin(loginData.validUser.username, loginData.invalidUser.invalidPassword);  
+        await loginPage.enterLoginCredentials(loginData.validUser.username, loginData.invalidUser.invalidPassword);  
+        await loginPage.clickLoginBtn();   
         expect(await loginPage.getErrorMessage()).toEqual('Invalid credentials');
         await loginPage.closeErrorPopUp();
-        await loginPage.userLogin(loginData.invalidUser.invalidUsername, loginData.validUser.password);     
+        await loginPage.enterLoginCredentials(loginData.invalidUser.invalidUsername, loginData.validUser.password);    
+        await loginPage.clickLoginBtn();    
         expect(await loginPage.getErrorMessage()).toEqual('Invalid credentials');
     });
 
@@ -144,8 +148,10 @@ test.describe('Website pages Tests with Login', () => {
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         await dashboardPage.clickLogoutBtn();
-          
-        await loginPage.userLogin(loginData.validUser.username, loginData.validUser.password);       
+        
+        const loginPage = new LoginPage(page);
+        await loginPage.enterLoginCredentials(loginData.validUser.username, loginData.validUser.password);       
+        await loginPage.clickLoginBtn();   
         expect(await dashboardPage.clickAndVerifyOpenApplicationsMsg()).toEqual("You have an application in progress, would you like to continue?");
         const myApplicationsPage = new MyApplicationsPage(page);
         expect(await myApplicationsPage.getMyAppPageHeader()).toEqual("My Applications");

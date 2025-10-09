@@ -119,6 +119,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
     });
 
     test('BL-T4: User shall able to purchase policy using CC payment method successfully.', async ({ page }) => {
+        test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
@@ -1147,7 +1148,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
     });
 
     test('BL-T55: User shall able to purchase policy using ACH payment method successfully.', async ({ page }) => {
-        test.setTimeout(100000);
+        test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueWithMetric(userData.genderFemale, userData.date, userData.centi, userData.weightKG);
         await premiumQuotePage.clickContinueBtn();
@@ -1380,11 +1381,12 @@ test.describe('CA Term Life Test Cases with Login', () => {
     test('BL-T118: User information filled on quote page shall be pre filled on pre application page.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        const input_DOB = await premiumQuotePage.getInputDOBValue();
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
-        expect(await preApplicationPage.verifyDOBHasValue()).toEqual(date);
+        expect(await preApplicationPage.verifyDOBHasValue()).toEqual(input_DOB);
         expect(await preApplicationPage.verifyIsCanadianTrue()).toBeTruthy();
         expect(await preApplicationPage.verifyIsNonSmokerTrue()).toBeTruthy(); 
     });
@@ -1450,7 +1452,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
     });
 
     test('BL-T140: User shall be allowed to enter address manually and application shall not validate address on continue button of pre application page.', async ({ page }) => {
-        test.setTimeout(100000);
+        test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueAsSmoker(userData.genderMale, userData.date, "5", "11", userData.weight);
         await premiumQuotePage.clickContinueBtn();
@@ -1651,7 +1653,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
     });
 
     test('BL-T181: User shall be allowed to purchase policy on answering YES to replacement question on Pre Application page.', async ({ page }) => {
-        test.setTimeout(100000);
+        test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();

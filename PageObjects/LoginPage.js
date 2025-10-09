@@ -13,10 +13,9 @@ export class LoginPage {
         this.emailForgotPage = page.getByLabel('Email');
     }
 
-    async userLogin(username, password) {
+    async enterLoginCredentials(username, password) {
         await this.email.fill(username);  
         await this.password.fill(password);
-        await this.loginBtn.click();
     }
  
     async login(url, username, password) {

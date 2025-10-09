@@ -191,6 +191,10 @@ export class PremiumQuotePage extends BasePage {
         return msg_warning;  
     }
 
+    async getInputDOBValue() {
+        return await this.dateOfBirth.inputValue();
+    }
+
     async getIncorrectDateErrorMsg(gender, date) {
         if (gender == "Male") {
             await this.genderMale.first().click();
