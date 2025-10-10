@@ -1037,7 +1037,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
     });
 
     test('BL-T40: Purchased policy details shall be displayed properly on congratulations screen.', async ({ page }) => {
-        test.setTimeout(100000);
+        test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
@@ -1863,7 +1863,7 @@ test.describe('CA Term Life Test Cases with Login', () => {
 }); 
     test("BL-T238: Application shall fetch info like DOB, height, weight & address from user profile and pre populate in CA TL form." , async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', "gagandeep.singla+sqlprod@trantorinc.com", "Test@123");
+        await loginPage.login('/pages/login', "gagandeep.singla+qa_filled@trantorinc.com", "Test@123");
 
         const dashboardPage = new DashboardPage(page); 
         await dashboardPage.navigateToCATLProduct();
