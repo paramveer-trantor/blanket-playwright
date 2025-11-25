@@ -127,7 +127,6 @@ export class ConfirmIdentityPage {
         await this.healthCardInputField.fill(healthno);
     }
 
-    
     async enterHealthCardNumber_Fr(healthno) {
         await this.healthCardInputField_Fr.fill(healthno);
     }

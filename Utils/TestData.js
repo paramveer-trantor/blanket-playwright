@@ -87,7 +87,7 @@ const loginData = {
   adminPass : "Test@123",
   },
   prodUser : {
-    username : "gagandeep.singla+qaprod1@trantorinc.com",
+    username : "gagandeep.singla+qaprod@trantorinc.com",
     password : "Test@123",
   }
 };
