@@ -28,8 +28,8 @@ export class BeneficiaryPage {
         this.openBeneficiaryType_Fr = this.dialogBox.getByLabel('Type de bénéficiaire', { exact: true });
         this.selectBeneficiryType = this.dialogBox.getByText('Revocable', { exact: true });
         this.selectBeneficiryType_Fr = this.dialogBox.getByText('Révocable', { exact: true });
-        this.dateOfBirth = this.dialogBox.getByLabel('MM/DD/YYYY', { exact: true });
-        this.dateOfBirth_Fr = this.dialogBox.getByLabel('MM/JJ/AAAA', { exact: true });
+        this.dateOfBirth = this.dialogBox.getByLabel('Date of Birth', { exact: true });
+        this.dateOfBirth_Fr = this.dialogBox.getByLabel('Date de naissance', { exact: true });
         this.percentage = this.dialogBox.getByLabel('% Share', { exact: true });
         this.percentage_Fr = this.dialogBox.getByLabel('% partage', { exact: true });
         this.saveBtn = this.dialogBox.getByRole('button', { name: ' Save ' });
