@@ -16,6 +16,8 @@ export class BeneficiaryPage {
         this.benFirstName_Fr = this.dialogBox.getByLabel('Prénom', { exact: true });
         this.benLastName = this.dialogBox.getByLabel('Last name', { exact: true }); 
         this.benLastName_Fr = this.dialogBox.getByLabel('Nom de Famille', { exact: true });
+        this.firstName = this.dialogBox.getByLabel('First name', { exact: true });
+        this.lastName = this.dialogBox.getByLabel('Last name', { exact: true }); 
         this.openRelationshipDropDown = this.dialogBox.getByLabel('Relationship to policy owner', { exact: true });
         this.openRelationshipDropDown_Fr = this.dialogBox.getByLabel('Lien avec le titulaire', { exact: true });
         this.selectRelationshipOption = this.dialogBox.getByText('Brother', { exact: true });
@@ -40,6 +42,9 @@ export class BeneficiaryPage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.addedbendetails = page.locator("//div[@class ='v-data-table__wrapper']/table/tbody/tr/td");
+        this.trusteeHeader = this.dialogBox.getByRole('heading', { name: 'Trustee Information' });
+        //this.trusteeHeader = this.dialogBox.getByText('Trustee Information');
+        this.trusteeRel = this.dialogBox.getByLabel('Relationship to minor beneficary');
         this.errorMsgs = this.dialogBox.locator('.v-messages__message');
     }
 
@@ -123,6 +128,37 @@ export class BeneficiaryPage {
         await this.percentage_Fr.fill(benshare);
         await this.saveBtn_Fr.isEnabled();
         await this.saveBtn_Fr.click();
+    }
+
+    async enterIndiBenificiaryAsMinor(benfirstname, benlastname, bendob, benshare) {
+        await this.addBeneficiryBtn.click();
+        await this.openBeneficiariesTypes.click();
+        await this.selectIndividual.click();
+        await this.benFirstName.click();
+        await this.benFirstName.fill(benfirstname);
+        await this.benLastName.click();
+        await this.benLastName.fill(benlastname);
+        await this.openRelationshipDropDown.click();
+        await this.selectRelationshipOption.click();
+        await this.openBeneficiaryType.click();
+        await this.selectBeneficiryType.click();
+        await this.dateOfBirth.click();
+        await this.dateOfBirth.fill(bendob);
+        await this.percentage.click();
+        await this.percentage.fill(benshare);
+    }
+
+    async checkIfTrusteeFieldsAreVisible() {
+        return await this.trusteeHeader;
+    }
+
+    async enterIndividualTrusteeInfo(trusteefirstname, trusteelastname, trusteedob, trusteerel) {
+        await this.firstName.last().fill(trusteefirstname);
+        await this.lastName.last().fill(trusteelastname);
+        await this.dateOfBirth.last().fill(trusteedob);
+        await this.trusteeRel.fill(trusteerel);
+        await this.saveBtn.isEnabled();
+        await this.saveBtn.click();
     }
 
     async getAddedBenDetails() {

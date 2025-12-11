@@ -1859,8 +1859,90 @@ test.describe('CA Term Life Test Cases with Login', () => {
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         expect(await confirmPremiumPage.getQuoteValue()).toEqual(premiumrate_bmi_32);
     });
+
+    test('BL-T279: Application shall ask user to add trustee info while adding minor as beneficiary for provinces AB, BC & ON.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationWithON(userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber); 
+        await preApplicationPage.clickConitnueBtn();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.clickContinueBtn();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.enterIndiBenificiaryAsMinor(userData.benFirstName, userData.benLastName, userData.benDobMinor, userData.benShare);
+        expect(await beneficiaryPage.checkIfTrusteeFieldsAreVisible()).toBeVisible();
+        await beneficiaryPage.enterIndividualTrusteeInfo(userData.trusteefirstname, userData.trusteelastname, userData.trusteedob, userData.trusteerel);
+    });
+
+    test('BL-T280: Application shall not ask user to add trustee info while adding minor as beneficiary for QC provinces.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationWithQC(userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber); 
+        await preApplicationPage.clickConitnueBtn();
+        
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.clickContinueBtn();
+        
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+        
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.enterIndiBenificiaryAsMinor(userData.benFirstName, userData.benLastName, userData.benDobMinor, userData.benShare);
+        expect(await page.getByText('Trustee Information')).not.toBeVisible();
+    });
  
 }); 
+
     test("BL-T238: Application shall fetch info like DOB, height, weight & address from user profile and pre populate in CA TL form." , async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.login('/pages/login', "gagandeep.singla+qa_filled@trantorinc.com", "Test@123");

@@ -52,12 +52,25 @@ const userData = {
   benFirstName : faker.person.firstName(), 
   benLastName : "Beneficiary", 
   benDob : (() => {
-    const date = faker.date.birthdate({ min: 10, max: 25, mode: 'age' });
+    const date = faker.date.birthdate({ min: 20, max: 35, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${
+      String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  benDobMinor : (() => {
+    const date = faker.date.birthdate({ min: 10, max: 17, mode: 'age' });
     return `${String(date.getMonth() + 1).padStart(2, '0')}/${
       String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
   })(),
   benCompany : faker.company.name(),
   benShare : "100",
+  trusteefirstname : faker.person.firstName(), 
+  trusteelastname : "Trustee", 
+  trusteedob : (() => {
+    const date = faker.date.birthdate({ min: 25, max: 35, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${
+      String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(), 
+  trusteerel : "Big brother",
   passportNo : "AB123456",
   healthNo: "123456789",
   licenseNo: "AA1234",

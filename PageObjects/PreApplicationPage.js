@@ -25,6 +25,8 @@ export class PreApplicationPage extends BasePage {
         this.city = page.getByTestId('preApplicationForm').getByLabel('City', { exact: true });
         this.province = page.getByTestId('preApplicationForm').getByLabel('Province', { exact: true });
         this.selectProvinceBC = page.getByRole('listbox').getByRole('option').filter({ hasText: 'British Columbia' });
+        this.selectProvinceON = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Ontario' });
+        this.selectProvinceQC = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Quebec' });
         this.selectProvinceList = page.getByRole('listbox').getByRole('option');
         this.zipcode = page.getByTestId('preApplicationForm').getByLabel('Postal code', { exact: true });
         this.notAvailableMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']");
@@ -198,6 +200,50 @@ export class PreApplicationPage extends BasePage {
             await this.optionNo.nth(3).click();
             await this.optionNo.nth(4).click();
         }
+    }
+
+    async fillPreApplicationWithON(firstname, lastname, houseaddress, city, zipcode, phonenumber) {
+        if (await this.dialogBox.isVisible()) {
+            await this.dialogContinueBtn.click();
+        }
+        await this.firstName.click();  
+        await this.firstName.fill(firstname);
+        await this.lastName.click();
+        await this.lastName.fill(lastname);
+        await this.address.fill(houseaddress);
+        await this.city.click();
+        await this.city.fill(city);
+        await  this.province.click();
+        await this.selectProvinceON.click();
+        await this.zipcode.click();
+        await this.zipcode.fill(zipcode);
+        await this.phoneNumber.click();
+        await this.phoneNumber.fill(phonenumber);
+        await this.optionNo.nth(2).click();
+        await this.optionNo.nth(3).click();
+        await this.optionNo.nth(4).click();
+    }
+
+    async fillPreApplicationWithQC(firstname, lastname, houseaddress, city, zipcode, phonenumber) {
+        if (await this.dialogBox.isVisible()) {
+            await this.dialogContinueBtn.click();
+        }
+        await this.firstName.click();  
+        await this.firstName.fill(firstname);
+        await this.lastName.click();
+        await this.lastName.fill(lastname);
+        await this.address.fill(houseaddress);
+        await this.city.click();
+        await this.city.fill(city);
+        await  this.province.click();
+        await this.selectProvinceQC.click();
+        await this.zipcode.click();
+        await this.zipcode.fill(zipcode);
+        await this.phoneNumber.click();
+        await this.phoneNumber.fill(phonenumber);
+        await this.optionNo.nth(2).click();
+        await this.optionNo.nth(3).click();
+        await this.optionNo.nth(4).click();
     }
 
     async getProductNotAvailableMsg(province) {  
