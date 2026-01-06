@@ -87,7 +87,7 @@ const userData = {
 
 const loginData = {
   validUser : {
-    username : "gagandeep.singla+qaauto@trantorinc.com",
+    username : "gagandeep.singla+qaauto1@trantorinc.com",
     password : "Test@123",
     username_Fr : "gagandeep.singla+sqlqa_fr@trantorinc.com"
   },

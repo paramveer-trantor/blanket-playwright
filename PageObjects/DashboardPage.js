@@ -47,7 +47,9 @@ export class DashboardPage{
     }
 
     async navigateToCATLProduct() {
+        await this.page.waitForLoadState('domcontentloaded');
         await this.productsBtn.click();
+        await this.termlifeBtn.isVisible();
         await this.termlifeBtn.click();
         await this.page.waitForLoadState('domcontentloaded');
     }
