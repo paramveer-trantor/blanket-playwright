@@ -13,9 +13,10 @@ import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage'
 import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage'
 import { userData, loginData } from '../Utils/TestData'
 
-test.beforeEach('Run flow till TL landing page', async ({ page }) => {
+test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
+    await loginPage.navigate('/pages/login');
+    await loginPage.login(loginData.validUser.username, loginData.validUser.password);
 
     const dashboardPage = new DashboardPage(page);
     await dashboardPage.acceptCookies();

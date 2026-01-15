@@ -358,7 +358,8 @@ test.describe('API status codes handling TCs', async () => {
 
     test('BL-T141(1): Application shall throw an error if login API response is not 200 or 201', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.fillLoginDetails('/pages/login', loginData.validUser.username, loginData.validUser.password);
+        await loginPage.navigate('/pages/login');
+        await loginPage.enterCredentials(loginData.validUser.username, loginData.validUser.password);
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
         for(let i = 0; i < codes.length; i++) {
@@ -378,7 +379,8 @@ test.describe('API status codes handling TCs', async () => {
 
     test('BL-T141(2): Application shall throw an error if forgot password API response is not 200 or 201', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.goToForgotPasswordPage('/pages/login');
+        await loginPage.navigate('/pages/login');
+        await loginPage.goToForgotPasswordPage();
         await loginPage.fillEmailForgotPassword("Test@testaccount.com");
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";

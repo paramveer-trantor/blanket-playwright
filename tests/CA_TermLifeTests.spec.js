@@ -27,7 +27,7 @@ test.afterEach('Close the browser', async ({ page }) => {
 
 test.describe('CA Term Life Test Cases without Login', () => { 
 
-    test.beforeEach('Run flow till TL landing page', async ({ page }) => {
+    test.beforeEach('Navigate user to CA Term life Premium Quote page', async ({ page }) => {
         await page.goto(''); 
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
@@ -97,9 +97,10 @@ test.describe('CA Term Life Test Cases without Login', () => {
 
 test.describe('CA Term Life Test Cases with Login', () => { 
     
-    test.beforeEach('Run flow till TL landing page', async ({ page }) => {
+    test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
+        await loginPage.navigate('/pages/login');
+        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
 
         const dashboardPage = new DashboardPage(page); 
         await dashboardPage.acceptCookies();
@@ -1945,7 +1946,8 @@ test.describe('CA Term Life Test Cases with Login', () => {
 
     test("BL-T238: Application shall fetch info like DOB, height, weight & address from user profile and pre populate in CA TL form." , async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', "gagandeep.singla+qa_filled@trantorinc.com", "Test@123");
+        await loginPage.navigate('/pages/login');
+        await loginPage.login("gagandeep.singla+qa_filled@trantorinc.com", "Test@123");
 
         const dashboardPage = new DashboardPage(page); 
         await dashboardPage.navigateToCATLProduct();

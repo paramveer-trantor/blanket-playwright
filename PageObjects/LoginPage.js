@@ -1,8 +1,10 @@
-export class LoginPage {
+import { BasePage } from "./BasePage";
+
+export class LoginPage extends BasePage {
     
     constructor(page) {
-        this.page = page;
-        this.email = page.locator("[name='email']");
+        super(page);
+        this.username = page.locator("[name='email']");
         this.password = page.locator("[name='password']");
         this.loginBtn = page.locator('.login-btn');
         this.dialogBox = page.getByRole('dialog');
@@ -12,22 +14,15 @@ export class LoginPage {
         this.forgotPassword =  page.locator(".signup-text").first();
         this.emailForgotPage = page.getByLabel('Email');
     }
-
-    async enterLoginCredentials(username, password) {
-        await this.email.fill(username);  
-        await this.password.fill(password);
-    }
  
-    async login(url, username, password) {
-        await this.page.goto(url);
-        await this.email.fill(username);  
+    async login(username, password) {
+        await this.username.fill(username);  
         await this.password.fill(password);
         await this.loginBtn.click();
     }
 
-    async fillLoginDetails(url, username, password) {
-        await this.page.goto(url);
-        await this.email.fill(username);  
+    async enterCredentials(username, password) {
+        await this.username.fill(username);  
         await this.password.fill(password);
     }  
 
@@ -35,8 +30,7 @@ export class LoginPage {
         await this.loginBtn.click();
     }
 
-    async goToForgotPasswordPage(url) {
-        await this.page.goto(url);
+    async goToForgotPasswordPage() {
         await this.forgotPassword.click();
     }
 

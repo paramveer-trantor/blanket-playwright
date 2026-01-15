@@ -14,24 +14,20 @@ test.afterEach('Close the browser', async ({ page }) => {
 test.describe('Login & Register page Tests', () => {
 
     test('BL-T114 - User should be able to login with valid credentials', async ({ page }) => {
-        await page.goto('/pages/login'); 
         const loginPage = new LoginPage(page);
-        await loginPage.enterLoginCredentials(loginData.validUser.username, loginData.validUser.password);   
-        await loginPage.clickLoginBtn();    
-        
+        await loginPage.navigate('/pages/login');
+        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
         await page.waitForTimeout(5000);
         await expect(page).toHaveURL('https://staging.blanket.com/');
     });
 
     test('BL-T251 - User should not be able to login with invalid credentials', async ({ page }) => {
-        await page.goto('/pages/login'); 
         const loginPage = new LoginPage(page);
-        await loginPage.enterLoginCredentials(loginData.validUser.username, loginData.invalidUser.invalidPassword);  
-        await loginPage.clickLoginBtn();   
+        await loginPage.navigate('/pages/login');
+        await loginPage.login(loginData.validUser.username, loginData.invalidUser.invalidPassword);  
         expect(await loginPage.getErrorMessage()).toEqual('Invalid credentials');
         await loginPage.closeErrorPopUp();
-        await loginPage.enterLoginCredentials(loginData.invalidUser.invalidUsername, loginData.validUser.password);    
-        await loginPage.clickLoginBtn();    
+        await loginPage.login(loginData.invalidUser.invalidUsername, loginData.validUser.password);   
         expect(await loginPage.getErrorMessage()).toEqual('Invalid credentials');
     });
 
@@ -89,7 +85,8 @@ test.describe('Website pages Tests without Login', () => {
 
     test("BL-T130: Application shall not display notification message to user if user has no open application", async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login',"gagandeep.singla+sqlqa_nouse@trantorinc.com", "Test@123");
+        await loginPage.navigate('/pages/login');
+        await loginPage.login("gagandeep.singla+sqlqa_nouse@trantorinc.com", "Test@123");
         
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
@@ -110,9 +107,10 @@ test.describe('Website pages Tests without Login', () => {
 
 test.describe('Website pages Tests with Login', () => { 
 
-    test.beforeEach('Run flow till TL landing page', async ({ page }) => {
+    test.beforeEach('Login and navigate user to dashboad page', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
+        await loginPage.navigate('/pages/login');
+        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
     }); 
     
     test('BL-T45: My policies menu option shall be visible in menu on desktop browser.', async ({ page }) => {
@@ -147,11 +145,6 @@ test.describe('Website pages Tests with Login', () => {
     test('BL-T128: Application shall display notification message to user if user has any open CA TL application. ', async ({ page }) => {
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
-        await dashboardPage.clickLogoutBtn();
-        
-        const loginPage = new LoginPage(page);
-        await loginPage.enterLoginCredentials(loginData.validUser.username, loginData.validUser.password);       
-        await loginPage.clickLoginBtn();   
         expect(await dashboardPage.clickAndVerifyOpenApplicationsMsg()).toEqual("You have an application in progress, would you like to continue?");
         const myApplicationsPage = new MyApplicationsPage(page);
         expect(await myApplicationsPage.getMyAppPageHeader()).toEqual("My Applications");

@@ -11,6 +11,10 @@ export class BasePage {
         this.dialogOkayBtn = this.dialogBox.getByRole('button', { name: ' Okay ' });
     }
 
+    async navigate(url) {
+        await this.page.goto(url);
+    }
+
     async selectLanguage(lang) {
         await this.langBtn.click();
         if(lang === "EN"){
