@@ -31,6 +31,7 @@ module.exports = defineConfig({
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    //baseURL: 'https://staging.blanket.com/',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -42,7 +43,6 @@ module.exports = defineConfig({
     {
       name: 'chromium',
       use: { 
-        //baseURL: 'https://dev.blanket.com/',
         baseURL: 'https://staging.blanket.com/',
         browserName: 'chromium',
         trace: 'retain-on-failure'
@@ -61,6 +61,7 @@ module.exports = defineConfig({
     {
       name: 'firefox',
       use: {
+        baseURL: 'https://staging.blanket.com/',
         browserName: 'firefox',
         trace: 'retain-on-failure'
     },
@@ -69,9 +70,15 @@ module.exports = defineConfig({
     {
       name: 'webkit',
       use: { 
+        baseURL: 'https://staging.blanket.com/',
         browserName: 'webkit',
         trace: 'retain-on-failure'
     },
+    },
+
+    {
+      name: 'Safari',
+      use: { ...devices['iPhone 12'],baseURL: 'https://staging.blanket.com/'},
     },
 
     /* Test against mobile viewports. */

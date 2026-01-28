@@ -15,7 +15,7 @@ export class DashboardPage{
         this.partnershipBtn = page.getByRole('menu').getByRole('menuitem', { name: ' Partnerships ' });
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
-        this.termlifeBtn = page.getByRole('option', { name: 'Term Life' });
+        this.termlifeBtn = page.getByText('Term Life');
         this.termlifeBtn_Fr = page.getByText('Assurance vie temporaire');
         //this.termlifeBtn = page.getByRole('listbox').getByRole('option', { name: 'Term Life' });
         //this.termlifeBtn_Fr = page.getByRole('listbox').getByRole('option', { name: 'Assurance vie temporaire' });

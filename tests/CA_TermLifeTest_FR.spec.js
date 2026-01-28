@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { InterceptorAPIs } from '../PageObjects/InterceptorAPIs';
+import { InterceptorAPIs } from '../Utils/InterceptorAPIs';
 import { LoginPage } from '../PageObjects/LoginPage';
 import { LoginPageInTLForm } from '../PageObjects/LoginPageInTLForm'
 import { DashboardPage } from '../PageObjects/DashboardPage';
@@ -40,7 +40,7 @@ test.describe('CA Term Life Test Cases in FR Language', () => {
         await dashboardPage.navigateToCATLProduct_FR();
 
         const landingpage = new TLProductLandingPage(page);
-        await landingpage.clickApplyNowBtn();
+        await landingpage.clickApplyNowBtn_Fr();
     }); 
 
     test('BL-T4_FR: User shall able to purchase policy using CC payment method successfully in FR language.', async ({ page }) => {

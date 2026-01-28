@@ -7,7 +7,7 @@ export class PreApplicationPage extends BasePage {
         this.header = page.getByText(' Pre Application ', { exact: true });
         this.dialogBox = page.getByRole('dialog');
         this.dialogContinueBtn = this.dialogBox.getByRole('button', { name: 'Continue' });
-        this.dialogContinueBtn_Fr = this.dialogBox.getByRole('button', { name: 'Continuer' });
+        this.dialogContinueBtn_Fr = this.dialogBox.getByRole('button', { name: 'Continuer' })
         this.dialogCloseBtn = this.dialogBox.getByRole('button', { name: ' Close ' });
         this.dialogCloseBtn_Fr = this.dialogBox.getByRole('button', { name: ' Fermer ' });
         this.afterHoursTitle = this.dialogBox.locator('.v-card__title');

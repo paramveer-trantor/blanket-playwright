@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
-import { LoginPage } from '../PageObjects/LoginPage';
+import { LoginPage } from '../PageObjects/LoginPage'
 import { LoginPageInTLForm } from '../PageObjects/LoginPageInTLForm'
 import { DashboardPage } from '../PageObjects/DashboardPage';
 import { TLProductLandingPage } from '../PageObjects/TLProductLandingPage';
