@@ -31,7 +31,7 @@ export class MobileViewNavigation {
         await this.menuBtn.click();
         await this.productsBtn.click();
         const list_products = await this.productsList.allTextContents();
-        return list_products;
+        return list_products[0];
     }
 
     async navigateToCATermLifePage() {

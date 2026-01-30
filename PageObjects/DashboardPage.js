@@ -2,6 +2,7 @@ export class DashboardPage{
  
     constructor(page){
         this.page = page;
+        this.dashboadHeadingText = page.locator('.section1-title-mobile');
         this.cookieBanner = page.locator('.v-banner__text .text-content')
         this.acceptCookiesBtn = page.getByRole('button', {name: ' Allow all cookies '});    
         this.acceptCookiesBtn_Fr = page.getByRole('button', {name: ' Accepter tout '});   
@@ -44,6 +45,11 @@ export class DashboardPage{
             await this.acceptCookiesBtn.first().isVisible();
             await this.acceptCookiesBtn.first().click();
         }
+    }
+
+    async getDashboardPageHeader(){
+        await this.page.waitForLoadState('domcontentloaded');
+        return (await this.dashboadHeadingText.textContent()).trim();
     }
 
     async navigateToCATLProduct() {

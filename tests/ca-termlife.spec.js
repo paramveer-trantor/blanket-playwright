@@ -25,7 +25,7 @@ test.afterEach('Close the browser', async ({ page }) => {
     await page.close();   
 });
 
-test.describe('CA Term Life Test Cases without Login', () => { 
+test.describe('CA Term Life cases without login', () => { 
 
     test.beforeEach('Navigate user to CA Term life Premium Quote page', async ({ page }) => {
         await page.goto(''); 
@@ -95,7 +95,7 @@ test.describe('CA Term Life Test Cases without Login', () => {
  
 });     
 
-test.describe('CA Term Life Test Cases with Login', () => { 
+test.describe('CA Term Life cases with login', () => { 
     
     test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
         const loginPage = new LoginPage(page);

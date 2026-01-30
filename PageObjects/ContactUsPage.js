@@ -5,7 +5,7 @@ export class ContactUsPage {
         this.contactHeadingText = page.locator('.title-txt-mobile');
     }
 
-    async getNewsPageHeader(){
+    async getContactPageHeader(){
         await this.page.waitForLoadState('domcontentloaded');
         return (await this.contactHeadingText.textContent()).trim();
     }

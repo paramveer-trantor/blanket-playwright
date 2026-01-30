@@ -29,7 +29,7 @@ import { userData, loginData } from '../Utils/TestData'
         expect(await dashboardPage.getTLProductName_Fr()).toEqual('Assurance vie temporaire');
     });  
     
-test.describe('CA Term Life Test Cases in FR Language', () => { 
+test.describe('CA Term Life test cases in FR language', () => { 
     
     test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
         const loginPage = new LoginPage(page);

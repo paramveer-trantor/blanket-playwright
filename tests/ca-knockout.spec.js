@@ -30,7 +30,7 @@ test.afterEach('Close the browser', async ({ page }) => {
     await page.close(); 
 });
 
-test.describe('BL-T10: Pre Application Questions knockout scenarios', async () => {
+test.describe('Pre application page knockout cases', async () => {
     
     test('BL-T10(1): Verify knockout with currently absent from work question', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
@@ -108,7 +108,7 @@ test.describe('BL-T10: Pre Application Questions knockout scenarios', async () =
 
 });
 
-test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
+test.describe('BL-T21: Lifestyle page knockout cases', async () => {
     
     test('Verify knockout with BMI > 35 Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
@@ -519,7 +519,7 @@ test.describe('BL-T21: Lifestyle Questions knockout scenarios', async () => {
 
 });
 
-test.describe('BL-T22: Medical Questions knockout scenarios', async () => {
+test.describe('BL-T22: Medical page knockout cases', async () => {
     
     test('Verify knockout with Cancer medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);

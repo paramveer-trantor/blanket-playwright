@@ -11,7 +11,7 @@ test.afterEach('Close the browser', async ({ page }) => {
     await page.close(); 
 });
 
-test.describe('Login & Register page Tests', () => {
+test.describe('Login & Register cases', () => {
 
     test('BL-T114 - User should be able to login with valid credentials', async ({ page }) => {
         const loginPage = new LoginPage(page);
@@ -64,7 +64,7 @@ test.describe('Login & Register page Tests', () => {
 
 });
 
-test.describe('Website pages Tests without Login', () => { 
+test.describe('Website cases without login', () => { 
 
     test('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
         await page.goto('');
@@ -105,7 +105,7 @@ test.describe('Website pages Tests without Login', () => {
 
 });
 
-test.describe('Website pages Tests with Login', () => { 
+test.describe('Website cases with login', () => { 
 
     test.beforeEach('Login and navigate user to dashboad page', async ({ page }) => {
         const loginPage = new LoginPage(page);
