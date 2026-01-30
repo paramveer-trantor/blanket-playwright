@@ -2,7 +2,7 @@ export class ContactUsPage {
 
     constructor(page) {
         this.page = page;
-        this.contactHeadingText = page.locator('.title-txt-mobile');
+        this.contactHeadingText = page.locator('.hero_contactus h1');
     }
 
     async getContactPageHeader(){

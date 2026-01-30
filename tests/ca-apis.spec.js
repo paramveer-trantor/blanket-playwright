@@ -1,6 +1,6 @@
 /*
 import { test, expect } from '@playwright/test';
-import { InterceptorAPIs } from '../../Utils/InterceptorAPIs';
+import { InterceptorAPIs } from '../Utils/InterceptorAPIs';
 import { LoginPage } from '../PageObjects/LoginPage';
 import { RegisterPage } from '../PageObjects/RegisterPage';
 import { MyPoliciesPage } from '../PageObjects/MyPoliciesPage';

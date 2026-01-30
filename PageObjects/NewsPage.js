@@ -2,7 +2,7 @@ export class NewsPage {
 
     constructor(page) {
         this.page = page;
-        this.newsHeadingText = page.locator('.sora.white--text')
+        this.newsHeadingText = page.locator('.hero_news h1')
     }
 
     async getNewsPageHeader(){

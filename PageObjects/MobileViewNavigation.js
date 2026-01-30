@@ -13,10 +13,6 @@ export class MobileViewNavigation {
         this.ourTeamBtn = page.getByRole('link', { name: 'Our Team' });
         this.newsBtn = page.getByRole('link', { name: 'News' });
         this.contactUsBtn = page.locator('.v-list-item__title').filter({ hasText: ' Contact Us ' });
-        this.languageBtn = page.getByRole('button', { name: ' en ' });
-        this.languageFRBtn = page.getByRole('button', { name: ' fr ' });
-        this.EnLangBtn = page.locator('.v-list-item__title').filter({ hasText: ' EN ' });
-        this.FrLangBtn = page.locator('.v-list-item__title').filter({ hasText: ' FR ' });
     }
 
     async acceptCookies() {
@@ -25,6 +21,10 @@ export class MobileViewNavigation {
 
     async acceptCookies_Fr() {
         await this.cookiesBtn_Fr.click();
+    }
+
+    async openMenu() {
+        await this.menuBtn.click();
     }
 
     async getProductsList() {
@@ -62,18 +62,6 @@ export class MobileViewNavigation {
         await this.menuBtn.click();
         await this.contactUsBtn.click();
     }  
-
-    async selectENLanguage() {
-        await this.menuBtn.click();
-        await this.languageFRBtn.click();
-        await this.EnLangBtn.click();
-    }
-
-    async selectFRLanguage() {
-        await this.menuBtn.click();
-        await this.languageBtn.click();
-        await this.FrLangBtn.click();
-    }
 
 
 }

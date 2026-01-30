@@ -2,7 +2,7 @@ export class OurTeamPage {
 
     constructor(page) {
         this.page = page;
-        this.ourTeamheading = page.locator('.sora.white--text')
+        this.ourTeamheading = page.locator('.hero_ourteam:visible')
     }
 
     async getOurTeamPageHeader(){

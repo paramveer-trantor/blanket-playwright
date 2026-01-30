@@ -2,7 +2,7 @@ export class DashboardPage{
  
     constructor(page){
         this.page = page;
-        this.dashboadHeadingText = page.locator('.section1-title-mobile');
+        this.dashboadHeadingText = page.locator('.hero_home h1:visible');
         this.cookieBanner = page.locator('.v-banner__text .text-content')
         this.acceptCookiesBtn = page.getByRole('button', {name: ' Allow all cookies '});    
         this.acceptCookiesBtn_Fr = page.getByRole('button', {name: ' Accepter tout '});   
@@ -26,14 +26,15 @@ export class DashboardPage{
         this.profileOptions = page.getByRole('menuitem');
         this.myPolicies = page.getByText('My Policies');
         this.openApplicationMsg = page.getByRole('status');
-        this.langBtn = page.locator('.v-btn__content .currentLang');
-        this.langFR = page.getByRole('menuitem');
         this.dialogBox =  page.getByRole('dialog');
         this.langChangeWarningMsg = this.dialogBox.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//p");
         this.aboutUsBtn = page.getByRole('button', {name: ' About Us '});    
         this.adminPartnershipsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Partnerships' });
         this.adminReportsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Reports' });
         this.manageUsersBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Manage Users' });
+        this.languageBtn = page.locator('.currentLang');
+        this.EnLangBtn = page.getByText('EN', { exact: true });
+        this.FrLangBtn = page.getByText('FR', { exact: true });
     }
     
     async getCookieBannerHeading() {    
@@ -76,9 +77,14 @@ export class DashboardPage{
         await this.CABtn.last().click();
     }
 
-    async selectFRLang(){
-        await this.langBtn.click();
-        await this.langFR.last().click();
+    async changeLanguageToEN() {
+        await this.languageBtn.click();
+        await this.EnLangBtn.click();
+    }
+
+    async changeLanguageToFR() {
+        await this.languageBtn.click();
+        await this.FrLangBtn.click();
     }
 
     async getLangChangeWarningMsg() {

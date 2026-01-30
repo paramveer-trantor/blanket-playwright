@@ -73,6 +73,19 @@ test.describe('Website cases without login', () => {
         expect(await dashboardPage.getTLProductName()).toEqual('Term Life');
     });  
 
+    test('BL-T29 : User shall able to switch between FR & EN languages.', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.navigate(' ');
+        
+        const dashboard = new DashboardPage(page);
+        await dashboard.acceptCookies();
+        await dashboard.changeLanguageToFR();
+        expect(await dashboard.getDashboardPageHeader()).toEqual("Toute la protection dont vous avez besoin sous une seule couverture");
+        
+        await dashboard.changeLanguageToEN();
+        expect(await dashboard.getDashboardPageHeader()).toEqual("All your coverage under one blanket");
+    }); 
+
     test('BL-T42: Term life banner shall be visible on dasboard screen.', async ({ page }) => {
         await page.goto('');
         const dashboardPage = new DashboardPage(page);
@@ -81,6 +94,13 @@ test.describe('Website cases without login', () => {
 
         const tlProductLandingPage = new TLProductLandingPage(page);
         expect(await tlProductLandingPage.getHeaderText()).toEqual("We’ve got what matters most covered.");
+    });
+
+    test('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
+        await page.goto('');
+
+        const dashboardPage = new DashboardPage(page);
+        expect(await dashboardPage.getCookieBannerHeading()).toEqual("We value your privacy  For us, cookies are more than just a sweet treat. They are essential to providing you with an optimal and customized online experience. These little bits of data let us adapt the content and ads you see, while analyzing our traffic to better meet your needs. Enjoy our website, knowing that we do our utmost to offer you a tasty online experience. Check out our privacy policy  for more information.");
     });
 
     test("BL-T130: Application shall not display notification message to user if user has no open application", async ({ page }) => {
@@ -94,13 +114,6 @@ test.describe('Website cases without login', () => {
 
         const myApplicationsPage = new MyApplicationsPage(page);
         expect(await myApplicationsPage.getNoApplicationMsg()).toEqual('No data available');
-    });
-
-    test('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
-        await page.goto('');
-
-        const dashboardPage = new DashboardPage(page);
-        expect(await dashboardPage.getCookieBannerHeading()).toEqual("We value your privacy  For us, cookies are more than just a sweet treat. They are essential to providing you with an optimal and customized online experience. These little bits of data let us adapt the content and ads you see, while analyzing our traffic to better meet your needs. Enjoy our website, knowing that we do our utmost to offer you a tasty online experience. Check out our privacy policy  for more information.");
     });
 
 });
