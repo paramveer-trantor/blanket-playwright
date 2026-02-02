@@ -1,6 +1,9 @@
-export class MobileViewNavigation {
+import { BasePage } from "./BasePage";
+
+export class MobileViewNavigation extends BasePage {
 
     constructor(page) {
+        super(page);
         this.cookies = page.getByRole('button', { name: 'Allow all cookies' });
         this.cookiesBtn_Fr = page.getByRole('button', {name: ' Accepter tout '}); 
         this.menuBtn = page.locator('.humburger_menu');
@@ -28,10 +31,17 @@ export class MobileViewNavigation {
     }
 
     async getProductsList() {
-        await this.menuBtn.click();
         await this.productsBtn.click();
         const list_products = await this.productsList.allTextContents();
-        return list_products[0];
+        const trimmed = list_products.map(items => items.trim());
+        return trimmed[0];
+    }
+
+    async getProductsList_Fr() {
+        await this.productsFrBtn.click();
+        const list_products = await this.productsList.allTextContents();
+        const trimmed = list_products.map(items => items.trim());
+        return trimmed[0];
     }
 
     async navigateToCATermLifePage() {

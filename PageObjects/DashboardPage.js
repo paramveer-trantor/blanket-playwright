@@ -6,9 +6,6 @@ export class DashboardPage{
         this.cookieBanner = page.locator('.v-banner__text .text-content')
         this.acceptCookiesBtn = page.getByRole('button', {name: ' Allow all cookies '});    
         this.acceptCookiesBtn_Fr = page.getByRole('button', {name: ' Accepter tout '});   
-        this.countryBtn = page.locator('.v-btn__content .mr-3');
-        this.CABtn = page.locator('.v-list-item__icon');
-        this.langBtn = page.locator('.v-btn__content .currentLang');
         this.dialogBox =  page.getByRole('dialog');  
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
         this.productsBtn = page.getByRole('button', {name: ' Products '});
@@ -18,8 +15,6 @@ export class DashboardPage{
         this.productList = page.locator("//a[@role='option']");
         this.termlifeBtn = page.getByText('Term Life');
         this.termlifeBtn_Fr = page.getByText('Assurance vie temporaire');
-        //this.termlifeBtn = page.getByRole('listbox').getByRole('option', { name: 'Term Life' });
-        //this.termlifeBtn_Fr = page.getByRole('listbox').getByRole('option', { name: 'Assurance vie temporaire' });
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
         this.myProfileBtn = page.locator("//div[@class='v-toolbar__content']/button[2]");
         this.myApplicationsBtn = page.getByRole('menuitem', { name: 'My Applications' }); 
@@ -27,14 +22,10 @@ export class DashboardPage{
         this.myPolicies = page.getByText('My Policies');
         this.openApplicationMsg = page.getByRole('status');
         this.dialogBox =  page.getByRole('dialog');
-        this.langChangeWarningMsg = this.dialogBox.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//p");
         this.aboutUsBtn = page.getByRole('button', {name: ' About Us '});    
         this.adminPartnershipsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Partnerships' });
         this.adminReportsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Reports' });
         this.manageUsersBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Manage Users' });
-        this.languageBtn = page.locator('.currentLang');
-        this.EnLangBtn = page.getByText('EN', { exact: true });
-        this.FrLangBtn = page.getByText('FR', { exact: true });
     }
     
     async getCookieBannerHeading() {    
@@ -70,25 +61,6 @@ export class DashboardPage{
         await this.productsBtn_Fr.click();
         await this.termlifeBtn_Fr.click();
         await this.page.waitForLoadState('domcontentloaded');
-    }
-
-    async selectCACountry(){
-        await this.countryBtn.click();
-        await this.CABtn.last().click();
-    }
-
-    async changeLanguageToEN() {
-        await this.languageBtn.click();
-        await this.EnLangBtn.click();
-    }
-
-    async changeLanguageToFR() {
-        await this.languageBtn.click();
-        await this.FrLangBtn.click();
-    }
-
-    async getLangChangeWarningMsg() {
-        return (await this.langChangeWarningMsg.textContent()).trim();
     }
 
     async getMenuOptions(){
@@ -131,11 +103,6 @@ export class DashboardPage{
     async goToMyProfilePage() {  
         await this.myProfileBtn.click();
         await this.profileOptions.first().click();
-    }
-    
-    async selectFRLangInForm() {
-        await this.langBtn.click();
-        await this.langFR.last().click();
     }
     
     async clickMyProfileBtn() {

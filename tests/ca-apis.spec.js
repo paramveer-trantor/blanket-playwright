@@ -1,4 +1,4 @@
-/*
+/* 
 import { test, expect } from '@playwright/test';
 import { InterceptorAPIs } from '../Utils/InterceptorAPIs';
 import { LoginPage } from '../PageObjects/LoginPage';
@@ -6,28 +6,28 @@ import { RegisterPage } from '../PageObjects/RegisterPage';
 import { MyPoliciesPage } from '../PageObjects/MyPoliciesPage';
 import { DashboardPage } from '../PageObjects/DashboardPage';
 import { TLProductLandingPage } from '../PageObjects/TLProductLandingPage';
-import { PremiumQuotePage } from '../PageObjects/PremiumQuotePage'
-import { PreApplicationPage } from '../PageObjects/PreApplicationPage'
-import { NeedsAssessmentPage } from '../PageObjects/NeedsAssessmentPage'
-import { ConfirmPremiumPage } from '../PageObjects/ConfirmPremiumPage'
-import { LifestyleQuestionnairePage } from '../PageObjects/LifestyleQuestionnairePage'
-import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Page'
-import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page'
-import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage'
-import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage'
-import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage'
-import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
-import { PaymentPage } from '../PageObjects/PaymentPage'
-import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
-import { userData, loginData } from '../Utils/TestData'
+import { PremiumQuotePage } from '../PageObjects/PremiumQuotePage';
+import { PreApplicationPage } from '../PageObjects/PreApplicationPage';
+import { NeedsAssessmentPage } from '../PageObjects/NeedsAssessmentPage';
+import { ConfirmPremiumPage } from '../PageObjects/ConfirmPremiumPage';
+import { LifestyleQuestionnairePage } from '../PageObjects/LifestyleQuestionnairePage';
+import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Page';
+import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page';
+import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage';
+import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage';
+import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage';
+import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage';
+import { PaymentPage } from '../PageObjects/PaymentPage';
+import { CongratulationsPage } from '../PageObjects/CongratulationsPage';
+import { userData, loginData } from '../Utils/TestData';
 
 test.afterEach('Close the browser', async ({ page }) => {
     await page.close(); 
 });
-test.describe('API status codes handling TCs', async () => {
 
-    //Prod parameters = (page, "https://www.blanket.com/pages/login", "tester@blanket.com", "123456");
-    test('BL-T186: Application shall throw an error if CA Term Get Premium Quote API response is not 200 or 201', async ({ page }) => {
+test.describe('API test cases without Login', async () => {
+
+    test.skip('BL-T186: Application shall throw an error if CA Term Get Premium Quote API response is not 200 or 201', async ({ page }) => {
         await page.goto(''); 
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.navigateToCATLProduct();
@@ -48,15 +48,111 @@ test.describe('API status codes handling TCs', async () => {
         }
     });
 
-    test('BL-T186(1): Application shall throw an error if CA Term Assessment API response is not 200 or 201', async ({ page }) => {
+    test('BL-T141(1): Application shall throw an error if login API response is not 200 or 201', async ({ page }) => {
         const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
+        await loginPage.navigate('/pages/login');
+        await loginPage.enterCredentials(loginData.validUser.username, loginData.validUser.password);
+        const codes = [400, 403, 408, 429, 500, 503, 504];
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
+        for(let i = 0; i < codes.length; i++) {
+        await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=**", (route) => {  
+        const fakeResponse = {
+                status: codes[i],
+            }
+            route.fulfill({
+                status: fakeResponse.status,
+            });
+        });
+        await loginPage.clickLoginBtn();
+        expect(await loginPage.getErrorPopUp()).toEqual(message);  
+        await loginPage.closeErrorPopUp();
+    }
+    });
+
+    test('BL-T141(2): Application shall throw an error if forgot password API response is not 200 or 201', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.navigate('/pages/login');
+        await loginPage.goToForgotPasswordPage();
+        await loginPage.fillEmailForgotPassword("Test@testaccount.com");
+        const codes = [400, 403, 408, 429, 500, 503, 504];
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
+        for(let i = 0; i < codes.length; i++) {
+        await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode?key=**", (route) => {  
+        const fakeResponse = {
+                status: codes[i],
+            }
+            route.fulfill({
+                status: fakeResponse.status,
+            });
+        });
+        await loginPage.clickLoginBtn();
+        expect(await loginPage.getErrorPopUp()).toEqual(message);  
+        await loginPage.closeErrorPopUp();
+    }
+    });
+
+    test('BL-T141(3): Application shall throw an error if create account API response is not 200 or 201', async ({ page }) => {
+        const registerPage = new RegisterPage(page);
+        await registerPage.goToRegisterPage('/pages/register');
+        await registerPage.enterUserDetails("gagandeep.singla+createaccount@trantorinc.com", "123456");
+        const codes = [400, 403, 408, 429, 500, 503, 504];
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
+        for(let i = 0; i < codes.length; i++) {
+        await page.route("https://us-central1-blanket-development.cloudfunctions.net/getAccountKeybyEmail", (route) => {  
+        const fakeResponse = {
+                status: codes[i],
+            }
+            route.fulfill({ 
+                status: fakeResponse.status,
+            });
+        });
+        await registerPage.clickCreateAccBtn();
+        expect(await registerPage.getErrorPopUp()).toEqual(message);  
+        await registerPage.closeErrorPopUp();
+    }
+    });
+
+    test('BL-T141: Application shall throw an error if send email policy API response is not 200 or 201', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.navigate('/pages/login');
+        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
 
         const dashboardPage = new DashboardPage(page);
+        await dashboardPage.acceptCookies();
+        await dashboardPage.goToMyPoliciesPage();
+
+        const myPoliciesPage = new MyPoliciesPage(page);
+        await myPoliciesPage.clickEyeBtn();
+        const codes = [400, 403, 408, 429, 500, 503, 504];
+        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
+        for(let i = 0; i < codes.length; i++) {
+            const interceptorAPIs = new InterceptorAPIs(page);
+            await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
+            await myPoliciesPage.clickEmailPolicyBtn();
+            expect(await myPoliciesPage.getErrorPopUp()).toEqual(message); 
+            await myPoliciesPage.closeEmailSuccessPopUp();
+            await myPoliciesPage.closeErrorPopUp();
+        }
+    });
+
+});
+
+test.describe('API test cases with Login', async () => {
+
+    test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.navigate('/pages/login');
+        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
+
+        const dashboardPage = new DashboardPage(page); 
+        await dashboardPage.acceptCookies();
         await dashboardPage.navigateToCATLProduct();
 
         const landingpage = new TLProductLandingPage(page);
         await landingpage.clickApplyNowBtn();
+    }); 
+
+    test('BL-T186(1): Application shall throw an error if CA Term Assessment API response is not 200 or 201', async ({ page }) => {
 
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
@@ -81,14 +177,6 @@ test.describe('API status codes handling TCs', async () => {
     });
 
     test('BL-T186(2): Application shall throw an error if CA Term Get Premium API response is not 200 or 201', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
-
-        const dashboardPage = new DashboardPage(page);
-        await dashboardPage.navigateToCATLProduct();
-
-        const landingpage = new TLProductLandingPage(page);
-        await landingpage.clickApplyNowBtn();
 
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
@@ -99,7 +187,7 @@ test.describe('API status codes handling TCs', async () => {
         await preApplicationPage.clickConitnueBtn();
 
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterAnnualIncome(income);
+        await needsAssessmentPage.enterAnnualIncome(userData.income);
         await needsAssessmentPage.clickSavings();
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
@@ -113,14 +201,6 @@ test.describe('API status codes handling TCs', async () => {
     });
 
     test('BL-T186(3): Application shall throw an error if CA Term Decission API response is not 200 or 201', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
-
-        const dashboardPage = new DashboardPage(page);
-        await dashboardPage.navigateToCATLProduct();
-
-        const landingpage = new TLProductLandingPage(page);
-        await landingpage.clickApplyNowBtn();
 
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
@@ -166,7 +246,14 @@ test.describe('API status codes handling TCs', async () => {
         }
     });
 
-    test('Application shall throw an error if api response is not 200 or 201 in CA Term Create Customer API ', async ({ page }) => {
+});
+
+
+
+
+//Unused code
+
+test('Application shall throw an error if api response is not 200 or 201 in CA Term Create Customer API ', async ({ page }) => {
         await page.goto('/pages/login');
         await login(page, loginData.validUser.username, loginData.validUser.password);
         await navigateToProductPage(page);
@@ -334,163 +421,5 @@ test.describe('API status codes handling TCs', async () => {
         //expect(page.getByRole('dialog')).toBeVisible();
     });
 
-    test('BL-T141: Application shall throw an error if send email policy API response is not 200 or 201', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.login('/pages/login', loginData.validUser.username, loginData.validUser.password);
-
-        const dashboardPage = new DashboardPage(page);
-        await dashboardPage.acceptCookies();
-        await dashboardPage.goToMyPoliciesPage();
-
-        const myPoliciesPage = new MyPoliciesPage(page);
-        await myPoliciesPage.clickEyeBtn();
-        const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
-        for(let i = 0; i < codes.length; i++) {
-            const interceptorAPIs = new InterceptorAPIs(page);
-            await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
-            await myPoliciesPage.clickEmailPolicyBtn();
-            expect(await myPoliciesPage.getErrorPopUp()).toEqual(message); 
-            await myPoliciesPage.closeEmailSuccessPopUp();
-            await myPoliciesPage.closeErrorPopUp();
-        }
-    });
-
-    test('BL-T141(1): Application shall throw an error if login API response is not 200 or 201', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.navigate('/pages/login');
-        await loginPage.enterCredentials(loginData.validUser.username, loginData.validUser.password);
-        const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
-        for(let i = 0; i < codes.length; i++) {
-        await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=**", (route) => {  
-        const fakeResponse = {
-                status: codes[i],
-            }
-            route.fulfill({
-                status: fakeResponse.status,
-            });
-        });
-        await loginPage.clickLoginBtn();
-        expect(await loginPage.getErrorPopUp()).toEqual(message);  
-        await loginPage.closeErrorPopUp();
-    }
-    });
-
-    test('BL-T141(2): Application shall throw an error if forgot password API response is not 200 or 201', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.navigate('/pages/login');
-        await loginPage.goToForgotPasswordPage();
-        await loginPage.fillEmailForgotPassword("Test@testaccount.com");
-        const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
-        for(let i = 0; i < codes.length; i++) {
-        await page.route("https://www.googleapis.com/identitytoolkit/v3/relyingparty/getOobConfirmationCode?key=**", (route) => {  
-        const fakeResponse = {
-                status: codes[i],
-            }
-            route.fulfill({
-                status: fakeResponse.status,
-            });
-        });
-        await loginPage.clickLoginBtn();
-        expect(await loginPage.getErrorPopUp()).toEqual(message);  
-        await loginPage.closeErrorPopUp();
-    }
-    });
-
-    test('BL-T141(3): Application shall throw an error if create account API response is not 200 or 201', async ({ page }) => {
-        const registerPage = new RegisterPage(page);
-        await registerPage.goToRegisterPage('/pages/register');
-        await registerPage.enterUserDetails("gagandeep.singla+createaccount@trantorinc.com", "123456");
-        const codes = [400, 403, 408, 429, 500, 503, 504];
-        let message = "Oops! Something went wrong. Please try again or contact us for assistance.";
-        for(let i = 0; i < codes.length; i++) {
-        await page.route("https://us-central1-blanket-development.cloudfunctions.net/getAccountKeybyEmail", (route) => {  
-        const fakeResponse = {
-                status: codes[i],
-            }
-            route.fulfill({ 
-                status: fakeResponse.status,
-            });
-        });
-        await registerPage.clickCreateAccBtn();
-        expect(await registerPage.getErrorPopUp()).toEqual(message);  
-        await registerPage.closeErrorPopUp();
-    }
-    });
-
-});
-
-test.describe('Standalone test case', () => { 
-
-    test.skip('Purchase policy for any partner', async ({ page }) => {
-        test.setTimeout(100000);
-        await page.goto('https://blanket.com/canadianterm/partner/461b6ea5-393d-462d-bb42-4b4afc8781d6'); 
-    
-        const dashboardPage = new DashboardPage(page); 
-        await dashboardPage.acceptCookies();
-
-        const landingpage = new TLProductLandingPage(page);
-        await landingpage.clickApplyNowBtn();
-
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, "5", "1", "160");
-        //await premiumQuotePage.getQuoteValueWithMetric(userData.genderFemale, userData.date, centi, weight_kg);
-        await premiumQuotePage.clickContinueBtn();
-
-        const loginPageInTLForm = new LoginPageInTLForm(page);
-        await loginPageInTLForm.loginIntoAccount(username, password);
-
-        const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.acceptPopWindow();
-        await preApplicationPage.fillPreApplicationFormPage("Test", "ULInd", houseaddress, phonenumber, OptionNo); 
-        await preApplicationPage.clickConitnueBtn();
-        
-        const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
-        await needsAssessmentPage.clickContinueBtn();
-
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
-        await confirmPremiumPage.clickContinueBtn();
-        
-        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
-        await lifestyleQuestionnairePage.clickContinueBtn();
-        
-        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
-        await medicalQuestionnaire1Page.clickConitnueBtn();
-
-        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
-        await medicalQuestionnaire2Page.clickConitnueBtn();
-
-        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
-        await reviewYourAnswersPage.clickConitnueBtn();
-
-        const personalStatementPage = new PersonalStatementPage(page);
-        await personalStatementPage.clickCheckboxes();
-        await personalStatementPage.clickAgreeBtn();
-
-        const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.checkWithoutBenCheckbox();
-        await beneficiaryPage.clickConitnueBtn();  
-
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
-
-        const paymentPage = new PaymentPage(page);
-        await paymentPage.clickBillingAddressCheckBox();
-        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
-        await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
-        
-        const congratulationsPage = new CongratulationsPage(page);
-        page.waitForTimeout(3000);
-        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
-        }); 
-
-    });
-
 */
+

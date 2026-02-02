@@ -39,7 +39,12 @@ test.describe('[Mobile browser] CA term life', () => {
     test('Term life product shall be visible under products list.', async ({ page }) => {
         const mobileview = new MobileViewNavigation(page);
         await mobileview.acceptCookies();
-        expect(await mobileview.getProductsList()).toEqual(" Term Life  Renters  Covered By Blanket Brokerage ");
+        await mobileview.openMenu();
+        expect(await mobileview.getProductsList()).toEqual("Term Life  Renters  Covered By Blanket Brokerage");
+
+        await mobileview.changeLanguageToFR();
+        await mobileview.openMenu();
+        expect(await mobileview.getProductsList_Fr()).toEqual("Assurance vie temporaire  Couvert par Blanket, courtage d’assurance");
     });  
 
     test('Our team page under about us shall be loaded successfully', async ({ page }) => {
@@ -50,7 +55,8 @@ test.describe('[Mobile browser] CA term life', () => {
         const teampage = new OurTeamPage(page);
         expect(await teampage.getOurTeamPageHeader()).toEqual('Who We Are and What We’re All About.');
 
-        await mobileview.selectFRLanguage();
+        await mobileview.openMenu();
+        await mobileview.changeLanguageToFR();
         expect(await teampage.getOurTeamPageHeader()).toEqual('Qui nous sommes et ce que nous proposons.');
     });  
 
@@ -62,7 +68,8 @@ test.describe('[Mobile browser] CA term life', () => {
         const newspage = new NewsPage(page);
         expect(await newspage.getNewsPageHeader()).toEqual('Blanket News and Updates');
 
-        await mobileview.selectFRLanguage();
+        await mobileview.openMenu();
+        await mobileview.changeLanguageToFR();
         expect(await newspage.getNewsPageHeader()).toEqual('Nouvelles et mises à jour générales');
     });  
 
@@ -74,7 +81,8 @@ test.describe('[Mobile browser] CA term life', () => {
         const contactus = new ContactUsPage(page);
         expect(await contactus.getContactPageHeader()).toEqual("Have any questions?  We've got you covered.");
 
-        await mobileview.selectFRLanguage();
+        await mobileview.openMenu();
+        await mobileview.changeLanguageToFR();
         expect(await contactus.getContactPageHeader()).toEqual("Avez-vous des questions?  Nous avons la solution de protection qu’il vous faut.");
     }); 
 
@@ -84,15 +92,15 @@ test.describe('[Mobile browser] CA term life', () => {
         
         await mobileview.openMenu();
         const dashboard = new DashboardPage(page);
-        await dashboard.changeLanguageToFR();
+        await mobileview.changeLanguageToFR();
         expect(await dashboard.getDashboardPageHeader()).toEqual("Toute la protection dont vous avez besoin sous une seule couverture");
         
         await mobileview.openMenu();
-        await dashboard.changeLanguageToEN();
+        await mobileview.changeLanguageToEN();
         expect(await dashboard.getDashboardPageHeader()).toEqual("All your coverage under one blanket");
     }); 
 
-    test.skip('User shall able to purchase policy using CC payment method successfully.', async ({ page }) => {
+    test('User shall able to purchase policy using CC payment method successfully.', async ({ page }) => {
         test.setTimeout(120000);
 
         const loginPage = new LoginPage(page);
@@ -158,7 +166,7 @@ test.describe('[Mobile browser] CA term life', () => {
         expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
-    test.skip('User shall able to purchase policy using CC payment method successfully in FR language.', async ({ page }) => {
+    test('User shall able to purchase policy using CC payment method successfully in FR language.', async ({ page }) => {
         test.setTimeout(120000);
         
         const loginPage = new LoginPage(page);

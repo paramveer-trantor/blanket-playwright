@@ -2,27 +2,27 @@ export class BasePage {
 
     constructor(page) {
         this.page = page;
-        this.langBtn = page.locator('.v-btn__content .currentLang');
-        this.lang = page.locator('.v-list-item__title');
-        this.currentLang = page.locator('.currentLang');
         this.langChangeMsg = page.locator("//div[@class='v-dialog__content v-dialog__content--active']//p");
         this.dialogBox = page.getByRole('dialog');
         this.dialogCancelBtn = this.dialogBox.getByRole('button', { name: ' Cancel ' });
         this.dialogOkayBtn = this.dialogBox.getByRole('button', { name: ' Okay ' });
+        this.languageBtn = page.locator('.currentLang');
+        this.EnLangBtn = page.getByText('EN', { exact: true });
+        this.FrLangBtn = page.getByText('FR', { exact: true });
     }
 
     async navigate(url) {
         await this.page.goto(url);
     }
 
-    async selectLanguage(lang) {
-        await this.langBtn.click();
-        if(lang === "EN"){
-            await this.lang.first().click();
-        }
-        else {
-            await this.lang.last().click();
-        }
+    async changeLanguageToEN() {
+        await this.languageBtn.click();
+        await this.EnLangBtn.click();
+    }
+
+    async changeLanguageToFR() {
+        await this.languageBtn.click();
+        await this.FrLangBtn.click();
     }
 
     async getLanguageChangeWarningMsg() {
@@ -30,7 +30,7 @@ export class BasePage {
     }
 
     async checkCurrentLanguageSelected() {
-        return (await this.currentLang.textContent()).trim();
+        return (await this.languageBtn.textContent()).trim();
     }
 
     async clickDialogOkayBtn() {

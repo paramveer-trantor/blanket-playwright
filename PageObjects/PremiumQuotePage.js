@@ -18,7 +18,7 @@ export class PremiumQuotePage extends BasePage {
         this.heightCenti = page.locator("[name = 'centimeters']");
         this.weightKg = page.getByLabel('Kilograms'); 
         this.weight_Fr = page.getByLabel('Livres');
-        this.optionYes = page.getByText('Yes');
+        this.optionYes = page.locator('label').filter({ hasText: 'Yes' });
         this.optionYes_Fr = page.getByText('Oui');
         this.optionNo = page.getByText('No');
         this.optionNo_Fr = page.getByText('Non');
@@ -35,7 +35,6 @@ export class PremiumQuotePage extends BasePage {
         this.premiumValue = page.locator('.estimate-subtitle .font-weight-bold ');
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
-        
     }
 
     async getPremiumQuotePageHeader() {
