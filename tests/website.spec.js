@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { BasePage } from '../PageObjects/BasePage';
 import { LoginPage } from '../PageObjects/LoginPage';
 import { RegisterPage } from '../PageObjects/RegisterPage';
 import { DashboardPage } from '../PageObjects/DashboardPage';
@@ -67,27 +68,30 @@ test.describe('Login & Register cases', () => {
 test.describe('Website cases without login', () => { 
 
     test('BL-T1: Product Term life shall be visible under CA products list.', async ({ page }) => {
-        await page.goto('');
+        const basePage = new BasePage(page);
+        await basePage.navigate(' ');
+        
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         expect(await dashboardPage.getTLProductName()).toEqual('Term Life');
     });  
 
     test('BL-T29 : User shall able to switch between FR & EN languages.', async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.navigate(' ');
+        const basePage = new BasePage(page);
+        await basePage.navigate(' ');
         
         const dashboard = new DashboardPage(page);
         await dashboard.acceptCookies();
-        await dashboard.changeLanguageToFR();
+        await basePage.changeLanguageToFR();
         expect(await dashboard.getDashboardPageHeader()).toEqual("Toute la protection dont vous avez besoin sous une seule couverture");
         
-        await dashboard.changeLanguageToEN();
+        await basePage.changeLanguageToEN();
         expect(await dashboard.getDashboardPageHeader()).toEqual("All your coverage under one blanket");
     }); 
 
     test('BL-T42: Term life banner shall be visible on dasboard screen.', async ({ page }) => {
-        await page.goto('');
+        const basePage = new BasePage(page);
+        await basePage.navigate(' ');
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         await dashboardPage.clickLifeBanner();
@@ -97,7 +101,8 @@ test.describe('Website cases without login', () => {
     });
 
     test('BL-T49: App shall display cookie pop-up banner whenever user accesses the application.', async ({ page }) => {
-        await page.goto('');
+        const basePage = new BasePage(page);
+        await basePage.navigate(' ');
 
         const dashboardPage = new DashboardPage(page);
         expect(await dashboardPage.getCookieBannerHeading()).toEqual("We value your privacy  For us, cookies are more than just a sweet treat. They are essential to providing you with an optimal and customized online experience. These little bits of data let us adapt the content and ads you see, while analyzing our traffic to better meet your needs. Enjoy our website, knowing that we do our utmost to offer you a tasty online experience. Check out our privacy policy  for more information.");

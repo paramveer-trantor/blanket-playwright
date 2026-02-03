@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { BasePage } from '../PageObjects/BasePage';
 import { LoginPage } from '../PageObjects/LoginPage'
 import { LoginPageInTLForm } from '../PageObjects/LoginPageInTLForm'
 import { DashboardPage } from '../PageObjects/DashboardPage';
@@ -27,7 +28,9 @@ test.afterEach('Close the browser', async ({ page }) => {
 test.describe('CA Term Life cases without login', () => { 
 
     test.beforeEach('Navigate user to CA Term life Premium Quote page', async ({ page }) => {
-        await page.goto(''); 
+        const basePage = new BasePage(page);
+        await basePage.navigate(' ');
+
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         await dashboardPage.navigateToCATLProduct();
@@ -1258,12 +1261,12 @@ test.describe('CA Term Life cases with login', () => {
       
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
-        await preApplicationPage.selectLanguage("FR");
+        await preApplicationPage.changeLanguageToFR();
         expect(await preApplicationPage.getLanguageChangeWarningMsg()).toEqual("Please note that changing the language will reload the page and your information will be lost.");
         await preApplicationPage.clickDialogOkayBtn();
         expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('fr');  
-        await premiumQuotePage.selectLanguage("EN");
-        await page.waitForTimeout(4000);
+        await premiumQuotePage.changeLanguageToEN();
+        await page.waitForLoadState('domcontentloaded');
         expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('en');  
     });
     
