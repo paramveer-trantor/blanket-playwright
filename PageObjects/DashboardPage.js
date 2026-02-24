@@ -13,8 +13,8 @@ export class DashboardPage{
         this.partnershipBtn = page.getByRole('menu').getByRole('menuitem', { name: ' Partnerships ' });
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
-        this.termlifeBtn = page.getByText('Term Life');
-        this.termlifeBtn_Fr = page.getByText('Assurance vie temporaire');
+        this.termlifeBtn = page.getByRole('option', { name: 'Term Life' });
+        this.termlifeBtn_Fr = page.getByRole('option', { name: 'Assurance vie temporaire' });
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
         this.myProfileBtn = page.locator("//div[@class='v-toolbar__content']/button[2]");
         this.myApplicationsBtn = page.getByRole('menuitem', { name: 'My Applications' }); 
@@ -53,7 +53,7 @@ export class DashboardPage{
     }
 
     async navigateToCATLProduct_FR() {
-        // await this.page.waitForLoadState('domcontentloaded');
+        await this.page.waitForLoadState('domcontentloaded');
         if(this.page.getByText(' Respect de votre vie privée ').isVisible()) {
             await this.acceptCookiesBtn_Fr.first().isVisible();
             await this.acceptCookiesBtn_Fr.first().click();

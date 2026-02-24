@@ -82,10 +82,12 @@ export class PremiumQuotePage extends BasePage {
     }
 
     async clickGetQuoteBtn() {
+        await this.getQuoteBtn.isVisible();
         await this.getQuoteBtn.click();       
     }
 
     async clickGetQuoteBtn_Fr() {
+        await this.getQuoteBtn_Fr.isVisible();
         await this.getQuoteBtn_Fr.click();       
     }
 
@@ -233,10 +235,12 @@ export class PremiumQuotePage extends BasePage {
     }
 
     async clickContinueBtn() {
+        await this.continueBtn.isVisible();
         await this.continueBtn.click();          
     }
 
     async clickContinueBtn_Fr() {
+        await this.clickContinueBtn_Fr.isVisible();
         await this.continueBtn_Fr.click();          
     }
 
