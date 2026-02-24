@@ -1863,7 +1863,7 @@ test.describe('CA Term Life cases with login', () => {
         expect(await confirmPremiumPage.getQuoteValue()).toEqual(premiumrate_bmi_32);
     });
 
-    test.skip('BL-T279: Application shall ask user to add trustee info while adding minor as beneficiary for provinces AB, BC & ON.', async ({ page }) => {
+    test('BL-T279: Application shall ask user to add trustee info while adding minor as beneficiary for provinces AB, BC & ON.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
@@ -1904,7 +1904,7 @@ test.describe('CA Term Life cases with login', () => {
         await beneficiaryPage.enterIndividualTrusteeInfo(userData.trusteefirstname, userData.trusteelastname, userData.trusteedob, userData.trusteerel);
     });
 
-    test.skip('BL-T280: Application shall not ask user to add trustee info while adding minor as beneficiary for QC provinces.', async ({ page }) => {
+    test('BL-T280: Application shall not ask user to add trustee info while adding minor as beneficiary for QC provinces.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
