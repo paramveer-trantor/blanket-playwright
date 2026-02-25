@@ -240,7 +240,7 @@ export class PremiumQuotePage extends BasePage {
     }
 
     async clickContinueBtn_Fr() {
-        await this.clickContinueBtn_Fr.isVisible();
+        await this.ContinueBtn_Fr.isVisible();
         await this.continueBtn_Fr.click();          
     }
 
