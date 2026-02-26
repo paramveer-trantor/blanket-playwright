@@ -44,7 +44,7 @@ export class BeneficiaryPage {
         this.addedbendetails = page.locator("//div[@class ='v-data-table__wrapper']/table/tbody/tr/td");
         this.trusteeHeader = this.dialogBox.getByRole('heading', { name: 'Trustee Information' });
         //this.trusteeHeader = this.dialogBox.getByText('Trustee Information');
-        this.trusteeRel = this.dialogBox.getByLabel('Relationship to minor beneficary');
+        this.trusteeRel = this.dialogBox.getByLabel('Relationship to minor beneficiary');
         this.errorMsgs = this.dialogBox.locator('.v-messages__message');
     }
 

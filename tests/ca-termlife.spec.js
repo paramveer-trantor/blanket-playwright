@@ -1900,7 +1900,7 @@ test.describe('CA Term Life cases with login', () => {
 
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.enterIndiBenificiaryAsMinor(userData.benFirstName, userData.benLastName, userData.benDobMinor, userData.benShare);
-        expect(await beneficiaryPage.checkIfTrusteeFieldsAreVisible()).toBeVisible();
+        await expect(beneficiaryPage.checkIfTrusteeFieldsAreVisible()).toBeVisible();
         await beneficiaryPage.enterIndividualTrusteeInfo(userData.trusteefirstname, userData.trusteelastname, userData.trusteedob, userData.trusteerel);
     });
 
@@ -1941,7 +1941,7 @@ test.describe('CA Term Life cases with login', () => {
 
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.enterIndiBenificiaryAsMinor(userData.benFirstName, userData.benLastName, userData.benDobMinor, userData.benShare);
-        expect(await page.getByText('Trustee Information')).not.toBeVisible();
+        await expect(beneficiaryPage.checkIfTrusteeFieldsAreVisible()).not.toBeVisible();
     });
  
 }); 
