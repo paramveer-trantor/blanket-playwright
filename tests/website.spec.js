@@ -17,7 +17,7 @@ test.describe('Login & Register cases', () => {
     test('BL-T114 - User should be able to login with valid credentials', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
+        await loginPage.login(process.env.USER_EMAIL, process.env.USER_PASSWORD);
         await page.waitForTimeout(5000);
         await expect(page).toHaveURL('https://staging.blanket.com/');
     });
@@ -25,10 +25,10 @@ test.describe('Login & Register cases', () => {
     test('BL-T251 - User should not be able to login with invalid credentials', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login(loginData.validUser.username, loginData.invalidUser.invalidPassword);  
+        await loginPage.login(process.env.USER_EMAIL, process.env.USER_PASSWORD_INVALID);
         expect(await loginPage.getErrorMessage()).toEqual('Invalid credentials');
         await loginPage.closeErrorPopUp();
-        await loginPage.login(loginData.invalidUser.invalidUsername, loginData.validUser.password);   
+        await loginPage.login(process.env.USER_EMAIL_INVALID, process.env.USER_PASSWORD);   
         expect(await loginPage.getErrorMessage()).toEqual('Invalid credentials');
     });
 
@@ -111,7 +111,7 @@ test.describe('Website cases without login', () => {
     test("BL-T130: Application shall not display notification message to user if user has no open application", async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login("gagandeep.singla+sqlqa_nouse@trantorinc.com", "Test@123");
+        await loginPage.login(process.env.USER_EMAIL_NOUSE, process.env.USER_PASSWORD);
         
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
@@ -128,7 +128,7 @@ test.describe('Website cases with login', () => {
     test.beforeEach('Login and navigate user to dashboad page', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
+        await loginPage.login(process.env.USER_EMAIL, process.env.USER_PASSWORD);
     }); 
     
     test('BL-T45: My policies menu option shall be visible in menu on desktop browser.', async ({ page }) => {

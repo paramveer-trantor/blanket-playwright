@@ -11,12 +11,12 @@ import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Pa
 import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page'
 import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage'
 import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage'
-import { userData, loginData } from '../Utils/TestData'
+import { userData } from '../Utils/TestData'
 
 test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
     const loginPage = new LoginPage(page);
     await loginPage.navigate('/pages/login');
-    await loginPage.login(loginData.validUser.username, loginData.validUser.password);
+    await loginPage.login(process.env.USER_EMAIL, process.env.USER_PASSWORD);
 
     const dashboardPage = new DashboardPage(page);
     await dashboardPage.acceptCookies();

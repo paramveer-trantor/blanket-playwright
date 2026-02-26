@@ -1,6 +1,9 @@
 // @ts-check
-const { defineConfig, devices, chromium, firefox, webkit } = require('@playwright/test');
-require('dotenv').config();
+import { defineConfig } from '@playwright/test';
+import dotenv from 'dotenv';
+
+const env = process.env.TEST_ENV || 'qa';
+dotenv.config({ path: `.env.${env}` });
 
 /**
  * Read environment variables from file.
@@ -10,7 +13,7 @@ require('dotenv').config();
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
-module.exports = defineConfig({
+export default defineConfig({
   //globalSetup:'Utils/globalSetup.js',
   timeout: 100000,
   testDir: './tests',
@@ -32,6 +35,8 @@ module.exports = defineConfig({
     // baseURL: 'http://127.0.0.1:3000',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     //baseURL: 'https://staging.blanket.com/',
+    //baseURL: process.env.BASE_URL,
+    browserName : 'chromium',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -41,45 +46,37 @@ module.exports = defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { 
-        baseURL: 'https://staging.blanket.com/',
-        browserName: 'chromium',
-        trace: 'retain-on-failure'
-    },
+      name: 'qa',
+      use: { baseURL: process.env.BASE_URL, },
     },
 
     {
-      name: 'production',
-      use: { 
-        baseURL: 'https://www.blanket.com/',
-        browserName: 'chromium',
-        trace: 'retain-on-failure'
-    },
+      name: 'prod',
+      use: { baseURL: process.env.BASE_URL, },
     },
 
-    {
-      name: 'firefox',
-      use: {
-        baseURL: 'https://staging.blanket.com/',
-        browserName: 'firefox',
-        trace: 'retain-on-failure'
-    },
-    },
+    // {
+    //   name: 'Safari',
+    //   use: { ...devices['iPhone 12'],baseURL: 'https://staging.blanket.com/'},
+    // },
 
-    {
-      name: 'webkit',
-      use: { 
-        baseURL: 'https://staging.blanket.com/',
-        browserName: 'webkit',
-        trace: 'retain-on-failure'
-    },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     baseURL: 'https://staging.blanket.com/',
+    //     browserName: 'firefox',
+    //     trace: 'retain-on-failure'
+    // },
+    // },
 
-    {
-      name: 'Safari',
-      use: { ...devices['iPhone 12'],baseURL: 'https://staging.blanket.com/'},
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { 
+    //     baseURL: 'https://staging.blanket.com/',
+    //     browserName: 'webkit',
+    //     trace: 'retain-on-failure'
+    // },
+    // },
 
     /* Test against mobile viewports. */
     // {

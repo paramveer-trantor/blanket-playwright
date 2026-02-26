@@ -85,27 +85,6 @@ const userData = {
   bankName : "Test Bank"
 };
 
-const loginData = {
-  validUser : {
-    username : "gagandeep.singla+qaauto1@trantorinc.com",
-    password : "Test@123",
-    username_Fr : "gagandeep.singla+sqlqa_fr@trantorinc.com"
-  },
-  invalidUser : {
-    invalidUsername : "gagandeep.singla+invaliduser@trantorinc.com",
-    invalidPassword : "123123"
-  },
-  adminUsers : {
-  adminUser : "gagandeep.singla+admin@trantorinc.com",
-  adminPass : "Test@123",
-  },
-  prodUser : {
-    username : "gagandeep.singla+qaprod@trantorinc.com",
-    password : "Test@123",
-  }
-};
-
 module.exports = {
-  userData,
-  loginData
+  userData
 };

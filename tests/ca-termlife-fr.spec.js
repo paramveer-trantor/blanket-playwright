@@ -18,12 +18,12 @@ import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage'
 import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
 import { PaymentPage } from '../PageObjects/PaymentPage'
 import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
-import { userData, loginData } from '../Utils/TestData'
+import { userData } from '../Utils/TestData'
 
     test('BL-T1_FR: Product Term life shall be visible under CA products list.', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login(loginData.validUser.username_Fr, loginData.validUser.password);
+        await loginPage.login(process.env.USER_EMAIL_FR, process.env.USER_PASSWORD);
 
         const dashboardPage = new DashboardPage(page);
         expect(await dashboardPage.getTLProductName_Fr()).toEqual('Assurance vie temporaire');
@@ -34,7 +34,7 @@ test.describe('CA Term Life test cases in FR language', () => {
     test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login(loginData.validUser.username_Fr, loginData.validUser.password);
+        await loginPage.login(process.env.USER_EMAIL_FR, process.env.USER_PASSWORD);
 
         const dashboardPage = new DashboardPage(page); 
         await dashboardPage.navigateToCATLProduct_FR();

@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "qa": "npx playwright test --project=chromium --headed",
-    "admin": "npx playwright test --project=admin --headed",
-    "production": "npx playwright test --project=production --headed"
+    "test:qa": "cross-env TEST_ENV=qa playwright test --project=qa --headed",
+    "test:prod": "cross-env TEST_ENV=prod playwright test --project=prod --headed"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +16,7 @@
     "allure-playwright": "2.15.0",
     "axios": "^1.7.2",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "dotenv-cli": "^7.4.2"
   },
   "dependencies": {

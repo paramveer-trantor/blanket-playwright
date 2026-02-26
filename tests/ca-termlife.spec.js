@@ -19,7 +19,7 @@ import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
 import { PaymentPage } from '../PageObjects/PaymentPage'
 import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
 import { MyApplicationsPage } from '../PageObjects/MyApplicationsPage'
-import { userData, loginData } from '../Utils/TestData'
+import { userData } from '../Utils/TestData'
 
 test.afterEach('Close the browser', async ({ page }) => {
     await page.close();   
@@ -89,7 +89,7 @@ test.describe('CA Term Life cases without login', () => {
 
         const loginPageInTLForm = new LoginPageInTLForm(page);
         expect(await loginPageInTLForm.getInFormLoginPageHeder()).toEqual("In order to continue with the application, please log in or create a Blanket account.");
-        await loginPageInTLForm.loginIntoAccount(loginData.validUser.username, loginData.validUser.password);
+        await loginPageInTLForm.loginIntoAccount(process.env.USER_EMAIL, process.env.USER_PASSWORD);
 
         const preApplicationPage = new PreApplicationPage(page);
         expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre Application');
@@ -102,7 +102,7 @@ test.describe('CA Term Life cases with login', () => {
     test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
+        await loginPage.login(process.env.USER_EMAIL, process.env.USER_PASSWORD);
 
         const dashboardPage = new DashboardPage(page); 
         await dashboardPage.acceptCookies();
@@ -1544,7 +1544,7 @@ test.describe('CA Term Life cases with login', () => {
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
-        expect(await preApplicationPage.verifyEmailValue()).toEqual(loginData.validUser.username);
+        expect(await preApplicationPage.verifyEmailValue()).toEqual(process.env.USER_EMAIL);
     });
 
     test('BL-T153: User shall not be knocked out if answers drinks question < or = to 7 & selects YES for Sleep Apnea additional question.', async ({ page }) => {
@@ -1949,7 +1949,7 @@ test.describe('CA Term Life cases with login', () => {
     test("BL-T238: Application shall fetch info like DOB, height, weight & address from user profile and pre populate in CA TL form." , async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login("gagandeep.singla+qa_filled@trantorinc.com", "Test@123");
+        await loginPage.login(process.env.USER_EMAIL_FILLED, process.env.USER_PASSWORD);
 
         const dashboardPage = new DashboardPage(page); 
         await dashboardPage.navigateToCATLProduct();

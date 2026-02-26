@@ -23,7 +23,7 @@ import { MyApplicationsPage } from '../PageObjects/MyApplicationsPage'
 import { OurTeamPage } from '../PageObjects/OurTeamPage';
 import { NewsPage } from '../PageObjects/NewsPage';
 import { ContactUsPage } from '../PageObjects/ContactUsPage';
-import { userData, loginData } from '../Utils/TestData'
+import { userData } from '../Utils/TestData'
 
 test.describe('[Mobile browser] CA term life', () => {
 
@@ -105,7 +105,7 @@ test.describe('[Mobile browser] CA term life', () => {
 
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login(loginData.validUser.username, loginData.validUser.password);
+        await loginPage.login(process.env.USER_EMAIL, process.env.USER_PASSWORD);
 
         const mobileview = new MobileViewNavigation(page);
         await mobileview.acceptCookies();
@@ -171,7 +171,7 @@ test.describe('[Mobile browser] CA term life', () => {
         
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
-        await loginPage.login(loginData.validUser.username_Fr, loginData.validUser.password);
+        await loginPage.login(process.env.USER_EMAIL_FR, process.env.USER_PASSWORD);
 
         const mobileview = new MobileViewNavigation(page);
         await mobileview.acceptCookies_Fr();
