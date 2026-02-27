@@ -149,7 +149,7 @@ export class BeneficiaryPage {
     }
 
     async checkIfTrusteeFieldsAreVisible() {
-        return await this.trusteeHeader;
+        return await this.trusteeHeader.isVisible();
     }
 
     async enterIndividualTrusteeInfo(trusteefirstname, trusteelastname, trusteedob, trusteerel) {
