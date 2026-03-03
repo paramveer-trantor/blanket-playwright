@@ -33,6 +33,7 @@ export class PremiumQuotePage extends BasePage {
         this.warningMsgText = this.dialogBox.locator("//div[@class='v-card__text justify-center text-center']/div/div");
         this.closeBtn = this.dialogBox.getByRole('button', { name: ' Close '});
         this.premiumValue = page.locator('.estimate-subtitle .font-weight-bold ');
+        this.premiumRateValue = page.locator('.chip-text');
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
@@ -216,14 +217,7 @@ export class PremiumQuotePage extends BasePage {
     }
 
     async getNumericPremiumRateValue() {
-        const text = (await this.premiumValue.textContent()).trim();
-        const match = text.match(/(\d+\.\d+)/); 
-
-        let premiumrate_numericValue = null;
-        if (match) {
-        premiumrate_numericValue = parseFloat(match[1]);
-        }
-        return premiumrate_numericValue;
+        return (await this.premiumRateValue.first().textContent()).trim();
     }
 
     async getErrorPopUp() {

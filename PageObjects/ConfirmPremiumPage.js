@@ -5,7 +5,7 @@ export class ConfirmPremiumPage {
         this.header = page.locator("//div[text()=' Premium Quote ']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
-        this.quoteValue = page.locator('.estimate-subtitle .font-weight-bold');
+        this.quoteValue = page.locator('.chip-text');
         this.policyOptions = page.locator('.chip-text');
         this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
         this.term = page.locator("//label[text()='Term']");
@@ -18,14 +18,14 @@ export class ConfirmPremiumPage {
     }
 
     async getQuoteValue() {
-        await this.quoteValue.waitFor();
-        return (await this.quoteValue.textContent()).trim();
+        await this.quoteValue.first().waitFor();
+        return (await this.quoteValue.first().textContent()).replace('$', '');
     }
 
     async getQuoteValueWithFee() {
-        await this.quoteValue.waitFor();
-        const premiumrate_value = await this.quoteValue.textContent();
-        const numericValue = parseFloat(premiumrate_value.replace(/[^0-9.]/g, ''));
+        await this.quoteValue.first().waitFor();
+        const premiumrate_value = await this.quoteValue.first().textContent();
+        const numericValue = parseFloat(premiumrate_value.replace('$', ''));
         const addedValue = numericValue + 2.70;
         const premiumrate = parseFloat(addedValue).toFixed(2);
         return premiumrate;  
@@ -117,12 +117,12 @@ export class ConfirmPremiumPage {
     }
 
     async clickContinueBtn() {
-        await this.quoteValue.waitFor();
+        await this.quoteValue.first().waitFor();
         await this.continueBtn.click();     
     }
 
     async clickContinueBtn_Fr() {
-        await this.quoteValue.waitFor();
+        await this.quoteValue.first().waitFor();
         await this.continueBtn_Fr.click();
     }
 

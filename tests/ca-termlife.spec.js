@@ -1819,13 +1819,12 @@ test.describe('CA Term Life cases with login', () => {
     test("BL-T198: Premium rate shall be increased by 1.5 times if user's bmi is in between 32.1 and 35.", async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
-        const premiumrate_bmi_less32 = await premiumQuotePage.getNumericPremiumRateValue();
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, "5", "8", "220");
+        const premiumRate_bmi_less32 = (await premiumQuotePage.getNumericPremiumRateValue()).replace('$', '');
+        const date_input = await premiumQuotePage.getInputDOBValue();
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, date_input, "5", "8", "220");
         await page.waitForTimeout(2000);
-        const new_premiumrate_bmi_more32 = await premiumQuotePage.getNumericPremiumRateValue();
-        const exp_premiumrate_bmi_more32 = premiumrate_bmi_less32 * 1.5;
-        expect(new_premiumrate_bmi_more32).toBe(exp_premiumrate_bmi_more32);
-        const premiumrate_bmi_more32 = await premiumQuotePage.getQuotePremiumRateValue();
+        const premiumRate_bmi_more32 = (await premiumQuotePage.getNumericPremiumRateValue()).replace('$', '');
+        expect(premiumRate_bmi_more32).toBe((parseFloat((premiumRate_bmi_less32)*1.5.toFixed(2))).toString());
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -1837,18 +1836,18 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
-        expect(await confirmPremiumPage.getQuoteValue()).toEqual(premiumrate_bmi_more32);
+        expect(await confirmPremiumPage.getQuoteValue()).toEqual(premiumRate_bmi_more32);
     });
 
     test("BL-T199: Premium rate shall not be increased by 1.5 if user's bmi is 32.", async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         const premiumrate_bmi_less32 = await premiumQuotePage.getNumericPremiumRateValue();
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, "5", "7", "204");
+        const date_input = await premiumQuotePage.getInputDOBValue();
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, date_input, "5", "7", "204");
         await page.waitForTimeout(2000);
         const new_premiumrate_bmi_32 = await premiumQuotePage.getNumericPremiumRateValue();
         expect(new_premiumrate_bmi_32).toBe(premiumrate_bmi_less32);
-        const premiumrate_bmi_32 = await premiumQuotePage.getQuotePremiumRateValue();
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -1860,7 +1859,7 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
-        expect(await confirmPremiumPage.getQuoteValue()).toEqual(premiumrate_bmi_32);
+        expect(await confirmPremiumPage.getQuoteValue()).toEqual(new_premiumrate_bmi_32.replace('$', ''));
     });
 
     test('BL-T279: Application shall ask user to add trustee info while adding minor as beneficiary for provinces AB, BC & ON.', async ({ page }) => {
