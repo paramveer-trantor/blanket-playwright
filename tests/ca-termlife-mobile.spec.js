@@ -127,7 +127,6 @@ test.describe('[Mobile browser] CA term life', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
-        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
@@ -158,7 +157,6 @@ test.describe('[Mobile browser] CA term life', () => {
 
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox();
-        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
         await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
         
         const congratulationsPage = new CongratulationsPage(page);

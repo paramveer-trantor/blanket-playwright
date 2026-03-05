@@ -217,7 +217,8 @@ export class PremiumQuotePage extends BasePage {
     }
 
     async getNumericPremiumRateValue() {
-        return (await this.premiumRateValue.first().textContent()).trim();
+        const premium_num = (await this.premiumRateValue.first().textContent()).trim();
+        return (premium_num).replace('$', '');
     }
 
     async getErrorPopUp() {

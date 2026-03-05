@@ -43,13 +43,18 @@ export class BeneficiaryPage {
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.addedbendetails = page.locator("//div[@class ='v-data-table__wrapper']/table/tbody/tr/td");
         this.trusteeHeader = this.dialogBox.getByRole('heading', { name: 'Trustee Information' });
-        //this.trusteeHeader = this.dialogBox.getByText('Trustee Information');
+        this.noBenAddedMsg = page.locator('.v-data-table__empty-wrapper');
         this.trusteeRel = this.dialogBox.getByLabel('Relationship to minor beneficiary');
         this.errorMsgs = this.dialogBox.locator('.v-messages__message');
+        this.editBenBtn = page.locator("//div[@class ='v-data-table__wrapper']/table/tbody/tr/td[10]/button[1]")
     }
 
     async getBenecificaryPageHeader() {
         return (await this.header.textContent()).trim();
+    }
+
+    async getNoBenAddedMsg() {
+        return this.noBenAddedMsg.textContent();
     }
 
     async enterIndividualBeneficiaryDetails(benfirstname, benlastname, bendob, benshare) {
@@ -146,6 +151,17 @@ export class BeneficiaryPage {
         await this.dateOfBirth.fill(bendob);
         await this.percentage.click();
         await this.percentage.fill(benshare);
+    }
+
+    async clickEditBtn() {
+        await this.editBenBtn.click();
+    }
+
+    async checkDOBFieldInLegalBenIsVisible() {
+        await this.addBeneficiryBtn.click();
+        await this.openBeneficiariesTypes.click();
+        await this.selectLegal.click();
+        return await this.dateOfBirth.isVisible();
     }
 
     async checkIfTrusteeFieldsAreVisible() {

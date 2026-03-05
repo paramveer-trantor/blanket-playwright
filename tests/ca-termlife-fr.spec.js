@@ -400,7 +400,7 @@ test.describe('CA Term Life test cases in FR language', () => {
         const preApplicationPage = new PreApplicationPage(page);
         if (CurrentTimeEst > 21 || CurrentTimeEst < 9) {
             expect(await preApplicationPage.getAfterHoursTitle()).toEqual('Heures de bureau');
-            expect(await preApplicationPage.getAfterHoursMsg()).toEqual("Si vous avez besoin d'aide lors de votre demande d'assurance, nos agents sont disponibles entre 9 h et 21 h (HNE).");
+            expect(await preApplicationPage.getDialogMsgText()).toEqual("Si vous avez besoin d'aide lors de votre demande d'assurance, nos agents sont disponibles entre 9 h et 21 h (HNE).");
         }
         else {
             expect(await preApplicationPage.checkAfterHoursDialogIsVisible()).toBeFalsy();

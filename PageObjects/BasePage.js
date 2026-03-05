@@ -9,6 +9,8 @@ export class BasePage {
         this.languageBtn = page.locator('.currentLang');
         this.EnLangBtn = page.getByText('EN', { exact: true });
         this.FrLangBtn = page.getByText('FR', { exact: true });
+        this.initialInfo = page.getByText('Initial Info', { exact: true });
+        this.personalStatement = page.locator('.v-stepper__label').filter({ hasText: 'Personal Statement' });
     }
 
     async navigate(url) {
@@ -35,6 +37,14 @@ export class BasePage {
 
     async clickDialogOkayBtn() {
         await this.dialogOkayBtn.click();
+    }
+
+    async goBackToStep1() {
+        await this.initialInfo.click();
+    }
+
+    async goToStep4() {
+        await this.personalStatement.click();
     }
 
 }

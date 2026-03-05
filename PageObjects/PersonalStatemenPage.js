@@ -46,6 +46,13 @@ export class PersonalStatementPage {
         }
     }
 
+    async clickCheckboxForQC() {
+        if (await this.checkbox10.isVisible()) {
+            await this.checkbox10.click();
+        }
+    }
+
+
     async agreeBtnClick() {
         await this.agreeBtn.click();
     }
