@@ -6,7 +6,7 @@ export class ConfirmPremiumPage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.quoteValue = page.locator('.chip-text');
-        this.quoteValueMob = page.locator('chip-text-mobile');
+        this.yourQuote = page.locator('.estimate-subtitle');
         this.policyOptions = page.locator('.chip-text');
         this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
         this.term = page.locator("//label[text()='Term']");
@@ -118,12 +118,12 @@ export class ConfirmPremiumPage {
     }
 
     async clickContinueBtn() {
-        await this.quoteValue.first().waitFor();
+        await this.yourQuote.first().waitFor();
         await this.continueBtn.click();     
     }
 
     async clickContinueBtn_Fr() {
-        await this.quoteValue.first().waitFor();
+        await this.yourQuote.first().waitFor();
         await this.continueBtn_Fr.click();
     }
 
