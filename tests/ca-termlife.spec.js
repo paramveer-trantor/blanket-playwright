@@ -1136,12 +1136,13 @@ test.describe('CA Term Life cases with login', () => {
             });
                 return formatter.format(new Date());
         });
+        const hour = Number(CurrentTimeEst);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        if (CurrentTimeEst > 21 || CurrentTimeEst < 9) {
+        if (hour >= 21 || hour <= 9) {
             expect(await preApplicationPage.getAfterHoursTitle()).toEqual('After hours');
             expect(await preApplicationPage.getDialogMsgText()).toEqual("Should you require assistance during your application, our agents are available between 9:00 AM and 9:00 PM EST.");
         }
