@@ -1,7 +1,9 @@
-export class ConfirmPremiumPage {
+import { BasePage } from "./BasePage";
+
+export class ConfirmPremiumPage extends BasePage {
 
     constructor(page) {
-        this.page = page;
+        super(page);
         this.header = page.locator("//div[text()=' Premium Quote ']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
@@ -108,11 +110,13 @@ export class ConfirmPremiumPage {
     }
 
     async changeTermLength(length) {
+        await this.term.waitFor();
         await this.term.click();
         await this.page.getByRole('listbox').getByRole('option', { name: length }).click();
     }
 
     async changeCoverageAmount(amount) { 
+        await this.coverage.waitFor();
         await this.coverage.click();
         await this.page.getByRole('listbox').getByRole('option', { name: amount }).click();
     }

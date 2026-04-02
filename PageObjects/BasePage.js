@@ -47,4 +47,13 @@ export class BasePage {
         await this.personalStatement.click();
     }
 
+    async getPremiumValueFromAPI() {
+        const response = await this.page.waitForResponse(resp =>
+            resp.url().includes('/api/premium') && resp.status() === 201
+        );
+        const data = await response.json();
+        const premium_value = ((data.monthly_premium).toFixed(2)).toString();
+        return premium_value;
+    }
+
 }

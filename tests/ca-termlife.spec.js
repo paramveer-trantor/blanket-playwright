@@ -125,8 +125,11 @@ test.describe('CA Term Life cases with login', () => {
         test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
         await premiumQuotePage.clickContinueBtn();
-
+        
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
         await preApplicationPage.clickConitnueBtn();
@@ -136,6 +139,9 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
         const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
         await confirmPremiumPage.clickContinueBtn();
         
@@ -1132,7 +1138,8 @@ test.describe('CA Term Life cases with login', () => {
             const formatter = new Intl.DateTimeFormat('en-US', {
                 timeZone: 'America/New_York', 
                 hour: '2-digit',
-                hour12: false,
+                minute: '2-digit',
+                hour12: true,
             });
                 return formatter.format(new Date());
         });
@@ -1142,7 +1149,7 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        if (hour >= 21 || hour <= 9) {
+        if (hour >= 21 || hour < 9) {
             expect(await preApplicationPage.getAfterHoursTitle()).toEqual('After hours');
             expect(await preApplicationPage.getDialogMsgText()).toEqual("Should you require assistance during your application, our agents are available between 9:00 AM and 9:00 PM EST.");
         }
@@ -1155,6 +1162,9 @@ test.describe('CA Term Life cases with login', () => {
         test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueWithMetric(userData.genderFemale, userData.date, userData.centi, userData.weightKG);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -1167,6 +1177,9 @@ test.describe('CA Term Life cases with login', () => {
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.changeTermLength("15");
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
         const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
         await confirmPremiumPage.clickContinueBtn();
         
@@ -1459,6 +1472,9 @@ test.describe('CA Term Life cases with login', () => {
         test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueAsSmoker(userData.genderMale, userData.date, "5", "11", userData.weight);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -1471,7 +1487,9 @@ test.describe('CA Term Life cases with login', () => {
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.changeTermLength("20");
-        await confirmPremiumPage.changeCoverageAmount("$100K");
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
         const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
         await confirmPremiumPage.clickContinueBtn();
         
@@ -1660,6 +1678,9 @@ test.describe('CA Term Life cases with login', () => {
         test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -1671,6 +1692,9 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
         await confirmPremiumPage.clickContinueBtn();
         
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
