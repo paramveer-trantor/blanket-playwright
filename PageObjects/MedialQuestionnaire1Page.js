@@ -30,7 +30,7 @@ export class MedicalQuestionnaire1Page {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
     }
-    
+
     async getMedicalQuestionsPageHeader() {
         return (await this.header.textContent()).trim();
     }
@@ -63,7 +63,7 @@ export class MedicalQuestionnaire1Page {
         }
     }
 
-    async answerCancerAsYesandRestNo() {  
+    async answerCancerAsYesandRestNo() {
         await this.questionCancerOptionYes.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
@@ -77,7 +77,7 @@ export class MedicalQuestionnaire1Page {
         await this.questionAnxietyOptionNo.click();
     }
 
-    async answerHeartAttackAsYesandRestNo() {  
+    async answerHeartAttackAsYesandRestNo() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionYes.click();
         await this.questionFibrosisOptionNo.click();
@@ -91,7 +91,7 @@ export class MedicalQuestionnaire1Page {
         await this.questionAnxietyOptionNo.click();
     }
 
-    async answerFibrosisAsYesandRestNo() {  
+    async answerFibrosisAsYesandRestNo() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionYes.click();
@@ -105,7 +105,7 @@ export class MedicalQuestionnaire1Page {
         await this.questionAnxietyOptionNo.click();
     }
 
-    async answerSleepApneaAsYesandRestNo() {  
+    async answerSleepApneaAsYesandRestNo() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
@@ -118,10 +118,10 @@ export class MedicalQuestionnaire1Page {
         await this.questionSchizophreniaOptionNo.click();
         await this.questionDepressionOptionNo.click();
         await this.questionAnxietyOptionNo.click();
-    } 
+    }
 
-    async answerSleepApneaAndAdditionQuesAsYes() {  
-        await this.questionCancerOptionNo.click(); 
+    async answerSleepApneaAndAdditionQuesAsYes() {
+        await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
         await this.questionSleepApneaOptionYes.click();
@@ -133,9 +133,9 @@ export class MedicalQuestionnaire1Page {
         await this.questionSchizophreniaOptionNo.click();
         await this.questionDepressionOptionNo.click();
         await this.questionAnxietyOptionNo.click();
-    } 
+    }
 
-    async answerAIDSHIVAsYesandRestNo() {  
+    async answerAIDSHIVAsYesandRestNo() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
@@ -149,7 +149,7 @@ export class MedicalQuestionnaire1Page {
         await this.questionAnxietyOptionNo.click();
     }
 
-    async answerBrainDisorderAsYesandRestNo() {  
+    async answerBrainDisorderAsYesandRestNo() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
@@ -163,7 +163,7 @@ export class MedicalQuestionnaire1Page {
         await this.questionAnxietyOptionNo.click();
     }
 
-    async answerMemoryDisorderAsYesandRestNo() {  
+    async answerMemoryDisorderAsYesandRestNo() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
@@ -177,7 +177,7 @@ export class MedicalQuestionnaire1Page {
         await this.questionAnxietyOptionNo.click();
     }
 
-    async answerRheumatoidArthritisAsYesandRestNo() {  
+    async answerRheumatoidArthritisAsYesandRestNo() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
@@ -191,7 +191,7 @@ export class MedicalQuestionnaire1Page {
         await this.questionAnxietyOptionNo.click();
     }
 
-    async answerSchizophreniaAsYesandRestNo() {  
+    async answerSchizophreniaAsYesandRestNo() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
@@ -202,8 +202,8 @@ export class MedicalQuestionnaire1Page {
         await this.questionRheumatoidArthritisOptionNo.click();
         await this.questionSchizophreniaOptionYes.click();
     }
-   
-    async answerDepressionAsYes() {  
+
+    async answerDepressionAsYes() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();
@@ -216,7 +216,7 @@ export class MedicalQuestionnaire1Page {
         await this.questionDepressionOptionYes.click();
     }
 
-    async answerAnxietyAsYes() {  
+    async answerAnxietyAsYes() {
         await this.questionCancerOptionNo.click();
         await this.questionHeartAttackOptionNo.click();
         await this.questionFibrosisOptionNo.click();

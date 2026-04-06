@@ -3,9 +3,9 @@ export class BeneficiaryPage {
     constructor(page) {
         this.page = page;
         this.header = page.locator("div[text=' Beneficiaries ']");
-        this.addBeneficiryBtn = page.getByRole('button', {name: ' Add beneficiary '}); 
-        this.addBeneficiryBtn_Fr = page.getByRole('button', {name: ' Ajouter bénéficiaire '}); 
-        this.dialogBox =  page.getByRole('dialog');
+        this.addBeneficiryBtn = page.getByRole('button', { name: ' Add beneficiary ' });
+        this.addBeneficiryBtn_Fr = page.getByRole('button', { name: ' Ajouter bénéficiaire ' });
+        this.dialogBox = page.getByRole('dialog');
         this.openBeneficiariesTypes = this.dialogBox.getByLabel('My Beneficiaries', { exact: true });
         this.openBeneficiariesTypes_Fr = this.dialogBox.getByLabel('Mes bénéficiaires', { exact: true });
         this.selectIndividual = this.dialogBox.getByText('Individual', { exact: true });
@@ -14,10 +14,10 @@ export class BeneficiaryPage {
         this.selectLegal_Fr = this.dialogBox.getByText('Personne légale', { exact: true });
         this.benFirstName = this.dialogBox.getByLabel('First name', { exact: true });
         this.benFirstName_Fr = this.dialogBox.getByLabel('Prénom', { exact: true });
-        this.benLastName = this.dialogBox.getByLabel('Last name', { exact: true }); 
+        this.benLastName = this.dialogBox.getByLabel('Last name', { exact: true });
         this.benLastName_Fr = this.dialogBox.getByLabel('Nom de Famille', { exact: true });
         this.firstName = this.dialogBox.getByLabel('First name', { exact: true });
-        this.lastName = this.dialogBox.getByLabel('Last name', { exact: true }); 
+        this.lastName = this.dialogBox.getByLabel('Last name', { exact: true });
         this.openRelationshipDropDown = this.dialogBox.getByLabel('Relationship to policy owner', { exact: true });
         this.openRelationshipDropDown_Fr = this.dialogBox.getByLabel('Lien avec le titulaire', { exact: true });
         this.selectRelationshipOption = this.dialogBox.getByText('Brother', { exact: true });
@@ -180,7 +180,7 @@ export class BeneficiaryPage {
     async getAddedBenDetails() {
         let addedBenDetails = [];
         addedBenDetails[0] = await this.addedbendetails.first().textContent();
-        for(let i=1; i <= 8; i++) {
+        for (let i = 1; i <= 8; i++) {
             addedBenDetails[i] = await this.addedbendetails.nth(i).textContent();
         }
         return addedBenDetails;

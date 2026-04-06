@@ -5,7 +5,7 @@ export class OurTeamPage {
         this.ourTeamheading = page.locator('.hero_ourteam:visible')
     }
 
-    async getOurTeamPageHeader(){
+    async getOurTeamPageHeader() {
         await this.page.waitForLoadState('domcontentloaded');
         return (await this.ourTeamheading.textContent()).trim();
     }

@@ -24,14 +24,14 @@ test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', as
 
     const landingpage = new TLProductLandingPage(page);
     await landingpage.clickApplyNowBtn();
-}); 
+});
 
 test.afterEach('Close the browser', async ({ page }) => {
-    await page.close(); 
+    await page.close();
 });
 
 test.describe('Pre application page knockout cases', async () => {
-    
+
     test('BL-T10(1): Verify knockout with currently absent from work question', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
@@ -40,18 +40,18 @@ test.describe('Pre application page knockout cases', async () => {
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillUserInfoWithCurrentlyAbsentFromWorkAsYes(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -77,18 +77,18 @@ test.describe('Pre application page knockout cases', async () => {
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillUserInfoWithPastAbsentFromWorkAsYes(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -109,27 +109,27 @@ test.describe('Pre application page knockout cases', async () => {
 });
 
 test.describe('BL-T21: Lifestyle page knockout cases', async () => {
-    
+
     test('Verify knockout with BMI > 35 Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, "5", "8", "235");
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn(); 
-        
+        await confirmPremiumPage.clickContinueBtn();
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -146,27 +146,27 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         expect(await personalStatementPage.clickAgreeBtn()).toContain('>35');
         expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
-    
+
     test('Verify knockout with BMI < 17.5 Declined lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, "5", "1", "83");
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -190,20 +190,20 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerCompanyDeclinedAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -227,20 +227,20 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerRiskyOccupationAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -257,27 +257,27 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Candidates with risky occupations are not allowed');
         expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
-        
+
     test('Verify knockout with Criminal Offence lifestyle question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerCriminalOffenceAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -301,20 +301,20 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerExtremeSportsAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -338,20 +338,20 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerMarijuanaValueAsHighandRestNo(userData.marijuanaKnock,userData.drinks);
+        await lifestyleQuestionnairePage.answerMarijuanaValueAsHighandRestNo(userData.marijuanaKnock, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -375,25 +375,25 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerDrinksValueAsHighandRestNo(userData.drinksKnock);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
 
-        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);  
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
         await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
         await medicalQuestionnaire2Page.clickConitnueBtn();
 
@@ -412,20 +412,20 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerDrugsUse5YAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -449,20 +449,20 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerDrugsUse10YAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -486,20 +486,20 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerOutsideCaAsYesandRestNo(userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -520,27 +520,27 @@ test.describe('BL-T21: Lifestyle page knockout cases', async () => {
 });
 
 test.describe('BL-T22: Medical page knockout cases', async () => {
-    
+
     test('Verify knockout with Cancer medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerCancerAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -564,20 +564,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerHeartAttackAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -601,20 +601,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerFibrosisAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -638,20 +638,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerSleepApneaAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -675,20 +675,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks_7_P);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerSleepApneaAndAdditionQuesAsYes();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -712,20 +712,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerAIDSHIVAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -749,20 +749,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerBrainDisorderAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -786,20 +786,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerMemoryDisorderAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -823,20 +823,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerRheumatoidArthritisAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -860,20 +860,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerSchizophreniaAsYesandRestNo();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -897,20 +897,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerDepressionAsYes();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -927,27 +927,27 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         expect(await personalStatementPage.clickAgreeBtn()).toContain('Medical concerns: Depression with time off work');
         expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
-    
+
     test('Verify knockout with Anxiety medical page 1 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerAnxietyAsYes();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -965,26 +965,26 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         expect(await personalStatementPage.getKnockoutMsg()).toEqual("A licensed insurance agent will contact you shortly. Alternatively, please contact us at 1-833-625-4353 or service@blanket.com");
     });
 
-    test('Verify knockout with Hepatitis medical page 2 question.', async ({ page }) => {  
+    test('Verify knockout with Hepatitis medical page 2 question.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1008,20 +1008,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1045,20 +1045,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1082,20 +1082,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1119,20 +1119,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1156,20 +1156,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1193,20 +1193,20 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1226,5 +1226,3 @@ test.describe('BL-T22: Medical page knockout cases', async () => {
 
 
 });
-
-

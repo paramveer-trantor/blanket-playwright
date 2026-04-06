@@ -2,8 +2,8 @@ export class ReviewYourAnswersPage {
 
     constructor(page) {
         this.header = page.locator("(//div[text()=' Review Your Answers '])[2]");
-        this.makeAnEditBtn = page.getByRole('button', {name: ' Make an edit '});
-        this.continueBtn = page.locator('[name="continue3"]');   
+        this.makeAnEditBtn = page.getByRole('button', { name: ' Make an edit ' });
+        this.continueBtn = page.locator('[name="continue3"]');
         //this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
     }
@@ -39,8 +39,6 @@ export class ReviewYourAnswersPage {
         await this.continueBtn.click();
         //await this.continueBtn_Fr.click();
     }
-  
+
 
 }
-
-

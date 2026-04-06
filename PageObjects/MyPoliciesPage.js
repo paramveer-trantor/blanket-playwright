@@ -1,22 +1,22 @@
 export class MyPoliciesPage {
 
-    constructor(page){
+    constructor(page) {
         this.page = page;
         this.header = page.locator(".mt-2.mb-4");
         this.eyeBtn = page.locator("//div[@class='v-data-table__wrapper']//tbody/tr/td[5]/button");
-        this.emailPolicyBtn = page.getByRole('button', { name: ' Email Policy ' }); 
+        this.emailPolicyBtn = page.getByRole('button', { name: ' Email Policy ' });
         this.policyDetails = page.locator("//ul[@class='text-h4 pa-2']/li");
-        this.dialogBox =  page.getByRole('dialog');
+        this.dialogBox = page.getByRole('dialog');
         this.successMsg = this.dialogBox.locator(".v-card__title");
         this.successPopUpClose = page.locator('.pa-0').filter({ hasText: ' Success! ' }).getByRole('button', { name: ' Close ' });
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
 
-    async getMyPoliciesPageHeader() {  
+    async getMyPoliciesPageHeader() {
         return (await this.header.textContent()).trim();
     }
- 
+
     async clickEyeBtn() {
         await this.eyeBtn.first().click();
     }

@@ -1,30 +1,30 @@
 export class ConfirmIdentityPage {
 
-    constructor(page) { 
+    constructor(page) {
         this.header = page.locator(".estimate-title.primary--text.mb-12");
         this.openIDType = page.getByLabel('Please select an ID type', { exact: true });
         this.openIDType_Fr = page.getByLabel('Veuillez choisir un type de document', { exact: true });
         this.listBox = page.getByRole('listbox');
         this.selectPassport = this.listBox.getByText('Passport', { exact: true });
         this.selectPassport_Fr = this.listBox.getByText('Passeport', { exact: true });
-        this.selectHealthCard = this.listBox.getByText('Provincial health card', { exact: true }); 
-        this.selectHealthCard_Fr = this.listBox.getByText('Assurance maladie', { exact: true }); 
+        this.selectHealthCard = this.listBox.getByText('Provincial health card', { exact: true });
+        this.selectHealthCard_Fr = this.listBox.getByText('Assurance maladie', { exact: true });
         this.selectDriverLicense = this.listBox.getByText("Driver's licence", { exact: true });
         this.selectDriverLicense_Fr = this.listBox.getByText("Permis de conduire", { exact: true });
         this.passportInputField = page.getByLabel('Passport number', { exact: true });
         this.passportInputField_Fr = page.getByLabel('Numéro de passeport', { exact: true });
         this.provinceList = page.getByLabel('Select province', { exact: true });
         this.provinceList_Fr = page.getByLabel('Choisir une province', { exact: true });
-        this.selectProvince = page.getByRole('listbox').getByText('Alberta', { exact: true }); 
-        this.selectProvince_Fr = page.getByRole('listbox').getByText('Alberta', { exact: true }); 
+        this.selectProvince = page.getByRole('listbox').getByText('Alberta', { exact: true });
+        this.selectProvince_Fr = page.getByRole('listbox').getByText('Alberta', { exact: true });
         this.healthCardInputField = page.getByLabel('Health number', { exact: true });
         this.healthCardInputField_Fr = page.getByLabel("Numéro d'assurance maladie", { exact: true });
         this.licenseInputField = page.getByLabel("Driver's licence  number", { exact: true });
         this.licenseInputField_Fr = page.getByLabel("Numéro de permis de conduire", { exact: true });
         this.errorMsg = page.getByRole('alert').locator('.v-messages__message');
         this.agreeCheckBox = page.locator("//input[@name='payAgree']/following-sibling::div[1]");
-        this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' }); 
-        this.acceptAndPayBtn_Fr = page.getByRole('button', { name: ' Accepter et payer ' }); 
+        this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' });
+        this.acceptAndPayBtn_Fr = page.getByRole('button', { name: ' Accepter et payer ' });
         this.options = page.getByRole('option');
         this.monthlyPremium = page.locator('.offer-monthly-premium');
         this.monthlyPremiumWithFee = page.locator("(//div[@class='d-flex align-start']/p//span[2])[1]");
@@ -33,9 +33,9 @@ export class ConfirmIdentityPage {
         this.termOffer = page.locator('.offer-term');
         this.coverageOffer = page.locator('.offer-coverage');
     }
-   
-    async getConfirmIdentityPageHeader() {   
-        return (await this.header.last().textContent()).trim();  
+
+    async getConfirmIdentityPageHeader() {
+        return (await this.header.last().textContent()).trim();
     }
 
     async getTermOfferValue() {
@@ -45,15 +45,15 @@ export class ConfirmIdentityPage {
     async getCoverageOfferValue() {
         return await this.coverageOffer.textContent();
     }
-  
+
     async getMonthlyPremiumValue() {
-        return await this.monthlyPremium.textContent(); 
+        return await this.monthlyPremium.textContent();
     }
 
     async getMonthlyPremiumWithFeeValue() {
         const monthly_due = await this.monthlyPremiumWithFee.textContent();
         const monthly_amountdue = (monthly_due.replace("Total Monthly Payment:", "")).trim();
-        return monthly_amountdue; 
+        return monthly_amountdue;
     }
 
     async selectAnnualPremiumOption() {
@@ -69,7 +69,7 @@ export class ConfirmIdentityPage {
         return await this.options.allTextContents();
     }
 
-    async checkPassportInputFieldVisible() {  
+    async checkPassportInputFieldVisible() {
         await this.openIDType.click();
         await this.selectPassport.click();
         return await this.passportInputField.isVisible();
@@ -101,11 +101,11 @@ export class ConfirmIdentityPage {
         await this.selectPassport_Fr.click();
     }
 
-    async enterPassportNumber(passportno) {  
+    async enterPassportNumber(passportno) {
         await this.passportInputField.fill(passportno);
     }
 
-    async enterPassportNumber_Fr(passportno) {  
+    async enterPassportNumber_Fr(passportno) {
         await this.passportInputField_Fr.fill(passportno);
     }
 
@@ -130,7 +130,7 @@ export class ConfirmIdentityPage {
     async enterHealthCardNumber_Fr(healthno) {
         await this.healthCardInputField_Fr.fill(healthno);
     }
-  
+
     async selectIdentityAsDrivingLicense() {
         await this.openIDType.click();
         await this.selectDriverLicense.click();

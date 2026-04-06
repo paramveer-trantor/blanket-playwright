@@ -18,7 +18,7 @@ export class PersonalStatementPage {
         this.agreeBtn = page.getByRole('button', { name: ' I Agree ' });
         this.agreeBtn_Fr = page.getByRole('button', { name: " Je suis d'accord " });
         this.dialogBox = page.getByRole('dialog');
-        this.knockOutMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']//span[1]");  
+        this.knockOutMsg = this.dialogBox.locator("//p[@class='font-weight-bold text-center']//span[1]");
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
@@ -58,42 +58,42 @@ export class PersonalStatementPage {
     }
 
     async clickAgreeBtn() {
-        const promise =  this.page.waitForResponse("**/decision", async route => {
-             const res = await this.page.request.fetch(route.request());
-         });
+        const promise = this.page.waitForResponse("**/decision", async route => {
+            const res = await this.page.request.fetch(route.request());
+        });
         await this.agreeBtn.click();
         const response = await promise;
         const responseBody = await response.json();
         const errors = responseBody.reasons;
         const error_string = [errors].toString();
-        return error_string; 
-     }
+        return error_string;
+    }
 
-     async getDecissionAPIResponseStatus() {
+    async getDecissionAPIResponseStatus() {
         const response = await this.page.waitForResponse("**/decision");
         const statusCode = response.status();
-        return statusCode; 
-     }
+        return statusCode;
+    }
 
-     async clickAgreeBtn_Fr() {
-        const promise =  this.page.waitForResponse("**/decision", async route => {
-             const res = await this.page.request.fetch(route.request());
-         });
+    async clickAgreeBtn_Fr() {
+        const promise = this.page.waitForResponse("**/decision", async route => {
+            const res = await this.page.request.fetch(route.request());
+        });
         await this.agreeBtn_Fr.click();
         const response = await promise;
         const responseBody = await response.json();
         const errors = responseBody.reasons;
         const error_string = [errors].toString();
-        return error_string; 
-     }
+        return error_string;
+    }
 
     async getKnockoutMsg() {
-       return (await this.knockOutMsg.textContent()).trim();
+        return (await this.knockOutMsg.textContent()).trim();
     }
 
     async getQuebecProvinceStatement() {
         return (await this.quebecStatement.textContent()).trim();
-     }
+    }
 
     async getErrorPopUp() {
         return await this.errorPopUp.textContent();
@@ -104,5 +104,3 @@ export class PersonalStatementPage {
     }
 
 }
-
-

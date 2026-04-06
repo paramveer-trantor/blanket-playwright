@@ -5,7 +5,7 @@ export class MobileViewNavigation extends BasePage {
     constructor(page) {
         super(page);
         this.cookies = page.getByRole('button', { name: 'Allow all cookies' });
-        this.cookiesBtn_Fr = page.getByRole('button', {name: ' Accepter tout '}); 
+        this.cookiesBtn_Fr = page.getByRole('button', { name: ' Accepter tout ' });
         this.menuBtn = page.locator('.humburger_menu');
         this.productsBtn = page.getByRole('button', { name: 'Products' });
         this.productsFrBtn = page.getByRole('button', { name: ' Produits ' });
@@ -66,12 +66,12 @@ export class MobileViewNavigation extends BasePage {
         await this.menuBtn.click();
         await this.aboutUsBtn.click();
         await this.newsBtn.click();
-    }  
-    
+    }
+
     async navigateToContactUsPage() {
         await this.menuBtn.click();
         await this.contactUsBtn.click();
-    }  
+    }
 
 
 }

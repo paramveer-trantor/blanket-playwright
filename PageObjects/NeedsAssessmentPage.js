@@ -11,7 +11,7 @@ export class NeedsAssessmentPage {
         this.totalvalue = page.locator("//div[@class='col-sm-8 col-md-4 col-11']/p");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
-        this.backBtn = page.getByRole('button', { name: ' Back ' }); 
+        this.backBtn = page.getByRole('button', { name: ' Back ' });
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
@@ -57,7 +57,7 @@ export class NeedsAssessmentPage {
     }
 
     async getCoverageAmountMoreMessage() {
-        return (await this.message.textContent()).trim(); 
+        return (await this.message.textContent()).trim();
     }
 
     async getErrorPopUp() {
@@ -69,11 +69,11 @@ export class NeedsAssessmentPage {
     }
 
     async clickContinueBtn() {
-        const promise =  this.page.waitForResponse("**/assessment", async route => {
+        const promise = this.page.waitForResponse("**/assessment", async route => {
             const res = await this.page.request.fetch(route.request());
         });
-          await this.continueBtn.click();
-          const response = await promise;
+        await this.continueBtn.click();
+        const response = await promise;
     }
 
     async clickContinueBtn_Fr() {
@@ -82,7 +82,7 @@ export class NeedsAssessmentPage {
     }
 
     async clickBackBtn() {
-        await this.backBtn.click();     
+        await this.backBtn.click();
     }
 
 }

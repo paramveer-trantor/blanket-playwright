@@ -15,7 +15,7 @@ export class CongratulationsPage {
     async getPolicyInfoHeaders() {
         let policyinfocolumns = [];
         policyinfocolumns[0] = await this.policyInfoHeaders.first().textContent();
-        for(let i=1; i <=3; i++) {
+        for (let i = 1; i <= 3; i++) {
             policyinfocolumns[i] = await this.policyInfoHeaders.nth(i).textContent();
         }
         return policyinfocolumns;

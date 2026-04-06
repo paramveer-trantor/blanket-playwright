@@ -11,22 +11,22 @@ export class LoginPageInTLForm {
         this.languageEn = page.getByRole('listbox').getByText('EN', { exact: true });
         this.languageFR = page.getByRole('listbox').getByText('FR', { exact: true });
         this.createAccountBtn = page.getByRole('button', { name: ' Create Account ' });
-        this.dialogBox =  page.getByRole('dialog');
-        this.OTPWindow = this.dialogBox.locator(".v-card__title"); 
+        this.dialogBox = page.getByRole('dialog');
+        this.OTPWindow = this.dialogBox.locator(".v-card__title");
     }
 
     async getInFormLoginPageHeder() {
-        return (await this.header.innerText()).trim();   
+        return (await this.header.innerText()).trim();
     }
 
-    async loginIntoAccount(username,password) {
+    async loginIntoAccount(username, password) {
         await this.email.fill(username);
         await this.password.fill(password);
-        await this.loginBtn.click();  
+        await this.loginBtn.click();
     }
 
-    async createAccount(username,password) {
-        await this.registerBtn.click(); 
+    async createAccount(username, password) {
+        await this.registerBtn.click();
         await this.email.fill(username);
         await this.password.fill(password);
         await this.preferredLanguage.click();
@@ -37,7 +37,7 @@ export class LoginPageInTLForm {
         await this.createAccountBtn.click();
         const response = await promise;
         const responseStatus = await response.status();
-        return responseStatus; 
+        return responseStatus;
     }
 
     async getOTPSentMsg() {

@@ -22,10 +22,10 @@ import { MyApplicationsPage } from '../PageObjects/MyApplicationsPage'
 import { userData } from '../Utils/TestData'
 
 test.afterEach('Close the browser', async ({ page }) => {
-    await page.close();   
+    await page.close();
 });
 
-test.describe('CA Term Life cases without login', () => { 
+test.describe('CA Term Life cases without login', () => {
 
     test.beforeEach('Navigate user to CA Term life Premium Quote page', async ({ page }) => {
         const basePage = new BasePage(page);
@@ -37,7 +37,7 @@ test.describe('CA Term Life cases without login', () => {
 
         const landingpage = new TLProductLandingPage(page);
         await landingpage.clickApplyNowBtn();
-    }); 
+    });
 
     test('BL-T2: User shall be redirect to Login page from Quote page in CA Term policy form if user is not logged in blanket application.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
@@ -46,20 +46,20 @@ test.describe('CA Term Life cases without login', () => {
 
         const loginPageInTLForm = new LoginPageInTLForm(page);
         expect(await loginPageInTLForm.getInFormLoginPageHeder()).toEqual('In order to continue with the application, please log in or create a Blanket account.');
-    }); 
+    });
 
     test('BL-T10: App shall throw warning message on selecting NO to residence question', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        expect(await premiumQuotePage.getNonCandianWarningMsg()).toEqual('You must be a Canadian Citizen or permanent resident to be eligible for this coverage'); 
+        expect(await premiumQuotePage.getNonCandianWarningMsg()).toEqual('You must be a Canadian Citizen or permanent resident to be eligible for this coverage');
     });
 
     test('BL-T11: Application shall not allow user with age < 18 or > 70 to purchase a CA term plan', async ({ page }) => {
         const today = new Date();
         const cutoffDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), {year:'numeric', month:'2-digit', day:'2-digit'});
+        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), { year: 'numeric', month: '2-digit', day: '2-digit' });
         const expectedErrorMessage = `Date of birth must be on or before ${formattedDate}`;
         const cutoffDate1 = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
-        const formattedDate1 = cutoffDate1.toLocaleDateString(('en-US'), {year:'numeric', month:'2-digit', day:'2-digit'});
+        const formattedDate1 = cutoffDate1.toLocaleDateString(('en-US'), { year: 'numeric', month: '2-digit', day: '2-digit' });
         const expectedErrorMessage1 = `Date of birth must be on or after ${formattedDate1}`;
 
         const premiumQuotePage = new PremiumQuotePage(page);
@@ -73,8 +73,8 @@ test.describe('CA Term Life cases without login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const loginPageInTLForm = new LoginPageInTLForm(page);
-        expect(await loginPageInTLForm.createAccount("gagandeep.singla+createaccount1@trantorinc.com","Test@123")).toBe(201);
-        expect(await loginPageInTLForm.getOTPSentMsg()).toEqual("Please enter the 6 digit One time password sent to");  
+        expect(await loginPageInTLForm.createAccount("gagandeep.singla+createaccount1@trantorinc.com", "Test@123")).toBe(201);
+        expect(await loginPageInTLForm.getOTPSentMsg()).toEqual("Please enter the 6 digit One time password sent to");
     });
 
     test('BL-T117: User shall land on Premium quote page of CA term life policy form on clicking Apply now or Get your term life today button.', async ({ page }) => {
@@ -94,24 +94,24 @@ test.describe('CA Term Life cases without login', () => {
         const preApplicationPage = new PreApplicationPage(page);
         expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre Application');
     });
- 
-});     
 
-test.describe('CA Term Life cases with login', () => { 
-    
+});
+
+test.describe('CA Term Life cases with login', () => {
+
     test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
         await loginPage.login(process.env.USER_EMAIL, process.env.USER_PASSWORD);
 
-        const dashboardPage = new DashboardPage(page); 
+        const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         await dashboardPage.navigateToCATLProduct();
 
         const landingpage = new TLProductLandingPage(page);
         await landingpage.clickApplyNowBtn();
-    }); 
-    
+    });
+
     test('BL-T3: User shall be redirect to Pre Application page from Quote page in CA Term policy form if user is already logged in blanket application.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
@@ -129,11 +129,11 @@ test.describe('CA Term Life cases with login', () => {
         const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
         expect(premium_api_step0).toBe(premium_ui_step0);
         await premiumQuotePage.clickContinueBtn();
-        
+
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -144,11 +144,11 @@ test.describe('CA Term Life cases with login', () => {
         expect(premium_api_step2).toBe(premium_ui_step2);
         const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -166,7 +166,7 @@ test.describe('CA Term Life cases with login', () => {
 
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.enterIndividualBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benDob, userData.benShare);
-        await beneficiaryPage.clickConitnueBtn();  
+        await beneficiaryPage.clickConitnueBtn();
 
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
@@ -175,7 +175,7 @@ test.describe('CA Term Life cases with login', () => {
         await paymentPage.clickBillingAddressCheckBox();
         expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
         await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
-        
+
         const congratulationsPage = new CongratulationsPage(page);
         page.waitForTimeout(3000);
         expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
@@ -184,13 +184,13 @@ test.describe('CA Term Life cases with login', () => {
     test('BL-T5: User shall not be allowed to future date in DOB field.', async ({ page }) => {
         const today = new Date();
         const cutoffDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
-        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), {year:'numeric', month:'2-digit', day:'2-digit'});
+        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), { year: 'numeric', month: '2-digit', day: '2-digit' });
         const expectedErrorMessage = `Date of birth must be on or before ${formattedDate}`;
-        
+
         const premiumQuotePage = new PremiumQuotePage(page);
         expect(await premiumQuotePage.getIncorrectDateErrorMsg(userData.genderFemale, "02/02/2029")).toEqual(expectedErrorMessage);
     });
-    
+
     test('BL-T7: Application shall throw an error message if user enters invalid phone number.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
@@ -207,9 +207,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -230,9 +230,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         expect(await needsAssessmentPage.getNeedsAssessmentPageHeader()).toEqual('How Much Term Insurance Do I Need?');
     });
@@ -242,9 +242,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -260,9 +260,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -278,9 +278,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -296,9 +296,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -311,12 +311,12 @@ test.describe('CA Term Life cases with login', () => {
     test('BL-T16: Application shall allow user with age 60 or less to purchase plan with any term length.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn(); 
+        await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -331,9 +331,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome("40000", userData.saving, userData.mortgageBal, userData.debt);
         const total = await needsAssessmentPage.getTotalValue();
@@ -347,9 +347,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome("40000", userData.saving, userData.mortgageBal, userData.debt);
         expect(await needsAssessmentPage.checkIfAnyMessageAppears()).toBeFalsy();
@@ -358,16 +358,16 @@ test.describe('CA Term Life cases with login', () => {
     test('BL-T20: App shall not display a message if recommended coverage amount returns total amount as $0.', async ({ page }) => {
         const today = new Date();
         const cutoffDate = new Date(today.getFullYear() - 70, today.getMonth(), today.getDate());
-        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), {year:'numeric', month:'2-digit', day:'2-digit'});
+        const formattedDate = cutoffDate.toLocaleDateString(('en-US'), { year: 'numeric', month: '2-digit', day: '2-digit' });
 
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, formattedDate , userData.feet, userData.inches, userData.weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, formattedDate, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome("50000", userData.saving, userData.mortgageBal, userData.debt);
         expect(await needsAssessmentPage.checkIfAnyMessageAppears()).toBeFalsy();
@@ -379,20 +379,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -414,20 +414,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -454,20 +454,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -488,27 +488,27 @@ test.describe('CA Term Life cases with login', () => {
         await beneficiaryPage.enterLegalBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benCompany, userData.benShare);
         expect(await beneficiaryPage.getErrorMessage()).toEqual("Total Percentage of Beneficiaries must be 100");
     });
-    
+
     test('BL-T26: User shall be able to proceed without adding beneficiary.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -536,20 +536,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -568,7 +568,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         expect(await confirmIdentityPage.getIdTypeList()).toContainEqual('Passport', 'Provincial health card', "Driver's licence");
     });
@@ -579,20 +579,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -611,11 +611,11 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         expect(await confirmIdentityPage.checkPassportInputFieldVisible()).toBeTruthy();
         await confirmIdentityPage.enterPassportNumber(userData.passportNo);
-        expect(await confirmIdentityPage.checkErrorIsVisible()).toBeFalsy();      
+        expect(await confirmIdentityPage.checkErrorIsVisible()).toBeFalsy();
     });
 
     test('BL-T30: Application shall throw an error message if user enters invalid passport number.', async ({ page }) => {
@@ -624,20 +624,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -656,7 +656,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.selectIdentityAsPassport();
         await confirmIdentityPage.enterPassportNumber("a123456b");
@@ -669,20 +669,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -701,11 +701,11 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         expect(await confirmIdentityPage.checkLicenseInputFieldVisible()).toBeTruthy();
         await confirmIdentityPage.enterLicenseNumber(userData.licenseNo);
-        expect(await confirmIdentityPage.checkErrorIsVisible()).toBeFalsy(); 
+        expect(await confirmIdentityPage.checkErrorIsVisible()).toBeFalsy();
     });
 
     test('BL-T33: Application shall throw an error message if user enters invalid DL number.', async ({ page }) => {
@@ -714,20 +714,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -746,7 +746,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.selectIdentityAsDrivingLicense();
         await confirmIdentityPage.enterLicenseNumber("AAA123");
@@ -759,20 +759,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -791,11 +791,11 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         expect(await confirmIdentityPage.checkHealthCardInputFieldVisible()).toBeTruthy();
         await confirmIdentityPage.enterHealthCardNumber(userData.healthNo);
-        expect(await confirmIdentityPage.checkErrorIsVisible()).toBeFalsy(); 
+        expect(await confirmIdentityPage.checkErrorIsVisible()).toBeFalsy();
     });
 
     test('BL-T35: Check payment frequency options displaying to user', async ({ page }) => {
@@ -804,20 +804,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -836,7 +836,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         const monthly = await confirmIdentityPage.getMonthlyPremiumWithFeeValue();
         await confirmIdentityPage.goToPaymentPageWithLicense(userData.licenseNo);
@@ -847,7 +847,7 @@ test.describe('CA Term Life cases with login', () => {
         expect(monthly).toContain(amountdue_monthly);
         await page.waitForTimeout(1000);
         await paymentPage.goBackToConfirmIdentityPage();
-        
+
         await confirmIdentityPage.selectAnnualPremiumOption();
         const Annually = await confirmIdentityPage.getAnnualPremiumWithFeeValue();
         await confirmIdentityPage.clickAcceptandPayBtn();
@@ -862,20 +862,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -894,33 +894,33 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.selectIdentityAsHealthCard();
         await confirmIdentityPage.enterHealthCardNumber("123456");
         expect(await confirmIdentityPage.getErrorMsg()).toEqual('Invalid health card format. Please remove any spaces or special characters (-, *).');
     });
-        
+
     test('BL-T37: User shall able to move forward after entering all valid details on confirm identity page.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -939,7 +939,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.goToPaymentPageWithHealthCard(userData.healthNo);
 
@@ -953,9 +953,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -965,11 +965,11 @@ test.describe('CA Term Life cases with login', () => {
         const tl_value = await confirmPremiumPage.getTermLength();
         const ca_value = await confirmPremiumPage.getCoverageAmountValue();
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -988,7 +988,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         const confirm_term = await confirmIdentityPage.getTermOfferValue();
         const confirm_coverage = await confirmIdentityPage.getCoverageOfferValue();
@@ -1004,20 +1004,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1036,7 +1036,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.goToPaymentPageWithHealthCard(userData.healthNo);
 
@@ -1052,20 +1052,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1084,20 +1084,20 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
-        const totalPremiumDue = await confirmIdentityPage.getMonthlyPremiumWithFeeValue();        
+        const totalPremiumDue = await confirmIdentityPage.getMonthlyPremiumWithFeeValue();
         await confirmIdentityPage.goToPaymentPageWithLicense(userData.licenseNo);
 
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox();
         await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
-        
+
         const congratulationsPage = new CongratulationsPage(page);
-        expect(await congratulationsPage.getPolicyInfoHeaders()).toContainEqual(' Provider ' , ' Effective Date ' , ' Payment ' , ' Policy No. ');
+        expect(await congratulationsPage.getPolicyInfoHeaders()).toContainEqual(' Provider ', ' Effective Date ', ' Payment ', ' Policy No. ');
         expect(await congratulationsPage.getProviderName()).toEqual('Blanket Life underwritten by Humania Assurance Inc.');
         const todays_date = new Date().toISOString().slice(0, 10);
-        expect (await congratulationsPage.getEffectiveDate()).toEqual(todays_date);
+        expect(await congratulationsPage.getEffectiveDate()).toEqual(todays_date);
         expect(await congratulationsPage.getPaymentValue()).toContain(totalPremiumDue);
     });
 
@@ -1107,9 +1107,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1119,16 +1119,16 @@ test.describe('CA Term Life cases with login', () => {
         await confirmPremiumPage.clickBackBtn();
         await needsAssessmentPage.clickBackBtn();
         await preApplicationPage.clickBackToQuoteBtn();
-        
+
         await premiumQuotePage.getQuoteValueAsSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
-        
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
-        
+
         const smoker_quote = await confirmPremiumPage.getQuoteValue();
         expect(smoker_quote).not.toBe(non_smoker_quote);
     });
@@ -1136,12 +1136,12 @@ test.describe('CA Term Life cases with login', () => {
     test('BL-T53: After hours message shall be displayed if user access the application in odd hours.', async ({ page }) => {
         const CurrentTimeEst = await page.evaluate(() => {
             const formatter = new Intl.DateTimeFormat('en-US', {
-                timeZone: 'America/New_York', 
+                timeZone: 'America/New_York',
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: true,
             });
-                return formatter.format(new Date());
+            return formatter.format(new Date());
         });
         const hour = Number(CurrentTimeEst);
         const premiumQuotePage = new PremiumQuotePage(page);
@@ -1168,9 +1168,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1182,11 +1182,11 @@ test.describe('CA Term Life cases with login', () => {
         expect(premium_api_step2).toBe(premium_ui_step2);
         const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1205,7 +1205,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.enterLegalBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benCompany, userData.benShare);
         await beneficiaryPage.clickConitnueBtn();
-        
+
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.goToPaymentPageWithLicense(userData.licenseNo);
 
@@ -1216,28 +1216,28 @@ test.describe('CA Term Life cases with login', () => {
 
         const congratulationsPage = new CongratulationsPage(page);
         expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
-    }); 
-    
+    });
+
     test('BL-T91: An info icon & helper image for some fields shall be displayed to user on payment screen.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1272,38 +1272,38 @@ test.describe('CA Term Life cases with login', () => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, "01/01/1990", "5", "8", "220");
         await premiumQuotePage.clickContinueBtn();
-      
+
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
         await preApplicationPage.changeLanguageToFR();
         expect(await preApplicationPage.getLanguageChangeWarningMsg()).toEqual("Please note that changing the language will reload the page and your information will be lost.");
         await preApplicationPage.clickDialogOkayBtn();
-        expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('fr');  
+        expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('fr');
         await premiumQuotePage.changeLanguageToEN();
         await page.waitForLoadState('domcontentloaded');
-        expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('en');  
+        expect(await premiumQuotePage.checkCurrentLanguageSelected()).toEqual('en');
     });
-    
+
     test('BL-T103: Application shall display a special statement for Quebec residents on personal statement page if user is filling form in EN.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, "990-450 Boul Poliquin", userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, "990-450 Boul Poliquin", userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1325,20 +1325,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1373,9 +1373,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1391,7 +1391,7 @@ test.describe('CA Term Life cases with login', () => {
 
         const myApplicationsPage = new MyApplicationsPage(page);
         await myApplicationsPage.clickEditBtnFirstApplication();
-        
+
         expect(await lifestyleQuestionnairePage.getLifestylePageHeader()).toEqual("Lifestyle Questionnaire")
     });
 
@@ -1405,7 +1405,7 @@ test.describe('CA Term Life cases with login', () => {
         await preApplicationPage.acceptPopWindow();
         expect(await preApplicationPage.verifyDOBHasValue()).toEqual(input_DOB);
         expect(await preApplicationPage.verifyIsCanadianTrue()).toBeTruthy();
-        expect(await preApplicationPage.verifyIsNonSmokerTrue()).toBeTruthy(); 
+        expect(await preApplicationPage.verifyIsNonSmokerTrue()).toBeTruthy();
     });
 
     test('BL-T119: User shall be directed to Pre application page directly from quote page if user is logged in already.', async ({ page }) => {
@@ -1424,20 +1424,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1478,9 +1478,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillformAndEnterAddressManually("Test", "Manual Address", "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber, userData.optionNo); 
-        await preApplicationPage.clickConitnueBtn();  
-        
+        await preApplicationPage.fillformAndEnterAddressManually("Test", "Manual Address", "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber, userData.optionNo);
+        await preApplicationPage.clickConitnueBtn();
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1492,11 +1492,11 @@ test.describe('CA Term Life cases with login', () => {
         expect(premium_api_step2).toBe(premium_ui_step2);
         const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1525,7 +1525,7 @@ test.describe('CA Term Life cases with login', () => {
         await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
 
         const congratulationsPage = new CongratulationsPage(page);
-        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');    
+        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
     test('BL-T147: The completed sections shall be checked and uncompleted sections shall be greyed out in CA term policy form progress bar in web view.', async ({ page }) => {
@@ -1534,16 +1534,16 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
 
@@ -1572,20 +1572,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, "7");
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answerSleepApneaAndAdditionQuesAsYes();
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1613,12 +1613,12 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.getQuoteValueAsSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
-        await page.waitForTimeout(1000);  
+        await page.waitForTimeout(1000);
         expect(page.url()).toContain("pre-application");
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         await page.waitForTimeout(5000);
         expect(page.url()).toContain("policy-options");
         const needsAssessmentPage = new NeedsAssessmentPage(page);
@@ -1629,13 +1629,13 @@ test.describe('CA Term Life cases with login', () => {
         expect(page.url()).toContain("policy-options");
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         await page.waitForTimeout(1000);
         expect(page.url()).toContain("underwritting");
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         await page.waitForTimeout(1000);
         expect(page.url()).toContain("underwritting");
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
@@ -1684,9 +1684,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillUserInfoWithReplacePolicyAsYes(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber); 
+        await preApplicationPage.fillUserInfoWithReplacePolicyAsYes(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome("1000", userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1696,11 +1696,11 @@ test.describe('CA Term Life cases with login', () => {
         const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
         expect(premium_api_step2).toBe(premium_ui_step2);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1716,7 +1716,7 @@ test.describe('CA Term Life cases with login', () => {
         await personalStatementPage.clickCheckboxes();
         await personalStatementPage.clickAgreeBtn();
 
-        const beneficiaryPage = new BeneficiaryPage(page);  
+        const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.checkWithoutBenCheckbox();
         await beneficiaryPage.clickConitnueBtn();
 
@@ -1728,9 +1728,9 @@ test.describe('CA Term Life cases with login', () => {
         await paymentPage.clickBillingAddressCheckBox();
         expect(await paymentPage.getPaymentFrequency()).toEqual('Payment Frequency: $ Paid Annually');
         await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
-        
+
         const congratulationsPage = new CongratulationsPage(page);
-        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');    
+        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
     test('BL-T187: User shall be able to fill different billing address on payment screen.', async ({ page }) => {
@@ -1739,9 +1739,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1752,7 +1752,7 @@ test.describe('CA Term Life cases with login', () => {
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1788,9 +1788,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1806,9 +1806,9 @@ test.describe('CA Term Life cases with login', () => {
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
-        expect( await preApplicationPage.verifyGenderFieldIsDisabled()).toBeTruthy();
-        expect( await preApplicationPage.verifyDOBFieldIsDisabled()).toBeTruthy();
-        expect( await preApplicationPage.verifySmokerQuestionIsDisabled()).toBeTruthy();
+        expect(await preApplicationPage.verifyGenderFieldIsDisabled()).toBeTruthy();
+        expect(await preApplicationPage.verifyDOBFieldIsDisabled()).toBeTruthy();
+        expect(await preApplicationPage.verifySmokerQuestionIsDisabled()).toBeTruthy();
     });
 
     test('BL-T195: User shall have option to go back to "Get TL Premium Quote" page from pre application page.', async ({ page }) => {
@@ -1819,7 +1819,7 @@ test.describe('CA Term Life cases with login', () => {
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
         await preApplicationPage.clickBackToQuoteBtn();
-        expect( await premiumQuotePage.getPremiumQuotePageHeader()).toEqual('Term Life Insurance Premium Quote');
+        expect(await premiumQuotePage.getPremiumQuotePageHeader()).toEqual('Term Life Insurance Premium Quote');
     });
 
     test('BL-T196: Existing application shall be closed if user goes back to Get quote page from pre application.', async ({ page }) => {
@@ -1828,7 +1828,7 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
         await page.waitForTimeout(2000);
         const preapp_url = page.url();
@@ -1849,13 +1849,13 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, date_input, "5", "8", "220");
         await page.waitForTimeout(2000);
         const premiumRate_bmi_more32 = await premiumQuotePage.getNumericPremiumRateValue();
-        expect(premiumRate_bmi_more32).toBe((parseFloat((premiumRate_bmi_less32)*1.5.toFixed(2))).toString());
+        expect(premiumRate_bmi_more32).toBe((parseFloat((premiumRate_bmi_less32) * 1.5.toFixed(2))).toString());
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1876,9 +1876,9 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
@@ -1893,20 +1893,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationWithAnyProvince("Ontario", userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber); 
+        await preApplicationPage.fillPreApplicationWithAnyProvince("Ontario", userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1934,20 +1934,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationWithAnyProvince("Quebec", userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber); 
+        await preApplicationPage.fillPreApplicationWithAnyProvince("Quebec", userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -1974,20 +1974,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationWithAnyProvince("Ontario", userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber); 
+        await preApplicationPage.fillPreApplicationWithAnyProvince("Ontario", userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -2033,20 +2033,20 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationWithAnyProvince(province, userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber); 
+        await preApplicationPage.fillPreApplicationWithAnyProvince(province, userData.firstName, userData.lastName, "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -2065,30 +2065,30 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         expect(await beneficiaryPage.checkDOBFieldInLegalBenIsVisible()).toBeFalsy();
     });
- 
+
+});
+
+test("BL-T238: Application shall fetch info like DOB, height, weight & address from user profile and pre populate in CA TL form.", async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.navigate('/pages/login');
+    await loginPage.login(process.env.USER_EMAIL_FILLED, process.env.USER_PASSWORD);
+
+    const dashboardPage = new DashboardPage(page);
+    await dashboardPage.navigateToCATLProduct();
+
+    const landingpage = new TLProductLandingPage(page);
+    await landingpage.clickApplyNowBtn();
+
+    const premiumQuotePage = new PremiumQuotePage(page);
+    expect(await premiumQuotePage.verifyDOBFieldValue()).toEqual("01/10/2000");
+    expect(await premiumQuotePage.verifyHeightFieldValue()).toEqual("6.1");
+    expect(await premiumQuotePage.verifyWeightFieldValue()).toEqual("190");
+    await premiumQuotePage.navigateToPreAppPageWithPreFilledValues();
+
+    const preApplicationPage = new PreApplicationPage(page);
+    await preApplicationPage.acceptPopWindow();
+    expect(await preApplicationPage.verifyDOBHasValue()).toEqual("01/10/2000");
+    expect(await preApplicationPage.verifyAddressValue()).toEqual("Test Address");
+    expect(await preApplicationPage.verifyCityValue()).toEqual("Test City");
+    expect(await preApplicationPage.verifyProvinceValue()).toEqual("Ontario");
 }); 
-
-    test("BL-T238: Application shall fetch info like DOB, height, weight & address from user profile and pre populate in CA TL form." , async ({ page }) => {
-        const loginPage = new LoginPage(page);
-        await loginPage.navigate('/pages/login');
-        await loginPage.login(process.env.USER_EMAIL_FILLED, process.env.USER_PASSWORD);
-
-        const dashboardPage = new DashboardPage(page); 
-        await dashboardPage.navigateToCATLProduct();
-
-        const landingpage = new TLProductLandingPage(page);
-        await landingpage.clickApplyNowBtn();
-        
-        const premiumQuotePage = new PremiumQuotePage(page);
-        expect(await premiumQuotePage.verifyDOBFieldValue()).toEqual("01/10/2000");
-        expect(await premiumQuotePage.verifyHeightFieldValue()).toEqual("6.1");
-        expect(await premiumQuotePage.verifyWeightFieldValue()).toEqual("190");
-        await premiumQuotePage.navigateToPreAppPageWithPreFilledValues();
-
-        const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.acceptPopWindow();
-        expect(await preApplicationPage.verifyDOBHasValue()).toEqual("01/10/2000");
-        expect(await preApplicationPage.verifyAddressValue()).toEqual("Test Address");
-        expect(await preApplicationPage.verifyCityValue()).toEqual("Test City");
-        expect(await preApplicationPage.verifyProvinceValue()).toEqual("Ontario");
-    }); 

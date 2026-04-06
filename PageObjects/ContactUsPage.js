@@ -5,7 +5,7 @@ export class ContactUsPage {
         this.contactHeadingText = page.locator('.hero_contactus h1');
     }
 
-    async getContactPageHeader(){
+    async getContactPageHeader() {
         await this.page.waitForLoadState('domcontentloaded');
         return (await this.contactHeadingText.textContent()).trim();
     }

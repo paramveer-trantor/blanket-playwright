@@ -12,7 +12,7 @@ export class PreApplicationPage extends BasePage {
         this.dialogCloseBtn_Fr = this.dialogBox.getByRole('button', { name: ' Fermer ' });
         this.dialogOkayBtn = this.dialogBox.getByRole('button', { name: ' Okay ' });
         this.afterHoursTitle = this.dialogBox.locator('.v-card__title');
-        this.dialogMsgText = page.locator(".v-dialog__content--active .v-card__text .text-center"); 
+        this.dialogMsgText = page.locator(".v-dialog__content--active .v-card__text .text-center");
         this.firstName = page.getByTestId('firstname');
         this.lastName = page.getByTestId('lastname');
         this.genderFemale = page.getByLabel('Female');
@@ -42,9 +42,9 @@ export class PreApplicationPage extends BasePage {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.warningMsgText = page.locator("//div[@class='v-dialog v-dialog--active']/div/div/div/div[@class='col']");
-        this.closeBtn = page.getByRole('button', { name: ' Close '});
+        this.closeBtn = page.getByRole('button', { name: ' Close ' });
         this.addressvalidate = this.dialogBox.locator('.col');
-        this.backToQuoteBtn = page.getByRole('button', { name: ' Back to quote ' }); 
+        this.backToQuoteBtn = page.getByRole('button', { name: ' Back to quote ' });
         this.canadianValue = page.locator("[name='isCanadian0']");
         this.nonSmokerValue = page.locator("[name='tobaccoFor12Month1']");
         this.proviceSelectedValue = page.locator(".v-select__selection")
@@ -65,54 +65,54 @@ export class PreApplicationPage extends BasePage {
             await this.dialogContinueBtn_Fr.click();
         }
     }
-    
+
     async checkAfterHoursDialogIsVisible() {
         const status_afterhours = await this.dialogBox.isVisible();
         return status_afterhours;
     }
 
     async getAfterHoursTitle() {
-        return (await this.afterHoursTitle.textContent()).trim();  
+        return (await this.afterHoursTitle.textContent()).trim();
     }
 
     async getDialogMsgText() {
-        return (await this.dialogMsgText.textContent()).trim();  
+        return (await this.dialogMsgText.textContent()).trim();
     }
 
-    async verifyGenderFieldIsDisabled(){
+    async verifyGenderFieldIsDisabled() {
         return await this.genderFemale.isDisabled();
     }
 
-    async verifyDOBFieldIsDisabled(){
+    async verifyDOBFieldIsDisabled() {
         return await this.dob.isDisabled();
     }
 
-    async verifySmokerQuestionIsDisabled(){
+    async verifySmokerQuestionIsDisabled() {
         return await this.nonSmokerValue.isDisabled();
     }
 
     async verifyDOBHasValue() {
-        return await this.dob.inputValue();   
+        return await this.dob.inputValue();
     }
 
     async verifyAddressValue() {
-        return await this.address.inputValue();   
+        return await this.address.inputValue();
     }
 
     async verifyCityValue() {
-        return await this.city.inputValue();   
+        return await this.city.inputValue();
     }
 
     async verifyProvinceValue() {
-        return await this.proviceSelectedValue.textContent();   
+        return await this.proviceSelectedValue.textContent();
     }
 
     async verifyIsCanadianTrue() {
-        return await this.canadianValue.isChecked();   
+        return await this.canadianValue.isChecked();
     }
 
     async verifyIsNonSmokerTrue() {
-        return await this.nonSmokerValue.isChecked();   
+        return await this.nonSmokerValue.isChecked();
     }
 
     async verifyAddressOptionsAreVisible(houseaddress) {
@@ -125,7 +125,7 @@ export class PreApplicationPage extends BasePage {
     async fillPreApplicationFormPage(firstname, lastname, houseaddress, phonenumber, option) {
         if (await this.dialogBox.isVisible()) {
             await this.dialogContinueBtn.click();
-        }  
+        }
         await this.firstName.click();
         await this.firstName.fill(firstname);
         await this.lastName.click();
@@ -151,7 +151,7 @@ export class PreApplicationPage extends BasePage {
     async fillPreApplicationFormPage_Fr(firstname, lastname, houseaddress, phonenumber, option) {
         if (await this.dialogBox.isVisible()) {
             await this.dialogContinueBtn_Fr.click();
-        }  
+        }
         await this.firstName.click();
         await this.firstName.fill(firstname);
         await this.lastName.click();
@@ -178,14 +178,14 @@ export class PreApplicationPage extends BasePage {
         if (await this.dialogBox.isVisible()) {
             await this.dialogContinueBtn.click();
         }
-        await this.firstName.click();  
+        await this.firstName.click();
         await this.firstName.fill(firstname);
         await this.lastName.click();
         await this.lastName.fill(lastname);
         await this.address.fill(houseaddress);
         await this.city.click();
         await this.city.fill(city);
-        await  this.province.click();
+        await this.province.click();
         await this.selectProvinceList.nth(6).click();
         await this.zipcode.click();
         await this.zipcode.fill(zipcode);
@@ -208,21 +208,21 @@ export class PreApplicationPage extends BasePage {
         if (await this.dialogBox.isVisible()) {
             await this.dialogContinueBtn.click();
         }
-        await this.firstName.click();  
+        await this.firstName.click();
         await this.firstName.fill(firstname);
         await this.lastName.click();
         await this.lastName.fill(lastname);
         await this.address.fill(houseaddress);
         await this.city.click();
         await this.city.fill(city);
-        await  this.province.click();
+        await this.province.click();
         const provinces = {
             Alberta: this.selectProvinceAB,
             British: this.selectProvinceBC,
             Ontario: this.selectProvinceON,
             Quebec: this.selectProvinceQC
         };
-        const selectedProvince = provinces[province];    
+        const selectedProvince = provinces[province];
         await selectedProvince.click();
         await this.zipcode.click();
         await this.zipcode.fill(zipcode);
@@ -233,90 +233,90 @@ export class PreApplicationPage extends BasePage {
         await this.optionNo.nth(4).click();
     }
 
-    async getProductNotAvailableMsg(province) {  
-        if(province == "Manitoba"){
+    async getProductNotAvailableMsg(province) {
+        if (province == "Manitoba") {
             await this.province.click();
-            await this.selectProvinceList.nth(2).click();  
+            await this.selectProvinceList.nth(2).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-        if(province == "New Brunswick"){
+        if (province == "New Brunswick") {
             await this.province.click();
-            await this.selectProvinceList.nth(3).click();  
+            await this.selectProvinceList.nth(3).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-        if(province == "Newfoundland and Labrador"){
+        if (province == "Newfoundland and Labrador") {
             await this.province.click();
-            await this.selectProvinceList.nth(4).click();  
+            await this.selectProvinceList.nth(4).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-        if(province == "Nova Scotia"){
+        if (province == "Nova Scotia") {
             await this.province.click();
-            await this.selectProvinceList.nth(5).click();  
+            await this.selectProvinceList.nth(5).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-        if(province == "Prince Edward Island"){
+        if (province == "Prince Edward Island") {
             await this.province.click();
-            await this.selectProvinceList.nth(7).click();  
+            await this.selectProvinceList.nth(7).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
-        if(province == "Saskatchewan"){
+        if (province == "Saskatchewan") {
             await this.province.click();
-            await this.selectProvinceList.last().click();  
+            await this.selectProvinceList.last().click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn.click();
             return message_product;
         }
     }
 
-    async getProductNotAvailableMsg_Fr(province) {  
-        if(province == "Manitoba"){
+    async getProductNotAvailableMsg_Fr(province) {
+        if (province == "Manitoba") {
             await this.province.click();
-            await this.selectProvinceList.nth(2).click();  
+            await this.selectProvinceList.nth(2).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn_Fr.click();
             return message_product;
         }
-        if(province == "New Brunswick"){
+        if (province == "New Brunswick") {
             await this.province.click();
-            await this.selectProvinceList.nth(3).click();  
+            await this.selectProvinceList.nth(3).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn_Fr.click();
             return message_product;
         }
-        if(province == "Newfoundland and Labrador"){
+        if (province == "Newfoundland and Labrador") {
             await this.province.click();
-            await this.selectProvinceList.nth(4).click();  
+            await this.selectProvinceList.nth(4).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn_Fr.click();
             return message_product;
         }
-        if(province == "Nova Scotia"){
+        if (province == "Nova Scotia") {
             await this.province.click();
-            await this.selectProvinceList.nth(5).click();  
+            await this.selectProvinceList.nth(5).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn_Fr.click();
             return message_product;
         }
-        if(province == "Prince Edward Island"){
+        if (province == "Prince Edward Island") {
             await this.province.click();
-            await this.selectProvinceList.nth(7).click();  
+            await this.selectProvinceList.nth(7).click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn_Fr.click();
             return message_product;
         }
-        if(province == "Saskatchewan"){
+        if (province == "Saskatchewan") {
             await this.province.click();
-            await this.selectProvinceList.last().click();  
+            await this.selectProvinceList.last().click();
             const message_product = (await this.notAvailableMsg.last().textContent()).trim();
             await this.dialogCloseBtn_Fr.click();
             return message_product;
@@ -324,7 +324,7 @@ export class PreApplicationPage extends BasePage {
     }
 
     async verifyEmailValue() {
-        return await this.email.inputValue();;   
+        return await this.email.inputValue();;
     }
 
     async getIncorrectPhoneErrorMsg(phonenumber) {
@@ -377,7 +377,7 @@ export class PreApplicationPage extends BasePage {
         await this.phoneNumber.fill(phonenumber);
         await this.optionNo.nth(2).click();
         await this.optionYes.nth(3).click();
-        await this.optionNo.nth(4).click();  
+        await this.optionNo.nth(4).click();
     }
 
     async fillUserInfoWithPastAbsentFromWorkAsYes(firstname, lastname, houseaddress, phonenumber) {
@@ -408,10 +408,10 @@ export class PreApplicationPage extends BasePage {
     }
 
     async changeProvinceToQC() {
-        await  this.province.click();
+        await this.province.click();
         await this.selectProvinceQC.click();
 
-    }    
+    }
     async clickBackToQuoteBtn() {
         await this.page.waitForTimeout(1000);
         await this.backToQuoteBtn.isVisible();

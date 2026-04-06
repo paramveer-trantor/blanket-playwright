@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { MobileViewNavigation} from '../PageObjects/MobileViewNavigation';
+import { MobileViewNavigation } from '../PageObjects/MobileViewNavigation';
 import { BasePage } from '../PageObjects/BasePage';
 import { LoginPage } from '../PageObjects/LoginPage';
 import { LoginPageInTLForm } from '../PageObjects/LoginPageInTLForm'
@@ -45,20 +45,20 @@ test.describe('[Mobile browser] CA term life', () => {
         await mobileview.changeLanguageToFR();
         await mobileview.openMenu();
         expect(await mobileview.getProductsList_Fr()).toEqual("Assurance vie temporaire  Couvert par Blanket, courtage d’assurance");
-    });  
+    });
 
     test('Our team page under about us shall be loaded successfully', async ({ page }) => {
         const mobileview = new MobileViewNavigation(page);
         await mobileview.acceptCookies();
         await mobileview.navigateToOurTeamPage();
-        
+
         const teampage = new OurTeamPage(page);
         expect(await teampage.getOurTeamPageHeader()).toEqual('Who We Are and What We’re All About.');
 
         await mobileview.openMenu();
         await mobileview.changeLanguageToFR();
         expect(await teampage.getOurTeamPageHeader()).toEqual('Qui nous sommes et ce que nous proposons.');
-    });  
+    });
 
     test('News page under about us shall be loaded successfully', async ({ page }) => {
         const mobileview = new MobileViewNavigation(page);
@@ -71,7 +71,7 @@ test.describe('[Mobile browser] CA term life', () => {
         await mobileview.openMenu();
         await mobileview.changeLanguageToFR();
         expect(await newspage.getNewsPageHeader()).toEqual('Nouvelles et mises à jour générales');
-    });  
+    });
 
     test('Contact us page shall be loaded successfully', async ({ page }) => {
         const mobileview = new MobileViewNavigation(page);
@@ -84,21 +84,21 @@ test.describe('[Mobile browser] CA term life', () => {
         await mobileview.openMenu();
         await mobileview.changeLanguageToFR();
         expect(await contactus.getContactPageHeader()).toEqual("Avez-vous des questions?  Nous avons la solution de protection qu’il vous faut.");
-    }); 
+    });
 
     test('User shall able to switch between FR & EN languages.', async ({ page }) => {
         const mobileview = new MobileViewNavigation(page);
         await mobileview.acceptCookies();
-        
+
         await mobileview.openMenu();
         const dashboard = new DashboardPage(page);
         await mobileview.changeLanguageToFR();
         expect(await dashboard.getDashboardPageHeader()).toEqual("Toute la protection dont vous avez besoin sous une seule couverture");
-        
+
         await mobileview.openMenu();
         await mobileview.changeLanguageToEN();
         expect(await dashboard.getDashboardPageHeader()).toEqual("All your coverage under one blanket");
-    }); 
+    });
 
     test('User shall able to purchase policy using CC payment method successfully.', async ({ page }) => {
         test.setTimeout(120000);
@@ -119,20 +119,20 @@ test.describe('[Mobile browser] CA term life', () => {
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, "Mobile", userData.houseAddress, userData.phoneNumber, userData.optionNo); 
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, "Mobile", userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickConitnueBtn();
@@ -150,7 +150,7 @@ test.describe('[Mobile browser] CA term life', () => {
 
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.enterIndividualBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benDob, userData.benShare);
-        await beneficiaryPage.clickConitnueBtn();  
+        await beneficiaryPage.clickConitnueBtn();
 
         const confirmIdentityPage = new ConfirmIdentityPage(page);
         await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
@@ -158,7 +158,7 @@ test.describe('[Mobile browser] CA term life', () => {
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox();
         await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
-        
+
         const congratulationsPage = new CongratulationsPage(page);
         page.waitForTimeout(3000);
         expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
@@ -166,7 +166,7 @@ test.describe('[Mobile browser] CA term life', () => {
 
     test('User shall able to purchase policy using CC payment method successfully in FR language.', async ({ page }) => {
         test.setTimeout(120000);
-        
+
         const loginPage = new LoginPage(page);
         await loginPage.navigate('/pages/login');
         await loginPage.login(process.env.USER_EMAIL_FR, process.env.USER_PASSWORD);
@@ -181,29 +181,29 @@ test.describe('[Mobile browser] CA term life', () => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn_Fr();
-        
+
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, "Mobile", userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickContinueBtn_Fr();
-        
+
         const needsAssessmentPage = new NeedsAssessmentPage(page);
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         await confirmPremiumPage.clickContinueBtn_Fr();
-        
+
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
         await lifestyleQuestionnairePage.clickContinueBtn_Fr();
-        
+
         const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
         await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
         await medicalQuestionnaire1Page.clickContinueBtn_Fr();
 
         const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
         await medicalQuestionnaire2Page.answerMedcialQuestionsPage2_Fr(userData.optionNo);
-        await medicalQuestionnaire2Page.clickContinueBtn_Fr(); 
+        await medicalQuestionnaire2Page.clickContinueBtn_Fr();
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
         await reviewYourAnswersPage.clickContinueBtn_Fr();
@@ -222,7 +222,7 @@ test.describe('[Mobile browser] CA term life', () => {
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox_Fr();
         await paymentPage.purchasePolicyWithCC_Fr(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
-        
+
         const congratulationsPage = new CongratulationsPage(page);
         expect(await congratulationsPage.getThanksMsg()).toEqual("Nous vous remercions de votre achat! Votre police d'assurance vous seront envoyés par courrier électronique. Vous pouvez consulter votre police  ici.");
     });

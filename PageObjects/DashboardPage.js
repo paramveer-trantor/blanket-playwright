@@ -1,15 +1,15 @@
-export class DashboardPage{
- 
-    constructor(page){
+export class DashboardPage {
+
+    constructor(page) {
         this.page = page;
         this.dashboadHeadingText = page.locator('.hero_home h1:visible');
         this.cookieBanner = page.locator('.v-banner__text .text-content')
-        this.acceptCookiesBtn = page.getByRole('button', {name: ' Allow all cookies '});    
-        this.acceptCookiesBtn_Fr = page.getByRole('button', {name: ' Accepter tout '});   
-        this.dialogBox =  page.getByRole('dialog');  
+        this.acceptCookiesBtn = page.getByRole('button', { name: ' Allow all cookies ' });
+        this.acceptCookiesBtn_Fr = page.getByRole('button', { name: ' Accepter tout ' });
+        this.dialogBox = page.getByRole('dialog');
         this.menuOptions = page.locator("//div[@class='row d-flex justify-end pt-3']/div");
-        this.productsBtn = page.getByRole('button', {name: ' Products '});
-        this.productsBtn_Fr = page.getByRole('button', {name: ' Produits '});
+        this.productsBtn = page.getByRole('button', { name: ' Products ' });
+        this.productsBtn_Fr = page.getByRole('button', { name: ' Produits ' });
         this.partnershipBtn = page.getByRole('menu').getByRole('menuitem', { name: ' Partnerships ' });
         this.myPoliciesBtn = page.locator("//span[text()=' My Policies ']");
         this.productList = page.locator("//a[@role='option']");
@@ -17,29 +17,29 @@ export class DashboardPage{
         this.termlifeBtn_Fr = page.getByRole('option', { name: 'Assurance vie temporaire' });
         this.lifebanner = page.locator("//div[@class='d-inline-flex col col-10']//div[@class='prd-card-title col']").filter({ hasText: ' Life ' });
         this.myProfileBtn = page.locator("//div[@class='v-toolbar__content']/button[2]");
-        this.myApplicationsBtn = page.getByRole('menuitem', { name: 'My Applications' }); 
+        this.myApplicationsBtn = page.getByRole('menuitem', { name: 'My Applications' });
         this.profileOptions = page.getByRole('menuitem');
         this.myPolicies = page.getByText('My Policies');
         this.openApplicationMsg = page.getByRole('status');
-        this.dialogBox =  page.getByRole('dialog');
-        this.aboutUsBtn = page.getByRole('button', {name: ' About Us '});    
+        this.dialogBox = page.getByRole('dialog');
+        this.aboutUsBtn = page.getByRole('button', { name: ' About Us ' });
         this.adminPartnershipsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Partnerships' });
         this.adminReportsBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Admin Reports' });
         this.manageUsersBtn = page.getByRole('menu').getByRole('menuitem', { name: 'Manage Users' });
     }
-    
-    async getCookieBannerHeading() {    
+
+    async getCookieBannerHeading() {
         return (await this.cookieBanner.textContent()).trim();
     }
 
-    async acceptCookies(){
-        if(this.page.getByText(' We value your privacy ').isVisible()) {
+    async acceptCookies() {
+        if (this.page.getByText(' We value your privacy ').isVisible()) {
             await this.acceptCookiesBtn.first().isVisible();
             await this.acceptCookiesBtn.first().click();
         }
     }
 
-    async getDashboardPageHeader(){
+    async getDashboardPageHeader() {
         await this.page.waitForLoadState('domcontentloaded');
         return (await this.dashboadHeadingText.textContent()).trim();
     }
@@ -54,7 +54,7 @@ export class DashboardPage{
 
     async navigateToCATLProduct_FR() {
         await this.page.waitForLoadState('domcontentloaded');
-        if(this.page.getByText(' Respect de votre vie privée ').isVisible()) {
+        if (this.page.getByText(' Respect de votre vie privée ').isVisible()) {
             await this.acceptCookiesBtn_Fr.first().isVisible();
             await this.acceptCookiesBtn_Fr.first().click();
         }
@@ -63,11 +63,11 @@ export class DashboardPage{
         await this.page.waitForLoadState('domcontentloaded');
     }
 
-    async getMenuOptions(){
+    async getMenuOptions() {
         return await this.menuOptions.allTextContents();
     }
 
-    async openTermLifeCAProduct(){
+    async openTermLifeCAProduct() {
         await this.productsBtn.click();
         await this.termlifeBtn.click();
         await this.page.waitForLoadState('domcontentloaded');
@@ -86,7 +86,7 @@ export class DashboardPage{
     }
 
     async clickLifeBanner() {
-        await this.lifebanner.isVisible();    
+        await this.lifebanner.isVisible();
         await this.lifebanner.click();
     }
 
@@ -95,16 +95,16 @@ export class DashboardPage{
         await this.partnershipBtn.click();
     }
 
-    async goToMyPoliciesPage() {  
+    async goToMyPoliciesPage() {
         await this.myProfileBtn.click();
         await this.myPolicies.click();
     }
 
-    async goToMyProfilePage() {  
+    async goToMyProfilePage() {
         await this.myProfileBtn.click();
         await this.profileOptions.first().click();
     }
-    
+
     async clickMyProfileBtn() {
         await this.myProfileBtn.click();
     }

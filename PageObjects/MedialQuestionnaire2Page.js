@@ -19,7 +19,7 @@ export class MedicalQuestionnaire2Page {
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
     }
-    
+
     async getMedicalQuestionsPageHeader() {
         return (await this.header.textContent()).trim();
     }
@@ -42,7 +42,7 @@ export class MedicalQuestionnaire2Page {
             await this.questionLast3MonthSymptomsOptionNo.click();
             await this.question2orMoreParentsDiagnosedOptionNo.click();
             await this.question1orMoreParentsDiagnosedOptionNo.click();
-        }  
+        }
     }
 
     async answerMedcialQuestionsPage2_Fr(option) {
@@ -61,11 +61,11 @@ export class MedicalQuestionnaire2Page {
             await this.questionLast3MonthSymptomsOptionNo.click();
             await this.question2orMoreParentsDiagnosedOptionNo.click();
             await this.question1orMoreParentsDiagnosedOptionNo.click();
-        }  
+        }
     }
 
     async answerHepatitisAsYesandRestNo() {
-        await this.questionHepatitisOptionYes.click();  
+        await this.questionHepatitisOptionYes.click();
         await this.questionMedicalCondition4WOptionNo.click();
         await this.questionMamogramOptionNo.click();
         await this.questionMedicalFollowupsOptionNo.click();
@@ -75,7 +75,7 @@ export class MedicalQuestionnaire2Page {
     }
 
     async answerMedicalCondition4WAsYesandRestNo() {
-        await this.questionHepatitisOptionNo.click();  
+        await this.questionHepatitisOptionNo.click();
         await this.questionMedicalCondition4WOptionYes.click();
         await this.questionMamogramOptionNo.click();
         await this.questionMedicalFollowupsOptionNo.click();
@@ -85,7 +85,7 @@ export class MedicalQuestionnaire2Page {
     }
 
     async answerMamogramAsYesandRestNo() {
-        await this.questionHepatitisOptionNo.click();  
+        await this.questionHepatitisOptionNo.click();
         await this.questionMedicalCondition4WOptionNo.click();
         await this.questionMamogramOptionYes.click();
         await this.questionMedicalFollowupsOptionNo.click();
@@ -95,7 +95,7 @@ export class MedicalQuestionnaire2Page {
     }
 
     async answerMedicalFollowupsAsYesandRestNo() {
-        await this.questionHepatitisOptionNo.click();  
+        await this.questionHepatitisOptionNo.click();
         await this.questionMedicalCondition4WOptionNo.click();
         await this.questionMamogramOptionNo.click();
         await this.questionMedicalFollowupsOptionYes.click();
@@ -105,7 +105,7 @@ export class MedicalQuestionnaire2Page {
     }
 
     async answerLast3MonthSymptomsAsYesandRestNo() {
-        await this.questionHepatitisOptionNo.click();  
+        await this.questionHepatitisOptionNo.click();
         await this.questionMedicalCondition4WOptionNo.click();
         await this.questionMamogramOptionNo.click();
         await this.questionMedicalFollowupsOptionNo.click();
@@ -113,9 +113,9 @@ export class MedicalQuestionnaire2Page {
         await this.question2orMoreParentsDiagnosedOptionNo.click();
         await this.question1orMoreParentsDiagnosedOptionNo.click();
     }
-    
+
     async answer2orMoreParentsDiagnosedAsYesandRestNo() {
-        await this.questionHepatitisOptionNo.click();  
+        await this.questionHepatitisOptionNo.click();
         await this.questionMedicalCondition4WOptionNo.click();
         await this.questionMamogramOptionNo.click();
         await this.questionMedicalFollowupsOptionNo.click();
@@ -125,7 +125,7 @@ export class MedicalQuestionnaire2Page {
     }
 
     async answer1orMoreParentsDiagnosedAsYesandRestNo() {
-        await this.questionHepatitisOptionNo.click();  
+        await this.questionHepatitisOptionNo.click();
         await this.questionMedicalCondition4WOptionNo.click();
         await this.questionMamogramOptionNo.click();
         await this.questionMedicalFollowupsOptionNo.click();

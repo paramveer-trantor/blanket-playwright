@@ -24,10 +24,10 @@ export class PaymentPage {
         this.accountType_Fr = page.getByLabel('Type de compte', { exact: true });
         this.selectAccountType = page.getByText('Savings', { exact: true });
         this.selectAccountType_Fr = page.getByText('Épargne', { exact: true });
-        this.transitNumber = page.getByLabel('Transit Number', { exact: true }); 
-        this.transitNumber_Fr = page.getByLabel('Numéro de transit', { exact: true }); 
-        this.institutionNumber = page.getByLabel('Institution Number', { exact: true }); 
-        this.institutionNumber_Fr = page.getByLabel("Numéro d'institution", { exact: true }); 
+        this.transitNumber = page.getByLabel('Transit Number', { exact: true });
+        this.transitNumber_Fr = page.getByLabel('Numéro de transit', { exact: true });
+        this.institutionNumber = page.getByLabel('Institution Number', { exact: true });
+        this.institutionNumber_Fr = page.getByLabel("Numéro d'institution", { exact: true });
         this.accountNumber = page.getByLabel('Account Number', { exact: true });
         this.accountNumber_Fr = page.getByLabel('Numéro de compte', { exact: true });
         this.bankName = page.getByLabel('Bank Name', { exact: true });
@@ -47,13 +47,13 @@ export class PaymentPage {
         this.province = page.getByTestId('billing-province');
         this.selectProvinceON = page.getByRole('listbox').getByRole('option').filter({ hasText: 'Ontario' });
         this.backBtn = page.locator("//div[@class='v-stepper__items']/div[6]//button");
-        this.radioCreditCard =  page.getByRole('radiogroup').filter({ hasText: 'Credit Card' });
+        this.radioCreditCard = page.getByRole('radiogroup').filter({ hasText: 'Credit Card' });
         this.radioACH = page.getByRole('radiogroup').filter({ hasText: 'Pre-Authorized Debit' });
         this.dialog = page.locator('.v-dialog__content--active');
         this.paymentFrequency = page.locator('.payment-frequency');
     }
-  
-    async getPaymentPageHeader() { 
+
+    async getPaymentPageHeader() {
         return (await this.header.textContent()).trim();
     }
 
@@ -66,15 +66,15 @@ export class PaymentPage {
     }
 
     async verifyBillingAddressIsEmpty() {
-        return await this.address.inputValue();;   
+        return await this.address.inputValue();;
     }
 
     async enterBillingAddress(firstname, lastname, address, city, postal) {
         await this.firstName.fill(firstname);
-        await this.lastName.fill(lastname); 
-        await this.address.fill(address); 
-        await this.city.fill(city);  
-        await this.postalCode.fill(postal);   
+        await this.lastName.fill(lastname);
+        await this.address.fill(address);
+        await this.city.fill(city);
+        await this.postalCode.fill(postal);
         await this.province.click();
         await this.selectProvinceON.click();
     }
@@ -82,7 +82,7 @@ export class PaymentPage {
     async getTotalAmountDue() {
         const premium_value = (await this.amountdue.innerText()).trim();
         const amountdue = (premium_value.replace("Amount Due: $", "")).trim();
-        return amountdue;  
+        return amountdue;
     }
 
     async getPaymentFrequency() {
@@ -108,7 +108,7 @@ export class PaymentPage {
         await this.expiryDate.fill(expirydate);
         await this.cvv.click();
         await this.cvv.fill(cvv);
-        await this.payNowBtn.isVisible();  
+        await this.payNowBtn.isVisible();
         await this.payNowBtn.click();
     }
 
@@ -121,7 +121,7 @@ export class PaymentPage {
         await this.expiryDate_Fr.fill(expirydate);
         await this.cvv.click();
         await this.cvv.fill(cvv);
-        await this.payNowBtn_Fr.isVisible();  
+        await this.payNowBtn_Fr.isVisible();
         await this.payNowBtn_Fr.click();
     }
 

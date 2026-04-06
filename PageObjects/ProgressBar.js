@@ -2,7 +2,7 @@ export class ProgressBar {
 
     constructor(page) {
         this.page = page;
-        this.completedStep1 = page.locator("//div[@class='v-stepper__step cursor-enabled scrollbar-item v-stepper__step--complete']//div[text()=' Initial Info ']");        
+        this.completedStep1 = page.locator("//div[@class='v-stepper__step cursor-enabled scrollbar-item v-stepper__step--complete']//div[text()=' Initial Info ']");
         this.competedStep2 = page.locator("//div[@class='v-stepper__step cursor-enabled scrollbar-item v-stepper__step--complete']//div[text()=' Policy Options ']");
         this.inActiveStep4 = page.locator("//div[@class='v-stepper__step cursor-enabled scrollbar-item v-stepper__step--inactive']//div[text()=' Personal Statement ']");
         this.inActiveStep5 = page.locator("//div[@class='v-stepper__step cursor-enabled scrollbar-item v-stepper__step--inactive']//div[text()=' Beneficiary ']");
@@ -32,7 +32,7 @@ export class ProgressBar {
 
     async getInActiveStep7Locator() {
         return this.inActiveStep7.isVisible();
-    } 
-    
+    }
+
 
 }

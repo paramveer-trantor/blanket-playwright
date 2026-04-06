@@ -12,8 +12,8 @@ export class RegisterPage {
         this.errorMessage = page.locator('.v-messages__message');
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
-        this.dialogBox =  page.getByRole('dialog');
-        this.OTPWindowTitle = this.dialogBox.locator(".v-card__title"); 
+        this.dialogBox = page.getByRole('dialog');
+        this.OTPWindowTitle = this.dialogBox.locator(".v-card__title");
         this.OTPWindowEnterOTP = this.dialogBox.getByLabel('Enter OTP', { exact: true });
         this.OTPWindowVerifyBtn = this.dialogBox.getByRole('button', { name: ' Verify ' });
         this.OTPWindowIncorrectOTPMsg = this.dialogBox.locator(".col")
@@ -22,13 +22,13 @@ export class RegisterPage {
     async goToRegisterPage(url) {
         await this.page.goto(url);
     }
- 
+
     async enterEmail(username) {
-        await this.email.fill(username); 
+        await this.email.fill(username);
     }
 
     async enterUserDetails(username, password) {
-        await this.email.fill(username);  
+        await this.email.fill(username);
         await this.password.fill(password);
         await this.confirmPassword.fill(password)
         await this.preferredLanguage.click();
@@ -36,7 +36,7 @@ export class RegisterPage {
     }
 
     async clickCreateAccBtn() {
-        await this.createAccountBtn.click();  
+        await this.createAccountBtn.click();
     }
 
     async clickCreateAccBtnAndGetAPIStatus() {
@@ -46,12 +46,12 @@ export class RegisterPage {
         await this.createAccountBtn.click();
         const response = await promise;
         const responseStatus = await response.status();
-        return responseStatus;  
+        return responseStatus;
     }
- 
+
     async createAccount(url, username, password) {
         await this.page.goto(url);
-        await this.email.fill(username);  
+        await this.email.fill(username);
         await this.password.fill(password);
         await this.confirmPassword.fill(password);
         await this.preferredLanguage.click();
