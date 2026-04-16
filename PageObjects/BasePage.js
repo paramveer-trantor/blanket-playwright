@@ -56,4 +56,13 @@ export class BasePage {
         return premium_value;
     }
 
+    async getCommissionPayoutValueFromAPI() {
+        const response = await this.page.waitForResponse(resp =>
+            resp.url().includes('/api/application') && resp.status() === 201
+        );
+        const data = await response.json();
+        const commission_payout = data.commission_payout;
+        return commission_payout;
+    }
+
 }

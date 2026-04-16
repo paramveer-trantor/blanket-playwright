@@ -12,6 +12,7 @@ export class ConfirmPremiumPage extends BasePage {
         this.policyOptions = page.locator('.chip-text');
         this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
         this.term = page.locator("//label[text()='Term']");
+        this.term_Fr = page.locator("//label[text()='Terme']");
         this.coverage = page.locator("//label[text()='Coverage Amount']");
         this.backBtn = page.getByRole('button', { name: ' Back ' });
     }
@@ -112,6 +113,12 @@ export class ConfirmPremiumPage extends BasePage {
     async changeTermLength(length) {
         await this.term.waitFor();
         await this.term.click();
+        await this.page.getByRole('listbox').getByRole('option', { name: length }).click();
+    }
+
+    async changeTermLength_Fr(length) {
+        await this.term_Fr.waitFor();
+        await this.term_Fr.click();
         await this.page.getByRole('listbox').getByRole('option', { name: length }).click();
     }
 

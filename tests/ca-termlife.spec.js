@@ -121,66 +121,6 @@ test.describe('CA Term Life cases with login', () => {
         expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre Application');
     });
 
-    test('BL-T4: User shall able to purchase policy using CC payment method successfully.', async ({ page }) => {
-        test.setTimeout(120000);
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
-        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
-        expect(premium_api_step0).toBe(premium_ui_step0);
-        await premiumQuotePage.clickContinueBtn();
-
-        const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
-        await preApplicationPage.clickConitnueBtn();
-
-        const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
-        await needsAssessmentPage.clickContinueBtn();
-
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
-        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
-        expect(premium_api_step2).toBe(premium_ui_step2);
-        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
-        await confirmPremiumPage.clickContinueBtn();
-
-        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
-        await lifestyleQuestionnairePage.clickContinueBtn();
-
-        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
-        await medicalQuestionnaire1Page.clickConitnueBtn();
-
-        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
-        await medicalQuestionnaire2Page.clickConitnueBtn();
-
-        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
-        await reviewYourAnswersPage.clickConitnueBtn();
-
-        const personalStatementPage = new PersonalStatementPage(page);
-        await personalStatementPage.clickCheckboxes();
-        await personalStatementPage.clickAgreeBtn();
-
-        const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.enterIndividualBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benDob, userData.benShare);
-        await beneficiaryPage.clickConitnueBtn();
-
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
-
-        const paymentPage = new PaymentPage(page);
-        await paymentPage.clickBillingAddressCheckBox();
-        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
-        await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
-
-        const congratulationsPage = new CongratulationsPage(page);
-        page.waitForTimeout(3000);
-        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
-    });
-
     test('BL-T5: User shall not be allowed to future date in DOB field.', async ({ page }) => {
         const today = new Date();
         const cutoffDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
@@ -250,13 +190,13 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
-        expect(await confirmPremiumPage.getTermsOptions()).toContainEqual('10', '15', '20');
+        expect(await confirmPremiumPage.getTermsOptions()).toContainEqual('10', '15', '20', '30');
         expect(await confirmPremiumPage.getCoverageAmountOptions()).toContainEqual('$100K', '$250K', '$400K', '$500K', '$600K', '$750K', '$1M');
     });
 
-    test('BL-T13: Application shall allow user with age above 50 to purchase the policy with coverage amount upto $500k.', async ({ page }) => {
+    test('BL-T13: Application shall allow user with age in between 50 and 70 to purchase the policy with coverage amount upto $500k.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date_50_60, userData.feet, userData.inches, userData.weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date_50_70, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -268,7 +208,6 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
-        expect(await confirmPremiumPage.getTermsOptions()).toContainEqual('10', '15', '20');
         expect(await confirmPremiumPage.getCoverageAmountOptions()).toContainEqual('$100K', '$250K', '$400K', '$500K');
     });
 
@@ -308,9 +247,9 @@ test.describe('CA Term Life cases with login', () => {
         expect(await confirmPremiumPage.getCoverageAmountOptions()).toContainEqual('$100K', '$250K', '$400K', '$500K');
     });
 
-    test('BL-T16: Application shall allow user with age 60 or less to purchase plan with any term length.', async ({ page }) => {
+    test('BL-T16: Application shall allow user with age in between 51 & 60 to purchase T10, T15 & T20 plans.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date_51_60, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -323,6 +262,7 @@ test.describe('CA Term Life cases with login', () => {
 
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         expect(await confirmPremiumPage.getTermsOptions()).toContainEqual('10', '15', '20');
+        expect(await confirmPremiumPage.getCoverageAmountOptions()).toContainEqual('$100K', '$250K', '$400K', '$500K');
     });
 
     test('BL-T18: App shall display a message if recommended coverage amount is more than maximum face amount.', async ({ page }) => {
@@ -853,7 +793,7 @@ test.describe('CA Term Life cases with login', () => {
         await confirmIdentityPage.clickAcceptandPayBtn();
         await paymentPage.getPaymentPageHeader();
         const amountdue_annually = (await paymentPage.getTotalAmountDue()).toString();
-        expect(Annually).toContain(amountdue_annually);
+        expect(amountdue_annually).toContain(Annually);
     });
 
     test('BL-T36: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
@@ -1158,66 +1098,6 @@ test.describe('CA Term Life cases with login', () => {
         }
     });
 
-    test('BL-T55: User shall able to purchase policy using ACH payment method successfully.', async ({ page }) => {
-        test.setTimeout(120000);
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueWithMetric(userData.genderFemale, userData.date, userData.centi, userData.weightKG);
-        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
-        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
-        expect(premium_api_step0).toBe(premium_ui_step0);
-        await premiumQuotePage.clickContinueBtn();
-
-        const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
-        await preApplicationPage.clickConitnueBtn();
-
-        const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
-        await needsAssessmentPage.clickContinueBtn();
-
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.changeTermLength("15");
-        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
-        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
-        expect(premium_api_step2).toBe(premium_ui_step2);
-        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
-        await confirmPremiumPage.clickContinueBtn();
-
-        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
-        await lifestyleQuestionnairePage.clickContinueBtn();
-
-        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
-        await medicalQuestionnaire1Page.clickConitnueBtn();
-
-        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
-        await medicalQuestionnaire2Page.clickConitnueBtn();
-
-        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
-        await reviewYourAnswersPage.clickConitnueBtn();
-
-        const personalStatementPage = new PersonalStatementPage(page);
-        await personalStatementPage.clickCheckboxes();
-        await personalStatementPage.clickAgreeBtn();
-
-        const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.enterLegalBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benCompany, userData.benShare);
-        await beneficiaryPage.clickConitnueBtn();
-
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.goToPaymentPageWithLicense(userData.licenseNo);
-
-        const paymentPage = new PaymentPage(page);
-        await paymentPage.clickBillingAddressCheckBox();
-        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
-        await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
-
-        const congratulationsPage = new CongratulationsPage(page);
-        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
-    });
-
     test('BL-T91: An info icon & helper image for some fields shall be displayed to user on payment screen.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
@@ -1469,9 +1349,8 @@ test.describe('CA Term Life cases with login', () => {
     });
 
     test('BL-T140: User shall be allowed to enter address manually and application shall not validate address on continue button of pre application page.', async ({ page }) => {
-        test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueAsSmoker(userData.genderMale, userData.date, "5", "11", userData.weight);
+        await premiumQuotePage.getQuoteValueAsSmoker(userData.genderMale, userData.date_T20, "5", "11", userData.weight);
         const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
         const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
         expect(premium_api_step0).toBe(premium_ui_step0);
@@ -1482,50 +1361,7 @@ test.describe('CA Term Life cases with login', () => {
         await preApplicationPage.clickConitnueBtn();
 
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
-        await needsAssessmentPage.clickContinueBtn();
-
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.changeTermLength("20");
-        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
-        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
-        expect(premium_api_step2).toBe(premium_ui_step2);
-        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
-        await confirmPremiumPage.clickContinueBtn();
-
-        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
-        await lifestyleQuestionnairePage.clickContinueBtn();
-
-        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
-        await medicalQuestionnaire1Page.clickConitnueBtn();
-
-        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
-        await medicalQuestionnaire2Page.clickConitnueBtn();
-
-        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
-        await reviewYourAnswersPage.clickConitnueBtn();
-
-        const personalStatementPage = new PersonalStatementPage(page);
-        await personalStatementPage.clickCheckboxes();
-        await personalStatementPage.clickAgreeBtn();
-
-        const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.checkWithoutBenCheckbox();
-        await beneficiaryPage.clickConitnueBtn();
-
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
-
-        const paymentPage = new PaymentPage(page);
-        await paymentPage.clickBillingAddressCheckBox();
-        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
-        await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
-
-        const congratulationsPage = new CongratulationsPage(page);
-        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+        expect(await needsAssessmentPage.getNeedsAssessmentPageHeader()).toEqual('How Much Term Insurance Do I Need?');
     });
 
     test('BL-T147: The completed sections shall be checked and uncompleted sections shall be greyed out in CA term policy form progress bar in web view.', async ({ page }) => {
@@ -1672,65 +1508,6 @@ test.describe('CA Term Life cases with login', () => {
 
         await page.waitForTimeout(2000);
         expect(page.url()).toContain("payment");
-    });
-
-    test('BL-T181: User shall be allowed to purchase policy on answering YES to replacement question on Pre Application page.', async ({ page }) => {
-        test.setTimeout(120000);
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
-        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
-        expect(premium_api_step0).toBe(premium_ui_step0);
-        await premiumQuotePage.clickContinueBtn();
-
-        const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillUserInfoWithReplacePolicyAsYes(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber);
-        await preApplicationPage.clickConitnueBtn();
-
-        const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome("1000", userData.saving, userData.mortgageBal, userData.debt);
-        await needsAssessmentPage.clickContinueBtn();
-
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
-        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
-        expect(premium_api_step2).toBe(premium_ui_step2);
-        await confirmPremiumPage.clickContinueBtn();
-
-        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
-        await lifestyleQuestionnairePage.clickContinueBtn();
-
-        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
-        await medicalQuestionnaire1Page.clickConitnueBtn();
-
-        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
-        await medicalQuestionnaire2Page.clickConitnueBtn();
-
-        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
-        await reviewYourAnswersPage.clickConitnueBtn();
-
-        const personalStatementPage = new PersonalStatementPage(page);
-        await personalStatementPage.clickCheckboxes();
-        await personalStatementPage.clickAgreeBtn();
-
-        const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.checkWithoutBenCheckbox();
-        await beneficiaryPage.clickConitnueBtn();
-
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.selectAnnualPremiumOption();
-        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
-
-        const paymentPage = new PaymentPage(page);
-        await paymentPage.clickBillingAddressCheckBox();
-        expect(await paymentPage.getPaymentFrequency()).toEqual('Payment Frequency: $ Paid Annually');
-        await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
-
-        const congratulationsPage = new CongratulationsPage(page);
-        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
     test('BL-T187: User shall be able to fill different billing address on payment screen.', async ({ page }) => {
@@ -1968,6 +1745,17 @@ test.describe('CA Term Life cases with login', () => {
         expect(await beneficiaryPage.checkIfTrusteeFieldsAreVisible()).toBeFalsy();
     });
 
+    test('BL-T293: Partner commission payout shall be false if customer fills CA term life form directly through blanket app.', async ({ page }) => {
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
+        await preApplicationPage.clickConitnueBtn();
+        expect(await preApplicationPage.getCommissionPayoutValueFromAPI()).toBeFalsy();
+    });
+
     test('BL-T297: Application shall delete the trustee added by user if user changes the province to QC by going back to pre application page.', async ({ page }) => {
         const premiumQuotePage = new PremiumQuotePage(page);
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
@@ -2064,6 +1852,336 @@ test.describe('CA Term Life cases with login', () => {
 
         const beneficiaryPage = new BeneficiaryPage(page);
         expect(await beneficiaryPage.checkDOBFieldInLegalBenIsVisible()).toBeFalsy();
+    });
+
+});
+
+test.describe('CA Term Life cases with login', () => {
+
+    const smokerOptions = ['Smoker', 'NonSmoker'];
+    const genderOptions = ['Male', 'Female'];
+
+    function getRandomValue(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    test.beforeEach('Login and navigate user to CA Term Life Premium Quote page', async ({ page }) => {
+        test.setTimeout(120000);
+        const loginPage = new LoginPage(page);
+        await loginPage.navigate('/pages/login');
+        await loginPage.login(process.env.USER_EMAIL, process.env.USER_PASSWORD);
+
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.acceptCookies();
+        await dashboardPage.navigateToCATLProduct();
+
+        const landingpage = new TLProductLandingPage(page);
+        await landingpage.clickApplyNowBtn();
+    });
+
+    test('BL-T4: User shall able to purchase policy T10 using CC payment method successfully.', async ({ page }) => {
+        const randomGender = getRandomValue(genderOptions);
+        const randomSmoker = getRandomValue(smokerOptions);
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getPremiumQuote(randomGender, randomSmoker, userData.date_T10, userData.feet, userData.inches, userData.weight);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
+        await preApplicationPage.clickConitnueBtn();
+
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.changeCoverageAmount("$500K");
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
+        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
+        await confirmPremiumPage.clickContinueBtn();
+
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.enterIndividualBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benDob, userData.benShare);
+        await beneficiaryPage.clickConitnueBtn();
+
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
+
+        const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox();
+        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
+        await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
+
+        const congratulationsPage = new CongratulationsPage(page);
+        page.waitForTimeout(3000);
+        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+    });
+
+    test('BL-T55: User shall able to purchase T15 policy using ACH payment method successfully.', async ({ page }) => {
+        const randomGender = getRandomValue(genderOptions);
+        const randomSmoker = getRandomValue(smokerOptions);
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getPremiumQuote(randomGender, randomSmoker, userData.date_T15, userData.feet, userData.inches, userData.weight);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
+        await preApplicationPage.clickConitnueBtn();
+
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.changeTermLength("15");
+        await confirmPremiumPage.changeCoverageAmount("$250K");
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
+        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
+        await confirmPremiumPage.clickContinueBtn();
+
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.checkWithoutBenCheckbox();
+        await beneficiaryPage.clickConitnueBtn();
+
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.goToPaymentPageWithLicense(userData.licenseNo);
+
+        const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox();
+        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
+        await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
+
+        const congratulationsPage = new CongratulationsPage(page);
+        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+    });
+
+    test('BL-T4_1: User shall able to purchase policy T20 using CC payment method successfully.', async ({ page }) => {
+        const randomGender = getRandomValue(genderOptions);
+        const randomSmoker = getRandomValue(smokerOptions);
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getPremiumQuote(randomGender, randomSmoker, userData.date_T20, "5", "11", userData.weight);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillformAndEnterAddressManually("Test", "Manual Address", "Dummy Address", "Dummy", "A1A 1A1", userData.phoneNumber, userData.optionNo);
+        await preApplicationPage.clickConitnueBtn();
+
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.changeTermLength("20");
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
+        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
+        await confirmPremiumPage.clickContinueBtn();
+
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.checkWithoutBenCheckbox();
+        await beneficiaryPage.clickConitnueBtn();
+
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
+
+        const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox();
+        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
+        await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
+
+        const congratulationsPage = new CongratulationsPage(page);
+        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+    });
+
+    test('BL-T302: User shall able to purchase policy T30 using CC/ACH payment method successfully.', async ({ page }) => {
+        const randomGender = getRandomValue(genderOptions);
+        const randomSmoker = getRandomValue(smokerOptions);
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getPremiumQuote(randomGender, randomSmoker, userData.date_T30, userData.feet, userData.inches, userData.weight);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage("Test", "User", userData.houseAddress, userData.phoneNumber, userData.optionNo);
+        await preApplicationPage.clickConitnueBtn();
+
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.changeTermLength("30");
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
+        const premium_rate_value = await confirmPremiumPage.getQuoteValueWithFee();
+        await confirmPremiumPage.clickContinueBtn();
+
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.enterLegalBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benCompany, userData.benShare);
+        await beneficiaryPage.clickConitnueBtn();
+
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.goToPaymentPageWithLicense(userData.licenseNo);
+
+        const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox();
+        expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
+        await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
+
+        const congratulationsPage = new CongratulationsPage(page);
+        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
+    });
+
+    test('BL-T181: User shall be allowed to purchase policy on answering YES to replacement question on Pre Application page.', async ({ page }) => {
+        const randomGender = getRandomValue(genderOptions);
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.getQuoteValueWithMetric(randomGender, userData.date, userData.centi, userData.weightKG);
+        const premium_api_step0 = await premiumQuotePage.getPremiumValueFromAPI();
+        const premium_ui_step0 = await premiumQuotePage.getNumericPremiumRateValue();
+        expect(premium_api_step0).toBe(premium_ui_step0);
+        await premiumQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillUserInfoWithReplacePolicyAsYes(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber);
+        await preApplicationPage.clickConitnueBtn();
+
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome("1000", userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        const premium_api_step2 = await confirmPremiumPage.getPremiumValueFromAPI();
+        const premium_ui_step2 = await confirmPremiumPage.getQuoteValue();
+        expect(premium_api_step2).toBe(premium_ui_step2);
+        await confirmPremiumPage.clickContinueBtn();
+
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.checkWithoutBenCheckbox();
+        await beneficiaryPage.clickConitnueBtn();
+
+        const confirmIdentityPage = new ConfirmIdentityPage(page);
+        await confirmIdentityPage.selectAnnualPremiumOption();
+        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
+
+        const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox();
+        expect(await paymentPage.getPaymentFrequency()).toEqual('Payment Frequency: $ Paid Annually');
+        await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
+
+        const congratulationsPage = new CongratulationsPage(page);
+        expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
 });

@@ -164,6 +164,30 @@ export class PremiumQuotePage extends BasePage {
         await this.getQuoteBtn.click();
     }
 
+    async getQuoteValueSmoker_Fr(gender, date, feet, inches, weight) {
+        if (gender == "Male") {
+            await this.genderMale_Fr.first().click();
+        }
+        else {
+            await this.genderFemale_Fr.first().click();
+        }
+        await this.dateOfBirth_Fr.click();
+        await this.dateOfBirth_Fr.clear();
+        await this.dateOfBirth_Fr.fill(date);
+        await this.heightFeet.click();
+        await this.heightFeet.clear();
+        await this.heightFeet.fill(feet);
+        await this.heightInches.click();
+        await this.heightInches.clear();
+        await this.heightInches.fill(inches);
+        await this.weight_Fr.click();
+        await this.weight_Fr.clear();
+        await this.weight_Fr.fill(weight);
+        await this.optionYes_Fr.first().click();
+        await this.optionYes_Fr.last().click();
+        await this.getQuoteBtn_Fr.click();
+    }
+
     async getQuoteValueWithMetric(gender, date, centi, weight_kg) {
         if (gender == "Male") {
             await this.genderMale.first().click();
@@ -182,7 +206,7 @@ export class PremiumQuotePage extends BasePage {
         await this.weightKg.clear();
         await this.weightKg.fill(weight_kg);
         await this.optionYes.first().click();
-        await this.optionYes.last().click();
+        await this.nonSmoker.nth(1).click();
         await this.getQuoteBtn.click();
     }
 
@@ -259,6 +283,86 @@ export class PremiumQuotePage extends BasePage {
         await this.optionYes.last().click();
         await this.getQuoteBtn.click();
         await this.continueBtn.click();
+    }
+
+    async getPremiumQuote(gender, smoker_status, date, feet, inches, weight) {
+        if (gender === "Male" && smoker_status === "NonSmoker") {
+            await this.genderMale.first().click();
+            await this.dateOfBirth.click();
+            await this.dateOfBirth.clear();
+            await this.dateOfBirth.fill(date);
+            await this.heightFeet.click();
+            await this.heightFeet.clear();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.clear();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.clear();
+            await this.weight.fill(weight);
+            await this.optionYes.first().click();
+            await this.nonSmoker.nth(1).click();
+            await this.getQuoteBtn.click();
+        }
+        if (gender === "Male" && smoker_status === "Smoker") {
+            await this.genderMale.first().click();
+            await this.dateOfBirth.click();
+            await this.dateOfBirth.clear();
+            await this.dateOfBirth.fill(date);
+            await this.heightFeet.click();
+            await this.heightFeet.clear();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.clear();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.clear();
+            await this.weight.fill(weight);
+            await this.optionYes.first().click();
+            await this.optionYes.last().click();
+            await this.getQuoteBtn.click();
+        }
+        if (gender === "Female" && smoker_status === "NonSmoker") {
+            await this.genderFemale.first().click();
+            await this.dateOfBirth.click();
+            await this.dateOfBirth.clear();
+            await this.dateOfBirth.fill(date);
+            await this.heightFeet.click();
+            await this.heightFeet.clear();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.clear();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.clear();
+            await this.weight.fill(weight);
+            await this.optionYes.first().click();
+            await this.nonSmoker.nth(1).click();
+            await this.getQuoteBtn.click();
+        }
+        if (gender === "Female" && smoker_status === "Smoker") {
+            await this.genderFemale.first().click();
+            await this.dateOfBirth.click();
+            await this.dateOfBirth.clear();
+            await this.dateOfBirth.fill(date);
+            await this.heightFeet.click();
+            await this.heightFeet.clear();
+            await this.heightFeet.fill(feet);
+            await this.heightInches.click();
+            await this.heightInches.clear();
+            await this.heightInches.fill(inches);
+            await this.weight.click();
+            await this.weight.clear();
+            await this.weight.fill(weight);
+            await this.optionYes.first().click();
+            await this.optionYes.last().click();
+            await this.getQuoteBtn.click();
+        }
+
+        else {
+            console.log("Invalid gender & smoker status combination");
+        }
+        
     }
 
 }

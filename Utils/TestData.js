@@ -3,8 +3,8 @@ const { faker } = require('@faker-js/faker');
 const userData = {
   firstName: "Tester",
   lastName: "QA",
-  genderFemale: "Female",
   genderMale: "Male",
+  genderFemale: "Female",
   date: (() => {
     const date = faker.date.birthdate({ min: 18, max: 60, mode: 'age' });
     return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
@@ -13,8 +13,12 @@ const userData = {
     const date = faker.date.birthdate({ min: 18, max: 50, mode: 'age' });
     return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
   })(),
-  date_50_60: (() => {
-    const date = faker.date.birthdate({ min: 50, max: 60, mode: 'age' });
+  date_50_70: (() => {
+    const date = faker.date.birthdate({ min: 50, max: 70, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_51_60: (() => {
+    const date = faker.date.birthdate({ min: 51, max: 60, mode: 'age' });
     return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
   })(),
   date_61_65: (() => {
@@ -23,6 +27,22 @@ const userData = {
   })(),
   date_66_70: (() => {
     const date = faker.date.birthdate({ min: 66, max: 70, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_T10: (() => {
+    const date = faker.date.birthdate({ min: 18, max: 70, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_T15: (() => {
+    const date = faker.date.birthdate({ min: 18, max: 65, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_T20: (() => {
+    const date = faker.date.birthdate({ min: 18, max: 60, mode: 'age' });
+    return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+  })(),
+  date_T30: (() => {
+    const date = faker.date.birthdate({ min: 18, max: 50, mode: 'age' });
     return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
   })(),
   feet: faker.number.int({ min: 5, max: 6 }).toString(),
@@ -44,7 +64,7 @@ const userData = {
   drinksKnock: faker.number.int({ min: 15, max: 20 }).toString(),
   optionYes: "Yes",
   optionNo: "No",
-  benFirstName: faker.person.firstName(),
+  benFirstName: "Test",
   benLastName: "Beneficiary",
   benDob: (() => {
     const date = faker.date.birthdate({ min: 20, max: 35, mode: 'age' });
