@@ -46,7 +46,7 @@ test.describe('CA Term Life test cases in FR language', () => {
     test('BL-T4_FR: User shall able to purchase policy using CC payment method successfully in FR language.', async ({ page }) => {
         test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.randomGender, userData.date_T10, userData.feet, userData.inches, userData.weight);
+        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date_T10, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -97,7 +97,7 @@ test.describe('CA Term Life test cases in FR language', () => {
     test('BL-T4_FR: User shall able to purchase policy using ACH payment method successfully in FR language.', async ({ page }) => {
         test.setTimeout(120000);
         const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueSmoker_Fr(userData.randomGender, userData.date_T15, userData.feet, userData.inches, userData.weight);
+        await premiumQuotePage.getQuoteValueSmoker_Fr(userData.genderFemale, userData.date_T15, userData.feet, userData.inches, userData.weight);
         await premiumQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);

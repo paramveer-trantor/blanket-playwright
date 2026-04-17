@@ -3,8 +3,8 @@ const { faker } = require('@faker-js/faker');
 const userData = {
   firstName: "Tester",
   lastName: "QA",
-  genderMale: "Male",
   genderFemale: "Female",
+  genderMale: "Male",
   date: (() => {
     const date = faker.date.birthdate({ min: 18, max: 60, mode: 'age' });
     return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
