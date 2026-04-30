@@ -793,7 +793,7 @@ test.describe('CA Term Life cases with login', () => {
         await confirmIdentityPage.clickAcceptandPayBtn();
         await paymentPage.getPaymentPageHeader();
         const amountdue_annually = (await paymentPage.getTotalAmountDue()).toString();
-        expect(amountdue_annually).toContain(Annually);
+        expect(Annually).toContain(amountdue_annually);
     });
 
     test('BL-T36: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
@@ -1626,7 +1626,8 @@ test.describe('CA Term Life cases with login', () => {
         await premiumQuotePage.getQuoteValueNonSmoker(userData.genderFemale, date_input, "5", "8", "220");
         await page.waitForTimeout(2000);
         const premiumRate_bmi_more32 = await premiumQuotePage.getNumericPremiumRateValue();
-        expect(premiumRate_bmi_more32).toBe((parseFloat((premiumRate_bmi_less32) * 1.5.toFixed(2))).toString());
+        const expected_premiumRate_bmi_more32 = (Number(parseFloat(premiumRate_bmi_less32 * 1.5).toFixed(2))).toString(); 
+        expect(premiumRate_bmi_more32).toBe(expected_premiumRate_bmi_more32);
         await premiumQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
