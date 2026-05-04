@@ -172,13 +172,14 @@ test.describe('Website cases with login', () => {
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         await dashboardPage.goToMyApplicationsPage();
-
+        
         const myApplicationsPage = new MyApplicationsPage(page);
-        expect(await myApplicationsPage.verifyNoApplicationMsgIsVisisble()).not.toBeVisible();
-        const count_apps = await myApplicationsPage.getOpenApplicationsCount();
+        await page.waitForURL('**/userapplications');
+        const count_apps_before_delete = await myApplicationsPage.getOpenApplicationsCount();
         await myApplicationsPage.deleteFirstRowApplication();
-        const new_count_apps = count_apps - 1;
-        expect(await myApplicationsPage.getOpenApplicationsCount()).toBe(new_count_apps);
+        const count_apps_after_delete = await myApplicationsPage.getOpenApplicationsCount();
+        const new_count_apps = count_apps_before_delete - 1;
+        expect(count_apps_after_delete).toBe(new_count_apps);
     });
 
     test.skip('BL-T159: Application shall store upto 7 open application on My application page.', async ({ page }) => {

@@ -18,10 +18,10 @@ export class MyApplicationsPage {
     }
 
     async getOpenApplicationsCount() {
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForResponse(response => response.url().includes('/api/application') && response.status() === 200);
         const count_openapps = await this.pagination.textContent();
         const arr_openApp = count_openapps.trim().split(" ");
-        return Number(arr_openApp[2]);
+        return arr_openApp[2];
     }
 
     async getNoApplicationMsg() {

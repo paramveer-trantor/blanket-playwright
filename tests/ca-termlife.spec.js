@@ -1857,7 +1857,7 @@ test.describe('CA Term Life cases with login', () => {
 
 });
 
-test.describe('CA Term Life cases with login', () => {
+test.describe('CA Term Life payment test cases', () => {
 
     const smokerOptions = ['Smoker', 'NonSmoker'];
     const genderOptions = ['Male', 'Female'];
@@ -1938,7 +1938,6 @@ test.describe('CA Term Life cases with login', () => {
         await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
 
         const congratulationsPage = new CongratulationsPage(page);
-        page.waitForTimeout(3000);
         expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
@@ -1997,6 +1996,7 @@ test.describe('CA Term Life cases with login', () => {
 
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox();
+        console.log(await paymentPage.getTotalAmountDue());
         expect(await paymentPage.getTotalAmountDue()).toEqual(premium_rate_value);
         await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
 

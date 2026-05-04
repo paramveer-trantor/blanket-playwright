@@ -81,7 +81,7 @@ export class PaymentPage {
 
     async getTotalAmountDue() {
         const premium_value = (await this.amountdue.innerText()).trim();
-        const amountdue = parseFloat(premium_value.split('$')[1]);
+        const amountdue = (premium_value.split('$')[1]);
         //const amountdue = (premium_value.replace("Amount Due: $", "")).trim();
         return amountdue;
     }
