@@ -7,13 +7,13 @@ export class PremiumQuotePage extends BasePage {
         this.header = page.locator("//div[text()=' Premium Quote ']");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
-        this.quoteValue = page.locator('.chip-text');
+        this.quoteValue = page.locator('.quote-breakdown .quote-line .primary--text');
         this.yourQuote = page.locator('.quote-breakdown');
         this.policyOptions = page.locator('.chip-text');
         this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
         this.term = page.locator("//label[text()='Term']");
         this.term_Fr = page.locator("//label[text()='Terme']");
-        this.coverage = page.locator("//label[text()='Coverage Amount']");
+        this.coverage = page.locator("//label[text()='Coverage amount']");
         this.backBtn = page.getByRole('button', { name: ' Back ' });
     }
 
@@ -23,16 +23,16 @@ export class PremiumQuotePage extends BasePage {
 
     async getQuoteValue() {
         await this.quoteValue.first().waitFor();
-        return (await this.quoteValue.first().textContent()).replace('$', '');
+        const quote = await this.quoteValue.first().textContent();
+        const quote_value = quote.match(/\d+(\.\d+)?/)[0];
+        return quote_value;
     }
 
     async getQuoteValueWithFee() {
-        await this.quoteValue.first().waitFor();
-        const premiumrate_value = await this.quoteValue.first().textContent();
-        const numericValue = parseFloat(premiumrate_value.replace('$', ''));
-        const addedValue = numericValue + 2.70;
-        const premiumrate = parseFloat(addedValue).toFixed(2);
-        return premiumrate;
+        await this.quoteValue.last().waitFor();
+        const quotewithfee = await this.quoteValue.last().textContent();
+        const quotewithfee_value = quotewithfee.match(/\d+(\.\d+)?/)[0];
+        return quotewithfee_value;
     }
 
     async getTermsOptions() {

@@ -33,7 +33,7 @@ export class GetQuotePage extends BasePage {
         this.warningMsgText = this.dialogBox.locator("//div[@class='v-card__text justify-center text-center']/div/div");
         this.closeBtn = this.dialogBox.getByRole('button', { name: ' Close ' });
         this.premiumValue = page.locator('.estimate-subtitle .font-weight-bold ');
-        this.premiumRateValue = page.locator('.chip-text');
+        this.premiumRateValue = page.locator('.style-card-premium .estimate-subtitle .primary--text');
         this.errorPopUp = page.getByTestId('globalErrorMessage');
         this.closeBtnPopUp = page.getByTestId('globalErrorCloseBtn');
     }
@@ -242,7 +242,8 @@ export class GetQuotePage extends BasePage {
 
     async getNumericPremiumRateValue() {
         const premium_num = (await this.premiumRateValue.first().textContent()).trim();
-        return (premium_num).replace('$', '');
+        const Numeric_value = premium_num.match(/\d+(\.\d+)?/)[0];
+        return Numeric_value;
     }
 
     async getErrorPopUp() {
@@ -357,10 +358,6 @@ export class GetQuotePage extends BasePage {
             await this.optionYes.first().click();
             await this.optionYes.last().click();
             await this.getQuoteBtn.click();
-        }
-
-        else {
-            console.log("Invalid gender & smoker status combination");
         }
         
     }

@@ -6,7 +6,7 @@ export class BeneficiaryPage {
         this.addBeneficiryBtn = page.getByRole('button', { name: ' Add beneficiary ' });
         this.addBeneficiryBtn_Fr = page.getByRole('button', { name: ' Ajouter bénéficiaire ' });
         this.dialogBox = page.getByRole('dialog');
-        this.openBeneficiariesTypes = this.dialogBox.getByLabel('My Beneficiaries', { exact: true });
+        this.openBeneficiariesTypes = this.dialogBox.getByLabel('My beneficiaries', { exact: true });
         this.openBeneficiariesTypes_Fr = this.dialogBox.getByLabel('Mes bénéficiaires', { exact: true });
         this.selectIndividual = this.dialogBox.getByText('Individual', { exact: true });
         this.selectIndividual_Fr = this.dialogBox.getByText('Personne physique', { exact: true });
