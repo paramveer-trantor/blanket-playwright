@@ -5,20 +5,20 @@ import { LoginPageInTLForm } from '../PageObjects/LoginPageInTLForm'
 import { DashboardPage } from '../PageObjects/DashboardPage';
 import { TLProductLandingPage } from '../PageObjects/TLProductLandingPage';
 import { ProgressBar } from '../PageObjects/ProgressBar';
-import { PremiumQuotePage } from '../PageObjects/PremiumQuotePage'
-import { PreApplicationPage } from '../PageObjects/PreApplicationPage'
-import { NeedsAssessmentPage } from '../PageObjects/NeedsAssessmentPage'
-import { ConfirmPremiumPage } from '../PageObjects/ConfirmPremiumPage'
-import { LifestyleQuestionnairePage } from '../PageObjects/LifestyleQuestionnairePage'
-import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Page'
-import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page'
-import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage'
-import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage'
-import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage'
-import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
-import { PaymentPage } from '../PageObjects/PaymentPage'
-import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
-import { userData } from '../Utils/TestData'
+import { GetQuotePage } from '../PageObjects/GetQuotePage';
+import { PreApplicationPage } from '../PageObjects/PreApplicationPage';
+import { NeedsAssessmentPage } from '../PageObjects/NeedsAssessmentPage';
+import { PremiumQuotePage } from '../PageObjects/PremiumQuotePage';
+import { LifestyleQuestionnairePage } from '../PageObjects/LifestyleQuestionnairePage';
+import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Page';
+import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page';
+import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage';
+import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage';
+import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage';
+import { ConfirmPremiumPage } from '../PageObjects/ConfirmPremiumPage';
+import { PaymentPage } from '../PageObjects/PaymentPage';
+import { CongratulationsPage } from '../PageObjects/CongratulationsPage';
+import { userData } from '../Utils/TestData';
 
 test('BL-T1_FR: Product Term life shall be visible under CA products list.', async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -45,9 +45,9 @@ test.describe('CA Term Life test cases in FR language', () => {
 
     test('BL-T4_FR: User shall able to purchase policy using CC payment method successfully in FR language.', async ({ page }) => {
         test.setTimeout(120000);
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date_T10, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date_T10, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -57,8 +57,8 @@ test.describe('CA Term Life test cases in FR language', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn_Fr();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn_Fr();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
@@ -83,8 +83,8 @@ test.describe('CA Term Life test cases in FR language', () => {
         await beneficiaryPage.checkWithoutBenCheckbox_Fr();
         await beneficiaryPage.clickContinueBtn_Fr();
 
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.goToPaymentPageWithPassport_Fr(userData.passportNo);;
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.goToPaymentPageWithPassport_Fr(userData.passportNo);;
 
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox_Fr();
@@ -96,9 +96,9 @@ test.describe('CA Term Life test cases in FR language', () => {
 
     test('BL-T4_FR: User shall able to purchase policy using ACH payment method successfully in FR language.', async ({ page }) => {
         test.setTimeout(120000);
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueSmoker_Fr(userData.genderFemale, userData.date_T15, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueSmoker_Fr(userData.genderFemale, userData.date_T15, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -108,9 +108,9 @@ test.describe('CA Term Life test cases in FR language', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.changeTermLength_Fr("15");
-        await confirmPremiumPage.clickContinueBtn_Fr();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.changeTermLength_Fr("15");
+        await premiumQuotePage.clickContinueBtn_Fr();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
@@ -135,8 +135,8 @@ test.describe('CA Term Life test cases in FR language', () => {
         await beneficiaryPage.checkWithoutBenCheckbox_Fr();
         await beneficiaryPage.clickContinueBtn_Fr();
 
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.goToPaymentPageWithPassport_Fr(userData.passportNo);;
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.goToPaymentPageWithPassport_Fr(userData.passportNo);;
 
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox_Fr();
@@ -147,9 +147,9 @@ test.describe('CA Term Life test cases in FR language', () => {
     });
 
     test('BL-T7_FR: Application shall throw an error message if user enters invalid phone number.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
@@ -157,9 +157,9 @@ test.describe('CA Term Life test cases in FR language', () => {
     });
 
     test('BL-T18_FR: App shall display a message if recommended coverage amount is more than maximum face amount.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -173,9 +173,9 @@ test.describe('CA Term Life test cases in FR language', () => {
     });
 
     test('BL-T21_FR:Verify knockout with Company Declined lifestyle question.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -185,8 +185,8 @@ test.describe('CA Term Life test cases in FR language', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn_Fr();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn_Fr();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerCompanyDeclinedAsYesandRestNo(userData.drinks);
@@ -210,9 +210,9 @@ test.describe('CA Term Life test cases in FR language', () => {
     });
 
     test('BL-T25_Fr: Total share of beneficiaries shall not increase by 100%.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -222,8 +222,8 @@ test.describe('CA Term Life test cases in FR language', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn_Fr();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn_Fr();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
@@ -251,9 +251,9 @@ test.describe('CA Term Life test cases in FR language', () => {
     });
 
     test('BL-T30: Application shall throw an error message if user enters invalid passport number.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -263,8 +263,8 @@ test.describe('CA Term Life test cases in FR language', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn_Fr();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn_Fr();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
@@ -289,16 +289,16 @@ test.describe('CA Term Life test cases in FR language', () => {
         await beneficiaryPage.checkWithoutBenCheckbox_Fr();
         await beneficiaryPage.clickContinueBtn_Fr();
 
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.selectIdentityAsPassport_Fr();
-        await confirmIdentityPage.enterPassportNumber_Fr("a123456b");
-        expect(await confirmIdentityPage.getErrorMsg()).toEqual('Numéro de passeport invalide. Il doit commencer par deux lettres et se terminer par six chiffres. Veuillez supprimer tout espace ou caractère spécial (-, *).');
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.selectIdentityAsPassport_Fr();
+        await confirmPremiumPage.enterPassportNumber_Fr("a123456b");
+        expect(await confirmPremiumPage.getErrorMsg()).toEqual('Numéro de passeport invalide. Il doit commencer par deux lettres et se terminer par six chiffres. Veuillez supprimer tout espace ou caractère spécial (-, *).');
     });
 
     test('BL-T33_Fr: Application shall throw an error message if user enters invalid DL number.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -308,8 +308,8 @@ test.describe('CA Term Life test cases in FR language', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn_Fr();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn_Fr();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
@@ -334,16 +334,16 @@ test.describe('CA Term Life test cases in FR language', () => {
         await beneficiaryPage.checkWithoutBenCheckbox_Fr();
         await beneficiaryPage.clickContinueBtn_Fr();
 
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.selectIdentityAsDrivingLicense_Fr();
-        await confirmIdentityPage.enterLicenseNumber_Fr("AAA123");
-        expect(await confirmIdentityPage.getErrorMsg()).toEqual("Format de permis de conduire invalide. Veuillez supprimer tout espace ou caractère spécial (-, *).");
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.selectIdentityAsDrivingLicense_Fr();
+        await confirmPremiumPage.enterLicenseNumber_Fr("AAA123");
+        expect(await confirmPremiumPage.getErrorMsg()).toEqual("Format de permis de conduire invalide. Veuillez supprimer tout espace ou caractère spécial (-, *).");
     });
 
     test('BL-T36_Fr: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -353,8 +353,8 @@ test.describe('CA Term Life test cases in FR language', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn_Fr();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn_Fr();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
@@ -379,10 +379,10 @@ test.describe('CA Term Life test cases in FR language', () => {
         await beneficiaryPage.checkWithoutBenCheckbox_Fr();
         await beneficiaryPage.clickContinueBtn_Fr();
 
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.selectIdentityAsHealthCard_Fr();
-        await confirmIdentityPage.enterHealthCardNumber_Fr("123456");
-        expect(await confirmIdentityPage.getErrorMsg()).toEqual('Format de carte santé invalide. Veuillez supprimer tout espace ou caractère spécial (-, *).');
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.selectIdentityAsHealthCard_Fr();
+        await confirmPremiumPage.enterHealthCardNumber_Fr("123456");
+        expect(await confirmPremiumPage.getErrorMsg()).toEqual('Format de carte santé invalide. Veuillez supprimer tout espace ou caractère spécial (-, *).');
     });
 
     test('BL-T53_Fr: After hours message shall be displayed if user access the application in odd hours.', async ({ page }) => {
@@ -394,9 +394,9 @@ test.describe('CA Term Life test cases in FR language', () => {
             });
             return formatter.format(new Date());
         });
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         if (CurrentTimeEst > 21 || CurrentTimeEst < 9) {
@@ -409,9 +409,9 @@ test.describe('CA Term Life test cases in FR language', () => {
     });
 
     test('BL-T109_Fr: Application shall display a pop-up message if user selects any province other than AB, BC, ON & QC.', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow_Fr();
@@ -424,16 +424,16 @@ test.describe('CA Term Life test cases in FR language', () => {
     });
 
     test('BL-T186_Fr: Application shall throw an error if CA Term Get Premium Quote API response is not 200 or 201', async ({ page }) => {
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.fillQuotePage_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.fillQuotePage_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         const codes = [400, 403, 408, 429, 500, 503, 504];
         let message = "Un problème s'est produit. Veuillez réessayer ou nous contacter pour obtenir de l'aide.";
         for (let i = 0; i < codes.length; i++) {
             const interceptorAPIs = new InterceptorAPIs(page);
             await interceptorAPIs.sendFakeStatusCodeToApiResponse(codes[i]);
-            await premiumQuotePage.clickGetQuoteBtn_Fr();
-            expect(await premiumQuotePage.getErrorPopUp()).toEqual(message);
-            await premiumQuotePage.closeErrorPopUp();
+            await getQuotePage.clickGetQuoteBtn_Fr();
+            expect(await getQuotePage.getErrorPopUp()).toEqual(message);
+            await getQuotePage.closeErrorPopUp();
         }
     });
 

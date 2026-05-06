@@ -1,148 +1,209 @@
-import { BasePage } from "./BasePage";
-
-export class ConfirmPremiumPage extends BasePage {
+export class ConfirmPremiumPage {
 
     constructor(page) {
-        super(page);
-        this.header = page.locator("//div[text()=' Premium Quote ']");
-        this.continueBtn = page.getByRole('button', { name: ' Continue ' });
-        this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
-        this.quoteValue = page.locator('.chip-text');
-        this.yourQuote = page.locator('.estimate-subtitle');
-        this.policyOptions = page.locator('.chip-text');
-        this.list = page.locator("//div[@class='v-menu__content theme--light menuable__content__active']/div/div");
-        this.term = page.locator("//label[text()='Term']");
-        this.term_Fr = page.locator("//label[text()='Terme']");
-        this.coverage = page.locator("//label[text()='Coverage Amount']");
-        this.backBtn = page.getByRole('button', { name: ' Back ' });
+        this.header = page.locator(".estimate-title.primary--text.mb-12");
+        this.openIDType = page.getByLabel('Please select an ID type', { exact: true });
+        this.openIDType_Fr = page.getByLabel('Veuillez choisir un type de document', { exact: true });
+        this.listBox = page.getByRole('listbox');
+        this.selectPassport = this.listBox.getByText('Passport', { exact: true });
+        this.selectPassport_Fr = this.listBox.getByText('Passeport', { exact: true });
+        this.selectHealthCard = this.listBox.getByText('Provincial health card', { exact: true });
+        this.selectHealthCard_Fr = this.listBox.getByText('Assurance maladie', { exact: true });
+        this.selectDriverLicense = this.listBox.getByText("Driver's licence", { exact: true });
+        this.selectDriverLicense_Fr = this.listBox.getByText("Permis de conduire", { exact: true });
+        this.passportInputField = page.getByLabel('Passport number', { exact: true });
+        this.passportInputField_Fr = page.getByLabel('Numéro de passeport', { exact: true });
+        this.provinceList = page.getByLabel('Select province', { exact: true });
+        this.provinceList_Fr = page.getByLabel('Choisir une province', { exact: true });
+        this.selectProvince = page.getByRole('listbox').getByText('Alberta', { exact: true });
+        this.selectProvince_Fr = page.getByRole('listbox').getByText('Alberta', { exact: true });
+        this.healthCardInputField = page.getByLabel('Health number', { exact: true });
+        this.healthCardInputField_Fr = page.getByLabel("Numéro d'assurance maladie", { exact: true });
+        this.licenseInputField = page.getByLabel("Driver's licence  number", { exact: true });
+        this.licenseInputField_Fr = page.getByLabel("Numéro de permis de conduire", { exact: true });
+        this.errorMsg = page.getByRole('alert').locator('.v-messages__message');
+        this.agreeCheckBox = page.locator("//input[@name='payAgree']/following-sibling::div[1]");
+        this.acceptAndPayBtn = page.getByRole('button', { name: ' Accept and pay ' });
+        this.acceptAndPayBtn_Fr = page.getByRole('button', { name: ' Accepter et payer ' });
+        this.options = page.getByRole('option');
+        this.monthlyPremium = page.locator('.offer-monthly-premium');
+        this.monthlyPremiumWithFee = page.locator("(//div[@class='d-flex align-start']/p//span[2])[1]");
+        this.selectAnnualPremium = page.locator("//input[@value='annual']/following-sibling::div[1]");
+        this.annualPremium = page.locator("//div[@class='d-flex align-start'][2]/p/span[@class='font-weight-bold']");
+        this.termOffer = page.locator('.offer-term');
+        this.coverageOffer = page.locator('.offer-coverage');
     }
 
-    async getConfirmPremiumPageHeader() {
-        retun(await this.header.textContent()).trim();
+    async getConfirmIdentityPageHeader() {
+        return (await this.header.last().textContent()).trim();
     }
 
-    async getQuoteValue() {
-        await this.quoteValue.first().waitFor();
-        return (await this.quoteValue.first().textContent()).replace('$', '');
+    async getTermOfferValue() {
+        return await this.termOffer.textContent();
     }
 
-    async getQuoteValueWithFee() {
-        await this.quoteValue.first().waitFor();
-        const premiumrate_value = await this.quoteValue.first().textContent();
-        const numericValue = parseFloat(premiumrate_value.replace('$', ''));
-        const addedValue = numericValue + 2.70;
-        const premiumrate = parseFloat(addedValue).toFixed(2);
-        return premiumrate;
+    async getCoverageOfferValue() {
+        return await this.coverageOffer.textContent();
     }
 
-    async getTermsOptions() {
-        await this.page.locator("//label[text()='Term']").click();
-        let termsOptions = [];
-
-        const menuContentElement = await this.page.waitForSelector("//div[@class='v-menu__content theme--light menuable__content__active']");
-        const count_terms = await menuContentElement.$$eval('div[role="option"]', options => options.length);
-        termsOptions[0] = await this.list.first().textContent();
-        for (let i = 1; i <= (count_terms - 1); i++) {
-            termsOptions[i] = await this.list.nth(i).textContent();
-        }
-        return termsOptions;
+    async getMonthlyPremiumValue() {
+        return await this.monthlyPremium.textContent();
     }
 
-    async getQuoteOnTermSelected(termvalue) {
-        await this.page.locator("//label[text()='Term']").click();
-        if (termvalue == 10) {
-            await this.page.getByRole('listbox').getByRole('option').first().click();
-            const quotevalue_10 = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_10).replace('$', '');
-        }
-        if (termvalue == 15) {
-            await this.page.getByRole('listbox').getByRole('option').nth(1).click();
-            const quotevalue_15 = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_15).replace('$', '');
-        }
-        if (termvalue == 20) {
-            await this.page.getByRole('listbox').getByRole('option').last().click();
-            const quotevalue_20 = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_20).replace('$', '');
-        }
+    async getMonthlyPremiumWithFeeValue() {
+        const monthly_due = await this.monthlyPremiumWithFee.textContent();
+        const monthly_amountdue = (monthly_due.replace("Total Monthly Payment:", "")).trim();
+        return monthly_amountdue;
     }
 
-    async getCoverageAmountOptions() {
-        await this.page.locator("//label[text()='Coverage Amount']").click();
-        let coverageOptions = [];
-        const menuContentElement = await this.page.waitForSelector("//div[@class='v-menu__content theme--light menuable__content__active']");
-        const count_coverage = await menuContentElement.$$eval('div[role="option"]', options => options.length);
-        coverageOptions[0] = await this.list.first().textContent();
-        for (let i = 1; i <= (count_coverage - 1); i++) {
-            coverageOptions[i] = await this.list.nth(i).textContent();
-        }
-        return coverageOptions;
+    async selectAnnualPremiumOption() {
+        await this.selectAnnualPremium.click();
     }
 
-    async getQuoteOnCoverageAmountSelected(coveragevalue) {
-        await this.page.locator("//label[text()='Coverage Amount']").click();
-        if (coveragevalue == "$100K") {
-            await this.page.getByRole('listbox').getByRole('option').first().click();
-            const quotevalue_100k = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_100k).replace('$', '');
-        }
-        if (coveragevalue == "$500K") {
-            await this.page.getByRole('listbox').getByRole('option').nth(3).click();
-            const quotevalue_500k = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_500k).replace('$', '');
-        }
-        if (coveragevalue == "$1M") {
-            await this.page.getByRole('listbox').getByRole('option').last().click();
-            const quotevalue_1M = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_1M).replace('$', '');
-        }
+    async getAnnualPremiumWithFeeValue() {
+        return await this.annualPremium.last().textContent();
     }
 
-    async getPremiumValue() {
-        return (await this.policyOptions.first().textContent()).trim();
+    async getIdTypeList() {
+        await this.openIDType.click();
+        return await this.options.allTextContents();
     }
 
-    async getTermLength() {
-        return (await this.policyOptions.nth(1).textContent()).trim();
+    async checkPassportInputFieldVisible() {
+        await this.openIDType.click();
+        await this.selectPassport.click();
+        return await this.passportInputField.isVisible();
     }
 
-    async getCoverageAmountValue() {
-        return (await this.policyOptions.last().textContent()).trim();
+    async checkHealthCardInputFieldVisible() {
+        await this.openIDType.click();
+        await this.selectHealthCard.click();
+        await this.provinceList.click();
+        await this.selectProvince.click();
+        return await this.healthCardInputField.isVisible();
     }
 
-    async changeTermLength(length) {
-        await this.term.waitFor();
-        await this.term.click();
-        await this.page.getByRole('listbox').getByRole('option', { name: length }).click();
+    async checkLicenseInputFieldVisible() {
+        await this.openIDType.click();
+        await this.selectDriverLicense.click();
+        await this.provinceList.click();
+        await this.selectProvince.click();
+        return await this.licenseInputField.isVisible();
     }
 
-    async changeTermLength_Fr(length) {
-        await this.term_Fr.waitFor();
-        await this.term_Fr.click();
-        await this.page.getByRole('listbox').getByRole('option', { name: length }).click();
+    async selectIdentityAsPassport() {
+        await this.openIDType.click();
+        await this.selectPassport.click();
     }
 
-    async changeCoverageAmount(amount) {
-        await this.coverage.waitFor();
-        await this.coverage.click();
-        await this.page.getByRole('listbox').getByRole('option', { name: amount }).click();
+    async selectIdentityAsPassport_Fr() {
+        await this.openIDType_Fr.click();
+        await this.selectPassport_Fr.click();
     }
 
-    async clickContinueBtn() {
-        await this.yourQuote.first().waitFor();
-        await this.continueBtn.click();
+    async enterPassportNumber(passportno) {
+        await this.passportInputField.fill(passportno);
     }
 
-    async clickContinueBtn_Fr() {
-        await this.yourQuote.first().waitFor();
-        await this.continueBtn_Fr.click();
+    async enterPassportNumber_Fr(passportno) {
+        await this.passportInputField_Fr.fill(passportno);
     }
 
-    async clickBackBtn() {
-        await this.backBtn.click();
+    async selectIdentityAsHealthCard() {
+        await this.openIDType.click();
+        await this.selectHealthCard.click();
+        await this.provinceList.click();
+        await this.selectProvince.click();
+    }
+
+    async selectIdentityAsHealthCard_Fr() {
+        await this.openIDType_Fr.click();
+        await this.selectHealthCard_Fr.click();
+        await this.provinceList_Fr.click();
+        await this.selectProvince_Fr.click();
+    }
+
+    async enterHealthCardNumber(healthno) {
+        await this.healthCardInputField.fill(healthno);
+    }
+
+    async enterHealthCardNumber_Fr(healthno) {
+        await this.healthCardInputField_Fr.fill(healthno);
+    }
+
+    async selectIdentityAsDrivingLicense() {
+        await this.openIDType.click();
+        await this.selectDriverLicense.click();
+        await this.provinceList.click();
+        await this.selectProvince.click();
+    }
+
+    async selectIdentityAsDrivingLicense_Fr() {
+        await this.openIDType_Fr.click();
+        await this.selectDriverLicense_Fr.click();
+        await this.provinceList_Fr.click();
+        await this.selectProvince_Fr.click();
+    }
+
+    async enterLicenseNumber(licenseno) {
+        await this.licenseInputField.fill(licenseno);
+    }
+
+    async enterLicenseNumber_Fr(licenseno) {
+        await this.licenseInputField_Fr.fill(licenseno);
+    }
+
+    async checkErrorIsVisible() {
+        return await this.errorMsg.isVisible();
+    }
+
+    async getErrorMsg() {
+        return (await this.errorMsg.textContent()).trim();
+    }
+
+    async clickAcceptandPayBtn() {
+        await this.acceptAndPayBtn.click();
+    }
+
+    async goToPaymentPageWithPassport(passportno) {
+        await this.openIDType.click();
+        await this.selectPassport.click();
+        await this.passportInputField.fill(passportno);
+        await this.agreeCheckBox.click();
+        await this.acceptAndPayBtn.isVisible();
+        await this.acceptAndPayBtn.click();
+    }
+
+    async goToPaymentPageWithPassport_Fr(passportno) {
+        await this.openIDType_Fr.click();
+        await this.selectPassport_Fr.click();
+        await this.passportInputField_Fr.fill(passportno);
+        await this.agreeCheckBox.click();
+        await this.acceptAndPayBtn_Fr.isVisible();
+        await this.acceptAndPayBtn_Fr.click();
+    }
+
+    async goToPaymentPageWithLicense(licenseno) {
+        await this.openIDType.click();
+        await this.selectDriverLicense.click();
+        await this.provinceList.click();
+        await this.selectProvince.click();
+        await this.licenseInputField.fill(licenseno);
+        await this.agreeCheckBox.click();
+        await this.acceptAndPayBtn.isVisible();
+        await this.acceptAndPayBtn.click();
+    }
+
+    async goToPaymentPageWithHealthCard(healthno) {
+        await this.openIDType.click();
+        await this.selectHealthCard.click();
+        await this.provinceList.click();
+        await this.selectProvince.click();
+        await this.healthCardInputField.fill(healthno);
+        await this.agreeCheckBox.click();
+        await this.acceptAndPayBtn.isVisible();
+        await this.acceptAndPayBtn.click();
     }
 
 }
-
-
 

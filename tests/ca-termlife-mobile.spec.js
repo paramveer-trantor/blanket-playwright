@@ -6,24 +6,24 @@ import { LoginPageInTLForm } from '../PageObjects/LoginPageInTLForm'
 import { DashboardPage } from '../PageObjects/DashboardPage';
 import { TLProductLandingPage } from '../PageObjects/TLProductLandingPage';
 import { ProgressBar } from '../PageObjects/ProgressBar';
-import { PremiumQuotePage } from '../PageObjects/PremiumQuotePage'
-import { PreApplicationPage } from '../PageObjects/PreApplicationPage'
-import { NeedsAssessmentPage } from '../PageObjects/NeedsAssessmentPage'
-import { ConfirmPremiumPage } from '../PageObjects/ConfirmPremiumPage'
-import { LifestyleQuestionnairePage } from '../PageObjects/LifestyleQuestionnairePage'
-import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Page'
-import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page'
-import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage'
-import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage'
-import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage'
-import { ConfirmIdentityPage } from '../PageObjects/ConfirmIdentityPage'
-import { PaymentPage } from '../PageObjects/PaymentPage'
-import { CongratulationsPage } from '../PageObjects/CongratulationsPage'
-import { MyApplicationsPage } from '../PageObjects/MyApplicationsPage'
+import { GetQuotePage } from '../PageObjects/GetQuotePage';
+import { PreApplicationPage } from '../PageObjects/PreApplicationPage';
+import { NeedsAssessmentPage } from '../PageObjects/NeedsAssessmentPage';
+import { PremiumQuotePage } from '../PageObjects/PremiumQuotePage';
+import { LifestyleQuestionnairePage } from '../PageObjects/LifestyleQuestionnairePage';
+import { MedicalQuestionnaire1Page } from '../PageObjects/MedialQuestionnaire1Page';
+import { MedicalQuestionnaire2Page } from '../PageObjects/MedialQuestionnaire2Page';
+import { ReviewYourAnswersPage } from '../PageObjects/ReviewYourAnswersPage';
+import { PersonalStatementPage } from '../PageObjects/PersonalStatemenPage';
+import { BeneficiaryPage } from '../PageObjects/BeneficiaryPage';
+import { ConfirmPremiumPage } from '../PageObjects/ConfirmPremiumPage';
+import { PaymentPage } from '../PageObjects/PaymentPage';
+import { CongratulationsPage } from '../PageObjects/CongratulationsPage';
+import { MyApplicationsPage } from '../PageObjects/MyApplicationsPage';
 import { OurTeamPage } from '../PageObjects/OurTeamPage';
 import { NewsPage } from '../PageObjects/NewsPage';
 import { ContactUsPage } from '../PageObjects/ContactUsPage';
-import { userData } from '../Utils/TestData'
+import { userData } from '../Utils/TestData';
 
 test.describe('[Mobile browser] CA term life', () => {
 
@@ -114,9 +114,9 @@ test.describe('[Mobile browser] CA term life', () => {
         const landingpage = new TLProductLandingPage(page);
         await landingpage.clickApplyNowBtn();
 
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage(userData.firstName, "Mobile", userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -126,8 +126,8 @@ test.describe('[Mobile browser] CA term life', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
@@ -152,8 +152,8 @@ test.describe('[Mobile browser] CA term life', () => {
         await beneficiaryPage.enterIndividualBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benDob, userData.benShare);
         await beneficiaryPage.clickConitnueBtn();
 
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.goToPaymentPageWithPassport(userData.passportNo);
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.goToPaymentPageWithPassport(userData.passportNo);
 
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox();
@@ -178,9 +178,9 @@ test.describe('[Mobile browser] CA term life', () => {
         const landingpage = new TLProductLandingPage(page);
         await landingpage.clickApplyNowBtn_Fr();
 
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
-        await premiumQuotePage.clickContinueBtn_Fr();
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getQuoteValueNonSmoker_Fr(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn_Fr();
 
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage_Fr(userData.firstName, "Mobile", userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -190,8 +190,8 @@ test.describe('[Mobile browser] CA term life', () => {
         await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
         await needsAssessmentPage.clickContinueBtn_Fr();
 
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        await confirmPremiumPage.clickContinueBtn_Fr();
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn_Fr();
 
         const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
         await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
@@ -216,8 +216,8 @@ test.describe('[Mobile browser] CA term life', () => {
         await beneficiaryPage.checkWithoutBenCheckbox_Fr();
         await beneficiaryPage.clickContinueBtn_Fr();
 
-        const confirmIdentityPage = new ConfirmIdentityPage(page);
-        await confirmIdentityPage.goToPaymentPageWithPassport_Fr(userData.passportNo);;
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        await confirmPremiumPage.goToPaymentPageWithPassport_Fr(userData.passportNo);;
 
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox_Fr();
