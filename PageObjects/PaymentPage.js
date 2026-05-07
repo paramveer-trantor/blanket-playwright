@@ -34,9 +34,9 @@ export class PaymentPage {
         this.bankName_Fr = page.getByLabel("Nom de l'institution financiere", { exact: true });
         this.confirmAndPayBtn = page.getByRole('button', { name: ' Confirm and submit payment ' });
         this.confirmAndPayBtn_Fr = page.getByRole('button', { name: ' Confirmer et soumettre le paiement ' });
-        this.iconTransitNumber = page.locator("//button[@aria-label='Transit Number appended action']");
-        this.iconRoutingNumber = page.locator("//button[@aria-label='Institution Number appended action']");
-        this.iconAccountNumber = page.locator("//button[@aria-label='Account Number appended action']");
+        this.iconTransitNumber = page.locator("//button[@aria-label='Transit number appended action']");
+        this.iconRoutingNumber = page.locator("//button[@aria-label='Institution number appended action']");
+        this.iconAccountNumber = page.locator("//button[@aria-label='Account number appended action']");
         this.billingCheckBox = page.getByText('Billing info same as mailing info', { exact: true });
         this.billingCheckBox_Fr = page.getByText("Informations de facturation identiques aux informations d'envoi", { exact: true });
         this.firstName = page.getByTestId('billing-firstname');

@@ -52,7 +52,7 @@ export class ConfirmPremiumPage {
 
     async getMonthlyPremiumWithFeeValue() {
         const monthly_due = await this.monthlyPremiumWithFee.textContent();
-        const monthly_amountdue = (monthly_due.replace("Total Monthly Payment:", "")).trim();
+        const monthly_amountdue = (monthly_due.replace("Total monthly payment:", "")).trim();
         return monthly_amountdue;
     }
 

@@ -24,7 +24,7 @@ export class BeneficiaryPage {
         this.selectIndividualRelationshipOption_Fr = this.dialogBox.getByText('Ami', { exact: true });
         this.selectLegalRelationshipOption = this.dialogBox.getByText('Partner', { exact: true });
         this.selectRelationshipOption_Fr = this.dialogBox.getByText('Actionnaire', { exact: true });
-        this.companyName = this.dialogBox.getByLabel('Company Name', { exact: true });
+        this.companyName = this.dialogBox.getByLabel('Company name', { exact: true });
         this.companyName_Fr = this.dialogBox.getByLabel('Nom de la compagnie', { exact: true });
         this.openBeneficiaryType = this.dialogBox.getByLabel('Beneficiary type', { exact: true });
         this.openBeneficiaryType_Fr = this.dialogBox.getByLabel('Type de bénéficiaire', { exact: true });

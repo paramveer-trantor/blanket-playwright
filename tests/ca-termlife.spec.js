@@ -79,7 +79,7 @@ test.describe('CA Term Life cases without login', () => {
 
     test('BL-T117: User shall land on Premium quote page of CA term life policy form on clicking Apply now or Get your term life today button.', async ({ page }) => {
         const getQuotePage = new GetQuotePage(page);
-        expect(await getQuotePage.getQuotePageHeader()).toEqual("Term Life Insurance Premium Quote");
+        expect(await getQuotePage.getQuotePageHeader()).toEqual("Term life insurance premium quote");
     });
 
     test('BL-T120: User shall be directed to Sign in/Sign up page from quote page if user is not logged in.', async ({ page }) => {
@@ -92,7 +92,7 @@ test.describe('CA Term Life cases without login', () => {
         await loginPageInTLForm.loginIntoAccount(process.env.USER_EMAIL, process.env.USER_PASSWORD);
 
         const preApplicationPage = new PreApplicationPage(page);
-        expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre Application');
+        expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre application');
     });
 
 });
@@ -118,7 +118,7 @@ test.describe('CA Term Life cases with login', () => {
         await getQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre Application');
+        expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre application');
     });
 
     test('BL-T5: User shall not be allowed to future date in DOB field.', async ({ page }) => {
@@ -144,6 +144,7 @@ test.describe('CA Term Life cases with login', () => {
     test('BL-T8: Premium rate shall update if user changes term length or coverage amount value on premium quote page.', async ({ page }) => {
         const getQuotePage = new GetQuotePage(page);
         await getQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        const org_premiumRate = await getQuotePage.getNumericPremiumRateWithFeeValue();
         await getQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -155,13 +156,13 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.clickContinueBtn();
 
         const premiumQuotePage = new PremiumQuotePage(page);
-        const org_quoteValue = await premiumQuotePage.getQuoteValue();
-        expect(await premiumQuotePage.getQuoteOnTermSelected(10)).toBe(org_quoteValue);
-        expect(await premiumQuotePage.getQuoteOnTermSelected(15)).not.toBe(org_quoteValue);
-        expect(await premiumQuotePage.getQuoteOnTermSelected(20)).not.toBe(org_quoteValue);
-        expect(await premiumQuotePage.getQuoteOnCoverageAmountSelected("$100K")).not.toBe(org_quoteValue);
-        expect(await premiumQuotePage.getQuoteOnCoverageAmountSelected("$500K")).not.toBe(org_quoteValue);
-        expect(await premiumQuotePage.getQuoteOnCoverageAmountSelected("$1M")).not.toBe(org_quoteValue);
+        expect(await premiumQuotePage.getQuoteOnTermSelected(10)).toBe(org_premiumRate);
+        expect(await premiumQuotePage.getQuoteOnTermSelected(15)).not.toBe(org_premiumRate);
+        expect(await premiumQuotePage.getQuoteOnTermSelected(20)).not.toBe(org_premiumRate);
+        expect(await premiumQuotePage.getQuoteOnTermSelected(30)).not.toBe(org_premiumRate);
+        expect(await premiumQuotePage.getQuoteOnCoverageAmountSelected("$100K")).not.toBe(org_premiumRate);
+        expect(await premiumQuotePage.getQuoteOnCoverageAmountSelected("$500K")).not.toBe(org_premiumRate);
+        expect(await premiumQuotePage.getQuoteOnCoverageAmountSelected("$1M")).not.toBe(org_premiumRate);
     });
 
     test('BL-T9: User shall be redirected to Needs Assessment page after pre application page..', async ({ page }) => {
@@ -174,7 +175,7 @@ test.describe('CA Term Life cases with login', () => {
         await preApplicationPage.clickConitnueBtn();
 
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        expect(await needsAssessmentPage.getNeedsAssessmentPageHeader()).toEqual('How Much Term Insurance Do I Need?');
+        expect(await needsAssessmentPage.getNeedsAssessmentPageHeader()).toEqual('How much term insurance do i need?');
     });
     test('BL-T12: Application shall allow user with age in between 18 & 50 to purchase the policy with any term period and coverage amount upto $1M.', async ({ page }) => {
         const getQuotePage = new GetQuotePage(page);
@@ -932,7 +933,7 @@ test.describe('CA Term Life cases with login', () => {
         const confirmPremiumPage = new ConfirmPremiumPage(page);
         const confirm_term = await confirmPremiumPage.getTermOfferValue();
         const confirm_coverage = await confirmPremiumPage.getCoverageOfferValue();
-        const monthly_premium = await confirmPremiumPage.getMonthlyPremiumValue();
+        const monthly_premium = await confirmPremiumPage.getMonthlyPremiumWithFeeValue();
         expect(confirm_term).toEqual(tl_value);
         expect(confirm_coverage).toEqual(ca_value);
         expect(monthly_premium).toEqual(pa_value);
@@ -985,65 +986,10 @@ test.describe('CA Term Life cases with login', () => {
         expect(await paymentPage.checkACHPaymentOption()).toBeTruthy();
     });
 
-    test('BL-T40: Purchased policy details shall be displayed properly on congratulations screen.', async ({ page }) => {
-        test.setTimeout(120000);
-        const getQuotePage = new GetQuotePage(page);
-        await getQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
-        await getQuotePage.clickContinueBtn();
-
-        const preApplicationPage = new PreApplicationPage(page);
-        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
-        await preApplicationPage.clickConitnueBtn();
-
-        const needsAssessmentPage = new NeedsAssessmentPage(page);
-        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
-        await needsAssessmentPage.clickContinueBtn();
-
-        const premiumQuotePage = new PremiumQuotePage(page);
-        await premiumQuotePage.clickContinueBtn();
-
-        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
-        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
-        await lifestyleQuestionnairePage.clickContinueBtn();
-
-        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
-        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
-        await medicalQuestionnaire1Page.clickConitnueBtn();
-
-        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
-        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
-        await medicalQuestionnaire2Page.clickConitnueBtn();
-
-        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
-        await reviewYourAnswersPage.clickConitnueBtn();
-
-        const personalStatementPage = new PersonalStatementPage(page);
-        await personalStatementPage.clickCheckboxes();
-        await personalStatementPage.clickAgreeBtn();
-
-        const beneficiaryPage = new BeneficiaryPage(page);
-        await beneficiaryPage.checkWithoutBenCheckbox();
-        await beneficiaryPage.clickConitnueBtn();
-
-        const confirmPremiumPage = new ConfirmPremiumPage(page);
-        const totalPremiumDue = await confirmPremiumPage.getMonthlyPremiumWithFeeValue();
-        await confirmPremiumPage.goToPaymentPageWithLicense(userData.licenseNo);
-
-        const paymentPage = new PaymentPage(page);
-        await paymentPage.clickBillingAddressCheckBox();
-        await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
-
-        const congratulationsPage = new CongratulationsPage(page);
-        expect(await congratulationsPage.getPolicyInfoHeaders()).toContainEqual(' Provider ', ' Effective Date ', ' Payment ', ' Policy No. ');
-        expect(await congratulationsPage.getProviderName()).toEqual('Blanket Life underwritten by Humania Assurance Inc.');
-        const todays_date = new Date().toISOString().slice(0, 10);
-        expect(await congratulationsPage.getEffectiveDate()).toEqual(todays_date);
-        expect(await congratulationsPage.getPaymentValue()).toContain(totalPremiumDue);
-    });
-
     test('BL-T43: Premium rates should be different for smoker & non smokers users.', async ({ page }) => {
         const getQuotePage = new GetQuotePage(page);
-        await getQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        //await getQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.getPremiumQuote(userData.genderFemale, "NonSmoker", userData.date, userData.feet, userData.inches, userData.weight)
         await getQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -1060,7 +1006,7 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.clickBackBtn();
         await preApplicationPage.clickBackToQuoteBtn();
 
-        await getQuotePage.getQuoteValueAsSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.getPremiumQuote(userData.genderFemale, "Smoker", userData.date, userData.feet, userData.inches, userData.weight)
         await getQuotePage.clickContinueBtn();
 
         await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
@@ -1229,7 +1175,7 @@ test.describe('CA Term Life cases with login', () => {
 
         const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
         await reviewYourAnswersPage.clickEditBtn("Medical1")
-        expect(await medicalQuestionnaire1Page.getMedicalQuestionsPageHeader()).toEqual("Medical Questionnaire");
+        expect(await medicalQuestionnaire1Page.getMedicalQuestionsPageHeader()).toEqual("Medical questionnaire");
     });
 
     test('BL-T109: Application shall display a pop-up message if user selects any province other than AB, BC, ON & QC.', async ({ page }) => {
@@ -1272,7 +1218,7 @@ test.describe('CA Term Life cases with login', () => {
         const myApplicationsPage = new MyApplicationsPage(page);
         await myApplicationsPage.clickEditBtnFirstApplication();
 
-        expect(await lifestyleQuestionnairePage.getLifestylePageHeader()).toEqual("Lifestyle Questionnaire")
+        expect(await lifestyleQuestionnairePage.getLifestylePageHeader()).toEqual("Lifestyle questionnaire")
     });
 
     test('BL-T118: User information filled on quote page shall be pre filled on pre application page.', async ({ page }) => {
@@ -1294,7 +1240,7 @@ test.describe('CA Term Life cases with login', () => {
         await getQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
-        expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre Application');
+        expect(await preApplicationPage.getPreApplicationPageHeader()).toEqual('Pre application');
     });
 
     test('BL-T127: DOB field shall not accept invalid date on quote & beneficiary page.', async ({ page }) => {
@@ -1350,7 +1296,7 @@ test.describe('CA Term Life cases with login', () => {
 
     test('BL-T140: User shall be allowed to enter address manually and application shall not validate address on continue button of pre application page.', async ({ page }) => {
         const getQuotePage = new GetQuotePage(page);
-        await getQuotePage.getQuoteValueAsSmoker(userData.genderMale, userData.date_T20, "5", "11", userData.weight);
+        await getQuotePage.getPremiumQuote(userData.genderMale, "Smoker", userData.date_T20, "5", "11", userData.weight)
         const premium_api_step0 = await getQuotePage.getPremiumValueFromAPI();
         const premium_ui_step0 = await getQuotePage.getNumericPremiumRateValue();
         expect(premium_api_step0).toBe(premium_ui_step0);
@@ -1361,7 +1307,7 @@ test.describe('CA Term Life cases with login', () => {
         await preApplicationPage.clickConitnueBtn();
 
         const needsAssessmentPage = new NeedsAssessmentPage(page);
-        expect(await needsAssessmentPage.getNeedsAssessmentPageHeader()).toEqual('How Much Term Insurance Do I Need?');
+        expect(await needsAssessmentPage.getNeedsAssessmentPageHeader()).toEqual('How much term insurance do i need?');
     });
 
     test('BL-T147: The completed sections shall be checked and uncompleted sections shall be greyed out in CA term policy form progress bar in web view.', async ({ page }) => {
@@ -1446,7 +1392,7 @@ test.describe('CA Term Life cases with login', () => {
         await page.waitForTimeout(2000);
         expect(page.url()).toContain("quote");
         const getQuotePage = new GetQuotePage(page);
-        await getQuotePage.getQuoteValueAsSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.getPremiumQuote(userData.genderMale, "Smoker", userData.date, userData.feet, userData.inches, userData.weight)
         await getQuotePage.clickContinueBtn();
 
         await page.waitForTimeout(1000);
@@ -1555,7 +1501,7 @@ test.describe('CA Term Life cases with login', () => {
         const paymentPage = new PaymentPage(page);
         expect(await paymentPage.verifyBillingAddressIsEmpty()).toEqual('');
         await paymentPage.enterBillingAddress("Test", "User", "15 Filton Rd", "Caledon East", "L7C 1R5");
-        expect(await paymentPage.getPaymentFrequency()).toEqual('Payment Frequency: $ Paid Monthly');
+        expect(await paymentPage.getPaymentFrequency()).toEqual('Payment frequency: $ Paid Monthly');
     });
 
     test('BL-T193: User shall able to get a quote on Get quote page and premium selected on Get quote page shall be pre defined on Premium quote page.', async ({ page }) => {
@@ -1596,7 +1542,7 @@ test.describe('CA Term Life cases with login', () => {
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.acceptPopWindow();
         await preApplicationPage.clickBackToQuoteBtn();
-        expect(await getQuotePage.getQuotePageHeader()).toEqual('Term Life Insurance Premium Quote');
+        expect(await getQuotePage.getQuotePageHeader()).toEqual('Term life insurance premium quote');
     });
 
     test('BL-T196: Existing application shall be closed if user goes back to Get quote page from pre application.', async ({ page }) => {
@@ -1941,6 +1887,63 @@ test.describe('CA Term Life payment test cases', () => {
         expect(await congratulationsPage.getThanksMsg()).toEqual('Thank you for your purchase! Your policy documents will be sent to you by email. You can view your policy  here.');
     });
 
+    test('BL-T40: Purchased policy details shall be displayed properly on congratulations screen.', async ({ page }) => {
+        const randomGender = getRandomValue(genderOptions);
+        const randomSmoker = getRandomValue(smokerOptions);
+        const getQuotePage = new GetQuotePage(page);
+        await getQuotePage.getPremiumQuote(randomGender, randomSmoker, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.clickContinueBtn();
+
+        const preApplicationPage = new PreApplicationPage(page);
+        await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
+        await preApplicationPage.clickConitnueBtn();
+
+        const needsAssessmentPage = new NeedsAssessmentPage(page);
+        await needsAssessmentPage.enterGrossIncome(userData.income, userData.saving, userData.mortgageBal, userData.debt);
+        await needsAssessmentPage.clickContinueBtn();
+
+        const premiumQuotePage = new PremiumQuotePage(page);
+        await premiumQuotePage.clickContinueBtn();
+
+        const lifestyleQuestionnairePage = new LifestyleQuestionnairePage(page);
+        await lifestyleQuestionnairePage.answerLifestyleQuestions(userData.optionNo, userData.drinks);
+        await lifestyleQuestionnairePage.clickContinueBtn();
+
+        const medicalQuestionnaire1Page = new MedicalQuestionnaire1Page(page);
+        await medicalQuestionnaire1Page.answersMedicalQuestionsPage1(userData.optionNo);
+        await medicalQuestionnaire1Page.clickConitnueBtn();
+
+        const medicalQuestionnaire2Page = new MedicalQuestionnaire2Page(page);
+        await medicalQuestionnaire2Page.answerMedcialQuestionsPage2(userData.optionNo);
+        await medicalQuestionnaire2Page.clickConitnueBtn();
+
+        const reviewYourAnswersPage = new ReviewYourAnswersPage(page);
+        await reviewYourAnswersPage.clickConitnueBtn();
+
+        const personalStatementPage = new PersonalStatementPage(page);
+        await personalStatementPage.clickCheckboxes();
+        await personalStatementPage.clickAgreeBtn();
+
+        const beneficiaryPage = new BeneficiaryPage(page);
+        await beneficiaryPage.checkWithoutBenCheckbox();
+        await beneficiaryPage.clickConitnueBtn();
+
+        const confirmPremiumPage = new ConfirmPremiumPage(page);
+        const totalPremiumDue = await confirmPremiumPage.getMonthlyPremiumWithFeeValue();
+        await confirmPremiumPage.goToPaymentPageWithLicense(userData.licenseNo);
+
+        const paymentPage = new PaymentPage(page);
+        await paymentPage.clickBillingAddressCheckBox();
+        await paymentPage.purchasePolicyWithCC(userData.cardName, userData.cardNo, userData.expiryDate, userData.cvv);
+
+        const congratulationsPage = new CongratulationsPage(page);
+        expect(await congratulationsPage.getPolicyInfoHeaders()).toContainEqual(' Provider ', ' Effective Date ', ' Payment ', ' Policy No. ');
+        expect(await congratulationsPage.getProviderName()).toEqual('Blanket Life underwritten by Humania Assurance Inc.');
+        const todays_date = new Date().toISOString().slice(0, 10);
+        expect(await congratulationsPage.getEffectiveDate()).toEqual(todays_date);
+        expect(await congratulationsPage.getPaymentValue()).toContain(totalPremiumDue);
+    });
+
     test('BL-T55: User shall able to purchase T15 policy using ACH payment method successfully.', async ({ page }) => {
         const randomGender = getRandomValue(genderOptions);
         const randomSmoker = getRandomValue(smokerOptions);
@@ -2178,7 +2181,7 @@ test.describe('CA Term Life payment test cases', () => {
 
         const paymentPage = new PaymentPage(page);
         await paymentPage.clickBillingAddressCheckBox();
-        expect(await paymentPage.getPaymentFrequency()).toEqual('Payment Frequency: $ Paid Annually');
+        expect(await paymentPage.getPaymentFrequency()).toEqual('Payment frequency: $ Paid Annually');
         await paymentPage.purchasePolicyWithACH(userData.accountHolderName, userData.transitNo, userData.institutionNo, userData.accountNo, userData.bankName);
 
         const congratulationsPage = new CongratulationsPage(page);

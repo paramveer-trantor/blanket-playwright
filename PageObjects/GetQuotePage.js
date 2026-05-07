@@ -92,6 +92,33 @@ export class GetQuotePage extends BasePage {
         await this.getQuoteBtn_Fr.click();
     }
 
+    async getPremiumQuote(gender, smoker_status, date, feet, inches, weight) {
+        const genderMap = {
+        Male: this.genderMale,
+        Female: this.genderFemale,
+        };
+        await genderMap[gender]?.first().click();
+        await this.dateOfBirth.click();
+        await this.dateOfBirth.clear();
+        await this.dateOfBirth.fill(date);
+        await this.heightFeet.click();
+        await this.heightFeet.clear();
+        await this.heightFeet.fill(feet);
+        await this.heightInches.click();
+        await this.heightInches.clear();
+        await this.heightInches.fill(inches);
+        await this.weight.click();
+        await this.weight.clear();
+        await this.weight.fill(weight);
+        await this.optionYes.first().click();
+        const smokerMap = {
+            NonSmoker: async () => await this.nonSmoker.nth(1).click(),
+            Smoker: async () => await this.optionYes.last().click(),
+        };
+        await smokerMap[smoker_status]?.();
+        await this.getQuoteBtn.click();
+    }
+
     async getQuoteValueNonSmoker(gender, date, feet, inches, weight) {
         if (gender == "Male") {
             await this.genderMale.first().click();
@@ -138,30 +165,6 @@ export class GetQuotePage extends BasePage {
         await this.optionYes_Fr.first().click();
         await this.nonSmoker_Fr.nth(1).click();
         await this.getQuoteBtn_Fr.click();
-    }
-
-    async getQuoteValueAsSmoker(gender, date, feet, inches, weight) {
-        if (gender == "Male") {
-            await this.genderMale.first().click();
-        }
-        else {
-            await this.genderFemale.first().click();
-        }
-        await this.dateOfBirth.click();
-        await this.dateOfBirth.clear();
-        await this.dateOfBirth.fill(date);
-        await this.heightFeet.click();
-        await this.heightFeet.clear();
-        await this.heightFeet.fill(feet);
-        await this.heightInches.click();
-        await this.heightInches.clear();
-        await this.heightInches.fill(inches);
-        await this.weight.click();
-        await this.weight.clear();
-        await this.weight.fill(weight);
-        await this.optionYes.first().click();
-        await this.optionYes.last().click();
-        await this.getQuoteBtn.click();
     }
 
     async getQuoteValueSmoker_Fr(gender, date, feet, inches, weight) {
@@ -246,6 +249,13 @@ export class GetQuotePage extends BasePage {
         return Numeric_value;
     }
 
+    async getNumericPremiumRateWithFeeValue() {
+        const premium_num = (await this.premiumRateValue.last().textContent()).trim();
+        const Numeric_value = premium_num.match(/\d+(\.\d+)?/)[0];
+        return Numeric_value;
+    }
+
+
     async getErrorPopUp() {
         return await this.errorPopUp.textContent();
     }
@@ -286,80 +296,5 @@ export class GetQuotePage extends BasePage {
         await this.continueBtn.click();
     }
 
-    async getPremiumQuote(gender, smoker_status, date, feet, inches, weight) {
-        if (gender === "Male" && smoker_status === "NonSmoker") {
-            await this.genderMale.first().click();
-            await this.dateOfBirth.click();
-            await this.dateOfBirth.clear();
-            await this.dateOfBirth.fill(date);
-            await this.heightFeet.click();
-            await this.heightFeet.clear();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.clear();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.clear();
-            await this.weight.fill(weight);
-            await this.optionYes.first().click();
-            await this.nonSmoker.nth(1).click();
-            await this.getQuoteBtn.click();
-        }
-        if (gender === "Male" && smoker_status === "Smoker") {
-            await this.genderMale.first().click();
-            await this.dateOfBirth.click();
-            await this.dateOfBirth.clear();
-            await this.dateOfBirth.fill(date);
-            await this.heightFeet.click();
-            await this.heightFeet.clear();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.clear();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.clear();
-            await this.weight.fill(weight);
-            await this.optionYes.first().click();
-            await this.optionYes.last().click();
-            await this.getQuoteBtn.click();
-        }
-        if (gender === "Female" && smoker_status === "NonSmoker") {
-            await this.genderFemale.first().click();
-            await this.dateOfBirth.click();
-            await this.dateOfBirth.clear();
-            await this.dateOfBirth.fill(date);
-            await this.heightFeet.click();
-            await this.heightFeet.clear();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.clear();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.clear();
-            await this.weight.fill(weight);
-            await this.optionYes.first().click();
-            await this.nonSmoker.nth(1).click();
-            await this.getQuoteBtn.click();
-        }
-        if (gender === "Female" && smoker_status === "Smoker") {
-            await this.genderFemale.first().click();
-            await this.dateOfBirth.click();
-            await this.dateOfBirth.clear();
-            await this.dateOfBirth.fill(date);
-            await this.heightFeet.click();
-            await this.heightFeet.clear();
-            await this.heightFeet.fill(feet);
-            await this.heightInches.click();
-            await this.heightInches.clear();
-            await this.heightInches.fill(inches);
-            await this.weight.click();
-            await this.weight.clear();
-            await this.weight.fill(weight);
-            await this.optionYes.first().click();
-            await this.optionYes.last().click();
-            await this.getQuoteBtn.click();
-        }
-        
-    }
 
 }

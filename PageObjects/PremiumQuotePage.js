@@ -36,7 +36,7 @@ export class PremiumQuotePage extends BasePage {
     }
 
     async getTermsOptions() {
-        await this.page.locator("//label[text()='Term']").click();
+        await this.term.click();
         let termsOptions = [];
 
         const menuContentElement = await this.page.waitForSelector("//div[@class='v-menu__content theme--light menuable__content__active']");
@@ -49,26 +49,35 @@ export class PremiumQuotePage extends BasePage {
     }
 
     async getQuoteOnTermSelected(termvalue) {
-        await this.page.locator("//label[text()='Term']").click();
+        await this.term.click();
         if (termvalue == 10) {
             await this.page.getByRole('listbox').getByRole('option').first().click();
-            const quotevalue_10 = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_10).replace('$', '');
+            const quotevalue_10 = await this.quoteValue.last().textContent();
+            const quote_value = quotevalue_10.match(/\d+(\.\d+)?/)[0];
+            return quote_value;
         }
         if (termvalue == 15) {
             await this.page.getByRole('listbox').getByRole('option').nth(1).click();
-            const quotevalue_15 = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_15).replace('$', '');
+            const quotevalue_15 = await this.quoteValue.last().textContent();
+            const quote_value = quotevalue_15.match(/\d+(\.\d+)?/)[0];
+            return quote_value;
         }
         if (termvalue == 20) {
+            await this.page.getByRole('listbox').getByRole('option').nth(2).click();
+            const quotevalue_20 = await this.quoteValue.last().textContent();
+            const quote_value = quotevalue_20.match(/\d+(\.\d+)?/)[0];
+            return quote_value;
+        }
+        if (termvalue == 30) {
             await this.page.getByRole('listbox').getByRole('option').last().click();
-            const quotevalue_20 = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_20).replace('$', '');
+            const quotevalue_30 = await this.quoteValue.last().textContent();
+            const quote_value = quotevalue_30.match(/\d+(\.\d+)?/)[0];
+            return quote_value;
         }
     }
 
     async getCoverageAmountOptions() {
-        await this.page.locator("//label[text()='Coverage Amount']").click();
+        await this.coverage.click();
         let coverageOptions = [];
         const menuContentElement = await this.page.waitForSelector("//div[@class='v-menu__content theme--light menuable__content__active']");
         const count_coverage = await menuContentElement.$$eval('div[role="option"]', options => options.length);
@@ -80,21 +89,24 @@ export class PremiumQuotePage extends BasePage {
     }
 
     async getQuoteOnCoverageAmountSelected(coveragevalue) {
-        await this.page.locator("//label[text()='Coverage Amount']").click();
+        await this.coverage.click();
         if (coveragevalue == "$100K") {
             await this.page.getByRole('listbox').getByRole('option').first().click();
-            const quotevalue_100k = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_100k).replace('$', '');
+            const quotevalue_100k = await this.quoteValue.last().textContent();
+            const quote_value = quotevalue_100k.match(/\d+(\.\d+)?/)[0];
+            return quote_value;
         }
         if (coveragevalue == "$500K") {
             await this.page.getByRole('listbox').getByRole('option').nth(3).click();
-            const quotevalue_500k = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_500k).replace('$', '');
+            const quotevalue_500k = await this.quoteValue.last().textContent();
+            const quote_value = quotevalue_500k.match(/\d+(\.\d+)?/)[0];
+            return quote_value;
         }
         if (coveragevalue == "$1M") {
             await this.page.getByRole('listbox').getByRole('option').last().click();
-            const quotevalue_1M = (await this.quoteValue.first().textContent()).trim();
-            return (quotevalue_1M).replace('$', '');
+            const quotevalue_1M = await this.quoteValue.last().textContent();
+            const quote_value = quotevalue_1M.match(/\d+(\.\d+)?/)[0];
+            return quote_value;
         }
     }
 

@@ -9,8 +9,8 @@ export class BasePage {
         this.languageBtn = page.locator('.currentLang');
         this.EnLangBtn = page.getByText('EN', { exact: true });
         this.FrLangBtn = page.getByText('FR', { exact: true });
-        this.initialInfo = page.getByText('Initial Info', { exact: true });
-        this.personalStatement = page.locator('.v-stepper__label').filter({ hasText: 'Personal Statement' });
+        this.initialInfo = page.getByText('Initial info', { exact: true });
+        this.personalStatement = page.locator('.v-stepper__label').filter({ hasText: 'Personal statement' });
     }
 
     async navigate(url) {
