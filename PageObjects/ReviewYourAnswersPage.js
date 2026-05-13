@@ -1,7 +1,7 @@
 export class ReviewYourAnswersPage {
 
     constructor(page) {
-        this.header = page.locator("(//div[text()=' Review Your Answers '])[2]");
+        this.header = page.locator("(//div[text()=' Review your answers '])[2]");
         this.makeAnEditBtn = page.getByRole('button', { name: ' Make an edit ' });
         this.continueBtn = page.locator('[name="continue3"]');
         //this.continueBtn = page.getByRole('button', { name: ' Continue ' });

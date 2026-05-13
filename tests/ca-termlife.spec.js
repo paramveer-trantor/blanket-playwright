@@ -427,7 +427,7 @@ test.describe('CA Term Life cases with login', () => {
         const beneficiaryPage = new BeneficiaryPage(page);
         await beneficiaryPage.enterIndividualBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benDob, userData.benShare);
         await beneficiaryPage.enterLegalBeneficiaryDetails(userData.benFirstName, userData.benLastName, userData.benCompany, userData.benShare);
-        expect(await beneficiaryPage.getErrorMessage()).toEqual("Total Percentage of Beneficiaries must be 100");
+        expect(await beneficiaryPage.getErrorMessage()).toEqual("Total percentage of beneficiaries must be 100");
     });
 
     test('BL-T26: User shall be able to proceed without adding beneficiary.', async ({ page }) => {

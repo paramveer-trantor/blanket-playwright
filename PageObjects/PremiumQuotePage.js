@@ -4,7 +4,7 @@ export class PremiumQuotePage extends BasePage {
 
     constructor(page) {
         super(page);
-        this.header = page.locator("//div[text()=' Premium Quote ']");
+        this.header = page.locator("(//div[text()=' Premium quote '])[2]");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.quoteValue = page.locator('.quote-breakdown .quote-line .primary--text');

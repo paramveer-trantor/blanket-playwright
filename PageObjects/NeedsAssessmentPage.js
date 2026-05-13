@@ -2,7 +2,7 @@ export class NeedsAssessmentPage {
 
     constructor(page) {
         this.page = page;
-        this.header = page.locator("//div[text()=' How Much Term Insurance Do I Need? ']");
+        this.header = page.locator("//div[text()=' How much term insurance do i need? ']");
         this.annualIncome = page.locator("[name = 'annualIncome']");
         this.saving = page.locator("[name = 'savings']");
         this.mortgageBalance = page.locator("[name = 'mortgageBalance']");

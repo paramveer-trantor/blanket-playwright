@@ -2,7 +2,7 @@ export class LifestyleQuestionnairePage {
 
         constructor(page) {
                 this.page = page;
-                this.header = page.locator("(//div[text()=' Lifestyle Questionnaire '])[2]");
+                this.header = page.locator("(//div[text()=' Lifestyle questionnaire '])[2]");
                 this.questionCompanyDeclineOptionYes = page.locator("[name = 'declinedOrRescinded0'] + div.v-input--selection-controls__ripple");
                 this.questionCompanyDeclineOptionNo = page.locator("[name = 'declinedOrRescinded1'] + div.v-input--selection-controls__ripple");
                 this.questionCompanyDeclineAddition = page.locator("//input[@name='conditionalQuestion0']/following-sibling::div[1]");

@@ -2,7 +2,7 @@ export class MedicalQuestionnaire1Page {
 
     constructor(page) {
         this.page = page;
-        this.header = page.locator("(//div[text()=' Medical Questionnaire '])[2]");
+        this.header = page.locator("(//div[text()=' Medical questionnaire '])[2]");
         this.questionCancerOptionYes = page.locator("//input[@name='cancer0']/following-sibling::div[1]");
         this.questionCancerOptionNo = page.locator("//input[@name='cancer1']/following-sibling::div[1]");
         this.questionHeartAttackOptionYes = page.locator("//input[@name='heart0']/following-sibling::div[1]");

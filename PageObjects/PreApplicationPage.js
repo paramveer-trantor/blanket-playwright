@@ -4,7 +4,7 @@ export class PreApplicationPage extends BasePage {
 
     constructor(page) {
         super(page);
-        this.header = page.getByText(' Pre Application ', { exact: true });
+        this.header = page.getByText(' Pre application ', { exact: true });
         this.dialogBox = page.getByRole('dialog');
         this.dialogContinueBtn = this.dialogBox.getByRole('button', { name: 'Continue' });
         this.dialogContinueBtn_Fr = this.dialogBox.getByRole('button', { name: 'Continuer' })
