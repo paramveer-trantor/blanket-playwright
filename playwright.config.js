@@ -16,6 +16,9 @@ dotenv.config({ path: `.env.${env}` });
 export default defineConfig({
   //globalSetup:'Utils/globalSetup.js',
   timeout: 100000,
+  expect: {
+    timeout: 5000
+  },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -41,6 +44,8 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     headless: true,
+    navigationTimeout: 20000,
+    actionTimeout: 10000
   },
 
   /* Configure projects for major browsers */
