@@ -5,6 +5,7 @@ export class MyPoliciesPage {
         this.header = page.locator(".mt-2.mb-4");
         this.eyeBtn = page.locator("//div[@class='v-data-table__wrapper']//tbody/tr/td[5]/button");
         this.emailPolicyBtn = page.getByRole('button', { name: ' Email Policy ' });
+        this.downloadPolicyBtn = page.getByRole('button', { name: ' Download Policy ' });
         this.policyDetails = page.locator("//ul[@class='text-h4 pa-2']/li");
         this.dialogBox = page.getByRole('dialog');
         this.successMsg = this.dialogBox.locator(".v-card__title");
@@ -22,7 +23,13 @@ export class MyPoliciesPage {
     }
 
     async clickEmailPolicyBtn() {
+        await this.emailPolicyBtn.waitFor({ state: 'visible' });
         await this.emailPolicyBtn.click();
+    }
+
+    async clickDownloadPolicyBtn() {
+        await this.downloadPolicyBtn.waitFor({ state: 'visible' });
+        await this.downloadPolicyBtn.click();
     }
 
     async getPolicyDetails() {

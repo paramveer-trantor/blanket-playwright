@@ -7,6 +7,7 @@ export class MyApplicationsPage {
         this.pagination = page.locator('.v-data-footer__pagination');
         this.noOpenApplicationMsg = page.getByText('No data available');
         this.firstRowDeleteBtn = page.locator("tbody > tr:first-of-type > td:nth-of-type(5) > button:nth-of-type(2)");
+        this.messagePopUp = page.getByTestId('globalErrorMessage');
     }
 
     async getMyAppPageHeader() {
@@ -18,7 +19,7 @@ export class MyApplicationsPage {
     }
 
     async getOpenApplicationsCount() {
-        await this.page.waitForResponse(response => response.url().includes('/api/application') && response.status() === 200);
+        await this.pagination.waitFor();
         const count_openapps = await this.pagination.textContent();
         const arr_openApp = count_openapps.trim().split(" ");
         return arr_openApp[2];
@@ -34,6 +35,9 @@ export class MyApplicationsPage {
 
     async deleteFirstRowApplication() {
         await this.firstRowDeleteBtn.click();
+    }
+    async getSuccessMsg() {
+        return (await this.messagePopUp.textContent()).trim();
     }
 
 }

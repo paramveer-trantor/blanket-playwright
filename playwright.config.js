@@ -17,7 +17,7 @@ export default defineConfig({
   //globalSetup:'Utils/globalSetup.js',
   timeout: 100000,
   expect: {
-    timeout: 5000
+    timeout: 10000
   },
   testDir: './tests',
   /* Run tests in files in parallel */

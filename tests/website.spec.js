@@ -157,6 +157,9 @@ test.describe('Website cases with login', () => {
         const myPoliciesPage = new MyPoliciesPage(page);
         await myPoliciesPage.clickEyeBtn();
         await myPoliciesPage.clickEmailPolicyBtn();
+        await page.waitForResponse('**/api/gcs-pdf/send').then(response => {
+            expect(response.status()).toBe(201);
+        });
         expect(await myPoliciesPage.getSuccessMsg()).toEqual('Success!');
     });
 
@@ -172,12 +175,21 @@ test.describe('Website cases with login', () => {
         const dashboardPage = new DashboardPage(page);
         await dashboardPage.acceptCookies();
         await dashboardPage.goToMyApplicationsPage();
+        const response = await page.waitForResponse(resp =>
+            resp.url().includes('/api/application')
+        );
+        const data = await response.json();
+        const count_apps_before_delete = data.total;
         
         const myApplicationsPage = new MyApplicationsPage(page);
-        await page.waitForURL('**/userapplications');
-        const count_apps_before_delete = await myApplicationsPage.getOpenApplicationsCount();
         await myApplicationsPage.deleteFirstRowApplication();
-        const count_apps_after_delete = await myApplicationsPage.getOpenApplicationsCount();
+        await page.waitForResponse(resp => resp.url().includes('/api/application') && resp.request().method() === 'DELETE' && resp.status() === 200);
+        expect(await myApplicationsPage.getSuccessMsg()).toEqual('Application deleted successfully!');
+        const response1 = await page.waitForResponse(resp =>
+            resp.url().includes('/api/application')
+        );
+        const data1 = await response1.json();
+        const count_apps_after_delete = data1.total;
         const new_count_apps = count_apps_before_delete - 1;
         expect(count_apps_after_delete).toBe(new_count_apps);
     });
@@ -207,4 +219,18 @@ test.describe('Website cases with login', () => {
         await page.reload();
         expect(page.url()).toEqual(url_current2);
     });
+
+    test('BL-T305: User shall have an option to send download policy from my policies page.', async ({ page }) => {
+        const dashboardPage = new DashboardPage(page);
+        await dashboardPage.acceptCookies();
+        await dashboardPage.goToMyPoliciesPage();
+
+        const myPoliciesPage = new MyPoliciesPage(page);
+        await myPoliciesPage.clickEyeBtn();
+        await myPoliciesPage.clickDownloadPolicyBtn();
+        await page.waitForResponse('**/api/gcs-pdf/download-policy').then(response => {
+            expect(response.status()).toBe(201);
+        });
+    });
+
 }); 

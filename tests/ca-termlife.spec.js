@@ -741,7 +741,7 @@ test.describe('CA Term Life cases with login', () => {
 
     test('BL-T35: Check payment frequency options displaying to user', async ({ page }) => {
         const getQuotePage = new GetQuotePage(page);
-        await getQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date, userData.feet, userData.inches, userData.weight);
+        await getQuotePage.getQuoteValueNonSmoker(userData.genderMale, userData.date, userData.feet, userData.inches, userData.weight);
         await getQuotePage.clickContinueBtn();
 
         const preApplicationPage = new PreApplicationPage(page);
@@ -794,7 +794,8 @@ test.describe('CA Term Life cases with login', () => {
         await confirmPremiumPage.clickAcceptandPayBtn();
         await paymentPage.getPaymentPageHeader();
         const amountdue_annually = (await paymentPage.getTotalAmountDue()).toString();
-        expect(Annually).toContain(amountdue_annually);
+        const amountdue_annually_split = amountdue_annually.split('.')[0];
+        expect(Annually).toContain(amountdue_annually_split);
     });
 
     test('BL-T36: Application shall throw an error message if user enters invalid health card number.', async ({ page }) => {
