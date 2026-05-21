@@ -7,7 +7,7 @@ export class NeedsAssessmentPage {
         this.saving = page.locator("[name = 'savings']");
         this.mortgageBalance = page.locator("[name = 'mortgageBalance']");
         this.loansAndDebts = page.locator("[name = 'loansAndDebts']");
-        this.message = page.locator("//div[@class='col']//p[1]");
+        this.message = page.locator(".v-form .row .col .text-h4");
         this.totalvalue = page.locator("//div[@class='col-sm-8 col-md-4 col-11']/p");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
@@ -34,17 +34,10 @@ export class NeedsAssessmentPage {
         await this.annualIncome.click();
         await this.annualIncome.fill(income);
         await this.saving.click();
-        // const promise =  this.page.waitForResponse("**/CATermNeedsAssessment", async route => {
-        //      expect(await route.request().method()).toBe('POST');
-        //      const response = await this.page.request.fetch(route.request());
-        //  });
-        // const response = await promise;
-        // expect(response.status()).toBe(200);
-        // await this.saving.fill(saving);
-        // await this.mortgageBalance.click();
-        // await this.mortgageBalance.fill(mortgageBal);
-        // await this.loansAndDebts.click();
-        // await this.loansAndDebts.fill(debt);
+    }
+    async enterDebtValue(debt) {
+        await this.loansAndDebts.click();
+        await this.loansAndDebts.fill(debt);
     }
 
     async checkIfAnyMessageAppears() {
