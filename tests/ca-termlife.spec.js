@@ -270,7 +270,7 @@ test.describe('CA Term Life cases with login', () => {
         const getQuotePage = new GetQuotePage(page);
         await getQuotePage.getQuoteValueNonSmoker(userData.genderFemale, userData.date_18_50, userData.feet, userData.inches, userData.weight);
         await getQuotePage.clickContinueBtn();
-
+   
         const preApplicationPage = new PreApplicationPage(page);
         await preApplicationPage.fillPreApplicationFormPage(userData.firstName, userData.lastName, userData.houseAddress, userData.phoneNumber, userData.optionNo);
         await preApplicationPage.clickConitnueBtn();
@@ -282,7 +282,6 @@ test.describe('CA Term Life cases with login', () => {
         await needsAssessmentPage.enterDebtValue(debt.toString());
         const message = await needsAssessmentPage.getCoverageAmountMoreMessage();
         expect(message).toEqual(`Based on the information provided, your life insurance need appears to be ${total} . You can apply for up to $1,000,000 now.`);
-        page.pause();
     });
 
     test('BL-T19: App shall not display a message if recommended coverage amount is less than maximum face amount.', async ({ page }) => {

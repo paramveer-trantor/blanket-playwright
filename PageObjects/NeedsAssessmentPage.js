@@ -1,3 +1,5 @@
+import { expect } from '@playwright/test';
+
 export class NeedsAssessmentPage {
 
     constructor(page) {
@@ -8,7 +10,7 @@ export class NeedsAssessmentPage {
         this.mortgageBalance = page.locator("[name = 'mortgageBalance']");
         this.loansAndDebts = page.locator("[name = 'loansAndDebts']");
         this.message = page.locator(".v-form .row .col .text-h4");
-        this.totalvalue = page.locator("//div[@class='col-sm-8 col-md-4 col-11']/p");
+        this.totalvalue = page.locator(".text-h2.text-left");
         this.continueBtn = page.getByRole('button', { name: ' Continue ' });
         this.continueBtn_Fr = page.getByRole('button', { name: ' Continuer ' });
         this.backBtn = page.getByRole('button', { name: ' Back ' });
@@ -46,6 +48,7 @@ export class NeedsAssessmentPage {
     }
 
     async getTotalValue() {
+        await expect(this.totalvalue).toContainText('.00');
         return (await this.totalvalue.textContent()).trim();
     }
 
